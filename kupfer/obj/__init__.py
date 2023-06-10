@@ -3,13 +3,20 @@ This file import most common objects, so can they can be imported
 directly from kupfer.obj
 """
 
-from . import fileactions
-from .actions import Execute, OpenTerminal, OpenUrl, Perform
-from .apps import AppLeaf
-from .base import Action, AnySource, KupferObject, Leaf, Source, TextSource
-from .exceptions import NotAvailableError, OperationError
-from .files import FileLeaf
-from .objects import RunnableLeaf, SourceLeaf, TextLeaf, UrlLeaf
+from kupfer.obj import fileactions
+from kupfer.obj.actions import Execute, OpenTerminal, OpenUrl, Perform
+from kupfer.obj.apps import AppLeaf
+from kupfer.obj.base import (
+    Action,
+    AnySource,
+    KupferObject,
+    Leaf,
+    Source,
+    TextSource,
+)
+from kupfer.obj.exceptions import NotAvailableError, OperationError
+from kupfer.obj.files import FileLeaf
+from kupfer.obj.objects import RunnableLeaf, SourceLeaf, TextLeaf, UrlLeaf
 
 # importint fileactions here prevent circular imports
 __dummy = fileactions

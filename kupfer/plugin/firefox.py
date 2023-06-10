@@ -12,8 +12,7 @@ from kupfer import plugin_support
 from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
-
-from ._firefox_support import get_firefox_home_file, query_database
+from kupfer.plugin._firefox_support import get_firefox_home_file, query_database
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _

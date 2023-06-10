@@ -23,8 +23,7 @@ from kupfer.obj import (
 )
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
-
-from ._firefox_support import get_firefox_home_file, query_database
+from kupfer.plugin._firefox_support import get_firefox_home_file, query_database
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

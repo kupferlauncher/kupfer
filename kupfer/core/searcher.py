@@ -6,9 +6,8 @@ import typing as ty
 from kupfer.obj.base import Leaf, Source, TextSource, Action
 from kupfer.support import pretty
 from kupfer.support.itertools import peekfirst, unique_iterator
-
-from . import search
-from .search import Rankable
+from kupfer.core import search
+from kupfer.core.search import Rankable
 
 T = ty.TypeVar("T")
 # function that validate leaves before search

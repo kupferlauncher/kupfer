@@ -14,8 +14,7 @@ from kupfer.core import actionaccel, learn, relevance, settings, search
 from kupfer.core.search import Rankable
 from kupfer.obj import Action, AnySource, KupferObject, Leaf
 from kupfer.support import pretty
-
-from ._support import escape_markup_str, text_direction_is_ltr
+from kupfer.ui._support import escape_markup_str, text_direction_is_ltr
 
 if ty.TYPE_CHECKING:
     _ = str

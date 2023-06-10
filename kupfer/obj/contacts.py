@@ -15,9 +15,8 @@ from gi.repository import GdkPixbuf
 
 from kupfer import icons
 from kupfer.support import validators
-
-from .base import Leaf
-from .grouping import GroupingLeaf, Slots
+from kupfer.obj.base import Leaf
+from kupfer.obj.grouping import GroupingLeaf, Slots
 
 __author__ = (
     "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, "

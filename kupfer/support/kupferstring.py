@@ -5,7 +5,7 @@ import typing as ty
 from functools import cmp_to_key
 from unicodedata import category, normalize
 
-from .datatools import evaluate_once
+from kupfer.support.datatools import evaluate_once
 
 
 def _folditems():

@@ -6,7 +6,7 @@ Tests for validators.
 """
 import unittest
 
-from . import validators as v
+from kupfer.support import validators as v
 
 
 class TestValidateNetloc(unittest.TestCase):

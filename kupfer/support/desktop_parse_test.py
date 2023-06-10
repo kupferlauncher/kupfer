@@ -6,7 +6,7 @@ see the main program file, and COPYING for details.
 """
 import unittest
 
-from . import desktop_parse
+from kupfer.support import desktop_parse
 
 
 class TestUnescape(unittest.TestCase):

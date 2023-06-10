@@ -13,10 +13,9 @@ import zlib
 from gi.repository import GdkPixbuf
 
 from kupfer import icons
-
-from . import actions
-from .base import Action, Leaf, Source
-from .representation import TextRepresentation
+from kupfer.obj import actions
+from kupfer.obj.base import Action, Leaf, Source
+from kupfer.obj.representation import TextRepresentation
 
 __all__ = (
     "SourceLeaf",

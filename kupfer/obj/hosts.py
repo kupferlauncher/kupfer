@@ -11,7 +11,7 @@ from __future__ import annotations
 
 import typing as ty
 
-from .grouping import GroupingLeaf, Slots
+from kupfer.obj.grouping import GroupingLeaf, Slots
 
 __author__ = (
     "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, "

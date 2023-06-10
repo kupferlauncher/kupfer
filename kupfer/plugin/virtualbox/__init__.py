@@ -15,8 +15,8 @@ from kupfer.obj import Action, Leaf
 from kupfer.obj.apps import ApplicationSource
 from kupfer.support import pretty
 
-from . import constants as vbox_const
-from . import ose_support
+from kupfer.plugin.virtualbox import constants as vbox_const
+from kupfer.plugin.virtualbox import ose_support
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

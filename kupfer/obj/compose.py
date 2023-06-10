@@ -16,8 +16,8 @@ from gi.repository import GdkPixbuf
 from kupfer import icons, puid
 from kupfer.support import itertools, pretty, scheduler, textutils
 
-from . import actions, exceptions, objects
-from .base import Action, Leaf, Source
+from kupfer.obj import actions, exceptions, objects
+from kupfer.obj.base import Action, Leaf, Source
 
 __all__ = (
     "TimedPerform",

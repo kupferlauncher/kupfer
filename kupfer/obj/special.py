@@ -10,8 +10,7 @@ __version__ = "2010-01-21"
 import typing as ty
 
 from kupfer.ui import preferences
-
-from .objects import RunnableLeaf
+from kupfer.obj.objects import RunnableLeaf
 
 __all__ = ("PleaseConfigureLeaf", "InvalidCredentialsLeaf")
 

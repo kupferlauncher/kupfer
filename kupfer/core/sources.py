@@ -18,8 +18,7 @@ from kupfer.obj import Action, AnySource, Leaf, Source, TextSource
 from kupfer.obj.base import ActionGenerator
 from kupfer.obj.sources import MultiSource, SourcesSource
 from kupfer.support import conspickle, pretty, scheduler
-
-from . import pluginload, plugins
+from kupfer.core import pluginload, plugins
 
 
 class InternalError(Exception):

@@ -18,7 +18,7 @@ from kupfer import config, version
 from kupfer.core import commandexec
 from kupfer.support import pretty
 
-from . import uievents
+from kupfer.ui import uievents
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _

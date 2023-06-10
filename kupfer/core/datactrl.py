@@ -26,17 +26,24 @@ from kupfer.obj.filesrc import DirectorySource, FileSource
 from kupfer.support import pretty, scheduler
 from kupfer.support.types import ExecInfo
 from kupfer.ui.uievents import GUIEnvironmentContext
-
-from . import commandexec, execfile, learn, pluginload, qfurl, search, settings
-from .panes import (
+from kupfer.core import (
+    commandexec,
+    execfile,
+    learn,
+    pluginload,
+    qfurl,
+    search,
+    settings,
+)
+from kupfer.core.panes import (
     LeafPane,
     Pane,
     PrimaryActionPane,
     SearchContext,
     SecondaryObjectPane,
 )
-from .search import Rankable
-from .sources import get_source_controller
+from kupfer.core.search import Rankable
+from kupfer.core.sources import get_source_controller
 
 DATA_SAVE_INTERVAL_S = 3660
 

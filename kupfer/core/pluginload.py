@@ -5,8 +5,12 @@ import typing as ty
 from kupfer.obj.base import Action, ActionGenerator, Source, TextSource
 from kupfer.support import pretty
 
-from . import plugins
-from .plugins import PluginAttr, initialize_plugin, load_plugin_objects
+from kupfer.core import plugins
+from kupfer.core.plugins import (
+    PluginAttr,
+    initialize_plugin,
+    load_plugin_objects,
+)
 
 
 # pylint: disable=too-few-public-methods

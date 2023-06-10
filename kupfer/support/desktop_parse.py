@@ -12,7 +12,7 @@ from __future__ import annotations
 import shlex
 import typing as ty
 
-from . import itertools as kitertools
+from kupfer.support import itertools as kitertools
 
 # This is the "string" type encoding escapes
 # this is unescaped before we process anything..

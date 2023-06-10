@@ -17,11 +17,10 @@ from gi.repository import GdkPixbuf, Gio, GLib
 
 from kupfer import icons
 from kupfer.support import fileutils
-
-from . import apps, files
-from .base import Leaf, Source
-from .exceptions import InvalidDataError
-from .helplib import FilesystemWatchMixin
+from kupfer.obj import apps, files
+from kupfer.obj.base import Leaf, Source
+from kupfer.obj.exceptions import InvalidDataError
+from kupfer.obj.helplib import FilesystemWatchMixin
 
 __all__ = (
     "construct_file_leaf",

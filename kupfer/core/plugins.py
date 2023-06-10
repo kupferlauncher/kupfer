@@ -12,8 +12,7 @@ from kupfer import icons
 from kupfer import plugin as kplugin
 from kupfer.support import pretty
 from kupfer.support.types import ExecInfo
-
-from . import settings
+from kupfer.core import settings
 
 # import kupfer.icons on demand later
 

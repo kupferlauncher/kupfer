@@ -18,10 +18,9 @@ from kupfer.core.search import Rankable
 from kupfer.obj import AnySource, FileLeaf, KupferObject
 from kupfer.support import pretty, scheduler
 from kupfer.ui import accelerators, getkey_dialog, kupferhelp, uievents, uiutils
-
-from . import preferences
-from ._support import escape_markup_str, text_direction_is_ltr
-from .search import ActionSearch, LeafSearch, Search, State
+from kupfer.ui import preferences
+from kupfer.ui._support import escape_markup_str, text_direction_is_ltr
+from kupfer.ui.search import ActionSearch, LeafSearch, Search, State
 
 _ELLIPSIZE_MIDDLE: ty.Final = Pango.EllipsizeMode.MIDDLE
 _SLOW_INPUT_INTERVAL: ty.Final = 2

@@ -1,6 +1,6 @@
 import unittest
 
-from . import itertools as kit
+from kupfer.support import itertools as kit
 
 
 class TestTwoPartMapper(unittest.TestCase):

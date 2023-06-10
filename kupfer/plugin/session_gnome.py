@@ -10,7 +10,7 @@ __description__ = _("Special items and actions for GNOME environment")
 __version__ = "2012-10-16"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from . import session_support as support
+from kupfer.plugin import session_support as support
 
 # sequences of argument lists
 LOGOUT_CMD = (

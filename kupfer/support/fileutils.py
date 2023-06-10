@@ -13,7 +13,7 @@ import typing as ty
 from os import path as os_path
 from pathlib import Path
 
-from . import pretty
+from kupfer.support import pretty
 
 FilterFunc = ty.Callable[[str], bool]
 

@@ -14,11 +14,10 @@ from xdg import Exceptions as xdg_e
 from kupfer import config, icons, launch, plugin_support, version
 from kupfer.core import plugins, relevance, settings, sources
 from kupfer.support import kupferstring, pretty, scheduler
-
-from . import accelerators, getkey_dialog, keybindings, kupferhelp
-from .credentials_dialog import ask_user_credentials
-from .uievents import GUIEnvironmentContext
-from . import _widgets as widgets
+from kupfer.ui import accelerators, getkey_dialog, keybindings, kupferhelp
+from kupfer.ui.credentials_dialog import ask_user_credentials
+from kupfer.ui.uievents import GUIEnvironmentContext
+from kupfer.ui import _widgets as widgets
 
 # index in GtkNotebook
 _PLUGIN_LIST_PAGE: ty.Final = 2

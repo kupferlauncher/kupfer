@@ -57,8 +57,7 @@ from kupfer.support import pretty, task
 from kupfer.support.types import ExecInfo
 from kupfer.ui import uiutils
 from kupfer.ui.uievents import GUIEnvironmentContext
-
-from ._support import get_leaf_members, is_multiple_leaf
+from kupfer.core._support import get_leaf_members, is_multiple_leaf
 
 __all__ = (
     "ExecResult",

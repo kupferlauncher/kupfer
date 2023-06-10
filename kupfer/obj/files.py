@@ -16,11 +16,10 @@ from gi.repository import GdkPixbuf, Gio, GLib
 
 from kupfer import icons, launch
 from kupfer.support import pretty
-
-from . import actions, fileactions, filesrc
-from .base import Action, Leaf, Source
-from .exceptions import InvalidDataError
-from .representation import TextRepresentation
+from kupfer.obj import actions, fileactions, filesrc
+from kupfer.obj.base import Action, Leaf, Source
+from kupfer.obj.exceptions import InvalidDataError
+from kupfer.obj.representation import TextRepresentation
 
 __all__ = ("FileLeaf",)
 

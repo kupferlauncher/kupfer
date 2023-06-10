@@ -4,8 +4,8 @@ import typing as ty
 
 from kupfer.obj import Action, KupferObject, Leaf, Source
 
-from ._support import get_leaf_members
-from .sources import SourceController
+from kupfer.core._support import get_leaf_members
+from kupfer.core.sources import SourceController
 
 
 def action_valid_for_item(action: Action, leaf: Leaf) -> bool:

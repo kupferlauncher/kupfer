@@ -5,7 +5,7 @@ Test for datatools module.
 """
 import unittest
 
-from . import datatools as d
+from kupfer.support import datatools as d
 
 
 class TestLruCache(unittest.TestCase):

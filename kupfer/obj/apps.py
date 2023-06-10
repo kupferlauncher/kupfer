@@ -17,9 +17,9 @@ from kupfer import launch
 from kupfer.support import pretty
 from kupfer.version import DESKTOP_ID
 
-from .base import Action, Leaf, Source
-from .exceptions import InvalidDataError, OperationError
-from .helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.obj.base import Action, Leaf, Source
+from kupfer.obj.exceptions import InvalidDataError, OperationError
+from kupfer.obj.helplib import FilesystemWatchMixin, PicklingHelperMixin
 
 __all__ = (
     "AppLeafContentMixin",

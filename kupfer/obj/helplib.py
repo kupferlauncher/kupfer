@@ -13,8 +13,7 @@ from pathlib import Path
 from gi.repository import Gio, GLib
 
 from kupfer.support import pretty
-
-from . import base
+from kupfer.obj import base
 
 __all__ = (
     "PicklingHelperMixin",

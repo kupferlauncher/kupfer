@@ -13,8 +13,7 @@ from xml.dom import minidom
 
 from kupfer import launch
 from kupfer.support import pretty
-
-from . import constants as vbox_const
+from kupfer.plugin.virtualbox import constants as vbox_const
 
 _VBOX_CONFIG_DIRS = (
     os.path.expanduser("~/.config/VirtualBox/"),

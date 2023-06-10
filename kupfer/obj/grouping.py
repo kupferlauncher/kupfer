@@ -13,8 +13,7 @@ import weakref
 from collections import defaultdict
 
 from kupfer.support import kupferstring
-
-from .base import Leaf, Source
+from kupfer.obj.base import Leaf, Source
 
 __author__ = (
     "Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "

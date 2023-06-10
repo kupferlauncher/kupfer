@@ -13,11 +13,10 @@ from gi.repository import GObject
 
 from kupfer.obj.base import Action, AnySource, KupferObject, Leaf
 from kupfer.support import pretty
-
-from . import actioncompat
-from .search import Rankable
-from .searcher import Searcher
-from .sources import get_source_controller
+from kupfer.core import actioncompat
+from kupfer.core.search import Rankable
+from kupfer.core.searcher import Searcher
+from kupfer.core.sources import get_source_controller
 
 SearchContext = tuple[int, ty.Any]
 

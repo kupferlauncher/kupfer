@@ -4,8 +4,7 @@ import operator
 import typing as ty
 
 from kupfer.obj.base import Leaf, Action
-
-from . import learn, relevance
+from kupfer.core import learn, relevance
 
 # RankableObject is type of object that can be put in Rankable.
 RankableObject = ty.Union[Leaf, Action]

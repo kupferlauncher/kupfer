@@ -14,10 +14,9 @@ from collections import defaultdict
 from gi.repository import Gio
 
 from kupfer import launch
-
-from . import files
-from .base import Action
-from .exceptions import NoDefaultApplicationError
+from kupfer.obj import files
+from kupfer.obj.base import Action
+from kupfer.obj.exceptions import NoDefaultApplicationError
 
 __all__ = (
     "Open",

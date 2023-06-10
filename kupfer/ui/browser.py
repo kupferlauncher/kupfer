@@ -20,10 +20,9 @@ from kupfer.core import settings, commandexec
 from kupfer.core.datactrl import DataController
 from kupfer.support import pretty, scheduler
 from kupfer.ui import about, keybindings, kupferhelp, listen, uievents
-
-from . import preferences
-from ._support import text_direction_is_ltr
-from .interface import Interface
+from kupfer.ui import preferences
+from kupfer.ui._support import text_direction_is_ltr
+from kupfer.ui.interface import Interface
 
 if ty.TYPE_CHECKING:
     _ = str

@@ -9,7 +9,7 @@ import os.path
 import socket
 import sys
 
-from . import pretty, datatools
+from kupfer.support import pretty, datatools
 
 
 @datatools.evaluate_once

@@ -5,7 +5,7 @@ import traceback
 import typing as ty
 from time import time as timestamp
 
-from .types import ExecInfo
+from kupfer.support.types import ExecInfo
 
 DEBUG = False
 

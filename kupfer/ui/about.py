@@ -10,8 +10,7 @@ import typing as ty
 from gi.repository import Gtk
 
 from kupfer import version
-
-from .uievents import GUIEnvironmentContext
+from kupfer.ui.uievents import GUIEnvironmentContext
 
 
 # pylint: disable=too-few-public-methods

@@ -10,9 +10,8 @@ from __future__ import annotations
 import typing as ty
 
 from kupfer.support import itertools
-
-from .base import Leaf, Source
-from .objects import SourceLeaf
+from kupfer.obj.base import Leaf, Source
+from kupfer.obj.objects import SourceLeaf
 
 __all__ = (
     "SourcesSource",
