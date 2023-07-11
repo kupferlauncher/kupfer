@@ -59,7 +59,7 @@ def _is_valid_domain(domain: str) -> bool:
         r"(?<!-)"  # can't end with a dash
         r"\.?"  # may have a trailing dot
     )
-    return bool(re.match(domain_re, domain))
+    return bool(re.match(domain_re, domain, re.IGNORECASE))
 
 
 def validate_netloc(netloc: str) -> bool:
