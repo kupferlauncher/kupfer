@@ -7,17 +7,6 @@ kupfer v323-beta1
 
 `Python upgrade release: something may be broken.`
 
-+ Fixes:
-
-  + If actions have the same name, make it unique by adding plugin name;
-    previously module name was added.
-  + Improve detecting URLs, files path, and emails addresses in text.
-  + Fix not working "select clipboard text" accelerator.
-  + Fix presenting first line from Text leaves: now really get first line.
-  + Browser track history of selected leaves and allow return to parent leaf
-    instead of top of list.
-  + Make sure that file opened in plugins are closed after load.
-
 + New features:
 
   + User can configure preferred text editor; list is loaded from
@@ -27,15 +16,26 @@ kupfer v323-beta1
   + In plugins settings user can choose files and directories by appropriate
     dialog instead of type path manually.
   + Kupfer can more frequent refresh items in background and cache result;
-    this make searching and browsing faster
+    this make searching and browsing faster.
   + Make Kupfer window rounded again.
   + If more than one action have the same accelerator pressing key navigate
     between them; previously first action was activated.
-  + Hosts / services have additional aliases "service:hostname"; this allow
+  + Hosts and services have additional aliases "service:hostname"; this allow
     user to fast find items by entering e.g. "sshmyserverhostname".
-  + Leaves representing songs (in *rhythmbox* and *audacious*  plugin) and
-    leaves representing services have text representation, i.e. user can
-    copy it to clipboard or use whenever text is acceptable.
+  + Leaves representing songs (*rhythmbox* and *audacious* plugins) and
+    leaves representing services have text representation, so user can
+    i.e. copy it to clipboard or use whenever text is acceptable.
+
++ Fix:
+
+  + If actions have the same name, make it unique by adding plugin name;
+    previously module name was added.
+  + Improve detecting URLs, files path, and emails addresses in text.
+  + Fix not working "select clipboard text" accelerator.
+  + Fix presenting first line from Text leaves: now really show first line.
+  + Browser track history of selected leaves and allow return to parent leaf
+    instead of top of list.
+  + Make sure that file opened in plugins are closed after load.
 
 + Plugins:
 
@@ -100,8 +100,8 @@ kupfer v323-beta1
     - *Rhythmbox*: fix errors when no mpris module available.
     - *SSH hosts*: fix broken monitoring for configuration changes.
     - *Windows*: better detection of Kupfer windows.
-    - *Clipboard*: detect URLs and files path in clipboard items, selected
-      text
+    - *Clipboard*: detect URLs and files path in clipboard items and
+      selected text.
     - *Favorites*: allow user to add to favorite only leaves than can be
       added.
     - *Thunar*: add "Open Trash" action
@@ -134,7 +134,7 @@ kupfer v323-beta1
   + Plugin preferences may use list of string (type list) and helpers
     (select directory, file). For int-type preferences can be set min and
     max value.
-    See *zoxide*, *firefox* plugins.
+    See *zoxide*, *firefox* plugins for example use.
   + Dialog like preferences are destroyed on close.
   + Action may reload leaves list in browser as result of execute. See
     *Volumes* plugin and "Mount" action.
