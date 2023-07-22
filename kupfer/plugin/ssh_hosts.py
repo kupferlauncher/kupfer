@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("SSH Hosts")
 __description__ = _("Adds the SSH hosts found in ~/.ssh/config.")
 __version__ = "2010-04-12"
@@ -25,20 +27,22 @@ if ty.TYPE_CHECKING:
 
 
 class SSHLeaf(HostLeaf):
-    """The SSH host. It only stores the "Host" as it was
-    specified in the ssh config.
+    """The SSH host. It only stores the "Host" as it was specified in the ssh
+    config.
+    By default name is set as hostname.
     """
 
-    def __init__(self, name):
+    def __init__(self, name: str, hostname: str | None = None) -> None:
+        hostname = hostname or name
         slots = {
             HOST_NAME_KEY: name,
-            HOST_ADDRESS_KEY: name,
+            HOST_ADDRESS_KEY: hostname,
             HOST_SERVICE_NAME_KEY: "ssh",
         }
         HostLeaf.__init__(self, slots, name)
 
-    def get_description(self):
-        return _("SSH host")
+    def get_description(self) -> str:
+        return _("SSH host: %s") % self[HOST_ADDRESS_KEY]
 
     def get_gicon(self):
         return icons.ComposedIconSmall(
@@ -47,15 +51,15 @@ class SSHLeaf(HostLeaf):
 
 
 class SSHConnect(Action):
-    """Used to launch a terminal connecting to the specified
-    SSH host.
+    """Used to launch a terminal connecting to the specified SSH host.
+    HOST_NAME_KEY is used for making connections.
     """
 
     def __init__(self):
         Action.__init__(self, name=_("Connect"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        launch.spawn_in_terminal(["ssh", leaf[HOST_ADDRESS_KEY]])
+        launch.spawn_in_terminal(["ssh", leaf[HOST_NAME_KEY]])
 
     def get_description(self):
         return _("Connect to SSH host")
@@ -99,19 +103,42 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
             self._ssh_home,
         )
 
-    def _get_items(self):
+    def _get_items(self) -> ty.Iterable[SSHLeaf]:
         with open(self._config_path, encoding="UTF-8") as cfile:
+            current_hosts: list[str] = []
             for line in cfile.readlines():
                 line = line.strip()
                 if not line:
                     continue
-                # Take every word after "Host" as an individual host
-                # we must skip entries with wildcards
-                head, *hosts = line.split()
-                if head and head.lower() == "host":
-                    for host in hosts:
-                        if "*" not in host:
-                            yield SSHLeaf(host)
+
+                head, *args = line.split()
+                head = head.lower()
+                if head in ("host", "match"):
+                    # new restriction, flush current data
+                    if current_hosts:
+                        yield from map(SSHLeaf, current_hosts)
+
+                    current_hosts.clear()
+                    if head == "host":
+                        # process only 'host' restriction; skip wildcard and
+                        # negative entries
+                        current_hosts = [
+                            host
+                            for host in args
+                            if "*" not in host and host[0] != "!"
+                        ]
+
+                elif head == "hostname" and args:
+                    # if found hostname use is as HOST_ADDRESS_KEY
+                    hostname = args[0]
+                    if current_hosts:
+                        yield from (
+                            SSHLeaf(host, hostname) for host in current_hosts
+                        )
+                        current_hosts.clear()
+
+            if current_hosts:
+                yield from map(SSHLeaf, current_hosts)
 
     def get_items(self):
         try:
