@@ -5,15 +5,20 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+from __future__ import annotations
+
 import copy
 import itertools
 import time
 import typing as ty
 import weakref
 from collections import defaultdict
+from gettext import gettext as _
 
-from kupfer.support import kupferstring
-from kupfer.obj.base import Leaf, Source
+from gi.repository import Gtk, Gdk
+
+from kupfer.support import kupferstring, itertools as kitertools
+from kupfer.obj.base import Leaf, Source, Action
 
 __author__ = (
     "Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "
@@ -77,6 +82,12 @@ class GroupingLeaf(Leaf):
     def check_key(self, key: ty.Any) -> bool:
         """check if GroupedLeaf has non empty value for @key"""
         return any(bool(leaf.object.get(key)) for leaf in self.links)
+
+    def get_actions(self) -> ty.Iterable[Action]:
+        for key, val in kitertools.unique_iterator(
+            keyval for leaf in self.links for keyval in leaf.object.items()
+        ):
+            yield CopySlotAction(key, val)
 
 
 _Groups = dict[tuple[str, ty.Any], set[GroupingLeaf]]
@@ -223,3 +234,30 @@ class _GroupedItemsSource(Source):
 
     def repr_key(self) -> ty.Any:
         return repr(self._leaf)
+
+
+class CopySlotAction(Action):
+    rank_adjust = -5
+
+    """Action for GroupingLeaf - copy given slot value to clipboard."""
+
+    def __init__(self, slot_name: str, value: str) -> None:
+        name = slot_name.replace("_", " ").lower()
+        super().__init__(_("Copy %s") % name)
+        self.value = value
+
+    def wants_context(self):
+        return True
+
+    def activate(
+        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
+    ) -> Leaf | None:
+        assert ctx
+        clip = Gtk.Clipboard.get_for_display(
+            ctx.environment.get_screen().get_display(), Gdk.SELECTION_CLIPBOARD
+        )
+        clip.set_text(self.value, -1)
+        return None
+
+    def get_description(self) -> str:
+        return _("Copy '%s' to clipboard") % self.value
