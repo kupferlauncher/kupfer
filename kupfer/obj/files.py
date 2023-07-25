@@ -149,7 +149,7 @@ class FileLeaf(Leaf, TextRepresentation):
 
         return icons.get_thumbnail_for_gfile(self.get_gfile(), width, height)
 
-    def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
+    def get_gicon(self) -> icons.GIcon | None:
         return icons.get_gicon_for_file(self.object)
 
     def get_icon_name(self) -> str:

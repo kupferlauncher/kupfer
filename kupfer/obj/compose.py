@@ -11,7 +11,6 @@ import typing as ty
 from gettext import gettext as _
 from gettext import ngettext
 
-from gi.repository import GdkPixbuf
 
 from kupfer import icons, puid
 from kupfer.support import itertools, pretty, scheduler, textutils
@@ -105,7 +104,7 @@ class ComposedLeaf(objects.RunnableLeaf):
         assert hasattr(ctx, "delegated_run")
         ctx.delegated_run(obj, action, iobj)
 
-    def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
+    def get_gicon(self) -> icons.GIcon | None:
         obj, action, _iobj = self.object
         return icons.ComposedIcon(obj.get_icon(), action.get_icon())
 

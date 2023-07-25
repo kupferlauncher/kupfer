@@ -10,7 +10,6 @@ from __future__ import annotations
 import typing as ty
 import zlib
 
-from gi.repository import GdkPixbuf
 
 from kupfer import icons
 from kupfer.obj import actions
@@ -51,7 +50,7 @@ class SourceLeaf(Leaf):
     def fallback_icon_name(self) -> str:  # type: ignore
         return self.object.fallback_icon_name  # type: ignore
 
-    def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
+    def get_gicon(self) -> icons.GIcon | None:
         return self.object.get_gicon()
 
     def get_icon_name(self) -> str:
@@ -105,7 +104,7 @@ class RunnableLeaf(Leaf):
     def repr_key(self) -> ty.Any:
         return None
 
-    def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
+    def get_gicon(self) -> icons.GIcon | None:
         if iname := self.get_icon_name():
             return icons.get_gicon_with_fallbacks(None, (iname,))
 

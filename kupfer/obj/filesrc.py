@@ -13,7 +13,7 @@ import typing as ty
 from contextlib import suppress
 from os import path
 
-from gi.repository import GdkPixbuf, Gio, GLib
+from gi.repository import Gio, GLib
 
 from kupfer import icons
 from kupfer.support import fileutils
@@ -112,7 +112,7 @@ class DirectorySource(Source, FilesystemWatchMixin):
     def get_description(self) -> str:
         return _("Directory source %s") % self._directory
 
-    def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
+    def get_gicon(self) -> icons.GIcon | None:
         return icons.get_gicon_for_file(self._directory)
 
     def get_icon_name(self) -> str:

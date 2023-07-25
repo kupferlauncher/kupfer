@@ -11,9 +11,9 @@ import os
 import typing as ty
 from contextlib import suppress
 
-from gi.repository import GdkPixbuf, Gio, GLib
+from gi.repository import Gio, GLib
 
-from kupfer import launch
+from kupfer import launch, icons
 from kupfer.support import pretty
 from kupfer.version import DESKTOP_ID
 
@@ -241,7 +241,7 @@ class AppLeaf(Leaf):
 
         return ret  # type: ignore
 
-    def get_gicon(self) -> GdkPixbuf.Pixbuf | None:
+    def get_gicon(self) -> icons.GIcon | None:
         return self.object.get_icon()
 
     def get_icon_name(self) -> str:
