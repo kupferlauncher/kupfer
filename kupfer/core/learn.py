@@ -9,7 +9,7 @@ from collections import defaultdict
 from pathlib import Path
 
 from kupfer import config
-from kupfer.obj.base import KupferObject, Leaf
+from kupfer.obj.base import KupferObject, Leaf, Action
 from kupfer.support import conspickle, pretty
 
 _MNEMONICS_FILENAME = "mnemonics.pickle"
@@ -159,7 +159,7 @@ def get_correlation_bonus(obj: KupferObject, for_leaf: Leaf | None) -> int:
     return 0
 
 
-def set_correlation(obj: Leaf, for_leaf: Leaf) -> None:
+def set_correlation(obj: Action, for_leaf: Leaf) -> None:
     """Register @obj to get a bonus when used with @for_leaf."""
     rval = _REGISTER[_CORRELATION_KEY]
     assert isinstance(rval, dict)

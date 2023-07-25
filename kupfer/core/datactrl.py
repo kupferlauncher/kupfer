@@ -638,11 +638,9 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if pane in (PaneSel.SOURCE, PaneSel.OBJECT):
             raise RuntimeError("Setting default on pane 1 or 3 not supported")
 
-        obj = self._source_pane.get_selection()
-        act = self._action_pane.get_selection()
+        obj = ty.cast(Leaf, self._source_pane.get_selection())
+        act = ty.cast(Action, self._action_pane.get_selection())
         assert obj and act
-        assert isinstance(act, Leaf)
-        assert isinstance(obj, Leaf)
         learn.set_correlation(act, obj)
 
     def get_object_has_affinity(self, pane: PaneSel) -> bool:
