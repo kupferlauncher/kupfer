@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import typing as ty
 
-from kupfer.obj import Action, KupferObject, Leaf, Source
+from kupfer.obj import Action, KupferObject, Leaf, AnySource
 
 from kupfer.core._support import get_leaf_members
 from kupfer.core.sources import SourceController
@@ -39,7 +39,7 @@ def actions_for_item(
 
 def iobject_source_for_action(
     action: Action, for_item: Leaf
-) -> tuple[Source | None, bool]:
+) -> tuple[AnySource | None, bool]:
     """Get iobjects source for `action` for `for_item`.
 
     Simply call `Action.object_source` and 'Action.object_source_and_catalog`

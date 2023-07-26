@@ -32,6 +32,9 @@ class ExtendedSetting(ty.Protocol):
         ...
 
 
+PlugConfigValue = ty.Union[str, bool, int, float, list[ty.Any], ExtendedSetting]
+
+
 # pylint: disable=too-few-public-methods
 @ty.runtime_checkable
 class ValueConverter(ty.Protocol):
@@ -39,12 +42,11 @@ class ValueConverter(ty.Protocol):
     in config file (as str) into required value (int, float, etc).
     """
 
-    def __call__(self, value: ty.Any, default: ty.Any) -> ty.Any:
+    def __call__(self, value: str, default: ty.Any) -> PlugConfigValue:
         ...
 
 
-PlugConfigValue = ty.Union[str, bool, int, float, list[ty.Any], ExtendedSetting]
-PlugConfigValueType = ty.Union[ty.Type[PlugConfigValue], ValueConverter]
+PlugConfigValueType = ty.Union[type[PlugConfigValue], ValueConverter]
 
 
 def strbool(value: ty.Any, default: bool = False) -> bool:
@@ -362,12 +364,14 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         signal = f"value-changed::{section.lower()}.{key.lower()}"
         self.emit(signal, section, key, value)
 
-    def _get_raw_config(self, section: str, key: str) -> ty.Any:
+    def _get_raw_config(self, section: str, key: str) -> str | None:
         """General interface, but section must exist"""
         key = key.lower()
         return self._config[section].get(key)
 
-    def _set_raw_config(self, section: str, key: str, value: ty.Any) -> bool:
+    def _set_raw_config(
+        self, section: str, key: str, value: str | None
+    ) -> bool:
         """General interface, but will create section"""
         self.output_debug("Set", section, key, "to", value)
         if section not in self._config:
