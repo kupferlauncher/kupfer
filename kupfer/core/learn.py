@@ -14,6 +14,7 @@ from kupfer.support import conspickle, pretty
 
 _MNEMONICS_FILENAME = "mnemonics.pickle"
 _CORRELATION_KEY: ty.Final = "kupfer.bonus.correlation"
+_ACTIVATIONS_KEY: ty.Final = "kupfer.bonus.activations"
 
 ## this is a harmless default
 _DEFAULT_ACTIONS: ty.Final = {
@@ -107,8 +108,14 @@ class Learning:
         return True
 
 
-# under _CORRELATION_KEY is {str:str}, other keys keeps Mnemonics
-_REGISTER: dict[str, ty.Union[Mnemonics, dict[str, str]]] = {}
+# under _CORRELATION_KEY is {str:str}:
+#   map repr(action) -> repr(object)
+# under _ACTIVATIONS_KEY is {str:(str, int)}:
+#   map repr(action) -> (repr(leaf),last usage timestamp)
+# other keys keeps Mnemonics
+_REGISTER: dict[
+    str, ty.Union[Mnemonics, dict[str, str] | dict[str, tuple[str, int]]]
+] = {}
 
 
 def record_search_hit(obj: ty.Any, key: str | None = None) -> None:
@@ -149,21 +156,47 @@ def get_record_score(obj: ty.Any, key: str = "") -> int:
     return fav + mnscore
 
 
-def get_correlation_bonus(obj: KupferObject, for_leaf: Leaf | None) -> int:
+def get_correlation_bonus(obj: Action, for_leaf: Leaf | None) -> int:
     """Get the bonus rank for @obj when used with @for_leaf."""
     rval = _REGISTER[_CORRELATION_KEY]
     assert isinstance(rval, dict)
-    if rval.get(repr(for_leaf)) == repr(obj):
+    repr_obj = repr(obj)
+    repr_leaf = repr(for_leaf)
+    if rval.get(repr_leaf) == repr_obj:
         return 50
+
+    raval = ty.cast(dict[str, tuple[str, int]], _REGISTER[_ACTIVATIONS_KEY])
+
+    # bonus for last used action for object
+    if val := raval.get(repr_leaf):
+        if val[0] == repr_obj:
+            return 25
+
+    # bonus for last used action for object type
+    if val := raval.get(repr(type(for_leaf))):
+        if val[0] == repr_obj:
+            return 10
 
     return 0
 
 
 def set_correlation(obj: Action, for_leaf: Leaf) -> None:
     """Register @obj to get a bonus when used with @for_leaf."""
-    rval = _REGISTER[_CORRELATION_KEY]
-    assert isinstance(rval, dict)
+    rval = ty.cast(dict[str, str], _REGISTER[_CORRELATION_KEY])
     rval[repr(for_leaf)] = repr(obj)
+
+
+def record_action_activations(obj: Action, for_leaf: Leaf) -> None:
+    """Record action activation for leaf that boost this action in next search.
+    Also registered is object class so using this action for similar object
+    also get some (smaller) bonus."""
+
+    rval = ty.cast(dict[str, tuple[str, int]], _REGISTER[_ACTIVATIONS_KEY])
+
+    repr_obj = repr(obj)
+    ts = int(time.time())
+    rval[repr(for_leaf)] = (repr_obj, ts)
+    rval[repr(type(for_leaf))] = (repr_obj, ts)
 
 
 def get_object_has_affinity(obj: Leaf) -> bool:
@@ -200,7 +233,7 @@ def _prune_register(goalitems: int = 500) -> None:
     items = sorted(
         (mne.last_ts_used, leaf, mne)  # type: ignore
         for leaf, mne in _REGISTER.items()
-        if leaf != _CORRELATION_KEY
+        if leaf not in (_CORRELATION_KEY, _ACTIVATIONS_KEY)
     )
     to_del = []
     to_del_cnt = len(items) - goalitems
@@ -232,7 +265,10 @@ def _prune_register(goalitems: int = 500) -> None:
     chance = min(0.1, len(_REGISTER) * alpha)
     to_del = []
     for leaf, mne in _REGISTER.items():
-        if leaf != _CORRELATION_KEY and rand() <= chance:
+        if (
+            leaf not in (_CORRELATION_KEY, _ACTIVATIONS_KEY)
+            and rand() <= chance
+        ):
             assert isinstance(mne, Mnemonics)
             mne.decrement()
             if not mne:
@@ -247,6 +283,18 @@ def _prune_register(goalitems: int = 500) -> None:
     )
 
 
+def _purge_action_reg(goalitems: int) -> None:
+    """Purge action usage - remove oldest items up to `goalitems` count"""
+    raval = ty.cast(dict[str, tuple[str, int]], _REGISTER[_ACTIVATIONS_KEY])
+    if len(raval) <= goalitems:
+        return
+
+    to_delkv = sorted((ts, key) for key, (_obj, ts) in raval.items())
+    # delete oldest entries up to goalitems
+    for _ts, key in to_delkv[: len(raval) - goalitems]:
+        raval.pop(key)
+
+
 def load() -> None:
     """Load learning database."""
     _REGISTER.clear()
@@ -258,6 +306,9 @@ def load() -> None:
     if _CORRELATION_KEY not in _REGISTER:
         _REGISTER[_CORRELATION_KEY] = _DEFAULT_ACTIONS
 
+    if _ACTIVATIONS_KEY not in _REGISTER:
+        _REGISTER[_ACTIVATIONS_KEY] = ty.cast(dict[str, tuple[str, int]], {})
+
 
 def save() -> None:
     """Save the learning record."""
@@ -265,6 +316,7 @@ def save() -> None:
         pretty.print_debug(__name__, "Not writing empty register")
         return
 
+    _purge_action_reg(500)
     if len(_REGISTER) > 500:
         _prune_register(500)
 

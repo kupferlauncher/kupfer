@@ -542,6 +542,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if not leaf or not action:
             return
 
+        learn.record_action_activations(action, leaf)
+
         try:
             ctx = self._execution_context
             res, _ret = ctx.run(leaf, action, sobject, ui_ctx=ui_ctx)
