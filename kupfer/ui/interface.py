@@ -525,6 +525,9 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         NOTE: accelerator
         """
         self._is_text_mode = not self._is_text_mode
+        if self._is_text_mode:
+            self.current.hide_table()
+
         self._update_text_mode()
 
     def _disable_text_mode_quick(self) -> None:
