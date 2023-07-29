@@ -56,7 +56,7 @@ def get_machine_state(machine_id):
     machine_state = None
     try:
         machine = get_machine_by_id(machine_id)
-        pretty.print_debug(__name__, "machine ", repr(machine))
+        pretty.print_debug(__name__, "machine ", machine)
         machine_state = machine.state
         if machine_state == _VBOX.constants.MachineState_Paused:
             state = vbox_const.VM_STATE_PAUSED
@@ -109,7 +109,7 @@ def _execute_machine_action(vm_uuid, action):
         pretty.print_error(
             __name__,
             "_execute_machine_action:",
-            repr(action),
+            action,
             " vm:",
             vm_uuid,
             "error",

@@ -131,7 +131,7 @@ def _execute_machine_action(vm_uuid, action):
         pretty.print_error(
             __name__,
             "_execute_machine_action:",
-            repr(action),
+            action,
             " vm:",
             vm_uuid,
             "error",

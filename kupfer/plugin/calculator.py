@@ -142,7 +142,7 @@ class Calculate(Action):
         # hack: change all decimal points (according to current locale) to '.'
         # expr = expr.replace(locale.localeconv()['decimal_point'], '.')
         environment = make_environment(self.last_result["last"])
-        pretty.print_debug(__name__, "Evaluating", repr(expr))
+        pretty.print_debug(__name__, "Evaluating", expr)
         try:
             result = eval(expr, environment)  # pylint: disable=eval-used
             resultstr = format_result(result)

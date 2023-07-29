@@ -383,7 +383,7 @@ class SourceController(pretty.OutputMixin):
         """Register a plugin id mapping for @objects"""
         for obj in objects:
             self._plugin_object_map[obj] = plugin_id
-            pretty.print_debug(__name__, "Add", repr(obj))
+            pretty.print_debug(__name__, "Add", obj)
 
     def _remove(self, src: Source) -> None:
         self._invalidate_root()
@@ -391,11 +391,11 @@ class SourceController(pretty.OutputMixin):
         self._sources.discard(src)
         self._rescanner.set_catalog(self._sources)
         self._finalize_source(src)
-        pretty.print_debug(__name__, "Remove", repr(src))
+        pretty.print_debug(__name__, "Remove", src)
 
     def get_plugin_id_for_object(self, obj: ty.Any) -> str | None:
         id_ = self._plugin_object_map.get(obj)
-        # self.output_debug("Object", repr(obj), "has id", id_, id(obj))
+        # self.output_debug("Object", obj, "has id", id_, id(obj))
         return id_
 
     def remove_objects_for_plugin_id(self, plugin_id: str) -> bool:
@@ -417,7 +417,7 @@ class SourceController(pretty.OutputMixin):
             for obj in list(collection):
                 if self.get_plugin_id_for_object(obj) == plugin_id:
                     collection.remove(obj)
-                    pretty.print_debug(__name__, "Remove", repr(obj))
+                    pretty.print_debug(__name__, "Remove", obj)
 
         remove_matching_objects(self._text_sources, plugin_id)
 

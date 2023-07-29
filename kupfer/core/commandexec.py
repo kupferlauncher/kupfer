@@ -298,7 +298,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         If `show`, possibly display the result to the user (show leaf).
         Desktop notification is always displayed when there is any result.
         """
-        self.output_debug("Late result", repr(result), "for", token)
+        self.output_debug("Late result", result, "for", token)
 
         command_id, (_ign1, action, _ign2) = token  # type: ignore
         if result is None:
@@ -363,7 +363,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         if iobj is None and action.requires_object():
             raise ActionExecutionError(f"{action} requires indirect object")
 
-        self.output_debug(repr(obj), repr(action), repr(iobj), repr(ui_ctx))
+        self.output_debug(obj, action, iobj, ui_ctx)
 
         # The execution token object for the current invocation
         execution_token = self.make_execution_token(ui_ctx)
@@ -426,7 +426,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
 
         """
         self.output_debug(
-            "Combining", repr(action), retvals, f"delegate={self._delegate}"
+            "Combining", action, retvals, f"delegate={self._delegate}"
         )
 
         retvals_not_empty = filter(None, retvals)

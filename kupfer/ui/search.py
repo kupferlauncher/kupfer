@@ -1104,7 +1104,7 @@ class ActionSearch(Search):
             cur = self._model.get_object((idx,))
             assert cur and isinstance(cur.object, Action)
             action: Action = cur.object
-            self.output_debug("Looking at action", repr(action))
+            self.output_debug("Looking at action", action)
 
             if _accel_for_action(action, self.action_accel_config) == accel:
                 if matched_action is None:

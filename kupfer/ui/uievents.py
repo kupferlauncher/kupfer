@@ -158,9 +158,7 @@ def using_startup_notify_id(notify_id: str) -> ty.Any:
         Gdk.notify_startup_complete_with_id(notify_id)
 
     try:
-        pretty.print_debug(
-            __name__, "Using startup id", repr(notify_id), timestamp
-        )
+        pretty.print_debug(__name__, "Using startup id", notify_id, timestamp)
         _internal_data.current_event_time = timestamp
         yield timestamp
     finally:

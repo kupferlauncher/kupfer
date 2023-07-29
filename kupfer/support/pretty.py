@@ -25,7 +25,11 @@ class OutputMixin:
         *items: ty.Any,
     ) -> None:
         category = self._output_category()
-        print(prefix + category, *items, sep=sep, end=end, file=stream)
+        pitems = [
+            item if isinstance(item, (str, int, float)) else repr(item)
+            for item in items
+        ]
+        print(prefix + category, *pitems, sep=sep, end=end, file=stream)
 
     def output_info(
         self, *items: ty.Any, sep: str = " ", end: str = "\n", **kwargs: ty.Any
