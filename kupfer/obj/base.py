@@ -73,10 +73,16 @@ class KupferObject:
         return self.name
 
     def __repr__(self) -> str:
-        if key := self.repr_key():
-            return f"<{self.__module__}.{self.__class__.__name__} {key}>"
+        if cached := getattr(self, "_cached_repr", None):
+            return cached  # type: ignore
 
-        return f"<{self.__module__}.{self.__class__.__name__}>"
+        if key := self.repr_key():
+            rep = f"<{self.__module__}.{self.__class__.__name__} {key}>"
+        else:
+            rep = f"<{self.__module__}.{self.__class__.__name__}>"
+
+        setattr(self, "_cached_repr", rep)
+        return rep
 
     def repr_key(self) -> ty.Any:
         """Return an object whose str() will be used in the __repr__,
