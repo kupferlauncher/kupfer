@@ -535,6 +535,7 @@ default_action_execution_context = ActionExecutionContext.instance
 
 
 # pylint: disable=too-few-public-methods
+@ty.runtime_checkable
 class ActionActivateFunc(ty.Protocol):
     def __call__(
         self,
@@ -547,6 +548,7 @@ class ActionActivateFunc(ty.Protocol):
 
 
 # pylint: disable=too-few-public-methods
+@ty.runtime_checkable
 class ActionActivateMultipleFunc(ty.Protocol):
     def __call__(
         self,

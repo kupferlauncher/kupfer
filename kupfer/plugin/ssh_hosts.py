@@ -10,6 +10,7 @@ __kupfer_actions__ = ("SSHConnect",)
 
 import os
 import typing as ty
+from gettext import gettext as _
 
 from kupfer import icons, launch
 from kupfer.obj import Action
@@ -21,9 +22,6 @@ from kupfer.obj.hosts import (
     HOST_SERVICE_NAME_KEY,
     HostLeaf,
 )
-
-if ty.TYPE_CHECKING:
-    from gettext import gettext as _
 
 
 class SSHLeaf(HostLeaf):
@@ -42,7 +40,7 @@ class SSHLeaf(HostLeaf):
         HostLeaf.__init__(self, slots, name)
 
     def get_description(self) -> str:
-        return _("SSH host: %s") % self[HOST_ADDRESS_KEY]
+        return _("SSH host: %s") % self[HOST_ADDRESS_KEY]  # type: ignore
 
     def get_gicon(self):
         return icons.ComposedIconSmall(

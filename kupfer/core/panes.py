@@ -11,7 +11,7 @@ import typing as ty
 
 from gi.repository import GObject
 
-from kupfer.obj.base import Action, AnySource, KupferObject, Leaf
+from kupfer.obj.base import Action, AnySource, KupferObject, Leaf, Source
 from kupfer.support import pretty
 from kupfer.core import actioncompat
 from kupfer.core.search import Rankable
@@ -317,7 +317,10 @@ class SecondaryObjectPane(LeafPane):
             if ownsrc and not use_catalog:
                 self.source_rebase(ownsrc)
             else:
-                extra_sources = [ownsrc] if ownsrc else None
+                extra_sources = (
+                    ty.cast(list[Source], [ownsrc]) if ownsrc else None
+                )
+
                 sctr = get_source_controller()
                 self.source_rebase(
                     sctr.root_for_types(act.object_types(), extra_sources)

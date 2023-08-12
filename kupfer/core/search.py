@@ -124,7 +124,7 @@ def score_actions(
     putting much more weight in rank_adjust."""
     get_record_score = learn.get_record_score
     for obj in rankables:
-        obj_object = obj.object
+        obj_object = ty.cast(Action, obj.object)
         rank_adj = obj_object.rank_adjust + learn.get_correlation_bonus(
             obj_object, for_leaf
         )

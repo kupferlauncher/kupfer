@@ -12,6 +12,7 @@ import functools
 
 K = ty.TypeVar("K")
 V = ty.TypeVar("V")
+_T = ty.TypeVar("_T")
 
 
 def _get_point_of_create(offset: int = 2) -> str:
@@ -67,7 +68,17 @@ class LruCache(OrderedDict[K, V]):
         self.move_to_end(key, last=True)
         return value
 
-    def get(self, key: K, default: V | None = None, /) -> V | None:
+    @ty.overload
+    def get(self, key: K) -> V | None:
+        ...
+
+    @ty.overload
+    def get(self, key: K, default: V | _T) -> V | _T:
+        ...
+
+    def get(
+        self, key: K, default: V | _T | None = None  # type: ignore
+    ) -> V | _T | None:
         try:
             return self[key]
         except KeyError:
