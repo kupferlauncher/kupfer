@@ -61,18 +61,18 @@ SEPARATE_APPS = {
 }
 
 
-def _file_path(uri: str) -> Gio.File | None:
+def _file_path(uri: str) -> str | None:
     try:
-        return Gio.File.new_for_uri(uri).get_path()
+        return ty.cast(str, Gio.File.new_for_uri(uri).get_path())
     except Exception:
         return None
 
 
 @datatools.simple_cache
-def _get() -> list[tuple[str, int, tuple[str, ...]]]:
-    max_days = __kupfer_settings__["max_days"]
+def _get(
+    max_days: int, check_doc_exist: bool
+) -> list[tuple[str, int, tuple[str, ...]]]:
     manager = Gtk.RecentManager.get_default()
-    check_doc_exist = __kupfer_settings__["check_doc_exist"]
     items = []
     for item in manager.get_items():
         if item.get_age() > max_days >= 0:
@@ -116,7 +116,9 @@ def _get_items(
     for_app_names: set of candidate app names, or None.
     Return iterable: tuple (modification time, file path)
     """
-    for file_path, modified, apps in _get():
+    max_days = __kupfer_settings__["max_days"]
+    check_doc_exist = __kupfer_settings__["check_doc_exist"]
+    for file_path, modified, apps in _get(max_days, check_doc_exist):
         if for_app_names:
             if not any(a in for_app_names for a in apps):
                 continue
