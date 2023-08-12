@@ -46,7 +46,8 @@ class ValueConverter(ty.Protocol):
         ...
 
 
-PlugConfigValueType = ty.Union[type[PlugConfigValue], ValueConverter]
+# PlugConfigValueType = ty.Union[type[PlugConfigValue], ValueConverter]
+PlugConfigValueType = ty.Union[ty.Any, ValueConverter]
 
 
 def strbool(value: ty.Any, default: bool = False) -> bool:
