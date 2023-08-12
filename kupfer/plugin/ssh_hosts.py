@@ -104,7 +104,7 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
     def _get_items(self) -> ty.Iterable[SSHLeaf]:
         with open(self._config_path, encoding="UTF-8") as cfile:
             current_hosts: list[str] = []
-            for line in cfile.readlines():
+            for line in cfile:
                 line = line.strip()
                 if not line:
                     continue

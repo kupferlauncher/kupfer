@@ -31,7 +31,7 @@ class Glob(Action):
             for content in subcatalog.content_source().get_leaves():
                 if recursive and content.has_content():
                     get_subcatalog_matches(content, pat, recursive, paths)
-                elif re.match(pat, str(content), flags=re.I):
+                elif re.match(pat, str(content), flags=re.IGNORECASE):
                     paths.append(content)
 
         paths: list[str] = []

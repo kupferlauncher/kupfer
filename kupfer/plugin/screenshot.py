@@ -8,6 +8,8 @@ __author__ = "KB"
 
 import os
 import tempfile
+from pathlib import Path
+from gettext import gettext as _
 
 from gi.repository import Gtk, Gdk
 
@@ -57,7 +59,7 @@ class ScreenshotToFile(RunnableLeaf):
         file, path = tempfile.mkstemp(f".{ext}", prefix="screenshot")
         os.close(file)
         # file must be deleted
-        os.unlink(path)
+        Path(path).unlink()
 
         runtimehelper.register_async_file_result(ctx, path)
 
@@ -69,7 +71,7 @@ class ScreenshotToFile(RunnableLeaf):
         elif tool == "scrot":
             argv = ("scrot", "--file", path, "--delay", "1")
         else:
-            return
+            return None
 
         try:
             launch.spawn_async_raise(argv)
@@ -140,7 +142,7 @@ class SSToClipboard(RunnableLeaf):
                     clip = Gtk.Clipboard.get_default(Gdk.Display.get_default())
                     clip.set_image(pixbuf)
 
-            os.unlink(path)
+            Path(path).unlink()
 
         launch.AsyncCommand(argv, finish_callback, 10)
 

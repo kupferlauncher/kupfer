@@ -121,9 +121,7 @@ class DirectorySource(Source, FilesystemWatchMixin):
     def get_leaf_repr(self) -> Leaf | None:
         alias = None
         directory = self._directory
-        if os.path.isdir(directory) and os.path.samefile(
-            directory, self._user_home
-        ):
+        if os.path.samefile(directory, self._user_home):
             alias = _("Home Folder")
 
         return files.FileLeaf(directory, alias=alias)

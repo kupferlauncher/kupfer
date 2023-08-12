@@ -76,8 +76,8 @@ class LruCache(OrderedDict[K, V]):
     def get(self, key: K, default: V | _T) -> V | _T:
         ...
 
-    def get(
-        self, key: K, default: V | _T | None = None  # type: ignore
+    def get(  # type: ignore
+        self, key: K, default: V | _T | None = None
     ) -> V | _T | None:
         try:
             return self[key]
