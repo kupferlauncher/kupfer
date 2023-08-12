@@ -72,12 +72,9 @@ def icon_stats():
     from kupfer.icons import _ICON_CACHE, _MISSING_ICON_FILES
 
     print("DEBUG: ICON STATS")
-    for size, data in _ICON_CACHE.items():
-        print("size:", size)
-        print("Cached icons:", len(data))
-        print("Cached icon keys:")
-        for key in data.keys():
-            print("  ", key)
+    print("size:", len(_ICON_CACHE))
+    for (size, key) in _ICON_CACHE.keys():
+        print("  ", size, key)
 
     print("missing icon files: ", _MISSING_ICON_FILES)
     print("---------------------\n")

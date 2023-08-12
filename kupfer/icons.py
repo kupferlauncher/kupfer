@@ -17,10 +17,9 @@ from gi.repository.GLib import GError
 from kupfer.core import settings
 from kupfer.support import datatools, pretty, scheduler
 
-_ICON_CACHE: ty.Final[dict[int, datatools.LruCache[str, GdkPixbuf.Pixbuf]]] = {}
-# number of elements in icon lru cache (per icon size)
-_ICON_CACHE_SIZE_LARGE = 32
-_ICON_CACHE_SIZE = 64
+_ICON_CACHE: ty.Final[
+    datatools.LruCache[tuple[int, str], GdkPixbuf.Pixbuf]
+] = datatools.LruCache(128, name="_ICON_CACHE")
 
 _LARGE_SZ = 128
 _SMALL_SZ = 24
@@ -137,9 +136,8 @@ def get_icon(key: str, icon_size: int) -> ty.Iterator[GdkPixbuf.Pixbuf]:
     try retrieve icon in cache
     is a generator so it can be concisely called with a for loop
     """
-    if ics := _ICON_CACHE.get(icon_size):
-        if res := ics.get(key):
-            yield res
+    with suppress(KeyError):
+        yield _ICON_CACHE[(icon_size, key)]
 
 
 def store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
@@ -147,17 +145,7 @@ def store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
     Store an icon in cache. It must not have been stored before
     """
     assert icon, f"icon {key} may not be {icon}"
-    icons = _ICON_CACHE.get(icon_size)
-    if icons is None:
-        cache_size = _ICON_CACHE_SIZE
-        if icon_size == _LARGE_SZ:
-            cache_size = _ICON_CACHE_SIZE_LARGE
-
-        icons = _ICON_CACHE[icon_size] = datatools.LruCache(
-            cache_size, name=f"icon cache {icon_size}"
-        )
-
-    icons[key] = icon
+    _ICON_CACHE[(icon_size, key)] = icon
 
 
 def _get_icon_dwim(
@@ -191,7 +179,9 @@ class ComposedIcon:
     Icon itself is rendered only once.
     """
 
-    _cache: datatools.LruCache[int, ComposedIcon] = datatools.LruCache(32)
+    _cache: datatools.LruCache[
+        tuple[ty.Any, ...], GdkPixbuf.Pixbuf | None
+    ] = datatools.LruCache(32, name="ComposedIcon cache")
 
     __slots__ = (
         "baseicon",
@@ -201,9 +191,6 @@ class ComposedIcon:
         "_rendered",
         "_rendered_size",
     )
-
-    # rendered is cache for rendered icons - (icon_size, Pixbuf)
-    _rendered: list[tuple[int, GdkPixbuf.Pixbuf | None]]
 
     def __init__(
         self,
@@ -217,14 +204,6 @@ class ComposedIcon:
         self.emblemicon = emblem
         self.emblem_is_fallback = emblem_is_fallback
 
-    def __new__(cls, *args, **kwargs):
-        def create():
-            obj: ComposedIcon = object.__new__(cls)
-            obj._rendered = []  # pylint: disable=protected-access
-            return obj
-
-        return cls._cache.get_or_insert(hash(args), create)
-
     @classmethod
     def new(cls, *args, **kwargs):
         """Construct a composed icon from @baseicon and @emblem,
@@ -233,9 +212,15 @@ class ComposedIcon:
         return cls(*args, **kwargs)
 
     def render_composed_icon(self, icon_size: int) -> GdkPixbuf.Pixbuf | None:
-        for size, icon in self._rendered:
-            if size == icon_size:
-                return icon
+        key = (
+            self.baseicon,
+            self.emblemicon,
+            self.emblem_is_fallback,
+            self.minimum_icon_size,
+            icon_size,
+        )
+        with suppress(KeyError):
+            return ComposedIcon._cache[key]
 
         # If it's too small, render as fallback icon
         if icon_size < self.minimum_icon_size:
@@ -247,7 +232,7 @@ class ComposedIcon:
         toppbuf = _get_icon_dwim(self.emblemicon, icon_size)
         bottompbuf = _get_icon_dwim(self.baseicon, icon_size)
         if not toppbuf or not bottompbuf:
-            self._rendered.append((icon_size, None))
+            ComposedIcon._cache[key] = None
             return None
 
         dest = bottompbuf.copy()
@@ -270,7 +255,7 @@ class ComposedIcon:
             255,
         )
 
-        self._rendered.append((icon_size, dest))
+        ComposedIcon._cache[key] = dest
         return dest
 
 
@@ -331,6 +316,11 @@ def get_pixbuf_from_file(
     return None
 
 
+_GICON_CACHE: datatools.LruCache[str, GIcon] = datatools.LruCache(
+    32, name="_GICON_CACHE"
+)
+
+
 def get_gicon_for_file(uri: str) -> GIcon | None:
     """
     Return a GIcon representing the file at
@@ -341,6 +331,9 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
 
     if uri in _MISSING_ICON_FILES:
         return None
+
+    with suppress(KeyError):
+        return _GICON_CACHE[uri]
 
     gfile = File.new_for_path(uri)
     if not gfile.query_exists():
@@ -353,6 +346,7 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
         FILE_ATTRIBUTE_STANDARD_ICON, Gio.FileQueryInfoFlags.NONE, None
     )
     gicon = finfo.get_attribute_object(FILE_ATTRIBUTE_STANDARD_ICON)
+    _GICON_CACHE[uri] = gicon
     return gicon
 
 
@@ -483,9 +477,8 @@ def get_icon_for_name(
     icon_names: ty.Iterable[str] | None = None,
 ) -> GdkPixbuf.Pixbuf | None:
     if icon_name:
-        if ics := _ICON_CACHE.get(icon_size):
-            if res := ics.get(icon_name):
-                return res
+        with suppress(KeyError):
+            return _ICON_CACHE[(icon_size, icon_name)]
 
     # Try the whole list of given names
     for load_name in icon_names or (icon_name,):
@@ -518,9 +511,8 @@ def get_icon_from_file(
         return None
 
     # try to load from cache
-    if ics := _ICON_CACHE.get(icon_size):
-        if res := ics.get(icon_file):
-            return res
+    with suppress(KeyError):
+        return _ICON_CACHE[(icon_size, icon_file)]
 
     if icon := _ICON_RENDERER.pixbuf_for_file(icon_file, icon_size):
         store_icon(icon_file, icon_size, icon)
