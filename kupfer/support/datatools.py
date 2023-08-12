@@ -14,7 +14,7 @@ K = ty.TypeVar("K")
 V = ty.TypeVar("V")
 
 
-def _get_point_of_create(offset: int = 3) -> str:
+def _get_point_of_create(offset: int = 2) -> str:
     """Find information about function caller with `offset` in tracestack."""
     for frame in inspect.stack()[offset:]:
         if "kupfer" in frame.filename:
