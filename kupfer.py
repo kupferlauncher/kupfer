@@ -20,15 +20,29 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import sys
 
+
 try:
     import stackprinter
 
-    stackprinter.set_excepthook(style="color")
+    stackprinter.set_excepthook(
+        style="color",
+        suppressed_paths=[r"*/site-packages/typeguard/"],
+    )
 except ImportError:
     try:
         from rich.traceback import install
 
-        install()
+        suppress_modules = []
+
+        try:
+            import typeguard
+
+            suppress_modules.append(typeguard)
+        except ImportError:
+            pass
+
+        install(show_locals=True, suppress=suppress_modules)
+        print("rich.traceback installed")
     except ImportError:
         pass
 
@@ -74,11 +88,12 @@ except ImportError:  # Graceful fallback if IceCream isn't installed.
 
 try:
     if "--debug" in sys.argv:
-        from typeguard.importhook import install_import_hook
+        from typeguard import install_import_hook
 
         install_import_hook("kupfer")
         print("WARN! typeguard hook installed")
-except ImportError:
+except ImportError as err:
+    print(err)
     pass
 
 try:
