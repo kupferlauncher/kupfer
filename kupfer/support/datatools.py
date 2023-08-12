@@ -57,7 +57,7 @@ class LruCache(OrderedDict[K, V]):
 
     def __getitem__(self, key: K) -> V:
         # try to get item from dict, if not found KeyError is raised
-        value = self.get(key, _sentinel)  # type: ignore
+        value = super().get(key, _sentinel)  # type: ignore
         if value is _sentinel:
             self._miss += 1
             raise KeyError(key)
@@ -66,6 +66,12 @@ class LruCache(OrderedDict[K, V]):
         # found, so move it to the end
         self.move_to_end(key, last=True)
         return value
+
+    def get(self, key: K, default: V | None = None, /) -> V | None:
+        try:
+            return self[key]
+        except KeyError:
+            return default
 
     def __str__(self) -> str:
         return (
