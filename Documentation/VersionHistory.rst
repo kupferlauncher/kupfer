@@ -1,6 +1,33 @@
 NEWS for kupfer
 ===============
 
+kupfer v323-beta2
+-----------------
+
++ New features:
+
+  + For grouping leaves (like hosts, contacts) add "copy to clipboard"
+    action for each slot (email, adress, etc). Close: #169
+  + After launch some action for leave next time this action get some
+    bonus that make it higher on the list. Also this action get (smaller)
+    bonus for each same type leaves.
+
++ Fix:
+
+  + Fix "mark as default" action broken in beta1. Close: #170
+
++ Plugins:
+
+  + Updated:
+
+    - *ssh_hosts": load and use host name from ssh .config file.
+
++ Dev:
+
+    - Simplify caching icons/gicons
+    - Cache `KupferObject` `repr` value
+    - Fix types
+
 
 kupfer v323-beta1
 -----------------
