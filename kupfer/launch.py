@@ -701,6 +701,8 @@ def show_url(url: str) -> bool:
 
     # if there is no schema w url add default http://
     # this allow open urls like 'www.foobar.com'.
+    url = url.strip()
+
     purl = urllib.parse.urlparse(url)
     if not purl.scheme:
         url = f"http://{url}"
