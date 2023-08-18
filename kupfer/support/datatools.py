@@ -12,7 +12,7 @@ import functools
 
 K = ty.TypeVar("K")
 V = ty.TypeVar("V")
-_T = ty.TypeVar("_T")
+VD = ty.TypeVar("VD")
 
 
 def _get_point_of_create(offset: int = 2) -> str:
@@ -27,7 +27,7 @@ def _get_point_of_create(offset: int = 2) -> str:
 _sentinel = object()
 
 
-class LruCache(OrderedDict[K, V]):
+class LruCache(ty.Generic[K, V]):
     """Least-recently-used cache mapping of size *maxsize*.
 
     *name* is optional cache name for debug purpose. If not given, is place
@@ -36,53 +36,61 @@ class LruCache(OrderedDict[K, V]):
 
     def __init__(self, maxsize: int, name: str | None = None) -> None:
         super().__init__()
+        self._data: OrderedDict[K, V] = OrderedDict()
         self._maxsize = maxsize
         self._name = name or _get_point_of_create()
         self._hit = 0
         self._miss = 0
         self._inserts = 0
 
+    def __len__(self) -> int:
+        return len(self._data)
+
     def __setitem__(self, key: K, value: V) -> None:
         self._inserts += 1
         # set add item on the end of dict
-        if key in self:
+        data = self._data
+        if key in self._data:
             # check is item already in dict by trying to move it to the end
-            self.move_to_end(key, last=True)
+            data.move_to_end(key, last=True)
         else:
             # item not found in dict so add it
-            super().__setitem__(key, value)
+            data[key] = value
 
-            if len(self) > self._maxsize:
+            if len(data) > self._maxsize:
                 # remove the first item (was inserted longest time ago)
-                self.popitem(last=False)
+                data.popitem(last=False)
 
     def __getitem__(self, key: K) -> V:
         # try to get item from dict, if not found KeyError is raised
-        value = super().get(key, _sentinel)  # type: ignore
-        if value is _sentinel:
+        try:
+            value = self._data[key]
+        except KeyError as err:
             self._miss += 1
-            raise KeyError(key)
+            raise err
 
         self._hit += 1
         # found, so move it to the end
-        self.move_to_end(key, last=True)
+        self._data.move_to_end(key, last=True)
         return value
 
-    @ty.overload
-    def get(self, key: K) -> V | None:
-        ...
-
-    @ty.overload
-    def get(self, key: K, default: V | _T) -> V | _T:
-        ...
-
-    def get(  # type: ignore
-        self, key: K, default: V | _T | None = None
-    ) -> V | _T | None:
+    def get(self, key: K, default: V | VD | None = None) -> V | VD | None:
         try:
             return self[key]
         except KeyError:
             return default
+
+    def keys(self) -> ty.KeysView[K]:
+        return self._data.keys()
+
+    def values(self) -> ty.ValuesView[V]:
+        return self._data.values()
+
+    def items(self) -> ty.ItemsView[K, V]:
+        return self._data.items()
+
+    def clear(self) -> None:
+        self._data.clear()
 
     def __str__(self) -> str:
         return (
@@ -94,14 +102,15 @@ class LruCache(OrderedDict[K, V]):
     def get_or_insert(self, key: K, creator: ty.Callable[[], V]) -> V:
         """Get value from cache. If not exists - create with with `creator`
         function and insert into cache."""
-        val = self.get(key, _sentinel)  # type: ignore
-        if val is not _sentinel:
+        try:
+            val = self._data[key]
+        except KeyError:
+            self._miss += 1
+            self._inserts += 1
+            val = self._data[key] = creator()
+        else:
             self._hit += 1
-            return val
 
-        self._miss += 1
-        self._inserts += 1
-        val = self[key] = creator()
         return val
 
 
