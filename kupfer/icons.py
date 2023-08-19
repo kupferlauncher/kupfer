@@ -35,9 +35,6 @@ _KUPFER_ICON_FALLBACKS: ty.Final = {
 
 _KUPFER_LOCALLY_INSTALLED_NAMES: ty.Final[set[str]] = set()
 
-# keep missing files to prevent try to load every time
-_MISSING_ICON_FILES: ty.Final[set[str]] = set()
-
 
 def _on_icon_theme_changed(theme):
     pretty.print_info(__name__, "Icon theme changed, clearing cache")
@@ -225,9 +222,12 @@ class ComposedIcon:
         # If it's too small, render as fallback icon
         if icon_size < self.minimum_icon_size:
             if self.emblem_is_fallback:
-                return _get_icon_for_standard_gicon(self.emblemicon, icon_size)
+                icon = _get_icon_for_standard_gicon(self.emblemicon, icon_size)
+            else:
+                icon = _get_icon_for_standard_gicon(self.baseicon, icon_size)
 
-            return _get_icon_for_standard_gicon(self.baseicon, icon_size)
+            ComposedIcon._cache[key] = icon
+            return icon
 
         toppbuf = _get_icon_dwim(self.emblemicon, icon_size)
         bottompbuf = _get_icon_dwim(self.baseicon, icon_size)
@@ -316,8 +316,8 @@ def get_pixbuf_from_file(
     return None
 
 
-_GICON_CACHE: datatools.LruCache[str, GIcon] = datatools.LruCache(
-    32, name="_GICON_CACHE"
+_GICON_CACHE: datatools.LruCache[str, GIcon | None] = datatools.LruCache(
+    128, name="_GICON_CACHE"
 )
 
 
@@ -329,9 +329,6 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
     return None if not found
     """
 
-    if uri in _MISSING_ICON_FILES:
-        return None
-
     with suppress(KeyError):
         return _GICON_CACHE[uri]
 
@@ -339,7 +336,7 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
     if not gfile.query_exists():
         gfile = File.new_for_uri(uri)
         if not gfile.query_exists():
-            _MISSING_ICON_FILES.add(uri)
+            _GICON_CACHE[uri] = None
             return None
 
     finfo = gfile.query_info(
@@ -352,15 +349,16 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
 
 def get_gicon_from_file(path: str) -> FileIcon | None:
     """Load GIcon from @path; return None if failed."""
-    if path in _MISSING_ICON_FILES:
-        return None
+    with suppress(KeyError):
+        return _GICON_CACHE[path]
 
+    icon = None
     file = File.new_for_path(path)
     if file.query_exists():
-        return FileIcon.new(file)
+        icon = FileIcon.new(file)
 
-    _MISSING_ICON_FILES.add(path)
-    return None
+    _GICON_CACHE[path] = icon
+    return icon
 
 
 def get_icon_for_gicon(gicon: GIcon, icon_size: int) -> GdkPixbuf.Pixbuf | None:
@@ -432,14 +430,11 @@ class IconRenderer:
     def pixbuf_for_file(
         cls, file_path: str, icon_size: int
     ) -> GdkPixbuf.Pixbuf | None:
-        try:
+        with suppress(GError):
             icon = GdkPixbuf.Pixbuf.new_from_file_at_size(
                 file_path, icon_size, icon_size
             )
             return icon
-
-        except GError:
-            pretty.print_exc(__name__)
 
         return None
 
@@ -507,9 +502,6 @@ def get_icon_for_name(
 def get_icon_from_file(
     icon_file: str, icon_size: int
 ) -> GdkPixbuf.Pixbuf | None:
-    if icon_file in _MISSING_ICON_FILES:
-        return None
-
     # try to load from cache
     with suppress(KeyError):
         return _ICON_CACHE[(icon_size, icon_file)]
@@ -518,7 +510,6 @@ def get_icon_from_file(
         store_icon(icon_file, icon_size, icon)
         return icon
 
-    _MISSING_ICON_FILES.add(icon_file)
     return None
 
 

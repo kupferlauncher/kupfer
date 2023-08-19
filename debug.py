@@ -5,6 +5,64 @@ directory.
 """
 import atexit
 import gc
+import sys
+import inspect
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def get_size(obj, seen=None):
+    """Recursively finds size of objects in bytes
+
+    from/based on: https://github.com/bosswissam/pysize/
+    """
+    try:
+        size = sys.getsizeof(obj)
+    except RecursionError:
+        return 0
+
+    if seen is None:
+        seen = set()
+
+    obj_id = id(obj)
+    if obj_id in seen:
+        return 0
+
+    # Important mark as seen *before* entering recursion to gracefully handle
+    # self-referential objects
+    seen.add(obj_id)
+    if hasattr(obj, "__dict__"):
+        for cls in obj.__class__.__mro__:
+            if "__dict__" in cls.__dict__:
+                d = cls.__dict__["__dict__"]
+                if inspect.isgetsetdescriptor(d) or inspect.ismemberdescriptor(
+                    d
+                ):
+                    size += get_size(obj.__dict__, seen)
+
+                break
+
+    if isinstance(obj, dict):
+        size += sum((get_size(v, seen) for v in obj.values()))
+        size += sum((get_size(k, seen) for k in obj.keys()))
+
+    elif hasattr(obj, "__iter__") and not isinstance(
+        obj, (str, bytes, bytearray)
+    ):
+        try:
+            size += sum((get_size(i, seen) for i in obj))
+        except TypeError:
+            logging.exception("Unable to get size of %r.", obj)
+
+    if hasattr(obj, "__slots__"):  # can have __slots__ with __dict__
+        size += sum(
+            get_size(getattr(obj, s), seen)
+            for s in obj.__slots__
+            if hasattr(obj, s)
+        )
+
+    return size
 
 
 def mem_stats():
@@ -69,14 +127,13 @@ def make_histogram(vect, nbins=7):
 
 
 def icon_stats():
-    from kupfer.icons import _ICON_CACHE, _MISSING_ICON_FILES
+    from kupfer import icons
 
     print("DEBUG: ICON STATS")
-    print("size:", len(_ICON_CACHE))
-    for (size, key) in _ICON_CACHE.keys():
+    print("size:", len(icons._ICON_CACHE))
+    for size, key in icons._ICON_CACHE.keys():
         print("  ", size, key)
 
-    print("missing icon files: ", _MISSING_ICON_FILES)
     print("---------------------\n")
 
 
@@ -89,11 +146,11 @@ def learn_stats():
             print(f"  {k}: {v}")
     print("------")
     print("Correlations:")
-    for k, v in _REGISTER[_CORRELATION_KEY].items(): # type: ignore
+    for k, v in _REGISTER[_CORRELATION_KEY].items():  # type: ignore
         print(f"  {k}: {v}")
     print("------")
     print("Activations:")
-    for k, v in _REGISTER[_ACTIVATIONS_KEY].items(): # type: ignore
+    for k, v in _REGISTER[_ACTIVATIONS_KEY].items():  # type: ignore
         print(f"  {k}: {v}")
     print("---------------------\n")
 
@@ -107,7 +164,7 @@ def cache_stats():
     print("Cache")
     for obj in gc.get_objects():
         if isinstance(obj, (LruCache, simple_cache)):
-            print(str(obj))
+            print(str(obj), get_size(obj))
 
     print("\nfunctools.*cache")
     for obj in gc.get_objects():
@@ -116,6 +173,7 @@ def cache_stats():
                 obj.__wrapped__.__module__,
                 obj.__wrapped__.__name__,
                 obj.cache_info(),
+                get_size(obj),
             )
 
     print("---------------------\n")
