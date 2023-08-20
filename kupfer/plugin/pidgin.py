@@ -10,7 +10,7 @@ __author__ = (
 )
 __version__ = "2017.1"
 
-import typing as ty
+from gettext import gettext as _, ngettext
 
 import dbus
 
@@ -31,9 +31,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
-if ty.TYPE_CHECKING:
-    from gettext import gettext as _
-    from gettext import ngettext
 
 plugin_support.check_dbus_connection()
 

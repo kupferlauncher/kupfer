@@ -61,7 +61,7 @@ def format_common_substrings(
     format_clean = format_clean or _default_formatter
 
     def _format(x: str) -> str:
-        return x and format_clean(x)  # type: ignore
+        return x and format_clean(x)
 
     if not query:
         return _format(string)

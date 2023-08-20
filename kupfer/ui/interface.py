@@ -166,17 +166,13 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         # set up panewidget => self signals
         # as well as window => panewidgets
         for widget_owner in (self.search, self.action, self.third):
-            widget = widget_owner.widget()  # type:ignore
-            widget_owner.connect("activate", self._on_activate)  # type:ignore
-            widget_owner.connect(  # type:ignore
-                "cursor-changed", self._on_selection_changed
-            )
+            widget = widget_owner.widget()
+            widget_owner.connect("activate", self._on_activate)
+            widget_owner.connect("cursor-changed", self._on_selection_changed)
             widget.connect("button-press-event", self._on_pane_button_press)
             # window signals
-            window.connect(
-                "configure-event", widget_owner.window_config  # type:ignore
-            )
-            window.connect("hide", widget_owner.window_hidden)  # type:ignore
+            window.connect("configure-event", widget_owner.window_config)
+            window.connect("hide", widget_owner.window_hidden)
 
     def _prepare_key_book(self) -> None:
         keys = (
@@ -873,9 +869,9 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def _update_active(self) -> None:
         for panewidget in (self.action, self.search, self.third):
             if panewidget is not self.current:
-                panewidget.set_state(Gtk.StateType.NORMAL)  # type: ignore
+                panewidget.set_state(Gtk.StateType.NORMAL)
 
-            panewidget.match_view.inject_preedit(None)  # type: ignore
+            panewidget.match_view.inject_preedit(None)
 
         assert self.current
 

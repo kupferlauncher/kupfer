@@ -418,7 +418,7 @@ class ArtistAlbumsSource(CollectionSource):
             albums[song["album"]].append(song)
 
         names = kupferstring.locale_sort(albums.keys())
-        names.sort(key=lambda name: albums[name][0]["date"])  # type:ignore
+        names.sort(key=lambda name: albums[name][0]["date"])
         for album in names:
             yield AlbumLeaf(albums[album], album)
 
@@ -504,7 +504,7 @@ def _locale_sort_artist_album_songs(artists):
         artist_songs = artists[artist]
         albums: dict[str, list[rhythmbox_support.Song]] = defaultdict(list)
         for album, songs in itertools.groupby(
-            artist_songs, lambda song: song["album"]  # type: ignore
+            artist_songs, lambda song: song["album"]
         ):
             albums[album].extend(songs)
 

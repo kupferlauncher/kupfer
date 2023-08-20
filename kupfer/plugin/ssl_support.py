@@ -17,5 +17,6 @@ class VerifiedHTTPSConnection:
 
 def is_supported():
     return (
-        VerifiedHTTPSConnection and VerifiedHTTPSConnection.is_ssl_supported()
+        VerifiedHTTPSConnection  # type: ignore
+        and VerifiedHTTPSConnection.is_ssl_supported()
     )

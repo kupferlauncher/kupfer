@@ -600,7 +600,7 @@ def _activate_action_multiple(
         iobjs = (None,) if iobj is None else get_leaf_members(iobj)
         return _activate_action_multiple_multiplied(objs, action, iobjs, ctx)
 
-    func: ActionActivateMultipleFunc = action.activate_multiple  # type: ignore
+    func: ActionActivateMultipleFunc = action.activate_multiple
     if ctx:
         func = partial(func, ctx=ctx)
 
@@ -640,9 +640,7 @@ def parse_action_result(action: Action, ret: ActionResult) -> ExecResult:
     if ret is ActionResultRefresh:
         return ExecResult.REFRESH
 
-    if not ret or (
-        hasattr(ret, "is_valid") and not ret.is_valid()  # type:ignore
-    ):
+    if not ret or (hasattr(ret, "is_valid") and not ret.is_valid()):
         return ExecResult.NONE
 
     # handle actions returning "new contexts"

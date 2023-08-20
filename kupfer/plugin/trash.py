@@ -5,8 +5,8 @@ __description__ = _("Access trash contents")
 __version__ = "2017.2"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import typing as ty
 from contextlib import suppress
+from gettext import gettext as _, ngettext
 
 from gi.repository import Gio, GLib
 
@@ -21,11 +21,6 @@ from kupfer.obj import (
 )
 from kupfer.obj.fileactions import Open
 from kupfer.support import pretty
-
-if ty.TYPE_CHECKING:
-    from getttext import gettext as _
-    from getttext import ngettext
-
 
 _TRASH_URI = "trash://"
 

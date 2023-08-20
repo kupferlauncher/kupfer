@@ -194,9 +194,9 @@ def record_action_activations(obj: Action, for_leaf: Leaf) -> None:
     rval = ty.cast(dict[str, tuple[str, int]], _REGISTER[_ACTIVATIONS_KEY])
 
     repr_obj = repr(obj)
-    ts = int(time.time())
-    rval[repr(for_leaf)] = (repr_obj, ts)
-    rval[repr(type(for_leaf))] = (repr_obj, ts)
+    now = int(time.time())
+    rval[repr(for_leaf)] = (repr_obj, now)
+    rval[repr(type(for_leaf))] = (repr_obj, now)
 
 
 def get_object_has_affinity(obj: Leaf) -> bool:

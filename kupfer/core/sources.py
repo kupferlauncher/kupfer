@@ -107,9 +107,8 @@ class PeriodicRescanner(pretty.OutputMixin):
     ) -> None:
         start = time.monotonic()
         try:
-            cnt = sum(
-                1 for leaf in source.get_leaves(force_update=force_update) or ()
-            )
+            leaves = source.get_leaves(force_update=force_update) or ()
+            cnt = sum(1 for leaf in leaves)
             duration = time.monotonic() - start
             self.output_info(
                 f"scan {source}: {cnt} leaves in {duration:0.5f} s"
@@ -248,7 +247,7 @@ class SourceDataPickler(pretty.OutputMixin):
     def get_filename(cls, source: Source) -> str:
         """Return filename for @source"""
         assert hasattr(source, "config_save_name")
-        name = source.config_save_name()  # type: ignore
+        name = source.config_save_name()
         filename = cls.name_template % (name, cls.format_version)
         filepath = config.save_config_file(filename)
         assert filepath

@@ -78,7 +78,7 @@ def iobjects_valid_for_action(
 
         return type_check
 
-    _valid_object = action.valid_object  # type: ignore
+    _valid_object = action.valid_object
 
     def type_obj_check(iobjs):
         return (

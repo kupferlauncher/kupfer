@@ -481,7 +481,7 @@ class Source(KupferObject, pretty.OutputMixin):
         checked."""
         if leaf_repr := self.get_leaf_repr():
             if hasattr(leaf_repr, "is_valid"):
-                if not leaf_repr.is_valid():  # type: ignore
+                if not leaf_repr.is_valid():
                     return False, None
 
         return True, leaf_repr

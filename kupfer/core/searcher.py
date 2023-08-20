@@ -29,7 +29,7 @@ def _valid_check(seq: ty.Iterable[Rankable]) -> ty.Iterable[Rankable]:
     """yield items of @seq that are valid"""
     for itm in seq:
         obj = itm.object
-        if (not hasattr(obj, "is_valid")) or obj.is_valid():  # type: ignore
+        if (not hasattr(obj, "is_valid")) or obj.is_valid():
             yield itm
 
 
@@ -94,12 +94,12 @@ class Searcher:
             if not rankables:
                 if hasattr(src, "get_text_items"):
                     # TextSources
-                    items = src.get_text_items(key)  # type: ignore
+                    items = src.get_text_items(key)
                     fixedrank = src.get_rank()  # type: ignore
                     can_cache = False
                 else:
                     # Source
-                    items = src.get_leaves()  # type: ignore
+                    items = src.get_leaves()
 
                 rankables = search.make_rankables(item_check(items))
 

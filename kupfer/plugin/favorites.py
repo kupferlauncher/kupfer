@@ -50,7 +50,7 @@ class FavoritesSource(Source):
             return None
 
         # ignore invalid objects
-        if hasattr(itm, "is_valid") and not itm.is_valid():  # type: ignore
+        if hasattr(itm, "is_valid") and not itm.is_valid():
             return None
 
         if puid.is_reference(id_):

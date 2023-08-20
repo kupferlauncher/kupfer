@@ -60,6 +60,7 @@ def application_id(
     return app_id
 
 
+# pylint: disable=too-many-arguments
 def launch_application(
     app_info: Gio.AppInfo,
     files: ty.Iterable[str] = (),

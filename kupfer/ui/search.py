@@ -939,7 +939,7 @@ class LeafSearch(Search):
             self._aux_info_str = "\N{BLACK LEFT-POINTING SMALL TRIANGLE} "
 
     def _get_aux_info(self, leaf: KupferObject) -> str:
-        if hasattr(leaf, "has_content") and leaf.has_content():  # type: ignore
+        if hasattr(leaf, "has_content") and leaf.has_content():
             return self._aux_info_str
 
         return ""

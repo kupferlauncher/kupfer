@@ -58,7 +58,7 @@ class SerializedObject:
         return obj  # type: ignore
 
 
-PuID = ty.Union[str, SerializedObject]
+PuID = ty.Union[str, SerializedObject]  # pylint: disable=invalid-name
 
 
 def get_unique_id(obj: ty.Any) -> PuID | None:
