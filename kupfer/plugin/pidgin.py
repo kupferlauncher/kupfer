@@ -11,11 +11,12 @@ __author__ = (
 __version__ = "2017.1"
 
 from gettext import gettext as _, ngettext
+import typing as ty
 
 import dbus
 
 from kupfer import icons, plugin_support
-from kupfer.obj import Action, TextLeaf, TextSource
+from kupfer.obj import Action, TextLeaf, TextSource, Leaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.contacts import EMAIL_KEY, NAME_KEY, ContactLeaf
 from kupfer.obj.grouping import ToplevelGroupingSource
@@ -86,13 +87,14 @@ def _send_message_to_contact(pcontact, message, present=False):
 
 
 class ContactAction(Action):
-    def get_required_slots(self):
-        return ()
+    def get_required_slots(self) -> tuple[str]:
+        raise NotImplementedError
 
     def item_types(self):
         yield ContactLeaf
 
-    def valid_for_item(self, leaf):
+    def valid_for_item(self, leaf: Leaf) -> bool:
+        leaf = ty.cast(ContactLeaf, leaf)
         return all(slot in leaf for slot in self.get_required_slots())
 
 
@@ -109,7 +111,7 @@ class OpenChat(ContactAction):
         _send_message_to_contact(leaf, "", present=True)
 
     def get_required_slots(self):
-        return [_PIDGIN_ACCOUNT, _PIDGIN_JID]
+        return (_PIDGIN_ACCOUNT, _PIDGIN_JID)
 
 
 class ChatTextSource(TextSource):
@@ -139,7 +141,7 @@ class SendMessage(ContactAction):
         _send_message_to_contact(leaf, iobj.object)
 
     def get_required_slots(self):
-        return [_PIDGIN_ACCOUNT, _PIDGIN_JID]
+        return (_PIDGIN_ACCOUNT, _PIDGIN_JID)
 
     def requires_object(self):
         return True

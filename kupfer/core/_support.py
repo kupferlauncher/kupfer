@@ -12,7 +12,7 @@ import typing as ty
 from kupfer.obj import Leaf
 
 
-def get_leaf_members(leaf: Leaf) -> ty.Iterable[Leaf]:
+def get_leaf_members(leaf: Leaf) -> ty.Sequence[Leaf]:
     """Return an iterator to members of @leaf, if it is a multiple leaf."""
 
     if hasattr(leaf, "get_multiple_leaf_representation"):

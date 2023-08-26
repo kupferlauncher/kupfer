@@ -131,8 +131,8 @@ class MultipleLeaf(Leaf):
         robj = list(itertools.unique_iterator(obj))
         Leaf.__init__(self, robj, name or _("Multiple Objects"))
 
-    def get_multiple_leaf_representation(self) -> ty.Iterable[Leaf]:
-        return self.object  # type: ignore
+    def get_multiple_leaf_representation(self) -> ty.Sequence[Leaf]:
+        return ty.cast(ty.Sequence[Leaf], self.object)
 
     def __getstate__(self) -> dict[str, ty.Any]:
         state = dict(vars(self))
