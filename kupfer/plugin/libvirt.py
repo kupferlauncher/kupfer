@@ -18,7 +18,7 @@ import threading
 
 import libvirt
 
-from kupfer import launch, plugin_support
+from kupfer import launch, plugin_support, icons
 from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.support import pretty
@@ -77,6 +77,9 @@ class Domain(Leaf):
             yield DomAction(_("Power On"), "system-run", "start")
 
         yield OpenConsoleAction()
+
+    def get_gicon(self):
+        return icons.ComposedIconSmall("computer", "virt-manager")
 
 
 class DomAction(Action):
