@@ -43,9 +43,7 @@ class SSHLeaf(HostLeaf):
         return _("SSH host: %s") % self[HOST_ADDRESS_KEY]  # type: ignore
 
     def get_gicon(self):
-        return icons.ComposedIconSmall(
-            self.get_icon_name(), "applications-internet"
-        )
+        return icons.ComposedIconSmall(self.get_icon_name(), "terminal")
 
 
 class SSHConnect(Action):
@@ -155,7 +153,7 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
         return _("SSH hosts as specified in ~/.ssh/config")
 
     def get_icon_name(self):
-        return "applications-internet"
+        return "network-workgroup"
 
     def provides(self):
         yield SSHLeaf
