@@ -128,16 +128,18 @@ def _load_icon_from_func(
     _KUPFER_LOCALLY_INSTALLED_NAMES.add(icon_name)
 
 
-def get_icon(key: str, icon_size: int) -> ty.Iterator[GdkPixbuf.Pixbuf]:
+def _get_icon(key: str, icon_size: int) -> ty.Iterator[GdkPixbuf.Pixbuf]:
     """
     try retrieve icon in cache
     is a generator so it can be concisely called with a for loop
+
+    FIXME: not used (?)
     """
     with suppress(KeyError):
         yield _ICON_CACHE[(icon_size, key)]
 
 
-def store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
+def _store_icon(key: str, icon_size: int, icon: GdkPixbuf.Pixbuf) -> None:
     """
     Store an icon in cache. It must not have been stored before
     """
@@ -157,6 +159,7 @@ def _get_icon_dwim(
     if icon:
         return get_icon_for_name(icon, icon_size)
 
+    pretty.print_debug(__name__, "_get_icon_dwim failed for", icon, icon_size)
     return None
 
 
@@ -336,6 +339,7 @@ def get_gicon_for_file(uri: str) -> GIcon | None:
     if not gfile.query_exists():
         gfile = File.new_for_uri(uri)
         if not gfile.query_exists():
+            pretty.print_debug(__name__, "get_gicon_for_file", uri, "failed")
             _GICON_CACHE[uri] = None
             return None
 
@@ -356,6 +360,8 @@ def get_gicon_from_file(path: str) -> FileIcon | None:
     file = File.new_for_path(path)
     if file.query_exists():
         icon = FileIcon.new(file)
+    else:
+        pretty.print_debug(__name__, "get_gicon_from_file", path, "failed")
 
     _GICON_CACHE[path] = icon
     return icon
@@ -492,10 +498,21 @@ def get_icon_for_name(
             icon = None
     else:
         # if we did not reach 'break' in the loop
+        pretty.print_debug(
+            __name__,
+            "get_gicon_for_name name",
+            icon_name,
+            "size",
+            icon_size,
+            "names",
+            icon_names,
+            "failed",
+        )
         return None
+
     # We store the first icon in the list, even if the match
     # found was later in the chain
-    store_icon(icon_name, icon_size, icon)
+    _store_icon(icon_name, icon_size, icon)
     return icon
 
 
@@ -507,7 +524,7 @@ def get_icon_from_file(
         return _ICON_CACHE[(icon_size, icon_file)]
 
     if icon := _ICON_RENDERER.pixbuf_for_file(icon_file, icon_size):
-        store_icon(icon_file, icon_size, icon)
+        _store_icon(icon_file, icon_size, icon)
         return icon
 
     return None
