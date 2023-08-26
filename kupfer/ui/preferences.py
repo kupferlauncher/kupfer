@@ -854,8 +854,8 @@ class PreferencesWindowController(pretty.OutputMixin):
 
     # pylint: disable=too-many-locals
     def _make_plugin_settings_widget(self, plugin_id: str) -> Gtk.Widget | None:
-        plugin_settings: plugin_support.PluginSettings
-        plugin_settings = plugins.get_plugin_attribute(  # type:ignore
+        plugin_settings: plugin_support.PluginSettings | None
+        plugin_settings = plugins.get_plugin_attribute(
             plugin_id, plugins.PluginAttr.SETTINGS
         )
         if not plugin_settings:

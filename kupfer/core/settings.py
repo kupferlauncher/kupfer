@@ -363,13 +363,15 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         signal = f"value-changed::{section.lower()}.{key.lower()}"
         self.emit(signal, section, key, value)
 
-    def _get_raw_config(self, section: str, key: str) -> str | None:
+    def _get_raw_config(
+        self, section: str, key: str
+    ) -> str | bool | int | float | None:
         """General interface, but section must exist"""
         key = key.lower()
         return self._config[section].get(key)
 
     def _set_raw_config(
-        self, section: str, key: str, value: str | None
+        self, section: str, key: str, value: str | bool | int | float | None
     ) -> bool:
         """General interface, but will create section"""
         self.output_debug("Set", section, key, "to", value)
@@ -381,7 +383,9 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self._update_config_save_timer()
         return False
 
-    def _get_from_defaults(self, section: str, option: str) -> str | None:
+    def _get_from_defaults(
+        self, section: str, option: str
+    ) -> str | bool | int | float | None:
         """Load values from default configuration file."""
         if self._defaults_path is None:
             self.output_error("Defaults not found")
