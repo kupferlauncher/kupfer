@@ -8,6 +8,7 @@ __author__ = "Ulrik, KB"
 
 import os
 import typing as ty
+from gettext import gettext as _
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
@@ -239,6 +240,8 @@ class Edit(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         sett = settings.get_settings_controller()
         editor = sett.get_preferred_alternative("editor")
+        if not editor:
+            return
 
         argv: list[str] = editor["argv"]
         new_argv = list(_replace_argv_filename(argv, (leaf,)))
@@ -253,6 +256,8 @@ class Edit(Action):
     def activate_multiple(self, objects):
         sett = settings.get_settings_controller()
         editor = sett.get_preferred_alternative("editor")
+        if not editor:
+            return
 
         argv: list[str] = editor["argv"]
         if "%f" in argv or len(objects) == 1:

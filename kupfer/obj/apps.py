@@ -49,21 +49,21 @@ class AppLeafContentMixin:
     decorates_item
     """
 
+    _cached_leaf_repr: AppLeaf | None
+
     @classmethod
     def get_leaf_repr(cls) -> AppLeaf | None:
         if not hasattr(cls, "_cached_leaf_repr"):
-            cls._cached_leaf_repr = cls.__get_leaf_repr()  # type: ignore
+            cls._cached_leaf_repr = cls.__get_leaf_repr()
 
-        return cls._cached_leaf_repr  # type: ignore
+        return cls._cached_leaf_repr
 
     @classmethod
-    def __get_appleaf_id_iter(cls) -> tuple[str, ...]:
+    def __get_appleaf_id_iter(cls) -> ty.Iterator[str]:
         if isinstance(cls.appleaf_content_id, str):  # type: ignore
-            ids = (cls.appleaf_content_id,)  # type: ignore
+            yield cls.appleaf_content_id  # type: ignore
         else:
-            ids = tuple(cls.appleaf_content_id)  # type: ignore
-
-        return ids
+            yield from cls.appleaf_content_id  # type: ignore
 
     @classmethod
     def __get_leaf_repr(cls) -> AppLeaf | None:
@@ -234,12 +234,12 @@ class AppLeaf(Leaf):
         # Use Application's description, else use executable
         # for "file-based" applications we show the path
         app_desc = self.object.get_description()
-        ret = app_desc or self.object.get_executable()
+        ret: str = app_desc or self.object.get_executable()
         if self._init_path:
             app_path = launch.get_display_path_for_bytestring(self._init_path)
             return f"({app_path}) {ret}"
 
-        return ret  # type: ignore
+        return ret
 
     def get_gicon(self) -> icons.GIcon | None:
         return self.object.get_icon()

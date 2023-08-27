@@ -149,7 +149,7 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         return cls._instance
 
     def __init__(self):
-        self.register: dict[str, "Wnck.Window"] = {}
+        self.register: dict[str, str] = {}
         self._get_wnck_screen_windows_stacked()
         scheduler.get_scheduler().connect("finish", self._on_finish)
         self._load()
@@ -266,10 +266,10 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         return time() <= timeout
 
     def application_name(self, app_id: str | None) -> str | None:
-        if not self._has_match(app_id):
+        if not app_id:
             return None
 
-        return self.register[app_id]  # type: ignore
+        return self.register.get(app_id)
 
     def application_is_running(self, app_id: str) -> bool:
         for win in self._get_wnck_screen_windows_stacked():
@@ -535,6 +535,9 @@ def spawn_terminal(
 ) -> bool:
     "Raises SpawnError"
     term = settings.get_configured_terminal()
+    if not term:
+        return False
+
     notify = term["startup_notify"]
     app_id = term["desktopid"]
     argv = term["argv"]
@@ -544,6 +547,9 @@ def spawn_terminal(
 def spawn_in_terminal(argv: list[str], workdir: str | None = None) -> bool:
     "Raises SpawnError"
     term = settings.get_configured_terminal()
+    if not term:
+        return False
+
     notify = term["startup_notify"]
     _argv = list(term["argv"])
     if term["exearg"]:
@@ -654,6 +660,7 @@ def _spawn_child(
         envp = ["=".join((k, v)) for k, v in envd.items()]
 
     try:
+        pid: int
         pid, *_fds = GLib.spawn_async(
             argv,
             envp,
@@ -666,7 +673,7 @@ def _spawn_child(
     if pid:
         GLib.child_watch_add(pid, _on_child_exit, (argv, respawn))
 
-    return pid  # type: ignore
+    return pid
 
 
 def start_plugin_helper(

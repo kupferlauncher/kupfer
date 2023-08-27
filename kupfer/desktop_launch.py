@@ -271,6 +271,7 @@ def _info_for_desktop_file(
 
 
 # pylint: disable=too-few-public-methods
+@ty.runtime_checkable
 class LaunchCallback(ty.Protocol):
     def __call__(
         self,
@@ -278,7 +279,7 @@ class LaunchCallback(ty.Protocol):
         pid: int,
         notify_id: int | None,
         filelist: list[str],
-        timestamp: int,
+        timestamp: int | None,
         /,
     ) -> None:
         ...
@@ -289,7 +290,7 @@ def launch_app_info(
     app_info: Gio.AppInfo,
     gfiles: ty.Iterable[Gio.File] | None = None,
     in_terminal: bool | None = None,
-    timestamp: float | None = None,
+    timestamp: int | None = None,
     desktop_file: str | None = None,
     launch_cb: LaunchCallback | None = None,
     screen: Gdk.Screen | None = None,
@@ -346,10 +347,11 @@ def launch_app_info(
 
     if in_terminal:
         term = settings.get_configured_terminal()
-        notify = notify or bool(term["startup_notify"])
+        if term:
+            notify = notify or bool(term["startup_notify"])
 
     for argv, files in launch_records:
-        if in_terminal:
+        if in_terminal and term:
             targv = list(term["argv"])
             if exearg := term["exearg"]:
                 targv.append(exearg)
@@ -396,7 +398,7 @@ def spawn_app(
     filelist: list[ty.Any],
     workdir: str | None = None,
     startup_notify: bool = True,
-    timestamp: float | None = None,
+    timestamp: int | None = None,
     launch_cb: LaunchCallback | None = None,
     screen: Gdk.Screen | None = None,
 ) -> int:
@@ -433,6 +435,7 @@ def spawn_app(
         workdir = "."
 
     argv_ = list(_locale_encode_argv(argv))
+    pid: int
 
     try:
         pid, *_ig = GLib.spawn_async(
@@ -452,9 +455,9 @@ def spawn_app(
         raise SpawnError(exc.message) from exc  # pylint: disable=no-member
 
     if launch_cb:
-        launch_cb(argv, pid, notify_id, filelist, timestamp)  # type: ignore
+        launch_cb(argv, pid, notify_id, filelist, timestamp)
 
-    return pid  # type: ignore
+    return pid
 
 
 def child_setup(add_environ: dict[str, str]) -> None:

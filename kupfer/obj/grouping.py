@@ -107,22 +107,24 @@ class GroupingSource(Source):
 
         for src in self.sources:
             leaves = Source.get_leaves(src, force_update)
-            for leaf in leaves or []:
+            for leaf in leaves or ():
                 try:
                     slots = leaf.slots()  # type: ignore
                 except AttributeError:
                     # Let through Non-grouping leaves
                     non_group_leaves.append(leaf)
                 else:
-                    if not leaf.grouping_slots:  # type: ignore
+                    assert isinstance(leaf, GroupingLeaf)
+
+                    if not leaf.grouping_slots:
                         self.output_error(
                             "GroupingLeaf has no grouping slots", repr(leaf)
                         )
                         continue
 
-                    for slot in leaf.grouping_slots:  # type: ignore
+                    for slot in leaf.grouping_slots:
                         if value := slots.get(slot):
-                            groups[(slot, value)].add(leaf)  # type: ignore
+                            groups[(slot, value)].add(leaf)
 
         return groups, non_group_leaves
 

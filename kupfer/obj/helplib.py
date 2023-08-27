@@ -161,7 +161,7 @@ class FilesystemWatchMixin:
             Gio.FileMonitorEvent.CREATED,
             Gio.FileMonitorEvent.DELETED,
         ) and self.monitor_include_file(file1):
-            self.mark_for_update()  # type: ignore
+            self.mark_for_update()
 
     def _on_file_changed(
         self,
@@ -175,7 +175,10 @@ class FilesystemWatchMixin:
             Gio.FileMonitorEvent.DELETED,
             Gio.FileMonitorEvent.CHANGED,
         ) and self.monitor_include_file(file1):
-            self.mark_for_update()  # type: ignore
+            self.mark_for_update()
+
+    def mark_for_update(self):
+        raise NotImplementedError
 
 
 def reverse_action(

@@ -55,7 +55,8 @@ class SerializedObject:
         if self.version != getattr(obj, _SERIALIZABLE_ATTRIBUTE):
             raise ValueError(f"Version mismatch for reconstructed {obj}")
 
-        return obj  # type: ignore
+        assert isinstance(obj, Leaf)
+        return obj
 
 
 PuID = ty.Union[str, SerializedObject]  # pylint: disable=invalid-name
@@ -131,7 +132,7 @@ def _find_obj_in_catalog(
 
 def resolve_unique_id(
     puid: ty.Any, excluding: AnySource | None = None
-) -> Leaf | None:
+) -> Leaf | Action | None:
     """Resolve unique id @puid.
 
     The caller (if a Source) should pass itself as @excluding,
@@ -166,7 +167,9 @@ def resolve_action_id(
         return None
 
     if isinstance(puid, SerializedObject):
-        return resolve_unique_id(puid)  # type: ignore
+        act = resolve_unique_id(puid)
+        assert act is None or isinstance(act, Action)
+        return act
 
     sctr = get_source_controller()
     if for_item is not None:

@@ -40,7 +40,7 @@ class SSHLeaf(HostLeaf):
         HostLeaf.__init__(self, slots, name)
 
     def get_description(self) -> str:
-        return _("SSH host: %s") % self[HOST_ADDRESS_KEY]  # type: ignore
+        return _("SSH host: %s") % str(self[HOST_ADDRESS_KEY])
 
     def get_gicon(self):
         return icons.ComposedIconSmall(self.get_icon_name(), "terminal")

@@ -7,9 +7,9 @@ see the main program file, and COPYING for details.
 """
 from __future__ import annotations
 
-import builtins
 import time
 import typing as ty
+from gettext import gettext as _
 
 from gi.repository import GdkPixbuf
 
@@ -25,12 +25,6 @@ __all__ = [
     "AnySource",
     "ActionGenerator",
 ]
-
-
-# If no gettext function is loaded at this point, we load a substitute,
-# so that testing code can still work
-if not hasattr(builtins, "_"):
-    builtins._ = _ = str  # type: ignore
 
 
 class KupferObject:
@@ -74,7 +68,7 @@ class KupferObject:
 
     def __repr__(self) -> str:
         if cached := getattr(self, "_cached_repr", None):
-            return cached  # type: ignore
+            return ty.cast(str, cached)
 
         if key := self.repr_key():
             rep = f"<{self.__module__}.{self.__class__.__name__} {key}>"
@@ -146,10 +140,10 @@ class _NonpersistentToken:
 
     __slots__ = ("object",)
 
-    def __init__(self, object_):
+    def __init__(self, object_: Source):
         self.object = object_
 
-    def __bool__(self):
+    def __bool__(self) -> bool:
         return bool(self.object)
 
     def __reduce__(self):
@@ -167,7 +161,7 @@ class Leaf(KupferObject):
         """Represented object @obj and its @name"""
         super().__init__(name)
         self.object = obj
-        self._content_source: ty.Union[_NonpersistentToken, Source, None] = None
+        self._content_source: _NonpersistentToken | None = None
 
     def __hash__(self) -> int:
         return hash(str(self))
@@ -175,9 +169,10 @@ class Leaf(KupferObject):
     def __eq__(self, other: ty.Any) -> bool:
         return type(self) is type(other) and self.object == other.object
 
-    def add_content(self, content: ty.Any) -> None:
+    def add_content(self, content: Source | None) -> None:
         """Register content source @content with Leaf"""
-        self._content_source = content and _NonpersistentToken(content)
+        if content:
+            self._content_source = _NonpersistentToken(content)
 
     def has_content(self) -> bool:
         return bool(self._content_source)
@@ -185,7 +180,10 @@ class Leaf(KupferObject):
     def content_source(self, alternate: bool = False) -> Source | None:
         """Content of leaf. it MAY alter behavior with @alternate,
         as easter egg/extra mode"""
-        return self._content_source and self._content_source.object  # type: ignore
+        if self._content_source:
+            return self._content_source.object
+
+        return None
 
     def get_actions(self) -> ty.Iterable[Action]:
         """Default (builtin) actions for this Leaf"""

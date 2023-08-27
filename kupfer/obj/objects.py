@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import typing as ty
 import zlib
+from gettext import ngettext
 
 
 from kupfer import icons
@@ -41,20 +42,24 @@ class SourceLeaf(Leaf):
         return repr(self.object)
 
     def content_source(self, alternate: bool = False) -> Source:
-        return self.object  # type: ignore
+        assert isinstance(self.object, Source)
+        return self.object
 
     def get_description(self) -> str | None:
-        return self.object.get_description()  # type: ignore
+        assert isinstance(self.object, Source)
+        return self.object.get_description()
 
     @property
     def fallback_icon_name(self) -> str:  # type: ignore
-        return self.object.fallback_icon_name  # type: ignore
+        assert isinstance(self.object, Source)
+        return self.object.fallback_icon_name
 
     def get_gicon(self) -> icons.GIcon | None:
         return self.object.get_gicon()
 
     def get_icon_name(self) -> str:
-        return self.object.get_icon_name()  # type: ignore
+        assert isinstance(self.object, Source)
+        return self.object.get_icon_name()
 
 
 class UrlLeaf(Leaf, TextRepresentation):
@@ -148,7 +153,7 @@ class TextLeaf(Leaf, TextRepresentation):
 
         # TRANS: This is description for a TextLeaf, a free-text search
         # TRANS: The plural parameter is the number of lines %(num)d
-        return ngettext(  # type: ignore
+        return ngettext(
             '"%(text)s"', '(%(num)d lines) "%(text)s"', numlines
         ) % {"num": numlines, "text": desc}
 

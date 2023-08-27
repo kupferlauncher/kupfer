@@ -93,7 +93,8 @@ class FileLeaf(Leaf, TextRepresentation):
 
     def canonical_path(self) -> str:
         """Return the true path of the File (without symlinks)"""
-        return path.realpath(self.object)  # type: ignore
+        assert isinstance(self.object, str)
+        return path.realpath(self.object)
 
     def is_valid(self) -> bool:
         return os.access(self.object, os.R_OK)
@@ -159,9 +160,11 @@ class FileLeaf(Leaf, TextRepresentation):
         return "text-x-generic"
 
     def get_content_type(self) -> str | None:
+        ret: str
+        uncertain: bool
         ret, uncertain = Gio.content_type_guess(self.object, None)
         if not uncertain:
-            return ret  # type: ignore
+            return ret
 
         content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
         gfile = self.get_gfile()
@@ -169,17 +172,17 @@ class FileLeaf(Leaf, TextRepresentation):
             return None
 
         info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
-        content_type = info.get_attribute_string(content_attr)
-        return content_type  # type: ignore
+        content_type: str = info.get_attribute_string(content_attr)
+        return content_type
 
     def is_content_type(self, ctype: str) -> bool:
         """Return True if this file is of the type `ctype` mime type, can have
         wildcards like 'image/*'."""
         predicate = Gio.content_type_is_a
         ctype_guess, uncertain = Gio.content_type_guess(self.object, None)
-        ret = predicate(ctype_guess, ctype)
+        ret: bool = predicate(ctype_guess, ctype)
         if ret or not uncertain:
-            return ret  # type: ignore
+            return ret
 
         content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
         gfile = self.get_gfile()

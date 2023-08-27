@@ -49,14 +49,18 @@ class FavoritesSource(Source):
         if itm is None:
             return None
 
+        assert isinstance(itm, Leaf)
+
         # ignore invalid objects
         if hasattr(itm, "is_valid") and not itm.is_valid():
             return None
 
         if puid.is_reference(id_):
-            self.reference_table[id_] = itm  # type: ignore
+            assert isinstance(id_, str)
+            self.reference_table[id_] = itm
         else:
-            self.persist_table[id_] = itm  # type: ignore
+            assert isinstance(id_, puid.SerializedObject)
+            self.persist_table[id_] = itm
 
         return itm
 
@@ -79,12 +83,14 @@ class FavoritesSource(Source):
         # insert items on beginning to make last added items first on list
         favorites: list[Leaf] = []
         for id_ in self.references:
-            if leaf := self.persist_table.get(id_):  # type: ignore
+            if isinstance(id_, puid.SerializedObject) and (
+                leaf := self.persist_table.get(id_)
+            ):
                 # id_ is in persist_table so is SerializedObject
                 favorites.insert(0, leaf)
                 continue
 
-            if leaf := self.reference_table.get(id_):  # type: ignore
+            if isinstance(id_, str) and (leaf := self.reference_table.get(id_)):
                 # id_ is in reference_table, so is reference, so it's str
                 favorites.insert(0, leaf)
                 continue

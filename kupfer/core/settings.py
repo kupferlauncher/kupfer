@@ -20,7 +20,9 @@ Config = dict[str, dict[str, ty.Any]]
 class ExtendedSetting(ty.Protocol):
     """Protocol that define non-simple configuration option"""
 
-    def load(self, plugin_id: str, key: str, config_value: str | None) -> None:
+    def load(
+        self, plugin_id: str, key: str, config_value: str | float | int | None
+    ) -> None:
         """load value for @plugin_id and @key, @config_value is value
         stored in regular Kupfer config for plugin/key"""
 
@@ -581,9 +583,10 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
                 return strbool(val)
 
             if value_type is list:
-                return strlist(val)
+                return strlist(val)  # type: ignore
 
             return value_type(val)  # type: ignore
+
         except ValueError as err:
             self.output_info(
                 f"Error for stored value {plug_section}.{key}", err
@@ -625,10 +628,10 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def reset_keybindings(self) -> None:
         if key := self._get_from_defaults("Kupfer", "keybinding"):
-            self.set_keybinding(key)
+            self.set_keybinding(str(key))
 
         if key := self._get_from_defaults("Kupfer", "magickeybinding"):
-            self.set_magic_keybinding(key)
+            self.set_magic_keybinding(str(key))
 
     def reset_accelerators(self) -> None:
         for key, value in self._get_from_defaults_section("Keybindings") or ():
@@ -663,15 +666,18 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def get_all_alternatives(self, category_key: str) -> ty.Any:
         return self._alternatives[category_key]
 
-    def get_preferred_alternative(self, category_key: str) -> dict[str, ty.Any]:
+    def get_preferred_alternative(
+        self, category_key: str
+    ) -> dict[str, ty.Any] | None:
         """Get preferred alternative dict for @category_key."""
         tool_id = self.get_preferred_tool(category_key)
         alternatives = self._alternatives[category_key]
         if alt := alternatives.get(tool_id):
-            return alt  # type: ignore
+            assert not alt or isinstance(alt, dict)
+            return alt
 
         self.output_debug("Warning, no configuration for", category_key)
-        return next(iter(alternatives.values()), None)  # type: ignore
+        return next(iter(alternatives.values()), None)
 
     def update_alternatives(
         self,
@@ -737,7 +743,7 @@ def is_known_terminal_executable(exearg: str) -> bool:
     return False
 
 
-def get_configured_terminal() -> dict[str, ty.Any]:
+def get_configured_terminal() -> dict[str, ty.Any] | None:
     """Return the configured Terminal object"""
     setctl = get_settings_controller()
     return setctl.get_preferred_alternative("terminal")

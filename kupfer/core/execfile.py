@@ -60,7 +60,7 @@ def parse_kfcom_file(filepath: str) -> tuple[ty.Any, ...]:
         )
 
     try:
-        return tuple(command_object.object)
+        return tuple(command_object.object)  # type: ignore
     except (AttributeError, TypeError) as exe:
         raise ExecutionError(
             f'"{os.path.basename(filepath)}" is not a saved command'

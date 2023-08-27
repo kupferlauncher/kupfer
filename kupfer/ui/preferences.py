@@ -752,8 +752,10 @@ class PreferencesWindowController(pretty.OutputMixin):
     def _get_plugin_id(self, path: str | Gtk.TreePath) -> str:
         """Find plugin id by tree `path`."""
         pathit = self._plugins_store.get_iter(path)
-        plugin_id = self._plugins_store.get_value(pathit, self._col_plugin_id)
-        return plugin_id  # type: ignore
+        plugin_id: str = self._plugins_store.get_value(
+            pathit, self._col_plugin_id
+        )
+        return plugin_id
 
     def _table_path_for_plugin_id(self, plugin_id: str) -> Gtk.TreePath:
         """Find the tree path of @plugin_id"""

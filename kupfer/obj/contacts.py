@@ -73,8 +73,8 @@ class ContactLeaf(GroupingLeaf):
     def get_icon_name(self) -> str:
         return "stock_person"
 
-    def get_text_representation(self) -> str:
-        return self.get_description()  # type: ignore
+    def get_text_representation(self) -> str | None:
+        return self.get_description()
 
     def get_thumbnail(self, width: int, height: int) -> GdkPixbuf.Pixbuf | None:
         if self.image:

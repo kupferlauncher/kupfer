@@ -82,6 +82,7 @@ class ComposedLeaf(objects.RunnableLeaf):
         vars(self).update(state)
         objid, actid, iobjid = state["object"]
         obj = puid.resolve_unique_id(objid)
+        assert isinstance(obj, Leaf)
         act = puid.resolve_action_id(actid, obj)
         iobj = puid.resolve_unique_id(iobjid)
         if (not obj or not act) or (iobj is None) != (iobjid is None):

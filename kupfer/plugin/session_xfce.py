@@ -88,7 +88,8 @@ def _load_whisher_favs() -> ty.Iterator[Leaf]:
         if itm := puid.resolve_unique_id(id_):
             # ignore invalid objects
             if not hasattr(itm, "is_valid") or itm.is_valid():
-                yield itm
+                if isinstance(itm, Leaf):
+                    yield itm
 
 
 class XfceWhskerFavoritesSource(Source):

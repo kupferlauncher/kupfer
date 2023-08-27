@@ -484,10 +484,10 @@ class SourceController(pretty.OutputMixin):
             if not action.name.endswith(plugin_suffix):
                 action.name += plugin_suffix
 
-    def __contains__(self, src: AnySource) -> bool:
+    def __contains__(self, src: Source) -> bool:
         return src in self._sources
 
-    def __getitem__(self, src: AnySource) -> AnySource:
+    def __getitem__(self, src: Source) -> Source:
         for source in self._sources:
             if source == src:
                 return source
@@ -563,14 +563,17 @@ class SourceController(pretty.OutputMixin):
 
         return MultiSource(firstlevel)
 
-    def get_canonical_source(self, source: AnySource) -> AnySource:
+    def get_canonical_source(self, src: AnySource) -> AnySource:
         """Return the canonical instance for @source"""
         # check if we already have source, then return that
+        if not isinstance(src, Source):
+            return src
+
         try:
-            return self[source]
+            return self[src]
         except KeyError:
-            source.initialize()
-            return source
+            src.initialize()
+            return src
 
     def get_contents_for_leaf(
         self, leaf: Leaf, types: tuple[ty.Any, ...] | None = None
@@ -612,13 +615,19 @@ class SourceController(pretty.OutputMixin):
         if hasattr(obj, "has_content") and not obj.has_content():
             types = tuple(action.object_types()) if action else ()
             contents = tuple(self.get_contents_for_leaf(obj, types))
-            if len(contents) <= 1:
-                obj.add_content(contents[0] if contents else None)
-                return
 
-            obj.add_content(
-                SourcesSource(contents, name=str(obj), use_reprs=False)  # type: ignore
-            )
+            if not contents:
+                obj.add_content(None)
+            elif len(contents) == 1:
+                assert isinstance(contents[0], Source)
+                obj.add_content(contents[0])
+            else:
+                assert isinstance(contents[0], Source)
+                obj.add_content(
+                    SourcesSource(
+                        contents, name=str(obj), use_reprs=False  # type: ignore
+                    )
+                )
 
     def finalize(self) -> None:
         """Finalize all sources, equivalent to deactivating all sources"""

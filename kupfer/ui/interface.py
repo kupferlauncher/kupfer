@@ -35,6 +35,7 @@ AccelFunc = ty.Callable[[], ty.Any]
 
 
 # pylint: disable=too-few-public-methods
+@ty.runtime_checkable
 class KeyCallback(ty.Protocol):
     """Key press callback interface."""
 
@@ -899,10 +900,13 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         index: index (0, 1, or 2) of the pane to select.
         """
+        order: tuple[LeafSearch, ActionSearch, LeafSearch] | tuple[
+            LeafSearch, ActionSearch
+        ]
         if self._pane_three_is_visible:
             order = (self.search, self.action, self.third)
         else:
-            order = (self.search, self.action)  # type: ignore
+            order = (self.search, self.action)
 
         if not (0 <= index <= len(order)):
             return False

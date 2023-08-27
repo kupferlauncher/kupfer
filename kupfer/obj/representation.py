@@ -18,7 +18,8 @@ class TextRepresentation(metaclass=abc.ABCMeta):
     def get_text_representation(self) -> str:
         """The default implementation returns the represented object"""
         # pylint: disable=no-member
-        return str(self.object)  # type: ignore
+        assert hasattr(self, "object")
+        return str(self.object)
 
 
 # pylint: disable=too-few-public-methods
