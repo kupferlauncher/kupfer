@@ -15,12 +15,16 @@ kupfer v323-beta2
 + Fix:
 
   + Fix "mark as default" action broken in beta1. Close: #170
+  + Add some missing icons (stock_person, stock_mail)
+  + Strip whitespaces from url-s when calling "show url"
 
 + Plugins:
 
   + Updated:
 
-    - *ssh_hosts": load and use host name from ssh .config file.
+    - *ssh_hosts": load and use host name from ssh .config file; update
+      icons
+    - *libvirt": fix icons
 
 + Dev:
 
