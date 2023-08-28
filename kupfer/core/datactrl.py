@@ -500,7 +500,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 self.select(pane, None)
 
             if self._has_object_stack(pane):
-                new_stack = list(map(valid_check, panectl.object_stack))
+                new_stack = list(filter(valid_check, panectl.object_stack))
                 if new_stack != panectl.object_stack:
                     self._set_object_stack(pane, new_stack)
 
