@@ -15,13 +15,11 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import http.client
+from gettext import gettext as _
 
 from kupfer import launch
 from kupfer.obj import Action, FileLeaf, UrlLeaf
 from kupfer.support import fileutils, task
-
-if ty.TYPE_CHECKING:
-    from gettext import gettext as _
 
 
 def get_dest_name(response: http.client.HTTPResponse) -> str:
@@ -30,14 +28,18 @@ def get_dest_name(response: http.client.HTTPResponse) -> str:
     # try get filename from content-disposition header
     content_disp = headers.get("Content-Disposition", "")
     for part in content_disp.split(";"):
-        if part.strip().lower().startswith("filename="):
-            return part.split("=", 1)[-1]
+        key, _sep, val = part.strip().partition("=")
+        if key.lower() == "filename":
+            return val
 
+    name = "index"
     # try get filename from url
-    url: str = response.url  # type: ignore
-    name = os.path.basename(url.rstrip("/"))
-    if os.path.splitext(name)[1]:
-        return name
+    url = urllib.parse.urlparse(response.url)  # type: ignore
+    if url.path not in ("", "/"):
+        name = os.path.basename(url.path.rstrip("/"))
+        # if name have extension - return it
+        if os.path.splitext(name)[1]:
+            return name
 
     # if name not contain extension, try guess it from content-type.
     # only basic types
@@ -106,12 +108,11 @@ class DownloadAndOpen(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         assert ctx
 
-        uri = leaf.object
-
         def finish_action(filename):
             launch.show_path(filename)
             ctx.register_late_result(FileLeaf(filename), show=False)
 
+        uri = leaf.object
         return DownloadTask(uri, None, True, finish_action)
 
     def item_types(self):
@@ -135,11 +136,10 @@ class DownloadTo(Action):
         assert ctx
         assert iobj
 
-        uri = leaf.object
-
         def finish_action(filename):
             ctx.register_late_result(FileLeaf(filename))
 
+        uri = leaf.object
         return DownloadTask(uri, iobj.object, False, finish_action)
 
     def item_types(self):
