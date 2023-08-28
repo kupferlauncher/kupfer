@@ -24,6 +24,7 @@ __all__ = [
     "TextSource",
     "AnySource",
     "ActionGenerator",
+    "_NonpersistentToken",
 ]
 
 
@@ -135,13 +136,16 @@ class KupferObject:
         return self.fallback_icon_name
 
 
-class _NonpersistentToken:
+T = ty.TypeVar("T")
+
+
+class _NonpersistentToken(ty.Generic[T]):
     """Hold data that goes None when pickled."""
 
     __slots__ = ("object",)
 
-    def __init__(self, object_: Source):
-        self.object = object_
+    def __init__(self, object_: T) -> None:
+        self.object: T = object_
 
     def __bool__(self) -> bool:
         return bool(self.object)
@@ -161,7 +165,7 @@ class Leaf(KupferObject):
         """Represented object @obj and its @name"""
         super().__init__(name)
         self.object = obj
-        self._content_source: _NonpersistentToken | None = None
+        self._content_source: _NonpersistentToken[Source] | None = None
 
     def __hash__(self) -> int:
         return hash(str(self))
