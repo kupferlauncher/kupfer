@@ -20,13 +20,11 @@ import tarfile
 import typing as ty
 import zipfile
 from pathlib import Path
+from gettext import gettext as _
 
 from kupfer.obj import FileLeaf, Leaf, Source
 from kupfer.obj.filesrc import DirectorySource
 from kupfer.support import pretty, scheduler
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 # Limit this to archives of a couple of megabytes
 MAX_ARCHIVE_BYTE_SIZE = 15 * 1024**2
@@ -47,14 +45,13 @@ def _is_safe_to_unarchive(path: str) -> bool:
     return not os.path.isabs(npth) and not npth.startswith(os.path.pardir)
 
 
-# pylint: disable=too-few-public-methods
-class _Extractor:
-    def __init__(self):
-        self.extensions: list[str] = []
-        self.predicate: ty.Callable[[str], bool] = None  # type: ignore
+@ty.runtime_checkable
+class _Extractor(ty.Protocol):
+    extensions: ty.Collection[str]
+    predicate: ty.Callable[[str], bool] | None
 
     def __call__(self, src: str, dst: str) -> None:
-        pass
+        ...
 
 
 class ArchiveContent(Source):
@@ -62,7 +59,7 @@ class ArchiveContent(Source):
     unarchived_files: list[str] = []
     end_timer = scheduler.Timer(True)
 
-    def __init__(self, fileleaf, unarchive_func):
+    def __init__(self, fileleaf: FileLeaf, unarchive_func: _Extractor) -> None:
         Source.__init__(self, _("Content of %s") % fileleaf)
         self.path = fileleaf.object
         self.unarchiver = unarchive_func
@@ -90,7 +87,7 @@ class ArchiveContent(Source):
 
         return files
 
-    def get_description(self):
+    def get_description(self) -> str | None:
         return None
 
     @classmethod
@@ -98,10 +95,11 @@ class ArchiveContent(Source):
         return FileLeaf
 
     @classmethod
-    def decorate_item(cls, leaf):
+    def decorate_item(cls, leaf: FileLeaf) -> ArchiveContent | None:
         basename = os.path.basename(leaf.object).lower()
         for extractor in cls.extractors:
             if any(basename.endswith(ext) for ext in extractor.extensions):
+                assert extractor.predicate
                 if Path(leaf.object).is_file() and extractor.predicate(
                     leaf.object
                 ):
@@ -110,7 +108,9 @@ class ArchiveContent(Source):
         return None
 
     @classmethod
-    def _source_for_path(cls, leaf, extractor):
+    def _source_for_path(
+        cls, leaf: FileLeaf, extractor: _Extractor
+    ) -> ArchiveContent | None:
         byte_size = os.stat(leaf.object).st_size
         if byte_size < MAX_ARCHIVE_BYTE_SIZE:
             return cls(leaf, extractor)
@@ -118,29 +118,31 @@ class ArchiveContent(Source):
         return None
 
     @classmethod
-    def clean_up_unarchived_files(cls):
+    def clean_up_unarchived_files(cls) -> None:
         if not cls.unarchived_files:
             return
+
+        def clean_up_error_handler(cls, func, path, exc_info):
+            pretty.print_error(__name__, f"Error in {func} deleting {path}:")
+            pretty.print_error(__name__, exc_info)
 
         pretty.print_info(__name__, "Removing extracted archives..")
         for filetree in set(cls.unarchived_files):
             pretty.print_debug(__name__, "Removing", os.path.basename(filetree))
-            shutil.rmtree(filetree, onerror=cls._clean_up_error_handler)
+            shutil.rmtree(filetree, onerror=clean_up_error_handler)  # type: ignore
 
         cls.unarchived_files = []
 
     @classmethod
-    def _clean_up_error_handler(cls, func, path, exc_info):
-        pretty.print_error(__name__, f"Error in {func} deleting {path}:")
-        pretty.print_error(__name__, exc_info)
-
-    @classmethod
-    def extractor(cls, extensions, predicate):
-        def decorator(func):
-            func.extensions = extensions
-            func.predicate = predicate
-            cls.extractors.append(func)
-            return func
+    def extractor(
+        cls, extensions: ty.Collection[str], predicate: ty.Callable[[str], bool]
+    ) -> ty.Callable[[ty.Callable[[str, str], None]], _Extractor]:
+        def decorator(func: ty.Callable[[str, str], None]) -> _Extractor:
+            extr = ty.cast(_Extractor, func)
+            extr.extensions = extensions
+            extr.predicate = predicate
+            cls.extractors.append(extr)
+            return extr
 
         return decorator
 
@@ -148,7 +150,7 @@ class ArchiveContent(Source):
 @ArchiveContent.extractor(
     (".tar", ".tar.gz", ".tgz", ".tar.bz2"), tarfile.is_tarfile
 )
-def extract_tarfile(filepath, destpath):
+def extract_tarfile(filepath: str, destpath: str) -> None:
     with tarfile.TarFile.open(filepath, "r") as zfile:
         try:
             for member in zfile.getnames():
@@ -162,7 +164,7 @@ def extract_tarfile(filepath, destpath):
 
 # ZipFile only supports extractall since Python 2.6
 @ArchiveContent.extractor((".zip",), zipfile.is_zipfile)
-def extract_zipfile(filepath, destpath):
+def extract_zipfile(filepath: str, destpath: str) -> None:
     with zipfile.ZipFile(filepath, "r") as zfile:
         try:
             for member in zfile.namelist():
