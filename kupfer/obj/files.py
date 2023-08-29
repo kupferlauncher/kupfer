@@ -191,7 +191,8 @@ class FileLeaf(Leaf, TextRepresentation):
 
         info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
         content_type = info.get_attribute_string(content_attr)
-        return predicate(content_type, ctype)  # type: ignore
+        ret = predicate(content_type, ctype)
+        return ret
 
     def _is_good_executable(self):
         if not self.is_executable():

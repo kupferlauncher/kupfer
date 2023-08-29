@@ -134,7 +134,7 @@ class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name
             ...
     """
 
-    cache_current_value: RT | None
+    cache_current_value: RT
     cache_current_args: ty.Any
     cache_hit: int
     cache_miss: int
@@ -149,7 +149,7 @@ class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name
     def __call__(self, *args: ty.Any, **kwargs: ty.Any) -> RT:
         if self.cache_current_args == (args, kwargs):
             self.cache_hit += 1
-            return self.cache_current_value  # type: ignore
+            return self.cache_current_value
 
         result = self.func(*args, **kwargs)
 
@@ -161,7 +161,7 @@ class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name
 
     def cache_clear(self) -> None:
         """Clear cache and stats."""
-        self.cache_current_value = None
+        self.cache_current_value = None  # type: ignore
         self.cache_current_args = None
         self.cache_hit = 0
         self.cache_miss = 0

@@ -60,10 +60,11 @@ class AppLeafContentMixin:
 
     @classmethod
     def __get_appleaf_id_iter(cls) -> ty.Iterator[str]:
-        if isinstance(cls.appleaf_content_id, str):  # type: ignore
-            yield cls.appleaf_content_id  # type: ignore
+        assert hasattr(cls, "appleaf_content_id")
+        if isinstance(cls.appleaf_content_id, str):
+            yield cls.appleaf_content_id
         else:
-            yield from cls.appleaf_content_id  # type: ignore
+            yield from cls.appleaf_content_id
 
     @classmethod
     def __get_leaf_repr(cls) -> AppLeaf | None:

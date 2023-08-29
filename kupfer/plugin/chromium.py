@@ -11,7 +11,7 @@ from kupfer import config
 from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.plugin import chromium_support
-from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
 
 if ty.TYPE_CHECKING:
     _ = str
@@ -34,12 +34,12 @@ class BookmarksSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     source_scan_interval: int = 3600
 
     def __init__(self) -> None:
-        self.monitor_token = None
+        self.monitor_token: FileMonitorToken | None = None
         super().__init__(_("Chromium Bookmarks"))
 
     def initialize(self) -> None:
         if fpath := _get_chrome_conf_filepath():
-            self.monitor_token = self.monitor_directories(fpath)  # type: ignore
+            self.monitor_token = self.monitor_directories(fpath)
 
     def monitor_include_file(self, gfile):
         return gfile and gfile.get_basename() == "lock"

@@ -91,20 +91,24 @@ def save_data_file(filename: str) -> str | None:
 
 def get_data_home() -> str:
     """Directory where data is to be saved. Guaranteed to exist."""
-    return base.save_data_path(PACKAGE_NAME)  # type: ignore
+    return ty.cast(str, base.save_data_path(PACKAGE_NAME))
 
 
 def get_data_dirs(
     name: str = "", package: str = PACKAGE_NAME
 ) -> ty.Iterable[str]:
     """Iterate over all data dirs of @name that exist."""
-    return base.load_data_paths(os.path.join(package, name))  # type: ignore
+    return ty.cast(
+        ty.Iterable[str], base.load_data_paths(os.path.join(package, name))
+    )
 
 
 def get_config_file(filename: str, package: str = PACKAGE_NAME) -> str | None:
     """Return path to @package/@filename if it exists anywhere in the config
     paths, else return None"""
-    return base.load_first_config(package, filename)  # type: ignore
+    return ty.cast(
+        ty.Union[str, None], base.load_first_config(package, filename)
+    )
 
 
 def get_config_files(filename: str) -> ty.Iterable[str]:

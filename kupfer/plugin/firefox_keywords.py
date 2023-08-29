@@ -8,8 +8,8 @@ __description__ = _("Search the web with Firefox keywords")
 __version__ = "2020.1"
 __author__ = ""
 
-import typing as ty
 from urllib.parse import quote, urlparse
+from gettext import gettext as _
 
 from kupfer import launch, plugin_support
 from kupfer.obj import (
@@ -40,9 +40,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "helper": "choose_directory",
     },
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 def _url_domain(text: str) -> str:
@@ -86,7 +83,7 @@ class KeywordsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
     appleaf_content_id = ("firefox", "firefox-esr")
     source_scan_interval: int = 3600
 
-    instance: KeywordsSource = None  # type: ignore
+    instance: KeywordsSource | None = None
 
     def __init__(self):
         self.monitor_token = None
@@ -99,7 +96,7 @@ class KeywordsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
             self.monitor_token = self.monitor_directories(str(ff_home))
 
     def finalize(self):
-        KeywordsSource.instance = None  # type: ignore
+        KeywordsSource.instance = None
 
     def monitor_include_file(self, gfile):
         return gfile and gfile.get_basename() == "lock"
@@ -225,6 +222,7 @@ class KeywordSearchSource(TextSource):
             return
 
         query = parts[1] if len(parts) > 1 else ""
+        assert KeywordsSource.instance
         for keyword in KeywordsSource.instance.get_leaves():
             assert isinstance(keyword, Keyword)
             if keyword.is_search and keyword.keyword == parts[0]:
@@ -251,6 +249,8 @@ class KeywordSearchSource(TextSource):
 
 
 class SearchWithKeyword(RunnableLeaf):
+    object: tuple[Keyword, str]
+
     def __init__(self, keyword: Keyword, text: str):
         super().__init__((keyword, text), _('Search for "%s"') % (text,))
 
@@ -260,11 +260,11 @@ class SearchWithKeyword(RunnableLeaf):
 
     @property
     def keyword_leaf(self) -> Keyword:
-        return self.object[0]  # type: ignore
+        return self.object[0]
 
     @property
     def query(self) -> str:
-        return self.object[1]  # type: ignore
+        return self.object[1]
 
     def get_icon_name(self):
         return "web-browser"

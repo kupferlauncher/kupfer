@@ -114,7 +114,7 @@ class Learning:
 #   map repr(action) -> (repr(leaf),last usage timestamp)
 # other keys keeps Mnemonics
 _REGISTER: dict[
-    str, ty.Union[Mnemonics, dict[str, str] | dict[str, tuple[str, int]]]
+    str, Mnemonics | dict[str, str] | dict[str, tuple[str, int]]
 ] = {}
 
 
@@ -230,7 +230,7 @@ def _prune_register(goalitems: int = 500) -> None:
     """
 
     # get all items sorted by last used time
-    items = sorted(
+    items: list[tuple[int, str, Mnemonics]] = sorted(
         (mne.last_ts_used, leaf, mne)  # type: ignore
         for leaf, mne in _REGISTER.items()
         if leaf not in (_CORRELATION_KEY, _ACTIVATIONS_KEY)
@@ -238,7 +238,7 @@ def _prune_register(goalitems: int = 500) -> None:
     to_del = []
     to_del_cnt = len(items) - goalitems
     for _ts, leaf, mne in items:
-        mne.decrement()  # type: ignore
+        mne.decrement()
         if not mne:
             to_del.append(leaf)
             to_del_cnt -= 1
@@ -264,7 +264,12 @@ def _prune_register(goalitems: int = 500) -> None:
 
     chance = min(0.1, len(_REGISTER) * alpha)
     to_del = []
-    for leaf, mne in _REGISTER.items():
+    mnemonics: ty.Iterable[tuple[str, Mnemonics]] = (
+        (leaf, mne)  # type: ignore
+        for leaf, mne in _REGISTER.items()
+        if leaf not in (_CORRELATION_KEY, _ACTIVATIONS_KEY)
+    )
+    for leaf, mne in mnemonics:
         if (
             leaf not in (_CORRELATION_KEY, _ACTIVATIONS_KEY)
             and rand() <= chance

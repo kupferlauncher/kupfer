@@ -53,7 +53,7 @@ class GroupingLeaf(Leaf):
         self.links = [self]
 
     def slots(self) -> Slots:
-        return self.object  # type: ignore
+        return ty.cast(Slots, self.object)
 
     def has_content(self) -> bool:
         return len(self.links) > 1

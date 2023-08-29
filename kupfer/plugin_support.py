@@ -114,11 +114,11 @@ class PluginSettings(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def get_value_type(self, key: str) -> ty.Type[ty.Any]:
         """Return type of setting @key"""
-        return self.setting_descriptions[key]["type"]  # type: ignore
+        return ty.cast(ty.Type[ty.Any], self.setting_descriptions[key]["type"])
 
     def get_label(self, key: str) -> str:
         """Return label for setting @key"""
-        return self.setting_descriptions[key]["label"]  # type: ignore
+        return ty.cast(str, self.setting_descriptions[key]["label"])
 
     def get_alternatives(self, key: str) -> ty.Iterable[ty.Any] | None:
         """Return alternatives for setting @key (if any)"""

@@ -161,6 +161,7 @@ class FilesystemWatchMixin:
             Gio.FileMonitorEvent.CREATED,
             Gio.FileMonitorEvent.DELETED,
         ) and self.monitor_include_file(file1):
+            assert hasattr(self, "mark_for_update")
             self.mark_for_update()
 
     def _on_file_changed(
@@ -175,10 +176,8 @@ class FilesystemWatchMixin:
             Gio.FileMonitorEvent.DELETED,
             Gio.FileMonitorEvent.CHANGED,
         ) and self.monitor_include_file(file1):
+            assert hasattr(self, "mark_for_update")
             self.mark_for_update()
-
-    def mark_for_update(self):
-        raise NotImplementedError
 
 
 def reverse_action(
@@ -234,13 +233,3 @@ def reverse_action(
 
     ReverseAction.__name__ = "Reverse" + action.__name__
     return ReverseAction
-
-
-def _representable_fname(fname: str) -> bool:
-    "Return False if fname contains surrogate escapes"
-    # all string are utf so this is unnecessary
-    try:
-        fname.encode("utf-8")
-        return True
-    except UnicodeEncodeError:
-        return False

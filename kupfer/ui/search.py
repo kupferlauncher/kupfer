@@ -265,11 +265,11 @@ class MatchViewOwner(pretty.OutputMixin):
     """Owner of the widget for displaying name, icon and name underlining (if
     applicable) of the current match."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         # object attributes
         self._match_state: State = State.WAIT
 
-        self.object_stack = []
+        self.object_stack: list[Leaf] = []
 
         # finally build widget
         self._build_widget()

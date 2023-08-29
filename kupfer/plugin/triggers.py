@@ -10,6 +10,8 @@ __description__ = _(
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+from gettext import gettext as _
+
 from gi.repository import GLib, Gtk
 
 from kupfer import plugin_support, puid
@@ -42,7 +44,7 @@ class Trigger(RunnableLeaf):
 
 
 class Triggers(Source):
-    instance: Triggers = None  # type: ignore
+    instance: Triggers | None = None
 
     def __init__(self):
         Source.__init__(self, _("Triggers"))
@@ -112,11 +114,13 @@ class Triggers(Source):
 
     @classmethod
     def add_trigger(cls, leaf, keystr):
+        assert cls.instance
         # pylint: disable=protected-access
         cls.instance._add_trigger(leaf, keystr)
 
     @classmethod
     def remove_trigger(cls, target):
+        assert cls.instance
         # pylint: disable=protected-access
         cls.instance._remove_trigger(target)
 

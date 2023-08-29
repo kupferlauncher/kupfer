@@ -124,7 +124,7 @@ def _get_domain_metadata(domain, key):
 class _ConnManager(pretty.OutputMixin):
     """Libvirt connection manager. Only for read-only connections."""
 
-    _instance: _ConnManager = None  # type: ignore
+    _instance: _ConnManager | None = None
 
     @classmethod
     def instance(cls) -> _ConnManager:
@@ -181,7 +181,7 @@ class LibvirtDomainsSource(AppLeafContentMixin, Source):
 
     def __init__(self, name=_("Libvirt domains")):
         Source.__init__(self, name)
-        self.cmgr: _ConnManager = None  # type: ignore
+        self.cmgr: _ConnManager | None = None
 
     def initialize(self):
         # prevent logging errors from libvirt
@@ -191,8 +191,9 @@ class LibvirtDomainsSource(AppLeafContentMixin, Source):
             conn.domainEventRegister(self._callback, None)
 
     def finalize(self):
-        self.cmgr.close()
-        self.cmgr = None  # type: ignore
+        if self.cmgr:
+            self.cmgr.close()
+            self.cmgr = None
 
     def _callback(self, _conn, dom, event, detail, _opaque):
         pretty.print_debug(
@@ -201,6 +202,7 @@ class LibvirtDomainsSource(AppLeafContentMixin, Source):
         self.mark_for_update()
 
     def get_items(self):
+        assert self.cmgr
         conn = self.cmgr.get_conn()
         if not conn:
             return

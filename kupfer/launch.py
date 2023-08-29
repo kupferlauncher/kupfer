@@ -717,8 +717,11 @@ def show_url(url: str) -> bool:
 
     try:
         pretty.print_debug(__name__, "show_url", url)
-        return Gtk.show_uri(  # type: ignore
-            Gdk.Screen.get_default(), url, Gtk.get_current_event_time()
+        return ty.cast(
+            bool,
+            Gtk.show_uri(
+                Gdk.Screen.get_default(), url, Gtk.get_current_event_time()
+            ),
         )
     except GLib.GError as exc:
         pretty.print_error(__name__, "Gtk.show_uri:", exc)

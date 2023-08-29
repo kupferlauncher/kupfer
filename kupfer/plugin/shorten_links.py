@@ -6,6 +6,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
 import urllib.parse
 import urllib.request
+from gettext import gettext as _
 
 from kupfer.obj import Action, Leaf, OperationError, Source, UrlLeaf
 from kupfer.support import pretty
@@ -22,8 +23,8 @@ class _ShortLinksService(Leaf):
 class _GETService(_ShortLinksService, pretty.OutputMixin):
     """A unified shortener service working with GET requests"""
 
-    host: str = None  # type: ignore
-    path: str = None  # type: ignore
+    host: str
+    path: str
     url_key = "url"
     use_https = False
 
@@ -39,8 +40,8 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
                         f"Invalid response {resp.status}, {resp.reason}"
                     )
 
-                result = resp.read()
-                return result.strip().decode("utf-8")  # type: ignore
+                result: bytes = resp.read()
+                return result.strip().decode("utf-8")
 
         except (OSError, ValueError) as exc:
             raise ValueError(exc) from exc

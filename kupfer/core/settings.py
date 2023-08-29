@@ -52,8 +52,8 @@ PlugConfigValueType = ty.Union[ty.Any, ValueConverter]
 
 def strbool(value: ty.Any, default: bool = False) -> bool:
     """Coerce bool from string value or bool"""
-    if value in (True, False):
-        return value  # type: ignore
+    if isinstance(value, bool):
+        return value
 
     value = str(value).lower()
     if value in ("no", "false"):

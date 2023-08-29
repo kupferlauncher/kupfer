@@ -585,6 +585,7 @@ class SourceController(pretty.OutputMixin):
                 continue
 
             for content in val:
+                dsrc = None
                 with pluginload.exception_guard(
                     content, self._remove_source, content, is_decorator=True
                 ):
@@ -711,7 +712,7 @@ class SourceController(pretty.OutputMixin):
             self._toplevel_sources.discard(source)
             source_type = type(source)
         else:
-            source_type = source  # type: ignore
+            source_type = ty.cast(ty.Type[Source], source)
 
         for cdv in self._content_decorators.values():
             cdv.discard(source_type)

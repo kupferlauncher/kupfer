@@ -47,8 +47,9 @@ def _find_desktop_file(desk_id: str) -> str:
         raise ResourceLookupError("Empty id")
 
     try:
-        return next(  # type: ignore
-            xdg.BaseDirectory.load_data_paths("applications", desk_id)
+        return ty.cast(
+            str,
+            next(xdg.BaseDirectory.load_data_paths("applications", desk_id)),
         )
     except StopIteration:
         ## it was not found as an immediate child of the data paths,
@@ -117,7 +118,10 @@ def _app_to_desktop_info(app_info: Gio.AppInfo) -> dict[str, str | bool]:
 
 
 def _get_file_path(gfile: Gio.File) -> str:
-    return (gfile.get_path() or gfile.get_uri()) if gfile else ""  # type: ignore
+    if gfile:
+        return ty.cast(str, gfile.get_path() or gfile.get_uri())
+
+    return ""
 
 
 @dataclass
@@ -315,7 +319,9 @@ def launch_app_info(
         desktop_file = ""
         desktop_info = _app_to_desktop_info(app_info)
         # in this case, the command line is already primarily escaped
-        argv = desktop_parse.parse_argv(desktop_info["Exec"])  # type: ignore
+        desktop_exe = desktop_info["Exec"]
+        assert desktop_exe and isinstance(desktop_exe, str)
+        argv = desktop_parse.parse_argv(desktop_exe)
     else:
         # In the normal case, we must first escape one round
         argv = desktop_parse.parse_unesc_argv(desktop_info["Exec"])
@@ -340,10 +346,12 @@ def launch_app_info(
             launch_records.append((launch_argv, [file]))
 
     notify = bool(desktop_info["StartupNotify"])
-    workdir: str | None = work_dir or desktop_info["Path"] or None  # type: ignore
+    if not work_dir and (desk_path := desktop_info["Path"]):
+        assert isinstance(desk_path, str)
+        work_dir = desk_path
 
     if in_terminal is None:
-        in_terminal = desktop_info["Terminal"]  # type: ignore
+        in_terminal = bool(desktop_info["Terminal"])
 
     if in_terminal:
         term = settings.get_configured_terminal()
@@ -362,7 +370,7 @@ def launch_app_info(
             app_info,
             argv,
             files,
-            workdir,
+            work_dir,
             notify,
             timestamp=timestamp,
             launch_cb=launch_cb,
