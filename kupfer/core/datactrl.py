@@ -111,7 +111,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         sch.connect("display", self._on_display)
         sch.connect("finish", self._on_finish)
 
-    def _get_panectl(self, pane: PaneSel) -> Pane[KupferObject]:
+    def _get_panectl(self, pane: PaneSel) -> Pane[Leaf] | Pane[Action]:
         if pane == PaneSel.SOURCE:
             return self._source_pane
         if pane == PaneSel.ACTION:
@@ -121,7 +121,9 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         raise ValueError(f"invalid pane {pane}")
 
-    def _all_pane_ctl(self) -> ty.Iterator[tuple[PaneSel, Pane[KupferObject]]]:
+    def _all_pane_ctl(
+        self,
+    ) -> ty.Iterator[tuple[PaneSel, Pane[Leaf] | Pane[Action]]]:
         yield PaneSel.SOURCE, self._source_pane
         yield PaneSel.ACTION, self._action_pane
         yield PaneSel.OBJECT, self._object_pane
@@ -435,7 +437,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self.output_debug("Skipping late search", match, context)
         return True
 
-    def select(self, pane: PaneSel, item: KupferObject | None) -> None:
+    def select(self, pane: PaneSel, item: Leaf | Action | None) -> None:
         """Select @item in @pane to self-update relevant places"""
         # If already selected, do nothing
         panectl = self._get_panectl(pane)
@@ -443,8 +445,10 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             return
 
         self.cancel_search()
-        panectl.select(item)
         if pane == PaneSel.SOURCE:
+            assert isinstance(panectl, (LeafPane, SecondaryObjectPane))
+            assert item is None or isinstance(item, Leaf)
+            panectl.select(item)
             # populate actions
             citem = self._get_pane_object_composed(self._source_pane)
             self._action_pane.set_item(citem)
@@ -454,7 +458,9 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 self._populate_third_pane()
 
         elif pane == PaneSel.ACTION:
+            assert isinstance(panectl, PrimaryActionPane)
             assert item is None or isinstance(item, Action), str(type(item))
+            panectl.select(item)
             self.object_stack_clear(PaneSel.OBJECT)
             if item and item.requires_object():
                 newmode = PaneMode.SOURCE_ACTION_OBJECT
@@ -590,7 +596,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             raise ValueError("Can only insert in first pane")
 
         self._decorate_object(*objects[:-1])
-        self._set_object_stack(pane, objects[:-1])  # type: ignore
+        self._set_object_stack(pane, objects[:-1])
         self._insert_object(pane, objects[-1])
 
     def _on_command_execution_result(
@@ -674,7 +680,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._insert_object(PaneSel.SOURCE, obj)
 
     def _get_pane_object_composed(self, pane: Pane[Leaf]) -> Leaf | None:
-        objects = list(pane.object_stack)
+        objects: list[Leaf] = list(pane.object_stack)
         sel = pane.get_selection()
         if sel and sel not in objects:
             objects.append(sel)
@@ -683,7 +689,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             return None
 
         if len(objects) == 1:
-            return objects[0]  # type: ignore
+            return objects[0]
 
         return compose.MultipleLeaf(objects)
 
@@ -692,7 +698,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     ) -> tuple[Leaf, Action, Leaf | None] | tuple[None, None, None]:
         """Return a tuple of current (obj, action, iobj)."""
         objects = self._get_pane_object_composed(self._source_pane)
-        action: Action = self._action_pane.get_selection()  # type: ignore
+        action: Action | None = self._action_pane.get_selection()
         if objects is None or action is None:
             return (None, None, None)
 
@@ -709,9 +715,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def _has_object_stack(self, pane: PaneSel) -> bool:
         return pane in (PaneSel.SOURCE, PaneSel.OBJECT)
 
-    def _set_object_stack(
-        self, pane: PaneSel, newstack: list[KupferObject]
-    ) -> None:
+    def _set_object_stack(self, pane: PaneSel, newstack: list[Leaf]) -> None:
         panectl = self._get_panectl(pane)
         panectl.object_stack = newstack
         self.emit("object-stack-changed", pane)
@@ -753,12 +757,13 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self.object_stack_clear(PaneSel.OBJECT)
         self.object_stack_clear(PaneSel.SOURCE)
 
-    def get_object_stack(self, pane: PaneSel) -> list[KupferObject]:
+    def get_object_stack(self, pane: PaneSel) -> list[Leaf]:
         if not self._has_object_stack(pane):
             return []
 
         panectl = self._get_panectl(pane)
-        return panectl.object_stack  # type: ignore
+        assert isinstance(panectl, (LeafPane, SecondaryObjectPane))
+        return panectl.object_stack
 
 
 # pane cleared or set with new item

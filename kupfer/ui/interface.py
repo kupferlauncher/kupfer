@@ -15,7 +15,7 @@ from kupfer import interface
 from kupfer.core import actionaccel, settings
 from kupfer.core.datactrl import DataController, PaneMode, PaneSel
 from kupfer.core.search import Rankable
-from kupfer.obj import AnySource, FileLeaf, KupferObject
+from kupfer.obj import AnySource, FileLeaf, Leaf, Action
 from kupfer.support import pretty, scheduler
 from kupfer.ui import accelerators, getkey_dialog, kupferhelp, uievents, uiutils
 from kupfer.ui import preferences
@@ -1024,7 +1024,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """Stack of objects (for comma trick) changed in @pane."""
         pane = PaneSel(pane)
         wid = self._widget_for_pane(pane)
-        wid.set_object_stack(controller.get_object_stack(pane))  # type: ignore
+        wid.set_object_stack(controller.get_object_stack(pane))
 
     def _on_pane_button_press(
         self, widget: Gtk.Widget, event: Gdk.EventButton
@@ -1039,7 +1039,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return False
 
     def _on_selection_changed(
-        self, pane_owner: Search, match: KupferObject | None
+        self, pane_owner: Search, match: Leaf | Action | None
     ) -> None:
         pane = self._pane_for_widget(pane_owner)
         if not pane:
@@ -1076,7 +1076,9 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
             objs = (Gio.File.new_for_uri(U).get_path() for U in fileuris)
 
         if leaves := list(map(FileLeaf, filter(None, objs))):
-            self._data_ctrl.insert_objects(PaneSel.SOURCE, leaves)  # type: ignore
+            self._data_ctrl.insert_objects(
+                PaneSel.SOURCE, ty.cast(list[Leaf], leaves)
+            )
 
     def _reset_input_timer(self) -> None:
         # if input is slow/new, we reset

@@ -98,7 +98,7 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
         # source_stack keep track on history selected sources and leaves
         self._source_stack: list[tuple[AnySource, Leaf | None]] = []
         self._source: AnySource | None = None
-        self.object_stack: list[KupferObject] = []
+        self.object_stack: list[Leaf] = []
 
     def select(self, item: Leaf | None) -> None:
         assert item is None or isinstance(
@@ -140,10 +140,10 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
         """Return True if we have no source stack"""
         return not self._source_stack
 
-    def object_stack_push(self, obj: KupferObject) -> None:
+    def object_stack_push(self, obj: Leaf) -> None:
         self.object_stack.append(obj)
 
-    def object_stack_pop(self) -> KupferObject:
+    def object_stack_pop(self) -> Leaf:
         return self.object_stack.pop()
 
     def get_can_enter_text_mode(self) -> bool:
@@ -172,7 +172,7 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
     def browse_down(self, alternate: bool = False) -> bool:
         """Browse into @leaf if it's possible and save away the previous sources
         in the stack. If @alternate, use the Source's alternate method."""
-        leaf: Leaf = self.get_selection()  # type: ignore
+        leaf: Leaf | None = self.get_selection()
         if leaf and leaf.has_content():
             if csrc := leaf.content_source(alternate=alternate):
                 self.push_source(csrc)
