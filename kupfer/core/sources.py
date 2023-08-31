@@ -259,7 +259,8 @@ class SourceDataPickler(pretty.OutputMixin):
 
     def load_source(self, source: Source) -> None:
         if data := self._load_data(self.get_filename(source)):
-            source.config_restore(data)  # type: ignore
+            assert hasattr(source, "config_restore")
+            source.config_restore(data)
 
     def _load_data(self, pickle_file: str) -> ty.Any:
         try:
@@ -281,7 +282,8 @@ class SourceDataPickler(pretty.OutputMixin):
 
     def _save_data(self, pickle_file: str, source: Source) -> bool:
         sname = os.path.basename(pickle_file)
-        obj = source.config_save()  # type: ignore
+        assert hasattr(source, "config_save")
+        obj = source.config_save()
         try:
             data = pickle.dumps(obj, pickle.HIGHEST_PROTOCOL)
         except pickle.PickleError:
@@ -624,10 +626,9 @@ class SourceController(pretty.OutputMixin):
                 obj.add_content(contents[0])
             else:
                 assert isinstance(contents[0], Source)
+                sources = ty.cast(ty.Collection[Source], contents)
                 obj.add_content(
-                    SourcesSource(
-                        contents, name=str(obj), use_reprs=False  # type: ignore
-                    )
+                    SourcesSource(sources, name=str(obj), use_reprs=False)
                 )
 
     def finalize(self) -> None:

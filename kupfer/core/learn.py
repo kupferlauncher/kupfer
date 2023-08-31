@@ -118,6 +118,12 @@ _REGISTER: dict[
 ] = {}
 
 
+def _get_register_mnemonics() -> ty.Iterator[tuple[str, Mnemonics]]:
+    for leaf, mne in _REGISTER.items():
+        if isinstance(mne, Mnemonics):
+            yield leaf, mne
+
+
 def record_search_hit(obj: ty.Any, key: str | None = None) -> None:
     """Record that KupferObject @obj was used, with the optional
     search term @key recording.
@@ -158,8 +164,9 @@ def get_record_score(obj: ty.Any, key: str = "") -> int:
 
 def get_correlation_bonus(obj: Action, for_leaf: Leaf | None) -> int:
     """Get the bonus rank for @obj when used with @for_leaf."""
-    rval = _REGISTER[_CORRELATION_KEY]
-    assert isinstance(rval, dict)
+
+    # favorites
+    rval = ty.cast(dict[str, str], _REGISTER[_CORRELATION_KEY])
     repr_obj = repr(obj)
     repr_leaf = repr(for_leaf)
     if rval.get(repr_leaf) == repr_obj:
@@ -170,12 +177,12 @@ def get_correlation_bonus(obj: Action, for_leaf: Leaf | None) -> int:
     # bonus for last used action for object
     if val := raval.get(repr_leaf):
         if val[0] == repr_obj:
-            return 25
+            return 20
 
     # bonus for last used action for object type
     if val := raval.get(repr(type(for_leaf))):
         if val[0] == repr_obj:
-            return 10
+            return 7
 
     return 0
 
@@ -231,9 +238,7 @@ def _prune_register(goalitems: int = 500) -> None:
 
     # get all items sorted by last used time
     items: list[tuple[int, str, Mnemonics]] = sorted(
-        (mne.last_ts_used, leaf, mne)  # type: ignore
-        for leaf, mne in _REGISTER.items()
-        if leaf not in (_CORRELATION_KEY, _ACTIVATIONS_KEY)
+        (mne.last_ts_used, leaf, mne) for leaf, mne in _get_register_mnemonics()
     )
     to_del = []
     to_del_cnt = len(items) - goalitems
@@ -264,16 +269,8 @@ def _prune_register(goalitems: int = 500) -> None:
 
     chance = min(0.1, len(_REGISTER) * alpha)
     to_del = []
-    mnemonics: ty.Iterable[tuple[str, Mnemonics]] = (
-        (leaf, mne)  # type: ignore
-        for leaf, mne in _REGISTER.items()
-        if leaf not in (_CORRELATION_KEY, _ACTIVATIONS_KEY)
-    )
-    for leaf, mne in mnemonics:
-        if (
-            leaf not in (_CORRELATION_KEY, _ACTIVATIONS_KEY)
-            and rand() <= chance
-        ):
+    for leaf, mne in _get_register_mnemonics():
+        if rand() <= chance:
             assert isinstance(mne, Mnemonics)
             mne.decrement()
             if not mne:

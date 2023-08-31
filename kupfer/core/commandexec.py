@@ -299,7 +299,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         Desktop notification is always displayed when there is any result.
         """
         self.output_debug("Late result", result, "for", token)
-
+        assert token and token[1]
         command_id, (_ign1, action, _ign2) = token  # type: ignore
         if result is None:
             raise ActionExecutionError(f"Late result from {action} was None")
@@ -429,13 +429,13 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
             "Combining", action, retvals, f"delegate={self._delegate}"
         )
 
-        retvals_not_empty = filter(None, retvals)
-
         if not self._delegate:
             values: list[ActionResult] = []
             res = ExecResult.NONE
-            ret: ActionResult
-            for ret in retvals_not_empty:  # type: ignore
+            for ret in ty.cast(list[ActionResult], retvals):
+                if not ret:
+                    continue
+
                 res_type = parse_action_result(action, ret)
                 if res_type != ExecResult.NONE:
                     values.append(ret)
@@ -448,8 +448,10 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         resmap: dict[ExecResult, list[ActionResult]] = collections.defaultdict(
             list
         )
-        ret_obj: ActionResult
-        for res_type, ret_obj in retvals_not_empty:  # type: ignore
+        retvals_not_empty = filter(
+            None, ty.cast(list[tuple[ExecResult, ActionResult]], retvals)
+        )
+        for res_type, ret_obj in retvals_not_empty:
             if res_type != ExecResult.NONE:
                 resmap[res_type].append(ret_obj)
                 res = res_type

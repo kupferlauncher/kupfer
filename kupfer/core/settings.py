@@ -421,9 +421,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""
-        return self.get_plugin_config(  # type: ignore
-            plugin_id, "kupfer_enabled", value_type=strbool, default=False
-        )
+        return self.get_plugin_config_bool(plugin_id, "kupfer_enabled", False)
 
     def set_plugin_enabled(self, plugin_id: str, enabled: bool) -> bool:
         """Convenience: set if @plugin_id is enabled"""
@@ -435,9 +433,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_plugin_is_hidden(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is hidden"""
-        return self.get_plugin_config(  # type: ignore
-            plugin_id, "kupfer_hidden", value_type=strbool, default=False
-        )
+        return self.get_plugin_config_bool(plugin_id, "kupfer_hidden", False)
 
     @classmethod
     def _source_config_repr(cls, obj: ty.Any) -> str:
@@ -447,9 +443,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def get_source_is_toplevel(self, plugin_id: str, src: ty.Any) -> bool:
         key = "kupfer_toplevel_" + self._source_config_repr(src)
         default = not getattr(src, "source_prefer_sublevel", False)
-        return self.get_plugin_config(  # type: ignore
-            plugin_id, key, value_type=strbool, default=default
-        )
+        return self.get_plugin_config_bool(plugin_id, key, default)
 
     def set_source_is_toplevel(
         self, plugin_id: str, src: ty.Any, value: bool
@@ -460,7 +454,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_keybinding(self) -> str:
         """Convenience: Kupfer keybinding as string"""
-        return self.get_config("Kupfer", "keybinding")  # type: ignore
+        return str(self.get_config("Kupfer", "keybinding"))
 
     def set_keybinding(self, keystr: str) -> bool:
         """Convenience: Set Kupfer keybinding as string"""
@@ -468,7 +462,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_magic_keybinding(self) -> str:
         """Convenience: Kupfer alternate keybinding as string"""
-        return self.get_config("Kupfer", "magickeybinding")  # type: ignore
+        return str(self.get_config("Kupfer", "magickeybinding"))
 
     def set_magic_keybinding(self, keystr: str) -> bool:
         """Convenience: Set alternate keybinding as string"""
@@ -493,13 +487,13 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return False
 
     def get_use_command_keys(self) -> bool:
-        return self.get_config("Kupfer", "usecommandkeys")  # type: ignore
+        return strbool(self.get_config("Kupfer", "usecommandkeys"))
 
     def set_use_command_keys(self, enabled: bool) -> bool:
         return self._set_config("Kupfer", "usecommandkeys", enabled)
 
-    def get_action_accelerator_modifer(self):
-        return self.get_config("Kupfer", "action_accelerator_modifer")
+    def get_action_accelerator_modifer(self) -> str:
+        return str(self.get_config("Kupfer", "action_accelerator_modifer"))
 
     def set_action_accelerator_modifier(self, value: str) -> bool:
         """
@@ -594,6 +588,13 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         return default
 
+    def get_plugin_config_bool(
+        self, plugin: str, key: str, default: bool
+    ) -> bool:
+        res = self.get_plugin_config(plugin, key, strbool, default)
+        assert isinstance(res, bool)
+        return res
+
     def set_plugin_config(
         self,
         plugin: str,
@@ -606,19 +607,21 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         plug_section = f"plugin_{plugin}"
         self._emit_value_changed(plug_section, key, value)
 
-        if value_type is ExtendedSetting:
-            value_repr = value.save(plugin, key)  # type: ignore
+        value_repr: int | str | float | None
 
+        if isinstance(value, ExtendedSetting):
+            value_repr = value.save(plugin, key)
         elif value_type is list:
             value_repr = str(value)
-
-        else:
+        elif value is None or isinstance(value, (str, float, int)):
             value_repr = value
 
         return self._set_raw_config(plug_section, key, value_repr)
 
-    def get_accelerator(self, name: str | None) -> str | None:
-        return self.get_config("Keybindings", name)  # type: ignore
+    def get_accelerator(self, name: str) -> str | None:
+        res = self.get_config("Keybindings", name)
+        assert res is None or isinstance(res, str)
+        return res
 
     def set_accelerator(self, name: str, key: str) -> bool:
         return self._set_config("Keybindings", name, key)
@@ -637,12 +640,14 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         for key, value in self._get_from_defaults_section("Keybindings") or ():
             self._set_config("Keybindings", key, value)
 
-    def get_preferred_tool(self, tool_id: str) -> ty.Any:
+    def get_preferred_tool(self, tool_id: str) -> str | None:
         """Get preferred ID for a @tool_id.
 
         Supported: 'terminal', 'editor'
         """
-        return self.get_config("Tools", tool_id)
+        res = self.get_config("Tools", tool_id)
+        assert res is None or isinstance(res, str)
+        return res
 
     def set_preferred_tool(self, tool_id: str, value: ty.Any) -> bool:
         return self._set_config("Tools", tool_id, value)
