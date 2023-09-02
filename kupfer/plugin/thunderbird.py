@@ -16,13 +16,15 @@ __description__ = _("Thunderbird/Icedove Contacts and Actions")
 __version__ = "2017.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
-from kupfer import icons, launch
+from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, FileLeaf, RunnableLeaf, TextLeaf, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.plugin import thunderbird_support as support
+
+plugin_support.check_any_command_available("thunderbird", "icedove")
 
 
 class ComposeMail(RunnableLeaf):

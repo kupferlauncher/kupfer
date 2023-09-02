@@ -66,6 +66,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+plugin_support.check_command_available("zoxide")
+
 if ty.TYPE_CHECKING:
     _ = str
 

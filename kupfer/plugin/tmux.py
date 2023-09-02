@@ -16,7 +16,7 @@ import os
 import typing as ty
 from gettext import gettext as _
 
-from kupfer import launch
+from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
 
@@ -24,6 +24,8 @@ try:
     import libtmux
 except ImportError:
     libtmux = None  # type: ignore
+
+plugin_support.check_command_available("tmux")
 
 
 class TmuxSession(Leaf):

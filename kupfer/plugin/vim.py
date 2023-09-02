@@ -13,6 +13,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import os
 import typing as ty
 from pathlib import Path
+import shutil
 
 from gi.repository import Gio
 
@@ -24,6 +25,8 @@ from kupfer.support.datatools import simple_cache
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+plugin_support.check_any_command_available("vim", "gvim")
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -228,10 +231,13 @@ class OpenVimWiki(Action):
     rank_adjust = 20
 
     def __init__(self):
-        super().__init__(name=_("Open in GVim"))
+        super().__init__(name=_("Open in Vim"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        launch.spawn_async(["gvim", leaf.object])
+        if cmd := shutil.which("gvim"):
+            launch.spawn_async([cmd, leaf.object])
+        elif cmd := shutil.which("vim"):
+            launch.spawn_in_terminal([cmd, leaf.object])
 
     def get_icon_name(self) -> str:
         return "gvim"

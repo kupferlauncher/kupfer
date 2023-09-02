@@ -35,6 +35,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+plugin_support.check_command_available("apt", "apt-cache")
+
 if ty.TYPE_CHECKING:
     _ = str
 

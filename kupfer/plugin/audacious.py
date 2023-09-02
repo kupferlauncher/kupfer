@@ -47,6 +47,9 @@ _OBJ_NAME = "/org/atheme/audacious"
 _IFACE_NAME = "org.atheme.audacious"
 
 
+plugin_support.check_command_available(_AUDTOOL)
+
+
 def _create_dbus_connection(
     iface: str, obj: str, service: str
 ) -> dbus.Interface:

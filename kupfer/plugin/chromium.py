@@ -7,7 +7,7 @@ __version__ = ""
 __author__ = "Francesco Marella <francesco.marella@gmail.com>"
 import typing as ty
 
-from kupfer import config
+from kupfer import config, plugin_support
 from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.plugin import chromium_support
@@ -15,6 +15,8 @@ from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
 
 if ty.TYPE_CHECKING:
     _ = str
+
+plugin_support.check_any_command_available("chromium", "chromium-browser")
 
 
 def _get_chrome_conf_filepath() -> str | None:

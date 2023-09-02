@@ -17,10 +17,12 @@ import json
 import os
 from pathlib import Path
 
-from kupfer import icons, launch
+from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin, NonpersistentToken
+
+plugin_support.check_command_available("zeal")
 
 
 class ZealSearch(Action):

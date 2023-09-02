@@ -8,9 +8,11 @@ import os
 import pwd
 from pathlib import Path
 
-from kupfer import launch
+from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.helplib import FilesystemWatchMixin
+
+plugin_support.check_command_available("screen")
 
 
 def screen_sessions_infos():

@@ -4,8 +4,10 @@ __description__ = _("Search in Devhelp")
 __version__ = "2017.1"
 __author__ = ""
 
-from kupfer import launch, icons
+from kupfer import launch, icons, plugin_support
 from kupfer.obj import Action, OperationError, TextLeaf
+
+plugin_support.check_command_available("devhelp")
 
 
 class LookUp(Action):

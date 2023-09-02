@@ -15,7 +15,7 @@ from contextlib import suppress
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
-from kupfer import launch, runtimehelper
+from kupfer import launch, runtimehelper, plugin_support
 from kupfer.obj import Action, FileLeaf, OperationError, TextLeaf
 from kupfer.support import fileutils, pretty
 
@@ -23,6 +23,8 @@ if ty.TYPE_CHECKING:
     _ = str
 
 # TODO: use imagemagick -auto-orient ??
+
+plugin_support.check_any_command_available("convert", "jpegtran", "jhead")
 
 
 def _spawn_operation_err(argv):

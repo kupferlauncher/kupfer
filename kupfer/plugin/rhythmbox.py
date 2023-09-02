@@ -45,6 +45,7 @@ from kupfer.plugin import rhythmbox_support
 from kupfer.support import kupferstring, pretty, weaklib
 
 plugin_support.check_dbus_connection()
+plugin_support.check_command_available("rhythmbox-client")
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

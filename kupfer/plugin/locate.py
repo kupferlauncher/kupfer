@@ -24,6 +24,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
+plugin_support.check_command_available("locate")
+
 
 class Locate(Action):
     rank_adjust: int = -5
