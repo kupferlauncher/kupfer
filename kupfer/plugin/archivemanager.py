@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Archive Manager")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ()
@@ -10,13 +12,16 @@ import os
 import re
 import typing as ty
 from pathlib import Path
+import shutil
+from gettext import gettext as _
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
 from kupfer import launch, plugin_support, runtimehelper
 from kupfer.core import commandexec
-from kupfer.obj import Action, FileLeaf, Leaf
+from kupfer.obj import Action, FileLeaf, Leaf, OperationError
+from kupfer.obj.special import CommandNotAvailableLeaf
 from kupfer.support import fileutils
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -46,9 +51,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         ),
     },
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 _EXTENSIONS_SET = (
     ".7z",
@@ -96,12 +98,24 @@ _EXTENSIONS_SET = (
 )
 
 
+def _tool_cmd_path(tool: str) -> str | None:
+    if tool == "7-zip":
+        return shutil.which("7z")
+    elif tool == "7za":
+        return shutil.which("7za")
+
+    return shutil.which("file-roller")
+
+
 class UnpackHere(Action):
     def __init__(self):
         Action.__init__(self, _("Extract Here"))
 
     def activate(self, leaf, iobj=None, ctx=None):
         tool = __kupfer_settings__["tool"]
+        if not _tool_cmd_path(tool):
+            return CommandNotAvailableLeaf(__name__, __kupfer_name__, tool)
+
         filedir = str(Path(leaf.object).parent)
         if tool == "7-zip":
             launch.spawn_in_terminal(["7z", "x", leaf.object], filedir)
@@ -184,6 +198,9 @@ def _make_archive_in(
     )
 
     tool = __kupfer_settings__["tool"]
+    if not _tool_cmd_path(tool):
+        raise OperationError(f"Command {tool} not available")
+
     if tool in ("7-zip", "7za"):
         cmd = ["7za" if tool == "7za" else "7z", "a", archive_path]
         cmd.extend(filepaths)

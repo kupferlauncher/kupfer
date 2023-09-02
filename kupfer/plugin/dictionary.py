@@ -6,6 +6,7 @@ __author__ = "Ulrik, KB"
 
 import typing as ty
 import collections
+import shutil
 
 from kupfer import launch, plugin_support
 from kupfer.desktop_launch import SpawnError
@@ -49,6 +50,10 @@ class LookUp(Action):
         text = leaf.object
         dict_id = __kupfer_settings__["dictionary"]
         dict_def = dictionaries[dict_id]
+
+        if not shutil.which(dict_def.args[0]):
+            raise OperationError(f"{dict_def.title} not available")
+
         dict_argv = [arg.replace("%s", text) for arg in dict_def.args]
         try:
             launch.spawn_async_notify_as(dict_id + ".desktop", dict_argv)

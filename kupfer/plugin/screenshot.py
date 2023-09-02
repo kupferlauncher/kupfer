@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Screenshot")
 __kupfer_sources__ = ("ScreenshotTools",)
 __kupfer_text_sources__ = ()
@@ -10,11 +12,13 @@ import os
 import tempfile
 from pathlib import Path
 from gettext import gettext as _
+import shutil
 
 from gi.repository import Gtk, Gdk
 
 from kupfer import runtimehelper, launch, icons, plugin_support
 from kupfer.obj import FileLeaf, Source, OperationError, RunnableLeaf
+from kupfer.obj.special import CommandNotAvailableLeaf
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -38,6 +42,15 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         ],
     },
 )
+
+
+def _tool_cmd_path(tool: str) -> str | None:
+    if tool == "Flameshot":
+        return shutil.which("flameshot")
+    elif tool == "Scrot":
+        return shutil.which("scrot")
+
+    return None
 
 
 class ScreenshotToFile(RunnableLeaf):
@@ -64,6 +77,10 @@ class ScreenshotToFile(RunnableLeaf):
         runtimehelper.register_async_file_result(ctx, path)
 
         tool = __kupfer_settings__["tool"]
+        cmd = _tool_cmd_path(tool)
+        if not cmd:
+            return CommandNotAvailableLeaf(__name__, __kupfer_name__, tool)
+
         argv: tuple[str, ...]
 
         if tool == "Flameshot":
@@ -164,6 +181,10 @@ class ScreenshotTools(Source):
     def get_items(self):
         yield ScreenshotToFile()
         tool = __kupfer_settings__["tool"]
+        if not _tool_cmd_path(tool):
+            yield CommandNotAvailableLeaf(__name__, __kupfer_name__, tool)
+            return
+
         if tool == "Flameshot":
             yield _SSToClipboardNative()
         elif tool == "Scrot":
