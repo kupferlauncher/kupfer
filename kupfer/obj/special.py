@@ -24,7 +24,7 @@ class PleaseConfigureLeaf(RunnableLeaf):
     message = _("Please Configure Plugin")
     description = _("Plugin %s is not configured")
 
-    def __init__(self, plugin_id: str, plugin_name: str):
+    def __init__(self, plugin_id: str, plugin_name: str) -> None:
         plugin_id = plugin_id.split(".")[-1]
         RunnableLeaf.__init__(self, plugin_id, self.message)
         self.plugin_name = plugin_name
@@ -45,3 +45,30 @@ class PleaseConfigureLeaf(RunnableLeaf):
 
 class InvalidCredentialsLeaf(PleaseConfigureLeaf):
     description = _("Invalid user credentials for %s")
+
+
+class NonfunctionalLeaf(PleaseConfigureLeaf):
+    """Leaf with custom error message that open plugin preferences dialog."""
+
+    def __init__(
+        self, plugin_id: str, plugin_name: str, description: str
+    ) -> None:
+        super().__init__(plugin_id, plugin_name)
+        self.description = description
+
+    def get_description(self) -> str:
+        return self.description
+
+
+class CommandNotAvailableLeaf(PleaseConfigureLeaf):
+    """Leaf with message "command ... not available" that open plugin
+    preferences dialog."""
+
+    description = _("Command '%s' not available")
+
+    def __init__(self, plugin_id: str, plugin_name: str, command: str) -> None:
+        super().__init__(plugin_id, plugin_name)
+        self.command = command
+
+    def get_description(self) -> str:
+        return self.description % self.command
