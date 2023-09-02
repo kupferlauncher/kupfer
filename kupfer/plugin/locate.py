@@ -5,10 +5,14 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import subprocess
+from gettext import gettext as _
+import typing as ty
+import shutil
 
 from kupfer import icons, plugin_support
-from kupfer.obj import Action, Source, TextLeaf
+from kupfer.obj import Action, Source, TextLeaf, Leaf
 from kupfer.obj.filesrc import construct_file_leaf
+from kupfer.obj.special import CommandNotAvailableLeaf
 from kupfer.support import kupferstring
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -22,6 +26,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 
 class Locate(Action):
+    rank_adjust: int = -5
+
     def __init__(self):
         Action.__init__(self, _("Locate Files"))
 
@@ -54,6 +60,11 @@ class LocateQuerySource(Source):
         return self.query
 
     def get_items(self):
+        locate_cmd = shutil.which("locate")
+        if not locate_cmd:
+            yield CommandNotAvailableLeaf(__name__, __kupfer_name__, "locate")
+            return
+
         ignore_case = (
             "--ignore-case" if __kupfer_settings__["ignore_case"] else ""
         )
@@ -62,32 +73,23 @@ class LocateQuerySource(Source):
         # (regrettably, locate wont output streamingly to stdout)
         # but we ask the second for results only after iterating the first few
         first_num = 12
-        first_command = (
-            f"locate --null --limit {first_num} {ignore_case} '{self.query}'"
-        )
-        full_command = (
-            "locate --null "
-            f"--limit {self.max_items} {ignore_case}"
-            f"'{self.query}'"
-        )
 
-        def get_locate_output(proc, offset=0):
-            out, ignored_err = proc.communicate()
-            return (
-                construct_file_leaf(kupferstring.fromlocale(f))
-                for f in out.split(b"\x00")[offset:-1]
-            )
+        def load(limit: int, offset: int) -> ty.Iterator[Leaf]:
+            command = [
+                locate_cmd,
+                "--null",
+                "--limit",
+                str(limit),
+                ignore_case,
+                self.query,
+            ]
+            with subprocess.Popen(command, stdout=subprocess.PIPE) as proc:
+                out, ignored_err = proc.communicate()
+                for f in out.split(b"\x00")[offset:-1]:
+                    yield construct_file_leaf(kupferstring.fromlocale(f))
 
-        with (
-            subprocess.Popen(
-                first_command, shell=True, stdout=subprocess.PIPE
-            ) as sp1,
-            subprocess.Popen(
-                full_command, shell=True, stdout=subprocess.PIPE
-            ) as sp2,
-        ):
-            yield from get_locate_output(sp1, 0)
-            yield from get_locate_output(sp2, first_num)
+        yield from load(first_num, 0)
+        yield from load(self.max_items, first_num)
 
     def get_gicon(self):
         return icons.ComposedIcon("gnome-terminal", self.get_icon_name())
