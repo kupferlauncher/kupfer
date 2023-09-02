@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import typing as ty
+import shutil
+from gettext import gettext as _, ngettext
 
 from gi.repository import GObject
 
@@ -13,10 +15,6 @@ __all__ = [
     "check_dbus_connection",
     "check_keyring_support",
 ]
-
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 def _is_core_setting(key: str) -> bool:
@@ -336,4 +334,32 @@ def _unregister_alternative(
     setctl = settings.get_settings_controller()
     setctl.update_alternatives(
         category_key, _ALTERNATIVES[category_key], alt["filter"]
+    )
+
+
+def check_command_available(*cmd: str) -> None:
+    """Check if the commands is available in system, throw ImportError when not"""
+    missing = [f'"{c}"' for c in cmd if not shutil.which(c)]
+    if not missing:
+        return
+
+    raise ImportError(
+        ngettext(
+            "Command %(msg)s is not available.",
+            "Commands %(msg)s are not available.",
+            len(missing),
+        )
+        % {"msg": ", ".join(missing)}
+    )
+
+
+def check_any_command_available(*cmd: str) -> None:
+    """Check if any of command is available in system, throw ImportError when not"""
+    for c in cmd:
+        if shutil.which(c):
+            return
+
+    raise ImportError(
+        _("None of commands %(msg)s is available.")
+        % {"msg": ", ".join(f'"{c}"' for c in cmd)}
     )
