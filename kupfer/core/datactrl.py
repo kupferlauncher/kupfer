@@ -446,7 +446,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         self.cancel_search()
         if pane == PaneSel.SOURCE:
-            assert isinstance(panectl, (LeafPane, SecondaryObjectPane))
+            assert isinstance(panectl, LeafPane)
             assert item is None or isinstance(item, Leaf)
             panectl.select(item)
             # populate actions
@@ -473,6 +473,10 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
             if self._mode == PaneMode.SOURCE_ACTION_OBJECT:
                 self._populate_third_pane()
+        else:  # OBJECT
+            assert isinstance(panectl, SecondaryObjectPane)
+            assert item is None or isinstance(item, Leaf)
+            panectl.select(item)
 
     def _populate_third_pane(self) -> None:
         citem = self._get_pane_object_composed(self._source_pane)
