@@ -10,7 +10,7 @@ kupfer v323-beta2
     action for each slot (email, adress, etc). Close: #169
   + After launch some action for leave next time this action get some
     bonus that make it higher on the list. Also this action get (smaller)
-    bonus for each same type leaves.
+    bonus for each same type of leaves.
 
 + Fix:
 
@@ -20,11 +20,19 @@ kupfer v323-beta2
 
 + Plugins:
 
+  + New:
+
+    - *textutils*: various tools that convert, format and generate text
+      content (i.e. generate random strings, convert case, encode base64,
+      format json and xml).
+
   + Updated:
 
-    - *ssh_hosts": load and use host name from ssh .config file; update
+    - *ssh_hosts*: load and use host name from ssh .config file; update
       icons
-    - *libvirt": fix icons
+    - *libvirt*: fix icons
+    - some plugins now report error (do not load) when required command or
+      application is missing in system.
 
 + Dev:
 
@@ -51,7 +59,7 @@ kupfer v323-beta1
   + Make Kupfer window rounded again.
   + If more than one action have the same accelerator pressing key navigate
     between them; previously first action was activated.
-  + Hosts and services have additional aliases "service:hostname"; this allow
+  + Hosts and services have additional aliases "service:hostname"; this allows
     user to fast find items by entering e.g. "sshmyserverhostname".
   + Leaves representing songs (*rhythmbox* and *audacious* plugins) and
     leaves representing services have text representation, so user can
