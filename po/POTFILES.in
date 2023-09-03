@@ -164,6 +164,7 @@ kupfer/plugin/tracker1.py
 kupfer/plugin/favorites.py
 kupfer/plugin/firefox_tags.py
 kupfer/plugin/qsicons/__init__.py
+kupfer/plugin/textutils.py
 kupfer/plugin/screenshot.py
 kupfer/support/system.py
 kupfer/support/desktop_parse_test.py
