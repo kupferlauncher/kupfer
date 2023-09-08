@@ -5,11 +5,22 @@ from __future__ import annotations
 from configparser import RawConfigParser
 from pathlib import Path
 from contextlib import closing
+import itertools
 import sqlite3
 import typing as ty
 import time
 
 from kupfer.support import pretty
+from kupfer.obj import UrlLeaf
+
+MAX_ITEMS = 10000
+_BOOKMARKS_SQL = """
+SELECT moz_places.url, moz_bookmarks.title
+FROM moz_places, moz_bookmarks
+WHERE moz_places.id = moz_bookmarks.fk
+    AND moz_bookmarks.keyword_id IS NULL
+ORDER BY visit_count DESC
+LIMIT ?"""
 
 
 def make_absolute_and_check(firefox_dir: Path, path: str) -> Path | None:
@@ -74,8 +85,10 @@ def _find_default_profile(firefox_dir: Path) -> Path | None:
     return path
 
 
-def get_firefox_home_file(
-    needed_file: str, profile_dir: str | Path | None = None
+def _get_home_file(
+    needed_file: str,
+    profile_dir: str | Path | None,
+    firefox_dir: Path,
 ) -> Path | None:
     """Get path to `needed_file` in `profile_dir`.
 
@@ -87,7 +100,7 @@ def get_firefox_home_file(
         # user define profile name or dir, check it and if valid use id
         profile_dir = Path(profile_dir).expanduser()
         if not profile_dir.is_absolute():
-            profile_dir = Path("~/.mozilla/firefox", profile_dir).expanduser()
+            profile_dir = firefox_dir.joinpath(profile_dir)
 
         if not profile_dir.is_dir():
             # fail; given profile not exists
@@ -98,7 +111,6 @@ def get_firefox_home_file(
 
         return profile_dir.joinpath(needed_file)
 
-    firefox_dir = Path("~/.mozilla/firefox").expanduser()
     if not firefox_dir.exists():
         pretty.print_debug(__name__, "Firefox dir not exists", firefox_dir)
         return None
@@ -117,26 +129,39 @@ def get_firefox_home_file(
     return path.joinpath(needed_file) if path else None
 
 
-def get_ffdb_conn_str(profile: str, fname: str) -> str | None:
-    path = get_firefox_home_file(fname, profile)
-    if not path:
-        return None
+def get_firefox_home_file(
+    needed_file: str, profile_dir: str | Path | None = None
+) -> Path | None:
+    """Get path to `needed_file` in `profile_dir`.
 
-    if not path.is_file():
-        return None
+    When no `profile_dir` is not given try to find default profile
+    in profiles.ini. `profile_dir` may be only profile name and is relative
+    to ~/.mozilla/firefox or may be full path to profile dir.
+    """
+    firefox_dir = Path("~/.mozilla/firefox").expanduser()
+    return _get_home_file(needed_file, profile_dir, firefox_dir)
 
-    fpath = str(path).replace("?", "%3f").replace("#", "%23")
-    fpath = "file:" + fpath + "?immutable=1&mode=ro"
-    return fpath
+
+def get_librewolf_home_file(
+    needed_file: str, profile_dir: str | Path | None = None
+) -> Path | None:
+    """Get path to `needed_file` in `profile_dir`.
+
+    When no `profile_dir` is not given try to find default profile
+    in profiles.ini. `profile_dir` may be only profile name and is relative
+    to ~/.librewolf or may be full path to profile dir.
+    """
+    firefox_dir = Path("~/.librewolf").expanduser()
+    return _get_home_file(needed_file, profile_dir, firefox_dir)
 
 
 def query_database(
-    db_file_path: str, sql: str, args: tuple[ty.Any, ...] = ()
+    db_file_path: Path | str, sql: str, args: tuple[ty.Any, ...] = ()
 ) -> ty.Iterable[tuple[ty.Any, ...]]:
     """Query firefox database. Iterator must be exhausted to prevent hanging
     connection."""
 
-    fpath = db_file_path.replace("?", "%3f").replace("#", "%23")
+    fpath = str(db_file_path).replace("?", "%3f").replace("#", "%23")
     fpath = "file:" + fpath + "?immutable=1&mode=ro"
 
     for _ in range(2):
@@ -147,8 +172,25 @@ def query_database(
                 cur.execute(sql, args)
                 yield from cur
                 return
+
         except sqlite3.Error as err:
             # Something is wrong with the database
             # wait short time and try again
             pretty.print_error(__name__, "Query Firefox db error:", str(err))
             time.sleep(1)
+
+
+def get_bookmarks(
+    path: Path | None, max_items: int = MAX_ITEMS
+) -> list[UrlLeaf]:
+    """Load bookmarks from given `path` database."""
+
+    if not path:
+        return []
+
+    return list(
+        itertools.starmap(
+            UrlLeaf,
+            query_database(path, _BOOKMARKS_SQL, (max_items,)),
+        )
+    )
