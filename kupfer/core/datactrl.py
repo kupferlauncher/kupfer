@@ -588,7 +588,9 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def _insert_object(self, pane: PaneSel, obj: Leaf) -> None:
         """Insert @obj in @pane: prepare the object, then emit pane-reset"""
-        self._decorate_object(obj)
+        if pane == PaneSel.SOURCE:
+            self._decorate_object(obj)
+
         self.emit("pane-reset", pane, search.wrap_rankable(obj))
 
     def _decorate_object(self, *objects: Leaf) -> None:
