@@ -63,7 +63,7 @@ def application_id(
 # pylint: disable=too-many-arguments
 def launch_application(
     app_info: Gio.AppInfo,
-    files: ty.Iterable[str] = (),
+    files: ty.Iterable[Gio.File] = (),
     uris: ty.Iterable[str] = (),
     paths: ty.Iterable[str] = (),
     track: bool = True,
@@ -72,17 +72,18 @@ def launch_application(
     screen: Gdk.Screen | None = None,
     work_dir: str | None = None,
 ) -> bool:
-    """Launch @app_rec correctly, using a startup notification. You may pass
-    in either a list of Gio.Files in @files, or a list of @uris or @paths.
+    """Launch `app_rec` correctly, using a startup notification. You may pass
+    inlist of `Gio.Files` in `files` and/or a list of `uris` and/or list of
+    `paths`. This lists are combined together.
 
-    if @track, it is a user-level application.
-    if @activate, activate rather than start a new version.
+    if `track`, it is a user-level application.
+    if `activate`, activate rather than start a new version.
 
-    @app_rec is either an GAppInfo or (GAppInfo, desktop_file_path) tuple
+    `app_rec` is either an `GAppInfo` or (`GAppInfo`, desktop_file_path) tuple.
 
-    @work_dir: overwrite work directory of application.
+    `work_dir`: overwrite work directory of application.
 
-    Raises SpawnError on failed program start.
+    Raises `SpawnError` on failed program start.
     """
     assert app_info
     assert not (
@@ -105,11 +106,12 @@ def launch_application(
 
         launch_callback = app_launch_callback
 
+    files = list(files)
     if paths:
-        files = [Gio.File.new_for_path(p) for p in paths]
+        files.extend(map(Gio.File.new_for_path, paths))
 
     if uris:
-        files = [Gio.File.new_for_uri(p) for p in uris]
+        files.extend(map(Gio.File.new_for_uri, uris))
 
     desktop_launch.launch_app_info(
         app_info,

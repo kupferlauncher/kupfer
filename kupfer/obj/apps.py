@@ -182,19 +182,22 @@ class AppLeaf(Leaf):
 
     def launch(
         self,
-        files: ty.Iterable[str] = (),
+        files: ty.Iterable[Gio.File] = (),
         paths: ty.Iterable[str] = (),
         activate: bool = False,
         ctx: ty.Any = None,
         work_dir: str | None = None,
+        uris: ty.Iterable[str] = (),
     ) -> bool:
         """Launch the represented applications.
 
-        Either `files` or `paths` should be defined:
         `files` is a sequence of GFiles (Gio.File), `paths` is a sequence of
-        paths (str).
+        paths (str), `uris` is list of uri. All three lists are combined
+        together. In most cases only one list should be passed to this method.
+
         When `activate` is True - activate running instance instead of start
         new.
+
         `work_dir` can overwrite work directory of application.
         """
         try:
@@ -202,6 +205,7 @@ class AppLeaf(Leaf):
                 self.object,
                 files=files,
                 paths=paths,
+                uris=uris,
                 activate=activate,
                 desktop_file=self._init_path,
                 screen=ctx and ctx.environment.get_screen(),

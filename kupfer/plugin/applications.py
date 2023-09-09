@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Applications")
 __kupfer_sources__ = ("AppSource",)
 __kupfer_actions__ = (
@@ -8,7 +10,7 @@ __kupfer_actions__ = (
     "LaunchHere",
 )
 __description__ = _("All applications and preferences")
-__version__ = "2017.3"
+__version__ = "2023.1"
 __author__ = ""
 
 import typing as ty
@@ -17,7 +19,7 @@ from pathlib import Path
 from gi.repository import Gio
 
 from kupfer import config, plugin_support
-from kupfer.obj import Action, AppLeaf, FileLeaf, Source
+from kupfer.obj import Action, AppLeaf, FileLeaf, Source, UrlLeaf, Leaf
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.support import weaklib
 
@@ -145,9 +147,6 @@ class OpenWith(Action):
     def __init__(self):
         super().__init__(_("Open With Any Application..."))
 
-    def _activate(self, app_leaf, paths, ctx):
-        app_leaf.launch(paths=paths, ctx=ctx)
-
     def wants_context(self):
         return True
 
@@ -156,10 +155,17 @@ class OpenWith(Action):
         assert iobj
         self.activate_multiple((leaf,), (iobj,), ctx)
 
-    def activate_multiple(self, objects, iobjects, ctx):
+    def activate_multiple(
+        self,
+        objects: ty.Iterable[Leaf],
+        iobjects: ty.Iterable[Leaf],
+        ctx: ty.Any,
+    ) -> None:
         # for each application, launch all the files
+        paths = [L.object for L in objects]
         for iobj_app in iobjects:
-            self._activate(iobj_app, [L.object for L in objects], ctx)
+            assert isinstance(iobj_app, AppLeaf)
+            iobj_app.launch(paths=paths, ctx=ctx)
 
     def item_types(self):
         yield FileLeaf
@@ -193,18 +199,39 @@ class OpenWithByMime(Action):
     def wants_context(self):
         return True
 
-    def activate(self, leaf, iobj=None, ctx=None):
+    def activate(
+        self, leaf: Leaf, iobj: Leaf | None = None, ctx: ty.Any = None
+    ) -> None:
         assert ctx
         assert iobj
         self.activate_multiple((leaf,), (iobj,), ctx)
 
-    def activate_multiple(self, objects, iobjects, ctx):
+    def activate_multiple(
+        self,
+        objects: ty.Iterable[Leaf],
+        iobjects: ty.Iterable[Leaf],
+        ctx: ty.Any,
+    ) -> None:
         # for each application, launch all the files
+        files: list[Gio.File] = []
+        files.extend(
+            Gio.File.new_for_path(p.object)
+            for p in objects
+            if not isinstance(p, UrlLeaf)
+        )
+        files.extend(
+            Gio.File.new_for_uri(p.object)
+            for p in objects
+            if isinstance(p, UrlLeaf)
+        )
+
         for iobj_app in iobjects:
-            iobj_app.launch(paths=[L.object for L in objects], ctx=ctx)
+            assert isinstance(iobj_app, AppLeaf)
+            iobj_app.launch(files=files, ctx=ctx)
 
     def item_types(self):
         yield FileLeaf
+        yield UrlLeaf
 
     def object_types(self):
         yield AppLeaf
