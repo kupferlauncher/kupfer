@@ -8,6 +8,7 @@ see the main program file, and COPYING for details.
 from __future__ import annotations
 
 import typing as ty
+from gettext import gettext as _
 
 from kupfer import launch, support
 from kupfer.desktop_launch import SpawnError
@@ -15,33 +16,37 @@ from kupfer.desktop_launch import SpawnError
 from kupfer.obj.base import Action, Leaf
 from kupfer.obj.exceptions import OperationError
 from kupfer.obj.objects import RunnableLeaf
+from kupfer.core import commandexec
 
 __all__ = ("OpenUrl", "OpenTerminal", "Execute", "Perform")
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class OpenTerminal(Action):
     action_accelerator = "t"
 
-    def __init__(self, name=_("Open Terminal Here")):
+    def __init__(self, name: str = _("Open Terminal Here")) -> None:
         super().__init__(name)
 
-    def wants_context(self):
+    def wants_context(self) -> bool:
         return True
 
-    def activate(self, leaf, iobj=None, ctx=None):
+    def activate(
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
+    ) -> Leaf | None:
         assert ctx
         try:
             launch.spawn_terminal(leaf.object, ctx.environment.get_screen())
+            return None
         except SpawnError as exc:
             raise OperationError(exc) from exc
 
     def get_description(self) -> str | None:
         return _("Open this location in a terminal")
 
-    def get_icon_name(self):
+    def get_icon_name(self) -> str:
         return "utilities-terminal"
 
 
@@ -59,7 +64,12 @@ class Execute(Action):
     def repr_key(self):
         return (self.in_terminal, self.quoted)
 
-    def activate(self, leaf, iobj=None, ctx=None):
+    def activate(
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
+    ) -> Leaf | None:
         if self.quoted:
             argv = [leaf.object]
         else:
@@ -68,6 +78,8 @@ class Execute(Action):
             launch.spawn_in_terminal(argv)
         else:
             launch.spawn_async(argv)
+
+        return None
 
     def get_description(self) -> str | None:
         if self.in_terminal:
@@ -80,14 +92,18 @@ class OpenUrl(Action):
     action_accelerator: str | None = "o"
     rank_adjust: int = 5
 
-    def __init__(self, name: str | None = None) -> None:
-        super().__init__(name or _("Open URL"))
+    def __init__(self, name: str = _("Open URL")) -> None:
+        super().__init__(name)
 
     def activate(
-        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
-    ) -> None:
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
+    ) -> Leaf | None:
         url = leaf.object
         self.open_url(url)
+        return None
 
     def open_url(self, url: str) -> None:
         launch.show_url(url)
@@ -111,12 +127,12 @@ class Perform(Action):
 
     def __init__(
         self,
-        name: str | None = None,
+        name: str = _("Run"),
         has_result: bool = False,
         item_types: ty.Collection[Leaf] = (),
     ):
         # TRANS: 'Run' as in Perform a (saved) command
-        super().__init__(name=name or _("Run"))
+        super().__init__(name=name)
         self._has_result = has_result
         self._item_types = item_types
 
@@ -127,12 +143,16 @@ class Perform(Action):
         return True
 
     def activate(
-        self, leaf: RunnableLeaf, iobj: ty.Any = None, ctx: ty.Any = None
-    ) -> ty.Any:
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
+    ) -> Leaf | None:
+        assert isinstance(leaf, RunnableLeaf)
         if leaf.wants_context():
-            return leaf.run(ctx=ctx)
+            return ty.cast(ty.Optional[Leaf], leaf.run(ctx=ctx))
 
-        return leaf.run()
+        return ty.cast(ty.Optional[Leaf], leaf.run())
 
     def get_description(self) -> str:
         return _("Perform command")

@@ -23,6 +23,7 @@ import datetime
 import json
 from contextlib import suppress
 import xml.dom.minidom
+from functools import partial
 
 from kupfer import icons
 from kupfer.obj import (
@@ -308,13 +309,13 @@ class Generators(Source):
         for size in (16, 32, 64):
             yield _GeneraterLeaf(
                 _("Random %(size)d-bytes hex token") % {"size": size},
-                lambda: secrets.token_hex(size),
+                partial(secrets.token_hex, size),
             )
 
         for size in (16, 32, 64):
             yield _GeneraterLeaf(
                 _("Random %(size)d-bytes alpha-numeric token") % {"size": size},
-                lambda: _generate_alfanum_token(size),
+                partial(_generate_alfanum_token, size),
             )
 
         yield _GeneraterLeaf(

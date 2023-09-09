@@ -47,7 +47,8 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 def _tool_cmd_path(tool: str) -> str | None:
     if tool == "Flameshot":
         return shutil.which("flameshot")
-    elif tool == "Scrot":
+
+    if tool == "Scrot":
         return shutil.which("scrot")
 
     return None

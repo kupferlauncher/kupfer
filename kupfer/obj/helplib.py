@@ -14,6 +14,7 @@ from gi.repository import Gio, GLib
 
 from kupfer.support import pretty
 from kupfer.obj import base
+from kupfer.core import commandexec
 
 __all__ = (
     "PicklingHelperMixin",
@@ -205,8 +206,12 @@ def reverse_action(
         rank_adjust = rank
 
         def activate(
-            self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
+            self,
+            leaf: base.Leaf,
+            iobj: base.Leaf | None = None,
+            ctx: commandexec.ExecutionToken | None = None,
         ) -> ty.Any:
+            assert iobj
             return action.activate(self, iobj, leaf, ctx)
 
         def item_types(self) -> ty.Iterable[ty.Type[base.Leaf]]:

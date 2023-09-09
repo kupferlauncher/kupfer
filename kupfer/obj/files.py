@@ -23,9 +23,6 @@ from kupfer.obj.representation import TextRepresentation
 
 __all__ = ("FileLeaf",)
 
-if ty.TYPE_CHECKING:
-    _ = str
-
 
 class FileLeaf(Leaf, TextRepresentation):
     """Represents one file: the represented object is a string."""

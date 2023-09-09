@@ -5,17 +5,21 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
-__version__ = "2010-01-21"
+from __future__ import annotations
 
-import typing as ty
+from gettext import gettext as _
 
 from kupfer.ui import preferences
 from kupfer.obj.objects import RunnableLeaf
+from kupfer.core import commandexec
 
-__all__ = ("PleaseConfigureLeaf", "InvalidCredentialsLeaf")
-
-if ty.TYPE_CHECKING:
-    _ = str
+__version__ = "2023-09-09"
+__all__ = (
+    "PleaseConfigureLeaf",
+    "InvalidCredentialsLeaf",
+    "NonfunctionalLeaf",
+    "CommandNotAvailableLeaf",
+)
 
 
 class PleaseConfigureLeaf(RunnableLeaf):
@@ -32,7 +36,7 @@ class PleaseConfigureLeaf(RunnableLeaf):
     def wants_context(self) -> bool:
         return True
 
-    def run(self, ctx: ty.Any = None) -> None:
+    def run(self, ctx: commandexec.ExecutionToken | None = None) -> None:
         assert ctx
         preferences.show_plugin_info(self.object, ctx.environment)
 

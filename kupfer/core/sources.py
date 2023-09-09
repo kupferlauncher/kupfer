@@ -587,7 +587,6 @@ class SourceController(pretty.OutputMixin):
                 continue
 
             for content in val:
-                dsrc = None
                 with pluginload.exception_guard(
                     content, self._remove_source, content, is_decorator=True
                 ):

@@ -187,7 +187,7 @@ class ApplicationsMatcherService(pretty.OutputMixin):
     def _on_finish(self, _sched: ty.Any) -> None:
         self._pickle_register(self.register, self._get_filename())
 
-    def _unpickle_register(self, pickle_file: str) -> ty.Any:
+    def _unpickle_register(self, pickle_file: str) -> dict[str, str] | None:
         try:
             source = pickle.loads(Path(pickle_file).read_bytes())
             assert isinstance(source, dict), "Stored object not a dict"

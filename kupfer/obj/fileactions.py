@@ -10,21 +10,20 @@ from __future__ import annotations
 import os
 import typing as ty
 from collections import defaultdict
+from gettext import gettext as _
 
 from gi.repository import Gio
 
 from kupfer import launch
 from kupfer.obj import files
-from kupfer.obj.base import Action
+from kupfer.obj.base import Action, Leaf
 from kupfer.obj.exceptions import NoDefaultApplicationError
+from kupfer.core import commandexec
 
 __all__ = (
     "Open",
     "GetParent",
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class Open(Action):
@@ -33,7 +32,7 @@ class Open(Action):
     action_accelerator = "o"
     rank_adjust = 5
 
-    def __init__(self, name=_("Open")):
+    def __init__(self, name: str = _("Open")) -> None:
         Action.__init__(self, name)
 
     @classmethod
@@ -58,16 +57,24 @@ class Open(Action):
     def wants_context(self) -> bool:
         return True
 
-    def activate(self, leaf, iobj=None, ctx=None):
+    def activate(
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
+    ) -> None:
         assert ctx
         self.activate_multiple((leaf,), ctx)
 
     def activate_multiple(
-        self, objects: ty.Iterable[files.FileLeaf], ctx: ty.Any
+        self,
+        objects: ty.Iterable[Leaf],
+        ctx: commandexec.ExecutionToken | None = None,
     ) -> None:
         appmap: dict[str, Gio.AppInfo] = {}
         leafmap: dict[str, list[files.FileLeaf]] = defaultdict(list)
         for obj in objects:
+            assert isinstance(obj, files.FileLeaf)
             app = self.default_application_for_leaf(obj)
             id_ = app.get_id()
             appmap[id_] = app
@@ -90,15 +97,19 @@ class GetParent(Action):
     action_accelerator = "p"
     rank_adjust = -5
 
-    def __init__(self, name=_("Get Parent Folder")):
+    def __init__(self, name: str = _("Get Parent Folder")) -> None:
         super().__init__(name)
 
     def has_result(self) -> bool:
         return True
 
     def activate(
-        self, leaf: files.FileLeaf, iobj: ty.Any = None, ctx: ty.Any = None
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
     ) -> files.FileLeaf:
+        assert isinstance(leaf, files.FileLeaf)
         fileloc = leaf.object
         parent = os.path.normpath(os.path.join(fileloc, os.path.pardir))
         return files.FileLeaf(parent)
@@ -106,5 +117,5 @@ class GetParent(Action):
     def get_description(self) -> str | None:
         return None
 
-    def get_icon_name(self):
+    def get_icon_name(self) -> str:
         return "folder-open"

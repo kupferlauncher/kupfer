@@ -9,6 +9,7 @@ for specific slots to be filled.
 """
 from __future__ import annotations
 
+from gettext import gettext as _
 import typing as ty
 
 from gi.repository import GdkPixbuf
@@ -56,9 +57,6 @@ MSN_KEY = "MSN"
 QQ_KEY = "QQ"
 SKYPE_KEY = "SKYPE"
 YAHOO_KEY = "YAHOO"
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class ContactLeaf(GroupingLeaf):

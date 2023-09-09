@@ -36,7 +36,7 @@ def _window_close_on_escape(widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
 
 def builder_get_objects_from_file(
     fname: str, attrs: ty.Iterable[str], autoconnect_to: ty.Any = None
-) -> ty.Iterator[ty.Any]:
+) -> ty.Iterator[Gtk.Widget]:
     """Open @fname with Gtk.Builder and yield objects named @attrs
 
     @fname is sought in the data directories.
@@ -67,6 +67,7 @@ def builder_get_objects_from_file(
 
 class _ResultWindowBehavior:
     def __init__(self):
+        # this is dynamic builder_get_objects_from_file.Namespace
         self.names: ty.Any = None
 
     def on_text_result_window_key_press_event(
@@ -184,6 +185,7 @@ def show_large_type(
     else:
         screen = Gdk.Screen.get_default()
 
+    assert screen
     maxwid = screen.get_width() - 50
     maxhei = screen.get_height() - 100
     l_sr = label.size_request()  # pylint: disable=no-member

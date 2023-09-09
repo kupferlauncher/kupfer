@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import typing as ty
 import zlib
+from gettext import gettext as _
 from gettext import ngettext
 
 
@@ -16,6 +17,7 @@ from kupfer import icons
 from kupfer.obj import actions
 from kupfer.obj.base import Action, Leaf, Source
 from kupfer.obj.representation import TextRepresentation
+from kupfer.core import commandexec
 
 __all__ = (
     "SourceLeaf",
@@ -23,10 +25,6 @@ __all__ = (
     "RunnableLeaf",
     "TextLeaf",
 )
-
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class SourceLeaf(Leaf):
@@ -98,7 +96,7 @@ class RunnableLeaf(Leaf):
     def item_types(self) -> ty.Iterable[Leaf]:
         return ()
 
-    def run(self, ctx: ty.Any = None) -> ty.Any:
+    def run(self, ctx: commandexec.ExecutionToken | None = None) -> ty.Any:
         raise NotImplementedError
 
     def wants_context(self) -> bool:

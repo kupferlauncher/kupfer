@@ -1,3 +1,5 @@
+from gettext import gettext as _
+
 VERSION = "development version"
 PACKAGE_NAME = "kupfer"
 

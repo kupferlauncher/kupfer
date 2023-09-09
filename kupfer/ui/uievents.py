@@ -80,9 +80,9 @@ class GUIEnvironmentContext:
 
     def get_display(self) -> str:
         """Return the display name to show new windows on."""
-        return self._screen.make_display_name()  # type: ignore
+        return ty.cast(str, self._screen.make_display_name())
 
-    def get_screen(self) -> Gdk.Screen | None:
+    def get_screen(self) -> Gdk.Screen:
         return self._screen
 
     def present_window(self, window: Gtk.Window) -> None:

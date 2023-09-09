@@ -17,7 +17,7 @@ def make_rankables(
     return (Rankable(str(obj), obj, rank) for obj in itr)
 
 
-def wrap_rankable(obj: ty.Any, rank: int = 0) -> Rankable:
+def wrap_rankable(obj: Leaf, rank: int = 0) -> Rankable:
     return Rankable(str(obj), obj, rank)
 
 

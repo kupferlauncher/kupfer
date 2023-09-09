@@ -19,6 +19,7 @@ from gi.repository import Gtk, Gdk
 
 from kupfer.support import kupferstring, itertools as kitertools
 from kupfer.obj.base import Leaf, Source, Action
+from kupfer.core import commandexec
 
 __author__ = (
     "Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "
@@ -252,7 +253,10 @@ class CopySlotAction(Action):
         return True
 
     def activate(
-        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
     ) -> Leaf | None:
         assert ctx
         clip = Gtk.Clipboard.get_for_display(

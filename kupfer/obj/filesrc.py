@@ -12,6 +12,7 @@ import os
 import typing as ty
 from contextlib import suppress
 from os import path
+from gettext import gettext as _
 
 from gi.repository import Gio, GLib
 
@@ -27,9 +28,6 @@ __all__ = (
     "DirectorySource",
     "FileSource",
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 def construct_file_leaf(obj: str) -> Leaf:

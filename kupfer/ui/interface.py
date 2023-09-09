@@ -31,6 +31,7 @@ _KEY_PRESS_REPEAT_THRESHOLD: ty.Final = 0.02
 if ty.TYPE_CHECKING:
     _ = str
 
+# accelerator is any function with no parameters; result is ignored
 AccelFunc = ty.Callable[[], ty.Any]
 
 

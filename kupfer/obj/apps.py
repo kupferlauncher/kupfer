@@ -10,6 +10,7 @@ from __future__ import annotations
 import os
 import typing as ty
 from contextlib import suppress
+from gettext import gettext as _
 
 from gi.repository import Gio, GLib
 
@@ -20,6 +21,7 @@ from kupfer.version import DESKTOP_ID
 from kupfer.obj.base import Action, Leaf, Source
 from kupfer.obj.exceptions import InvalidDataError, OperationError
 from kupfer.obj.helplib import FilesystemWatchMixin, PicklingHelperMixin
+from kupfer.core import commandexec
 
 __all__ = (
     "AppLeafContentMixin",
@@ -29,9 +31,6 @@ __all__ = (
     "LaunchAgain",
     "CloseAll",
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class AppLeafContentMixin:
@@ -185,7 +184,7 @@ class AppLeaf(Leaf):
         files: ty.Iterable[Gio.File] = (),
         paths: ty.Iterable[str] = (),
         activate: bool = False,
-        ctx: ty.Any = None,
+        ctx: commandexec.ExecutionToken | None = None,
         work_dir: str | None = None,
         uris: ty.Iterable[str] = (),
     ) -> bool:
@@ -261,7 +260,7 @@ class Launch(Action):
 
     def __init__(
         self,
-        name: str | None = None,
+        name: str | None = _("Launch"),
         is_running: bool = False,
         open_new: bool = False,
     ) -> None:
@@ -269,7 +268,7 @@ class Launch(Action):
         If @is_running, style as if the app is running (Show application)
         If @open_new, always start a new instance.
         """
-        Action.__init__(self, name or _("Launch"))
+        Action.__init__(self, name)
         self.is_running = is_running
         self.open_new = open_new
 
@@ -277,9 +276,14 @@ class Launch(Action):
         return True
 
     def activate(
-        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
-    ) -> None:
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
+    ) -> Leaf | None:
+        assert isinstance(leaf, AppLeaf)
         leaf.launch(activate=not self.open_new, ctx=ctx)
+        return None
 
     def get_description(self) -> str:
         if self.is_running:
@@ -298,8 +302,8 @@ class LaunchAgain(Launch):
     action_accelerator: str | None = None
     rank_adjust = 0
 
-    def __init__(self, name: str | None = None):
-        Launch.__init__(self, name or _("Launch Again"), open_new=True)
+    def __init__(self, name: str | None = _("Launch Again")):
+        Launch.__init__(self, name, open_new=True)
 
     def item_types(self) -> ty.Iterator[ty.Type[Leaf]]:
         yield AppLeaf
@@ -317,13 +321,18 @@ class CloseAll(Action):
 
     rank_adjust = -10
 
-    def __init__(self):
-        Action.__init__(self, _("Close"))
+    def __init__(self, name: str | None = _("Close")) -> None:
+        Action.__init__(self, name)
 
     def activate(
-        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
-    ) -> None:
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
+    ) -> Leaf | None:
+        assert isinstance(leaf, AppLeaf)
         launch.application_close_all(leaf.get_id())
+        return None
 
     def item_types(self) -> ty.Iterator[ty.Type[Leaf]]:
         yield AppLeaf

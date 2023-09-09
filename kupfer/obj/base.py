@@ -16,6 +16,9 @@ from gi.repository import GdkPixbuf
 from kupfer import icons
 from kupfer.support import itertools, kupferstring, pretty
 
+if ty.TYPE_CHECKING:
+    from kupfer.core.commandexec import ExecutionToken
+
 __all__ = [
     "KupferObject",
     "Leaf",
@@ -232,13 +235,17 @@ class Action(KupferObject):
         return None
 
     def activate(
-        self, leaf: ty.Any, iobj: ty.Any = None, ctx: ty.Any = None
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: "ExecutionToken" | None = None,
     ) -> Leaf | None:
         """Use this action with @obj and @iobj
 
-        @leaf:  the direct object (Leaf)
-        @iobj: the indirect object (Leaf), if ``self.requires_object``
-               returns ``False``
+        leaf: the direct object (Leaf)
+        iobj: the indirect object (Leaf), if ``self.requires_object``
+              returns ``False``
+        ctx:  optional ExecutionToken
 
         if ``self.wants_context`` returns ``True``, then the action
         also receives an execution context object as ``ctx``.
@@ -247,6 +254,7 @@ class Action(KupferObject):
         is called if it is defined and the action gets either
         multiple objects or iobjects.
         """
+        raise NotImplementedError
 
     def wants_context(self) -> bool:
         """Return ``True`` if ``activate`` should receive the

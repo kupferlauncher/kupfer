@@ -5,7 +5,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
-import typing as ty
+from gettext import gettext as _
 
 __all__ = (
     "Error",
@@ -16,9 +16,6 @@ __all__ = (
     "NoMultiError",
     "NoDefaultApplicationError",
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class Error(Exception):

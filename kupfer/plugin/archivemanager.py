@@ -101,17 +101,23 @@ _EXTENSIONS_SET = (
 def _tool_cmd_path(tool: str) -> str | None:
     if tool == "7-zip":
         return shutil.which("7z")
-    elif tool == "7za":
+
+    if tool == "7za":
         return shutil.which("7za")
 
     return shutil.which("file-roller")
 
 
 class UnpackHere(Action):
-    def __init__(self):
+    def __init__(self) -> None:
         Action.__init__(self, _("Extract Here"))
 
-    def activate(self, leaf, iobj=None, ctx=None):
+    def activate(
+        self,
+        leaf: Leaf,
+        iobj: Leaf | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
+    ) -> Leaf | None:
         tool = __kupfer_settings__["tool"]
         if not _tool_cmd_path(tool):
             return CommandNotAvailableLeaf(__name__, __kupfer_name__, tool)
@@ -119,16 +125,17 @@ class UnpackHere(Action):
         filedir = str(Path(leaf.object).parent)
         if tool == "7-zip":
             launch.spawn_in_terminal(["7z", "x", leaf.object], filedir)
-            return
+            return None
 
         if tool == "7za":
             launch.spawn_in_terminal(["7za", "x", leaf.object], filedir)
-            return
+            return None
 
         launch.spawn_async_notify_as(
             "file-roller.desktop",
             ["file-roller", "--extract-here", leaf.object],
         )
+        return None
 
     def valid_for_item(self, leaf):
         fname, ext = os.path.splitext(leaf.object)

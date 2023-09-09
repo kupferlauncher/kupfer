@@ -154,7 +154,7 @@ class ExecutionToken:
         )
 
     @property
-    def environment(self):
+    def environment(self) -> GUIEnvironmentContext:
         """This is a property for the current environment,
         acess env variables like this::
 
@@ -192,7 +192,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         assert cls._instance
         return cls._instance
 
-    def __init__(self):
+    def __init__(self) -> None:
         GObject.GObject.__init__(self)
         self._task_runner = task.TaskRunner(end_on_finish=False)
         self._nest_level = 0

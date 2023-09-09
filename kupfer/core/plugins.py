@@ -7,6 +7,7 @@ import traceback
 import types
 import typing as ty
 from enum import Enum
+from gettext import gettext as _
 
 from kupfer import icons
 from kupfer import plugin as kplugin
@@ -15,9 +16,6 @@ from kupfer.support.types import ExecInfo
 from kupfer.core import settings
 
 # import kupfer.icons on demand later
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class PluginAttr(Enum):

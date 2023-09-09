@@ -141,7 +141,9 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self, plugin_id: str, actions: list[Action]
     ) -> None:
         # Keep a mapping: Decorated Leaf Type -> List of actions
-        decorate_types: defaultdict[ty.Any, list[Action]] = defaultdict(list)
+        decorate_types: defaultdict[type[Leaf], list[Action]] = defaultdict(
+            list
+        )
         for action in actions:
             for appl_type in action.item_types():
                 decorate_types[appl_type].append(action)
