@@ -8,6 +8,12 @@ from time import time as timestamp
 from kupfer.support.types import ExecInfo
 
 DEBUG = False
+COLORS = True
+
+COLOR_INFO = "\033[96m"
+COLOR_WARNING = "\033[93m"
+COLOR_FAIL = "\033[91m"
+COLOR_STD = "\033[0m"
 
 
 class OutputMixin:
@@ -29,36 +35,69 @@ class OutputMixin:
             item if isinstance(item, (str, int, float)) else repr(item)
             for item in items
         ]
-        print(prefix + category, *pitems, sep=sep, end=end, file=stream)
+        print(f"{prefix}{category}", *pitems, sep=sep, end=end, file=stream)
 
     def output_info(
         self, *items: ty.Any, sep: str = " ", end: str = "\n", **kwargs: ty.Any
     ) -> None:
         """Output given items using @sep as separator, ending the line with @end"""
-        self._output_core("", sep, end, sys.stdout, *items)
+        if COLORS:
+            self._output_core(
+                f"{COLOR_INFO}INF{COLOR_STD} ", sep, end, sys.stdout, *items
+            )
+        else:
+            self._output_core("INF ", sep, end, sys.stdout, *items)
 
     def output_exc(self, exc_info: ExecInfo | None = None) -> None:
         """Output current exception, or use @exc_info if given"""
         etype, value, tback = exc_info or sys.exc_info()
         assert etype
         if DEBUG:
-            self._output_core("Exception in ", "", "\n", sys.stderr)
+            if COLORS:
+                self._output_core(
+                    f"{COLOR_FAIL}EXC{COLOR_STD} ",
+                    "",
+                    "\n",
+                    sys.stderr,
+                )
+            else:
+                self._output_core("EXC ", "", "\n", sys.stderr)
+
             traceback.print_exception(etype, value, tback, file=sys.stderr)
+
             return
 
         msg = f"{etype.__name__}: {value}"
-        self._output_core("Exception in ", " ", "\n", sys.stderr, msg)
+        if COLORS:
+            self._output_core(
+                f"{COLOR_FAIL}EXC{COLOR_STD} ",
+                " ",
+                "\n",
+                sys.stderr,
+                msg,
+            )
+        else:
+            self._output_core("EXC ", " ", "\n", sys.stderr, msg)
 
     def output_debug(
         self, *items: ty.Any, sep: str = " ", end: str = "\n", **kwargs: ty.Any
     ) -> None:
         if DEBUG:
-            self._output_core("D ", sep, end, sys.stderr, *items)
+            self._output_core("DBG ", sep, end, sys.stderr, *items)
 
     def output_error(
         self, *items: ty.Any, sep: str = " ", end: str = "\n", **kwargs: ty.Any
     ) -> None:
-        self._output_core("Error ", sep, end, sys.stderr, *items)
+        if COLORS:
+            self._output_core(
+                f"{COLOR_WARNING}ERR{COLOR_STD} ",
+                sep,
+                end,
+                sys.stderr,
+                *items,
+            )
+        else:
+            self._output_core("ERR ", sep, end, sys.stderr, *items)
 
 
 class _StaticOutput(OutputMixin):

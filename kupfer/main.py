@@ -79,6 +79,7 @@ def get_options() -> list[str]:
         # TRANS: --exec-helper=HELPER is an internal command
         # TRANS: that executes a helper program that is part of kupfer
         ("exec-helper=", _("run plugin helper")),
+        ("no-colors", _("do not use colored text in terminal")),
     ]
     misc_options = [
         ("help", _("show usage help")),
@@ -211,6 +212,9 @@ def main() -> None:
             import debug
 
             debug.install()
+
+    # enable colors only on terminal
+    pretty.COLORS = sys.stdout.isatty() and "--no-colors" not in cli_opts
 
     sys.excepthook = sys.__excepthook__
     _set_process_title()
