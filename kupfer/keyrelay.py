@@ -2,8 +2,8 @@
 This is a program of its own, that does not integrate with the
 Kupfer process.
 """
-import builtins
 import os
+import typing as ty
 
 import dbus
 import gi
@@ -15,12 +15,15 @@ gi.require_version("Keybinder", "3.0")
 # pylint: disable=wrong-import-position
 from gi.repository import Gtk, Keybinder  # noqa:E402
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
+
+__all__ = ("main",)
+
 SERV = "se.kaizer.kupfer"
 OBJ = "/interface"
 IFACE = "se.kaizer.kupfer.Listener"
-
-if not hasattr(builtins, "_"):
-    _ = str
 
 
 def _get_all_keys() -> list[str]:

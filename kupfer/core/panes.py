@@ -18,6 +18,14 @@ from kupfer.core.search import Rankable
 from kupfer.core.searcher import Searcher
 from kupfer.core.sources import get_source_controller
 
+__all__ = (
+    "LeafPane",
+    "Pane",
+    "PrimaryActionPane",
+    "SecondaryObjectPane",
+    "SearchContext",
+)
+
 SearchContext = tuple[int, ty.Any]
 
 

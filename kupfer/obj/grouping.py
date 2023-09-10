@@ -13,13 +13,15 @@ import time
 import typing as ty
 import weakref
 from collections import defaultdict
-from gettext import gettext as _
 
 from gi.repository import Gtk, Gdk
 
 from kupfer.support import kupferstring, itertools as kitertools
 from kupfer.obj.base import Leaf, Source, Action
 from kupfer.core import commandexec
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __author__ = (
     "Karol Będkowski <karol.bedkowsk+gh@gmail.com>, "

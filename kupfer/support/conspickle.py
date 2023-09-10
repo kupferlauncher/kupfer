@@ -4,6 +4,8 @@ import pickle
 import sys
 import typing as ty
 
+__all__ = ("ConservativeUnpickler", "BasicUnpickler")
+
 
 # pylint: disable=too-few-public-methods
 class UniversalSet:

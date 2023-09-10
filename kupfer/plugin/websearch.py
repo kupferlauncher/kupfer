@@ -24,6 +24,7 @@ from kupfer.plugin._firefox_support import get_firefox_home_file
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "extra_engines",

@@ -11,7 +11,12 @@ from kupfer.obj.base import KupferObject
 from kupfer.obj.representation import TextRepresentation  # noqa: F401
 from kupfer.obj.representation import UriListRepresentation  # noqa: F401
 
-__all__ = ("TextRepresentation", "UriListRepresentation")
+__all__ = (
+    "TextRepresentation",
+    "UriListRepresentation",
+    "get_text_representation",
+    "copy_to_clipboard",
+)
 
 
 def get_text_representation(obj: ty.Any) -> str | None:

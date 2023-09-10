@@ -11,6 +11,8 @@ import sys
 
 from kupfer.support import pretty, datatools
 
+__all__ = ("get_hostname", "get_homedir", "get_application_filename")
+
 
 @datatools.evaluate_once
 def get_hostname() -> str:

@@ -7,8 +7,6 @@ to textfiles, we always work in the locale-defined encoding.
 
 FIXME: Be less strict (use UTF-8 if locale says Ascii)
 """
-
-
 __kupfer_name__ = _("Textfiles")
 __kupfer_actions__ = (
     "AppendTo",
@@ -22,11 +20,15 @@ __version__ = "2017.1"
 __author__ = ""
 
 from pathlib import Path
+import typing as ty
 
 from gi.repository import Gdk, Gtk
 
 from kupfer.obj import Action, FileLeaf, TextLeaf, helplib
 from kupfer.support import fileutils, kupferstring, validators
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class AppendTo(Action):

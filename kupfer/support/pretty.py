@@ -7,13 +7,23 @@ from time import time as timestamp
 
 from kupfer.support.types import ExecInfo
 
+__all__ = (
+    "OutputMixin",
+    "print_debug",
+    "print_error",
+    "print_exc",
+    "print_info",
+    "timing_start",
+    "timing_step",
+)
+
 DEBUG = False
 COLORS = True
 
-COLOR_INFO = "\033[96m"
-COLOR_WARNING = "\033[93m"
-COLOR_FAIL = "\033[91m"
-COLOR_STD = "\033[0m"
+_COLOR_INFO = "\033[96m"
+_COLOR_WARNING = "\033[93m"
+_COLOR_FAIL = "\033[91m"
+_COLOR_STD = "\033[0m"
 
 
 class OutputMixin:
@@ -43,7 +53,7 @@ class OutputMixin:
         """Output given items using @sep as separator, ending the line with @end"""
         if COLORS:
             self._output_core(
-                f"{COLOR_INFO}INF{COLOR_STD} ", sep, end, sys.stdout, *items
+                f"{_COLOR_INFO}INF{_COLOR_STD} ", sep, end, sys.stdout, *items
             )
         else:
             self._output_core("INF ", sep, end, sys.stdout, *items)
@@ -55,7 +65,7 @@ class OutputMixin:
         if DEBUG:
             if COLORS:
                 self._output_core(
-                    f"{COLOR_FAIL}EXC{COLOR_STD} ",
+                    f"{_COLOR_FAIL}EXC{_COLOR_STD} ",
                     "",
                     "\n",
                     sys.stderr,
@@ -70,7 +80,7 @@ class OutputMixin:
         msg = f"{etype.__name__}: {value}"
         if COLORS:
             self._output_core(
-                f"{COLOR_FAIL}EXC{COLOR_STD} ",
+                f"{_COLOR_FAIL}EXC{_COLOR_STD} ",
                 " ",
                 "\n",
                 sys.stderr,
@@ -90,7 +100,7 @@ class OutputMixin:
     ) -> None:
         if COLORS:
             self._output_core(
-                f"{COLOR_WARNING}ERR{COLOR_STD} ",
+                f"{_COLOR_WARNING}ERR{_COLOR_STD} ",
                 sep,
                 end,
                 sys.stderr,

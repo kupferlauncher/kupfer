@@ -10,6 +10,9 @@ from gi.repository import Gtk
 from kupfer import plugin_support
 from kupfer.support import pretty
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "prefer_dark",
@@ -18,9 +21,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": True,
     },
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 def initialize_plugin(name):

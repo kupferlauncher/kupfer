@@ -1,5 +1,13 @@
 from __future__ import annotations
 
+__kupfer_name__ = "Free-text Queries"
+__kupfer_sources__ = ()
+__kupfer_text_sources__ = ("BasicTextSource", "PathTextSource", "URLTextSource")
+__kupfer_actions__ = ("OpenTextUrl",)
+__description__ = "Basic support for free-text queries"
+__version__ = "2021.1"
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+
 import os
 import typing as ty
 import urllib.error
@@ -13,17 +21,8 @@ from kupfer.obj import FileLeaf, Leaf, OpenUrl, TextLeaf, TextSource, UrlLeaf
 from kupfer.support import pretty, system
 from kupfer.support.validators import is_url
 
-__kupfer_name__ = "Free-text Queries"
-__kupfer_sources__ = ()
-__kupfer_text_sources__ = ("BasicTextSource", "PathTextSource", "URLTextSource")
-__kupfer_actions__ = ("OpenTextUrl",)
-__description__ = "Basic support for free-text queries"
-__version__ = "2021.1"
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
-
-
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 class BasicTextSource(TextSource):

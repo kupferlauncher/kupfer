@@ -4,9 +4,9 @@ __description__ = _("Look up word in dictionary")
 __version__ = "2023-04-14"
 __author__ = "Ulrik, KB"
 
-import typing as ty
 import collections
 import shutil
+import typing as ty
 
 from kupfer import launch, plugin_support
 from kupfer.desktop_launch import SpawnError

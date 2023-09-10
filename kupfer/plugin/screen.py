@@ -7,10 +7,14 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import os
 import pwd
 from pathlib import Path
+import typing as ty
 
 from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.helplib import FilesystemWatchMixin
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 plugin_support.check_command_available("screen")
 

@@ -7,12 +7,16 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import os
 import pkgutil
 from pathlib import Path
+import typing as ty
 
 # Since this is a core plugin we break some rules
 # These modules are normally out of bounds for plugins
 from kupfer.core import plugins, settings
 from kupfer.obj import Action, FileLeaf, Leaf, Source, TextLeaf
 from kupfer.ui import preferences
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class ShowInfo(Action):

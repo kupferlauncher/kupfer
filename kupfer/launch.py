@@ -39,6 +39,18 @@ __all__ = (
     "SpawnError",
     "launch_application",
     "get_applications_matcher_service",
+    "application_close_all",
+    "application_is_running",
+    "get_display_path_for_bytestring",
+    "show_help_url",
+    "show_url",
+    "spawn_async_raise",
+    "spawn_async",
+    "spawn_async_notify_as",
+    "spawn_in_terminal",
+    "spawn_terminal",
+    "AsyncCommand",
+    "application_id",
 )
 
 _DEFAULT_ASSOCIATIONS = {

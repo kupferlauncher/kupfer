@@ -8,13 +8,15 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import typing as ty
 from pathlib import Path
-from gettext import gettext as _
 
 from kupfer import puid, plugin_support
 from kupfer.plugin import session_support as support
 from kupfer.obj import Source, Leaf
 from kupfer.core import learn
 from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

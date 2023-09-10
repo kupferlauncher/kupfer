@@ -4,29 +4,36 @@ import locale
 import runpy
 import sys
 import typing as ty
+from  pathlib import Path
 from contextlib import suppress
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 try:
     from kupfer import version_subst  # type:ignore
 except ImportError:
     version_subst = None
 
-if ty.TYPE_CHECKING:
-    _ = str
+__all__ = ("main",)
 
 
 def _setup_locale_and_gettext() -> None:
     """Set up localization with gettext"""
     package_name = "kupfer"
     localedir = "./locale"
+    for ldir in ("./locale", "/usr/local/share/locale/"):
+        if Path(ldir).is_dir():
+            localedir = ldir
+            break
+
     if version_subst:
         package_name = version_subst.PACKAGE_NAME
         localedir = version_subst.LOCALEDIR
+
     # Install _() builtin for gettext; always returning unicode objects
     # also install ngettext()
-    gettext.install(
-        package_name, localedir=localedir, names=("ngettext",)  # unicode=True,
-    )
+    gettext.install(package_name, localedir=localedir, names=("ngettext",))
     # For Gtk.Builder, we need to call the C library gettext functions
     # As well as set the codeset to avoid locale-dependent translation
     # of the message catalog
@@ -69,7 +76,7 @@ def _make_plugin_list() -> str:
     return "\n".join((plugin_header, plugin_list))
 
 
-def get_options() -> list[str]:
+def _get_options() -> list[str]:
     """Return a list of other application flags with --* prefix included."""
 
     program_options = [
@@ -103,7 +110,7 @@ def get_options() -> list[str]:
 
     for key, val in opts:
         if key == "--list-plugins":
-            _print(gtkmain(_make_plugin_list))
+            _print(_gtkmain(_make_plugin_list))
             raise SystemExit
 
         if key == "--help":
@@ -116,11 +123,11 @@ def get_options() -> list[str]:
 
         if key == "--relay":
             _print("WARNING: --relay is deprecated!")
-            exec_helper("kupfer.keyrelay")
+            _exec_helper("kupfer.keyrelay")
             raise SystemExit
 
         if key == "--exec-helper":
-            exec_helper(val)
+            _exec_helper(val)
             raise SystemExit(1)
 
     # return list first of tuple pair
@@ -134,7 +141,7 @@ def _print_version() -> None:
     _print(version.PACKAGE_NAME, version.VERSION)
 
 
-def print_banner() -> None:
+def _print_banner() -> None:
     # require setup path and locales
     from kupfer import version  # pylint: disable=import-outside-toplevel
 
@@ -158,12 +165,12 @@ def _set_process_title() -> None:
         setproctitle.setproctitle("kupfer")
 
 
-def exec_helper(helpername: str) -> None:
+def _exec_helper(helpername: str) -> None:
     runpy.run_module(helpername, run_name="__main__", alter_sys=True)
     raise SystemExit
 
 
-def gtkmain(
+def _gtkmain(
     run_function: ty.Callable[..., ty.Any],
     *args: ty.Any,
     **kwargs: ty.Any,
@@ -181,7 +188,7 @@ def gtkmain(
     return run_function(*args, **kwargs)
 
 
-def browser_start(quiet: bool) -> None:
+def _browser_start(quiet: bool) -> None:
     from gi.repository import Gdk  # pylint: disable=import-outside-toplevel
 
     if not Gdk.Screen.get_default():
@@ -196,8 +203,8 @@ def browser_start(quiet: bool) -> None:
 
 def main() -> None:
     # parse commandline before importing UI
-    cli_opts = get_options()
-    print_banner()
+    cli_opts = _get_options()
+    _print_banner()
 
     # pylint: disable=import-outside-toplevel
     from kupfer import version
@@ -220,4 +227,4 @@ def main() -> None:
     _set_process_title()
 
     quiet = "--no-splash" in cli_opts
-    gtkmain(browser_start, quiet)
+    _gtkmain(_browser_start, quiet)

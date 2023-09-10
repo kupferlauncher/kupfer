@@ -1,4 +1,3 @@
-import functools
 import os
 
 try:
@@ -7,10 +6,12 @@ except ImportError:
     Wnck = None
 
 from kupfer import config
-from kupfer.support import pretty
+from kupfer.support import pretty, datatools
+
+__all__ = ("is_kwin", "is_wayland", "allows_keybinder")
 
 
-@functools.lru_cache(maxsize=1)
+@datatools.evaluate_once
 def is_kwin() -> bool:
     """Try to figure out if KWin is the current window manager.
     If Wnck unavailable try guess from environment variables.

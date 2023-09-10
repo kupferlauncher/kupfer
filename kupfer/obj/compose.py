@@ -8,14 +8,15 @@ see the main program file, and COPYING for details.
 from __future__ import annotations
 
 import typing as ty
-from gettext import gettext as _
-from gettext import ngettext
 
 from kupfer import icons, puid
 from kupfer.support import itertools, pretty, scheduler, textutils
 from kupfer.core import commandexec
 from kupfer.obj import actions, exceptions, objects
 from kupfer.obj.base import Action, Leaf, Source
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
 
 
 __all__ = (

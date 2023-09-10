@@ -8,8 +8,8 @@ __description__ = "Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-import typing as ty
 from contextlib import suppress
+import typing as ty
 
 from gi.repository import Gdk, Gtk
 
@@ -23,7 +23,7 @@ from kupfer.core import commandexec
 from kupfer.support import pretty, task
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 def _is_debug():

@@ -10,9 +10,13 @@ __version__ = "2017.1"
 __author__ = "US"
 
 import urllib.parse
+import typing as ty
 
 from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source, TextLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

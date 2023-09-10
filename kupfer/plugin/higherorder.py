@@ -4,10 +4,15 @@ __description__ = _("Tools to work with commands as objects")
 __version__ = "2010-01-11"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import typing as ty
+
 from kupfer.core import commandexec
 from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.compose import ComposedLeaf, MultipleLeaf
 from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class Select(Action):

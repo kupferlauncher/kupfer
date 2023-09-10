@@ -8,7 +8,7 @@ from kupfer.obj import Action, FileLeaf, TextLeaf, TextSource
 from kupfer.obj.compose import ComposedLeaf
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 class SaveToFile(Action):

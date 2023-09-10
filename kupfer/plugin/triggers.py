@@ -10,7 +10,7 @@ __description__ = _(
 __version__ = "2009-12-30"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from gettext import gettext as _
+import typing as ty
 
 from gi.repository import GLib, Gtk
 
@@ -20,6 +20,9 @@ from kupfer.obj import Action, OperationError, RunnableLeaf, Source
 from kupfer.obj.compose import ComposedLeaf
 from kupfer.support import task
 from kupfer.ui import getkey_dialog, keybindings, uievents
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 plugin_support.check_keybinding_support()
 

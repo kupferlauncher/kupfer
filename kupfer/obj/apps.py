@@ -10,7 +10,6 @@ from __future__ import annotations
 import os
 import typing as ty
 from contextlib import suppress
-from gettext import gettext as _
 
 from gi.repository import Gio, GLib
 
@@ -22,6 +21,9 @@ from kupfer.obj.base import Action, Leaf, Source
 from kupfer.obj.exceptions import InvalidDataError, OperationError
 from kupfer.obj.helplib import FilesystemWatchMixin, PicklingHelperMixin
 from kupfer.core import commandexec
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __all__ = (
     "AppLeafContentMixin",

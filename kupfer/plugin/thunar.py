@@ -15,6 +15,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 import os
 from contextlib import suppress
 from pathlib import Path
+import typing as ty
 
 import dbus
 
@@ -30,6 +31,9 @@ from kupfer.obj import (
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.exceptions import InvalidDataError, NoMultiError
 from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 plugin_support.check_dbus_connection()
 

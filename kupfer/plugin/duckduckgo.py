@@ -10,9 +10,13 @@ __version__ = "1.0"
 __author__ = "Isaac Aggrey <isaac.aggrey@gmail.com>"
 
 import urllib.parse
+import typing as ty
 
 from kupfer import launch
 from kupfer.obj import Action, TextLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class DuckDuckGoSearch(Action):

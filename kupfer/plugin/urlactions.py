@@ -15,11 +15,13 @@ import urllib.error
 import urllib.parse
 import urllib.request
 import http.client
-from gettext import gettext as _
 
 from kupfer import launch
 from kupfer.obj import Action, FileLeaf, UrlLeaf
 from kupfer.support import fileutils, task
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 def get_dest_name(response: http.client.HTTPResponse) -> str:

@@ -8,10 +8,10 @@ __description__ = _("Download files using remote instance of Aria2")
 __version__ = "2023-05-14"
 __author__ = "KB"
 
-import typing as ty
 import urllib.request
 import json
 import time
+import typing as ty
 
 from kupfer import plugin_support
 from kupfer.obj import Action, UrlLeaf, OperationError
@@ -19,6 +19,7 @@ from kupfer.ui import uiutils
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

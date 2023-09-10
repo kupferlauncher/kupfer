@@ -26,9 +26,13 @@ __version__ = "1.0"
 __author__ = "Leonardo Masuero <leom255255@gmail.com>"
 
 from contextlib import suppress
+import typing as ty
 
 from kupfer import launch
 from kupfer.obj import Action, TextLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class WhatsApp(Action):

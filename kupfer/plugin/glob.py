@@ -7,9 +7,13 @@ __author__ = ""
 
 import fnmatch
 import re
+import typing as ty
 
 from kupfer.obj import Action, Leaf, OperationError, TextLeaf, TextSource
 from kupfer.obj.compose import MultipleLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class Glob(Action):

@@ -3,9 +3,13 @@ __kupfer_actions__ = ("LookUp",)
 __description__ = _("Search in Devhelp")
 __version__ = "2017.1"
 __author__ = ""
+import typing as ty
 
 from kupfer import launch, icons, plugin_support
 from kupfer.obj import Action, OperationError, TextLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 plugin_support.check_command_available("devhelp")
 

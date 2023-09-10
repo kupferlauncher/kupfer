@@ -59,6 +59,9 @@ from kupfer.ui import uiutils
 from kupfer.ui.uievents import GUIEnvironmentContext
 from kupfer.core._support import get_leaf_members, is_multiple_leaf
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 __all__ = (
     "ExecResult",
     "ActionExecutionError",
@@ -92,9 +95,6 @@ Token = tuple[int, ty.Optional[CmdTuple]]
 
 ## ActionResult is result (content) of action
 ActionResult = ty.Union[Source, Leaf, task.Task, None]
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 # ActionResultRefresh is special leaf used as result of action that

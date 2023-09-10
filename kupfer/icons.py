@@ -17,6 +17,25 @@ from gi.repository.GLib import GError
 from kupfer.core import settings
 from kupfer.support import datatools, pretty, scheduler
 
+__all__ = (
+    "ComposedIcon",
+    "IconRenderer",
+    "ComposedIconSmall",
+    "get_gicon_for_file",
+    "get_gicon_for_names",
+    "get_gicon_from_file",
+    "get_gicon_with_fallbacks",
+    "get_good_name_for_icon_names",
+    "get_icon_for_gicon",
+    "get_icon_for_name",
+    "get_icon_from_file",
+    "get_pixbuf_from_data",
+    "get_pixbuf_from_file",
+    "get_thumbnail_for_gfile",
+    "is_good_gicon",
+    "parse_load_icon_list",
+)
+
 _ICON_CACHE: ty.Final[
     datatools.LruCache[tuple[int, str], GdkPixbuf.Pixbuf]
 ] = datatools.LruCache(128, name="_ICON_CACHE")
@@ -532,7 +551,7 @@ def get_icon_from_file(
     return None
 
 
-def is_good(gicon: GIcon | None) -> bool:
+def is_good_gicon(gicon: GIcon | None) -> bool:
     """Return True if it is likely that @gicon will load a visible icon
     (icon name exists in theme, or icon references existing file)
     """
@@ -553,13 +572,13 @@ def is_good(gicon: GIcon | None) -> bool:
 def get_gicon_with_fallbacks(
     gicon: GIcon | None, names: ty.Iterable[str]
 ) -> GIcon | None:
-    if is_good(gicon):
+    if is_good_gicon(gicon):
         return gicon
 
     name = None
     for name in names:
         gicon = ThemedIcon.new(name)
-        if is_good(gicon):
+        if is_good_gicon(gicon):
             return gicon
 
     return ThemedIcon.new(name) if name else None

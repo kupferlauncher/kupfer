@@ -4,9 +4,14 @@ __description__ = _("Compose email using the system's default mailto: handler")
 __version__ = "2017.1"
 __author__ = ""
 
+import typing as ty
+
 from kupfer import launch
 from kupfer.obj import Action, TextLeaf, UrlLeaf
 from kupfer.obj.contacts import ContactLeaf, email_from_leaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class NewMailAction(Action):

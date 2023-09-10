@@ -20,10 +20,10 @@ from kupfer.obj import Action, Leaf, NotAvailableError, Source
 from kupfer.support import pretty, weaklib
 from kupfer.ui import uiutils
 
-plugin_support.check_dbus_connection()
-
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
+
+plugin_support.check_dbus_connection()
 
 _NM_SERVICE = "org.freedesktop.NetworkManager"
 _NM_OBJECT = "/org/freedesktop/NetworkManager"

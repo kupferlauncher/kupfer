@@ -7,7 +7,6 @@ import traceback
 import types
 import typing as ty
 from enum import Enum
-from gettext import gettext as _
 
 from kupfer import icons
 from kupfer import plugin as kplugin
@@ -15,7 +14,28 @@ from kupfer.support import pretty
 from kupfer.support.types import ExecInfo
 from kupfer.core import settings
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 # import kupfer.icons on demand later
+
+__all__ = (
+    "LoadingError",
+    "NotEnabledError",
+    "PluginAttr",
+    "get_plugin_attribute",
+    "get_plugin_attributes",
+    "get_plugin_desc",
+    "get_plugin_error",
+    "get_plugin_ids",
+    "get_plugin_info",
+    "get_plugin_name",
+    "initialize_plugin",
+    "is_plugin_loaded",
+    "load_plugin_objects",
+    "register_plugin_unimport_hook",
+    "unimport_plugin",
+)
 
 
 class PluginAttr(Enum):
@@ -71,7 +91,7 @@ def get_plugin_ids() -> ty.Iterator[str]:
 
 
 # pylint: disable=too-few-public-methods
-class FakePlugin:
+class _FakePlugin:
     def __init__(
         self,
         plugin_id: str,
@@ -87,7 +107,7 @@ class FakePlugin:
         return f"<{type(self).__name__} {self.__name__}>"
 
 
-PluginModule = ty.Union[types.ModuleType, FakePlugin]
+PluginModule = ty.Union[types.ModuleType, _FakePlugin]
 # imported plugins, none=not existing
 _IMPORTED_PLUGINS: dict[str, PluginModule | None] = {}
 
@@ -183,7 +203,7 @@ def _truncate_source(
 
 def _import_plugin_fake(
     modpath: str, error: ExecInfo | None = None
-) -> FakePlugin | None:
+) -> _FakePlugin | None:
     """Return an object that has the plugin info attributes we can rescue
     from a plugin raising on import.
 
@@ -218,7 +238,7 @@ def _import_plugin_fake(
     attributes.update(
         (k.value, env.get(k.value)) for k in (PluginAttr.NAME, PluginAttr.FILE)
     )
-    return FakePlugin(modpath, attributes, error)
+    return _FakePlugin(modpath, attributes, error)
 
 
 def _import_hook_fake(pathcomps: ty.Iterable[str]) -> PluginModule | None:
@@ -485,7 +505,7 @@ def get_plugin_name(modulename: str) -> str:
     """
     name: str | None = None
     for module in _IMPORTED_PLUGINS.values():
-        if not module or isinstance(module, FakePlugin):
+        if not module or isinstance(module, _FakePlugin):
             continue
 
         if module.__name__ == modulename:

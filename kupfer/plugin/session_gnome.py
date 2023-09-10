@@ -9,8 +9,12 @@ __kupfer_sources__ = ("GnomeItemsSource",)
 __description__ = _("Special items and actions for GNOME environment")
 __version__ = "2012-10-16"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
+import typing as ty
 
 from kupfer.plugin import session_support as support
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 # sequences of argument lists
 LOGOUT_CMD = (

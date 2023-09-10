@@ -17,6 +17,7 @@ from kupfer.obj import Action, Leaf, Source
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "sort_order",

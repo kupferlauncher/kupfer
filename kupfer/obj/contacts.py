@@ -9,7 +9,6 @@ for specific slots to be filled.
 """
 from __future__ import annotations
 
-from gettext import gettext as _
 import typing as ty
 
 from gi.repository import GdkPixbuf
@@ -18,6 +17,9 @@ from kupfer import icons
 from kupfer.support import validators
 from kupfer.obj.base import Leaf
 from kupfer.obj.grouping import GroupingLeaf, Slots
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __author__ = (
     "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>, "

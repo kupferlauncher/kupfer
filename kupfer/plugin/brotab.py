@@ -13,7 +13,7 @@ from brotab.main import create_clients  # pylint: disable=import-error
 from kupfer.obj import Action, Leaf, Source, UrlLeaf
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 def get_api():

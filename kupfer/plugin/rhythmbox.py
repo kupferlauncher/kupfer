@@ -44,6 +44,10 @@ from kupfer.obj.helplib import PicklingHelperMixin
 from kupfer.plugin import rhythmbox_support
 from kupfer.support import kupferstring, pretty, weaklib
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
+
 plugin_support.check_dbus_connection()
 plugin_support.check_command_available("rhythmbox-client")
 
@@ -67,9 +71,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": False,
     },
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 _BUS_NAME = "org.gnome.Rhythmbox3"
 _OBJ_PATH_MPRIS = "/org/mpris/MediaPlayer2"

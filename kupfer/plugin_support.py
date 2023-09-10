@@ -2,18 +2,23 @@ from __future__ import annotations
 
 import typing as ty
 import shutil
-from gettext import gettext as _, ngettext
 
 from gi.repository import GObject
 
 from kupfer.core import plugins, settings
 from kupfer.support import fileutils, pretty
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
+
 __all__ = [
     "UserNamePassword",
     "PluginSettings",
     "check_dbus_connection",
     "check_keyring_support",
+    "register_alternative",
+    "check_command_available",
+    "check_any_command_available",
 ]
 
 

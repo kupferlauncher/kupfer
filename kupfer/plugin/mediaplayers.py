@@ -12,10 +12,11 @@ from kupfer import plugin_support
 from kupfer.obj import OperationError, RunnableLeaf, Source
 from kupfer.support import weaklib
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 plugin_support.check_dbus_connection()
 
-if ty.TYPE_CHECKING:
-    _ = str
 
 _MPRIS_PREFIX = "org.mpris.MediaPlayer2."
 _MPRIS_PLAYER = "org.mpris.MediaPlayer2.Player"

@@ -12,6 +12,8 @@ from kupfer.core.plugins import (
     load_plugin_objects,
 )
 
+__all__ = ("load_plugin", "exception_guard", "remove_plugin")
+
 
 # pylint: disable=too-few-public-methods
 class PluginDescription:

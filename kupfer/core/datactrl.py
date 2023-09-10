@@ -45,6 +45,8 @@ from kupfer.core.panes import (
 from kupfer.core.search import Rankable
 from kupfer.core.sources import get_source_controller
 
+__all__ = ("PaneSel", "PaneMode", "DataController")
+
 DATA_SAVE_INTERVAL_S = 3660
 
 

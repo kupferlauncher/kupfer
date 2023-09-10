@@ -7,6 +7,8 @@ from unicodedata import category, normalize
 
 from kupfer.support.datatools import evaluate_once
 
+__all__ = ("get_encoding", "locale_sort", "tofolded", "tolocale", "tounicode")
+
 
 def _folditems():
     _folding_table = {

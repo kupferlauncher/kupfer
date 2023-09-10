@@ -27,7 +27,7 @@ from kupfer.obj import (
 from kupfer.support import kupferstring, pretty
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 def finish_command(ctx, acommand, stdout, stderr, post_result=True):

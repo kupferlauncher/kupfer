@@ -22,6 +22,10 @@ from kupfer.obj import fileactions
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.core.datactrl import DataController
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "exclude",
@@ -67,9 +71,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 plugin_support.check_command_available("zoxide")
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class LaunchRecorder:

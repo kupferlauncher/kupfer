@@ -13,7 +13,6 @@ __version__ = "2023.1"
 __author__ = "Karol Będkowski"
 
 import base64
-from gettext import gettext as _
 import urllib.parse
 import secrets
 import string
@@ -35,6 +34,8 @@ from kupfer.obj import (
     OperationError,
 )
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 TextConverter = ty.Callable[[str], str]
 

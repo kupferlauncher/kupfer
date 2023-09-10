@@ -8,6 +8,8 @@ from kupfer.core.commandexec import ExecutionToken
 from kupfer.obj import FileLeaf
 from kupfer.support import scheduler
 
+__all__ = ("AsyncFileResult", "register_async_file_result")
+
 
 # pylint: disable=too-few-public-methods
 class AsyncFileResult:

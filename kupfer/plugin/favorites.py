@@ -17,7 +17,7 @@ from kupfer.core import learn
 from kupfer.obj import Action, Leaf, Source, SourceLeaf
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 class FavoritesSource(Source):

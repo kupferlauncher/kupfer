@@ -5,10 +5,15 @@ __description__ = _("Manage and use bookmarks from Pinboard")
 __version__ = "2020-11-15"
 __author__ = "Peter Stuifzand <peter@p83.nl>"
 
+import typing as ty
+
 import pinboard  # pylint: disable=import-error
 
 from kupfer import plugin_support
 from kupfer.obj import Source, UrlLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

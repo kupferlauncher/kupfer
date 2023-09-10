@@ -8,8 +8,8 @@ import cmath
 import inspect
 import math
 import textwrap
-import typing as ty
 from contextlib import suppress
+import typing as ty
 
 from kupfer import launch, version
 from kupfer.obj import Action, TextLeaf
@@ -17,7 +17,7 @@ from kupfer.support import pretty
 from kupfer.ui import uiutils
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 class IgnoreResultException(Exception):

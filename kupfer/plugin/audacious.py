@@ -26,6 +26,9 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.support import kupferstring, pretty, weaklib
 from kupfer.ui import uiutils
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 plugin_support.check_dbus_connection()
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -37,8 +40,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
-if ty.TYPE_CHECKING:
-    _ = str
 
 _AUDTOOL = "audtool"
 _AUDACIOUS = "audacious"

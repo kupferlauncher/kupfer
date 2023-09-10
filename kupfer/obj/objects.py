@@ -9,15 +9,16 @@ from __future__ import annotations
 
 import typing as ty
 import zlib
-from gettext import gettext as _
-from gettext import ngettext
-
 
 from kupfer import icons
 from kupfer.obj import actions
 from kupfer.obj.base import Action, Leaf, Source
 from kupfer.obj.representation import TextRepresentation
 from kupfer.core import commandexec
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
+
 
 __all__ = (
     "SourceLeaf",

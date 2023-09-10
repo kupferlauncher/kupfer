@@ -24,7 +24,8 @@ from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.support import weaklib
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
+
 
 _ALTERNATIVES = (
     "",

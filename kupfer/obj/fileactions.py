@@ -10,7 +10,6 @@ from __future__ import annotations
 import os
 import typing as ty
 from collections import defaultdict
-from gettext import gettext as _
 
 from gi.repository import Gio
 
@@ -19,6 +18,9 @@ from kupfer.obj import files
 from kupfer.obj.base import Action, Leaf
 from kupfer.obj.exceptions import NoDefaultApplicationError
 from kupfer.core import commandexec
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __all__ = (
     "Open",

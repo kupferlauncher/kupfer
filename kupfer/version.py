@@ -1,4 +1,7 @@
-from gettext import gettext as _
+import typing as ty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 VERSION = "development version"
 PACKAGE_NAME = "kupfer"

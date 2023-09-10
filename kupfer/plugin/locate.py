@@ -5,7 +5,6 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import subprocess
-from gettext import gettext as _
 import typing as ty
 import shutil
 
@@ -14,6 +13,9 @@ from kupfer.obj import Action, Source, TextLeaf, Leaf
 from kupfer.obj.filesrc import construct_file_leaf
 from kupfer.obj.special import CommandNotAvailableLeaf
 from kupfer.support import kupferstring
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

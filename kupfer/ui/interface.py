@@ -22,14 +22,14 @@ from kupfer.ui import preferences
 from kupfer.ui._support import escape_markup_str, text_direction_is_ltr
 from kupfer.ui.search import ActionSearch, LeafSearch, Search, State
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 _ELLIPSIZE_MIDDLE: ty.Final = Pango.EllipsizeMode.MIDDLE
 _SLOW_INPUT_INTERVAL: ty.Final = 2
 _KEY_PRESS_INTERVAL: ty.Final = 0.3
 _KEY_PRESS_REPEAT_THRESHOLD: ty.Final = 0.02
 
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 # accelerator is any function with no parameters; result is ignored
 AccelFunc = ty.Callable[[], ty.Any]

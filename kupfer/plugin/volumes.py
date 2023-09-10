@@ -17,6 +17,7 @@ from kupfer.core import commandexec
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
+
 _VOLUME_ICON_NAME = "drive-removable-media"
 
 

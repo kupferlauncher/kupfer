@@ -10,10 +10,17 @@ from kupfer import puid
 from kupfer.obj.base import KupferObject
 from kupfer.support import conspickle, pretty
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 KUPFER_COMMAND_SHEBANG = b"#!/usr/bin/env kupfer-exec\n"
 
-if ty.TYPE_CHECKING:
-    _ = str
+__all__ = (
+    "ExecutionError",
+    "parse_kfcom_file",
+    "save_to_file",
+    "update_icon",
+)
 
 
 class ExecutionError(Exception):

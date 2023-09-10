@@ -12,6 +12,23 @@ from kupfer import config
 from kupfer.obj.base import KupferObject, Leaf, Action
 from kupfer.support import conspickle, pretty
 
+__all__ = (
+    "add_favorite",
+    "erase_object_affinity",
+    "get_correlation_bonus",
+    "get_object_has_affinity",
+    "get_record_score",
+    "is_favorite",
+    "load",
+    "record_action_activations",
+    "record_search_hit",
+    "remove_favorite",
+    "replace_favorites",
+    "save",
+    "set_correlation",
+    "unregister",
+)
+
 _MNEMONICS_FILENAME = "mnemonics.pickle"
 _CORRELATION_KEY: ty.Final = "kupfer.bonus.correlation"
 _ACTIVATIONS_KEY: ty.Final = "kupfer.bonus.activations"

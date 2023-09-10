@@ -6,7 +6,7 @@ from kupfer import icons, plugin_support
 from kupfer.support import desktop_parse
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 def initialize_alternatives(name):

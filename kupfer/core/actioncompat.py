@@ -8,6 +8,14 @@ from kupfer.core._support import get_leaf_members
 from kupfer.core.sources import SourceController
 
 
+__all__ = (
+    "action_valid_for_item",
+    "actions_for_item",
+    "iobject_source_for_action",
+    "iobjects_valid_for_action",
+)
+
+
 def action_valid_for_item(action: Action, leaf: Leaf) -> bool:
     """Check is `action` is valid for all `leaf` representation.
 

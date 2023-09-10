@@ -34,6 +34,8 @@ from __future__ import annotations
 
 import typing as ty
 
+__all__ = ("format_common_substrings", "score", "score_single")
+
 FormatCleanCB = ty.Callable[[str], str]
 FormatMatchCB = ty.Callable[[str], str]
 

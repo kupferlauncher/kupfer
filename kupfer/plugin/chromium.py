@@ -5,6 +5,7 @@ __kupfer_sources__ = ("BookmarksSource",)
 __description__ = _("Index of Chromium bookmarks")
 __version__ = ""
 __author__ = "Francesco Marella <francesco.marella@gmail.com>"
+
 import typing as ty
 
 from kupfer import config, plugin_support
@@ -14,7 +15,8 @@ from kupfer.plugin import chromium_support
 from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
+
 
 plugin_support.check_any_command_available("chromium", "chromium-browser")
 

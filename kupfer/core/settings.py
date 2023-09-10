@@ -12,6 +12,13 @@ from gi.repository import GLib, GObject
 from kupfer import config
 from kupfer.support import pretty, scheduler
 
+__all__ = (
+    "SettingsController",
+    "get_settings_controller",
+    "is_known_terminal_executable",
+    "get_configured_terminal",
+)
+
 AltValidator = ty.Callable[[dict[str, ty.Any]], bool]
 Config = dict[str, dict[str, ty.Any]]
 
@@ -50,7 +57,7 @@ class ValueConverter(ty.Protocol):
 PlugConfigValueType = ty.Union[ty.Any, ValueConverter]
 
 
-def strbool(value: ty.Any, default: bool = False) -> bool:
+def _strbool(value: ty.Any, default: bool = False) -> bool:
     """Coerce bool from string value or bool"""
     if isinstance(value, bool):
         return value
@@ -65,7 +72,7 @@ def strbool(value: ty.Any, default: bool = False) -> bool:
     return default
 
 
-def strint(value: ty.Any, default: int = 0) -> int:
+def _strint(value: ty.Any, default: int = 0) -> int:
     """Coerce bool from string value or bool"""
     try:
         return int(value)
@@ -73,7 +80,7 @@ def strint(value: ty.Any, default: int = 0) -> int:
         return default
 
 
-def strlist(value: str, default: list[ty.Any] | None = None) -> list[ty.Any]:
+def _strlist(value: str, default: list[ty.Any] | None = None) -> list[ty.Any]:
     """Parse string into list using ast literal_eval.
 
     literal_eval handle only 'safe' data, so should work fine.
@@ -137,7 +144,7 @@ def _parse_value(defval: ty.Any, value: str) -> ty.Any:
         )
 
     if isinstance(defval, bool):
-        return strbool(value)
+        return _strbool(value)
 
     if isinstance(defval, int):
         return type(defval)(value)
@@ -417,7 +424,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         key = key.lower()
         value = self._config[section].get(key)
-        return strint(value)
+        return _strint(value)
 
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""
@@ -426,7 +433,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def set_plugin_enabled(self, plugin_id: str, enabled: bool) -> bool:
         """Convenience: set if @plugin_id is enabled"""
         ret = self.set_plugin_config(
-            plugin_id, "kupfer_enabled", enabled, value_type=strbool
+            plugin_id, "kupfer_enabled", enabled, value_type=_strbool
         )
         self.emit("plugin-enabled-changed", plugin_id, enabled)
         return ret
@@ -450,7 +457,9 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     ) -> bool:
         key = "kupfer_toplevel_" + self._source_config_repr(src)
         self.emit("plugin-toplevel-changed", plugin_id, value)
-        return self.set_plugin_config(plugin_id, key, value, value_type=strbool)
+        return self.set_plugin_config(
+            plugin_id, key, value, value_type=_strbool
+        )
 
     def get_keybinding(self) -> str:
         """Convenience: Kupfer keybinding as string"""
@@ -487,7 +496,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return False
 
     def get_use_command_keys(self) -> bool:
-        return strbool(self.get_config("Kupfer", "usecommandkeys"))
+        return _strbool(self.get_config("Kupfer", "usecommandkeys"))
 
     def set_use_command_keys(self, enabled: bool) -> bool:
         return self._set_config("Kupfer", "usecommandkeys", enabled)
@@ -509,7 +518,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_show_status_icon(self) -> bool:
         """Convenience: Show icon in notification area as bool (GTK)."""
-        return strbool(self.get_config("Kupfer", "showstatusicon"))
+        return _strbool(self.get_config("Kupfer", "showstatusicon"))
 
     def set_show_status_icon(self, enabled: bool) -> bool:
         """Set config value and return success"""
@@ -517,7 +526,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_show_status_icon_ai(self) -> bool:
         """Convenience: Show icon in notification area as bool (AppIndicator3)"""
-        return strbool(self.get_config("Kupfer", "showstatusicon_ai"))
+        return _strbool(self.get_config("Kupfer", "showstatusicon_ai"))
 
     def set_show_status_icon_ai(self, enabled: bool) -> bool:
         """Set config value and return success"""
@@ -574,10 +583,11 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         try:
             if value_type is bool:
-                return strbool(val)
+                return _strbool(val)
 
             if value_type is list:
-                return strlist(val)  # type: ignore
+                assert isinstance(val, str)
+                return _strlist(val)
 
             return value_type(val)  # type: ignore
 
@@ -591,7 +601,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def get_plugin_config_bool(
         self, plugin: str, key: str, default: bool
     ) -> bool:
-        res = self.get_plugin_config(plugin, key, strbool, default)
+        res = self.get_plugin_config(plugin, key, _strbool, default)
         assert isinstance(res, bool)
         return res
 

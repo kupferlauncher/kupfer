@@ -3,11 +3,15 @@ __kupfer_actions__ = ("ShowText", "LargeType", "ShowNotification")
 __description__ = _("Display text in a window")
 __version__ = ""
 __author__ = "US"
+import typing as ty
 
 from kupfer import icons
 from kupfer.obj import Action, Leaf, TextLeaf
 from kupfer.support import textutils
 from kupfer.ui import uiutils
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class ShowText(Action):

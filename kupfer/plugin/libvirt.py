@@ -13,8 +13,8 @@ __description__ = _("Control libvirt guest domains.")
 __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-import typing as ty
 import threading
+import typing as ty
 
 import libvirt
 
@@ -24,7 +24,8 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.support import pretty
 
 if ty.TYPE_CHECKING:
-    from getattr import getattr as _
+    from gettext import gettext as _
+
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

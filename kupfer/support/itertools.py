@@ -11,6 +11,14 @@ from __future__ import annotations
 import itertools
 import typing as ty
 
+__all__ = (
+    "two_part_mapper",
+    "peekfirst",
+    "as_list",
+    "SavedIterable",
+    "unique_iterator",
+)
+
 
 def two_part_mapper(instr: str, repfunc: ty.Callable[[str], str | None]) -> str:
     """Scan @instr two characters at a time and replace using @repfunc.

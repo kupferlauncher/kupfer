@@ -1,7 +1,7 @@
 import typing as ty
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 ACCELERATOR_NAMES: ty.Final = {

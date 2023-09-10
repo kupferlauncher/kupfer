@@ -5,13 +5,15 @@ import urllib.parse
 from contextlib import suppress
 
 
+__all__ = ("is_url", "is_valid_email", "is_valid_file_path", "validate_netloc")
+
+
 def _validate_port(port: str) -> bool:
     if not port:
         return False
 
     with suppress(ValueError):
-        numport = int(port)
-        return 0 <= numport <= 65535
+        return 0 <= int(port) <= 65535
 
     return False
 
@@ -19,8 +21,7 @@ def _validate_port(port: str) -> bool:
 def _is_ipv4(string: str) -> bool:
     if len(octets := string.split(".")) == 4:
         with suppress(ValueError):
-            if all(0 <= int(o) <= 255 for o in octets):
-                return True
+            return all(0 <= int(o) <= 255 for o in octets)
 
     return False
 
@@ -63,7 +64,8 @@ def _is_valid_domain(domain: str) -> bool:
 
 
 def validate_netloc(netloc: str) -> bool:
-    """Validate is netlocation valid.
+    """Check if `netloc` is valid netlocation.
+
     Accepted forms [<user>[:<pass>]@]<hostname with domain|ipv4|ipv6>[:port]
 
     based on django.validator
@@ -95,8 +97,8 @@ def validate_netloc(netloc: str) -> bool:
 
 
 def _is_http_domain(netloc: str) -> bool:
-    """Guess is netloc is some kind of real domain.
-    It's not accurate"""
+    """Guess is `netloc` is some kind of real domain. It's not accurate"""
+
     if netloc == "localhost":
         return True
 
@@ -119,7 +121,7 @@ def _is_http_domain(netloc: str) -> bool:
 
 
 def is_url(text: str) -> str | None:
-    """If @text is an URL, return a cleaned-up URL, else return None"""
+    """If `text` is an URL, return a cleaned-up URL, else return `None`"""
     text = text.strip()
     url = urllib.parse.urlparse(text)
     netloc = url.netloc
@@ -166,6 +168,7 @@ def is_url(text: str) -> str | None:
 
 
 def is_valid_email(text: str) -> bool:
+    """Check if `text` is valid email address."""
     if not text:
         return False
 

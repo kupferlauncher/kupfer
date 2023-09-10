@@ -6,6 +6,7 @@ __version__ = "2017.1"
 __author__ = ""
 
 import os
+import typing as ty
 
 import dbus
 
@@ -13,6 +14,9 @@ from kupfer import plugin_support
 from kupfer.obj import Action, FileLeaf, OperationError, RunnableLeaf, Source
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 plugin_support.check_dbus_connection()
 

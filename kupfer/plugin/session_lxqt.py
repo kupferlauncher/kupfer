@@ -4,8 +4,12 @@ __description__ = _("Actions for LXQT desktop")
 __version__ = "2020-08-23"
 __author__ = "Leonardo Masuero <leom255255@gmail.com>"
 # Based on XFCE Session Management by Karol Będkowski
+import typing as ty
 
 from kupfer.plugin import session_support as support
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 # sequences of argument lists
 _LOGOUT_CMD = (["lxqt-leave", "--logout"],)

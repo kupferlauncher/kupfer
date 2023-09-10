@@ -16,6 +16,21 @@ except ImportError:
 
 PACKAGE_NAME = "kupfer"
 
+__all__ = (
+    "ResourceLookupError",
+    "get_cache_file",
+    "get_cache_home",
+    "get_config_file",
+    "get_config_files",
+    "get_data_dirs",
+    "get_data_file",
+    "get_data_home",
+    "get_kupfer_env",
+    "has_capability",
+    "save_config_file",
+    "save_data_file",
+)
+
 
 class ResourceLookupError(Exception):
     pass

@@ -26,6 +26,7 @@ from kupfer.support.datatools import simple_cache
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
+
 plugin_support.check_any_command_available("vim", "gvim")
 
 __kupfer_settings__ = plugin_support.PluginSettings(

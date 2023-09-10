@@ -6,10 +6,13 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
 import urllib.parse
 import urllib.request
-from gettext import gettext as _
+import typing as ty
 
 from kupfer.obj import Action, Leaf, OperationError, Source, UrlLeaf
 from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class _ShortLinksService(Leaf):

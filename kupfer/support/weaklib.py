@@ -10,6 +10,13 @@ import weakref
 
 from gi.repository import GObject
 
+__all__ = (
+    "WeakCallback",
+    "DbusWeakCallback",
+    "GobjectWeakCallback",
+    "gobject_connect_weakly",
+)
+
 MCallback = ty.Callable[..., None]
 
 

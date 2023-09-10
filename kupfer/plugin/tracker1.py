@@ -14,6 +14,7 @@ __author__ = "US"
 import os
 from contextlib import suppress
 from xml.etree.ElementTree import ElementTree
+import typing as ty
 
 import dbus
 from gi.repository import Gio
@@ -28,6 +29,9 @@ from kupfer.obj import (
     TextSource,
 )
 from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 plugin_support.check_dbus_connection()
 

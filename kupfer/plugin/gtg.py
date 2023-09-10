@@ -11,6 +11,7 @@ __description__ = _("Browse and create new tasks in GTG")
 __version__ = "2017.2"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
+import typing as ty
 
 import dbus
 
@@ -25,6 +26,9 @@ from kupfer.obj import (
 )
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.support import pretty, textutils, weaklib
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 plugin_support.check_dbus_connection()
 

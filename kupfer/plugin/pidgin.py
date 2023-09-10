@@ -10,7 +10,6 @@ __author__ = (
 )
 __version__ = "2017.1"
 
-from gettext import gettext as _, ngettext
 import typing as ty
 
 import dbus
@@ -22,6 +21,9 @@ from kupfer.obj.contacts import EMAIL_KEY, NAME_KEY, ContactLeaf
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.support import pretty, scheduler, weaklib
 from kupfer.support.validators import is_valid_email
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

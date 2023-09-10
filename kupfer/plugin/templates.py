@@ -9,6 +9,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
 from pathlib import Path
+import typing as ty
 
 from gi.repository import Gio, GLib
 
@@ -16,6 +17,9 @@ from kupfer import icons
 from kupfer.obj import Action, FileLeaf, Leaf, Source, helplib
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.support import fileutils, pretty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 DEFAULT_TMPL_DIR = "~/Templates"
 

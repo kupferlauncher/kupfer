@@ -7,16 +7,18 @@ __description__ = _(
 __version__ = "0.4"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-import typing as ty
 from contextlib import suppress
+import typing as ty
 
 from kupfer import plugin_support
 from kupfer.obj import Action, Leaf
 from kupfer.obj.apps import ApplicationSource
 from kupfer.support import pretty
-
 from kupfer.plugin.virtualbox import constants as vbox_const
 from kupfer.plugin.virtualbox import ose_support
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -26,9 +28,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": False,
     },
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 def _get_vbox():

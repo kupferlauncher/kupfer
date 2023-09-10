@@ -8,6 +8,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import xml
 from pathlib import Path
 from xml.dom import minidom
+import typing as ty
 
 from kupfer import launch, plugin_support
 from kupfer.obj import Action, FileLeaf, RunnableLeaf, TextLeaf, UrlLeaf
@@ -15,6 +16,10 @@ from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.contacts import ContactLeaf, EmailContact, email_from_leaf
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.helplib import FilesystemWatchMixin
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 
 plugin_support.check_command_available("claws-mail")
 

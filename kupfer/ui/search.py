@@ -17,7 +17,7 @@ from kupfer.support import pretty
 from kupfer.ui._support import escape_markup_str, text_direction_is_ltr
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 def _format_match(match: str) -> str:

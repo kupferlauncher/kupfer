@@ -11,6 +11,8 @@ import typing as ty
 
 from kupfer.obj import Leaf
 
+__all__ = ("get_leaf_members", "is_multiple_leaf")
+
 
 def get_leaf_members(leaf: Leaf) -> ty.Sequence[Leaf]:
     """Return an iterator to members of @leaf, if it is a multiple leaf."""

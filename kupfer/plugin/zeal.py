@@ -16,11 +16,15 @@ __author__ = "Karol Będkowski"
 import json
 import os
 from pathlib import Path
+import typing as ty
 
 from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin, NonpersistentToken
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 plugin_support.check_command_available("zeal")
 

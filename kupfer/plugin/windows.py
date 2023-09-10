@@ -4,13 +4,16 @@ __description__ = _("All windows on all workspaces")
 __version__ = "2020-04-14"
 __author__ = ""
 
-from gettext import gettext as _, ngettext
+import typing as ty
 
 # pylint: disable=no-name-in-module
 from gi.repository import Wnck
 
 from kupfer.obj import Action, Leaf, Source
 from kupfer.support import system, weaklib
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
 
 
 def _get_window(xid):

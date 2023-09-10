@@ -8,7 +8,6 @@ see the main program file, and COPYING for details.
 from __future__ import annotations
 
 import typing as ty
-from gettext import gettext as _
 
 from kupfer import launch, support
 from kupfer.desktop_launch import SpawnError
@@ -17,6 +16,9 @@ from kupfer.obj.base import Action, Leaf
 from kupfer.obj.exceptions import OperationError
 from kupfer.obj.objects import RunnableLeaf
 from kupfer.core import commandexec
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __all__ = ("OpenUrl", "OpenTerminal", "Execute", "Perform")
 

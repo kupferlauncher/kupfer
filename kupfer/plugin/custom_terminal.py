@@ -12,6 +12,9 @@ import typing as ty
 from kupfer import plugin_support, support
 from kupfer.support import fileutils
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "command",
@@ -30,9 +33,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         ),
     },
 )
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 def initialize_plugin(name):

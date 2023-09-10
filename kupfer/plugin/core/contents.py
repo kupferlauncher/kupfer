@@ -11,15 +11,15 @@ from kupfer.support import pretty
 from kupfer.ui import about, kupferhelp, preferences
 from kupfer.version import DESKTOP_ID
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
+
 __kupfer_sources__ = ("KupferSource",)
 __kupfer_actions__ = ()
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 __all__ = __kupfer_sources__ + __kupfer_actions__
-
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 def _is_debug():

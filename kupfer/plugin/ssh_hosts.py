@@ -10,7 +10,6 @@ __kupfer_actions__ = ("SSHConnect",)
 
 import os
 import typing as ty
-from gettext import gettext as _
 
 from kupfer import icons, launch
 from kupfer.obj import Action
@@ -22,6 +21,9 @@ from kupfer.obj.hosts import (
     HOST_SERVICE_NAME_KEY,
     HostLeaf,
 )
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class SSHLeaf(HostLeaf):

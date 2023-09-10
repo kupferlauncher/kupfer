@@ -4,9 +4,13 @@ __kupfer_actions__ = ("SaveToInstapaper",)
 __description__ = _("Save url to Instapaper")
 __version__ = "2020-11-15"
 __author__ = "Peter Stuifzand <peter@p83.nl>"
+import typing as ty
 
 from kupfer import launch
 from kupfer.obj import Action, TextLeaf, UrlLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class SaveToInstapaper(Action):

@@ -12,7 +12,6 @@ import os
 import typing as ty
 from contextlib import suppress
 from os import path
-from gettext import gettext as _
 
 from gi.repository import Gio, GLib
 
@@ -22,6 +21,9 @@ from kupfer.obj import apps, files
 from kupfer.obj.base import Leaf, Source
 from kupfer.obj.exceptions import InvalidDataError
 from kupfer.obj.helplib import FilesystemWatchMixin
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __all__ = (
     "construct_file_leaf",

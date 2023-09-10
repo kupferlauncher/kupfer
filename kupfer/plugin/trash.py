@@ -6,7 +6,7 @@ __version__ = "2017.2"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from contextlib import suppress
-from gettext import gettext as _, ngettext
+import typing as ty
 
 from gi.repository import Gio, GLib
 
@@ -21,6 +21,10 @@ from kupfer.obj import (
 )
 from kupfer.obj.fileactions import Open
 from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
+
 
 _TRASH_URI = "trash://"
 

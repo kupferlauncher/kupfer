@@ -9,6 +9,8 @@ from urllib.parse import urlunparse as _urlunparse
 from kupfer.obj.base import Leaf, Source
 from kupfer.support import pretty
 
+__all__ = ("QFURL_SCHEME", "QfurlError", "Qfurl")
+
 QFURL_SCHEME = "qpfer"
 
 # One would hope that there was a better way to do this

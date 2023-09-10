@@ -1,7 +1,6 @@
 """
 Common objects for session_* plugins.
 """
-
 import typing as ty
 
 from kupfer import launch
@@ -9,11 +8,11 @@ from kupfer.obj import RunnableLeaf, Source
 from kupfer.support import pretty
 from kupfer.ui import uiutils
 
-__version__ = "2009-12-05"
-__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
-
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+__version__ = "2009-12-05"
+__author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 
 def launch_argv_with_fallbacks(

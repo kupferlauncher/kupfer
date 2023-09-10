@@ -9,15 +9,15 @@ from __future__ import annotations
 
 import time
 import typing as ty
-from gettext import gettext as _
 
 from gi.repository import GdkPixbuf
 
 from kupfer import icons
 from kupfer.support import itertools, kupferstring, pretty
+from kupfer.core import commandexec
 
 if ty.TYPE_CHECKING:
-    from kupfer.core.commandexec import ExecutionToken
+    from gettext import gettext as _
 
 __all__ = [
     "KupferObject",
@@ -120,7 +120,7 @@ class KupferObject:
         if they make sense. The methods are tried in that order."""
 
         if gicon := self.get_gicon():
-            if icons.is_good(gicon):
+            if icons.is_good_gicon(gicon):
                 return gicon
 
         if icon_name := self.get_icon_name():
@@ -238,7 +238,7 @@ class Action(KupferObject):
         self,
         leaf: Leaf,
         iobj: Leaf | None = None,
-        ctx: "ExecutionToken" | None = None,
+        ctx: commandexec.ExecutionToken | None = None,
     ) -> Leaf | None:
         """Use this action with @obj and @iobj
 

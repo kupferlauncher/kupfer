@@ -23,6 +23,7 @@ from kupfer.support import weaklib, datatools
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "max_days",

@@ -16,6 +16,7 @@ from kupfer.plugin._firefox_support import get_firefox_home_file, query_database
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
+
 MAX_ITEMS = 10000
 
 __kupfer_settings__ = plugin_support.PluginSettings(

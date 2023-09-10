@@ -18,6 +18,9 @@ import typing as ty
 from kupfer import plugin_support
 from kupfer.obj.filesrc import FileSource
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "dirs",
@@ -36,8 +39,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
     },
 )
 
-if ty.TYPE_CHECKING:
-    _ = str
 
 _MAX_DEPTH = 10
 

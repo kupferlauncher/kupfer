@@ -11,7 +11,7 @@ __author__ = "KB"
 import os
 import tempfile
 from pathlib import Path
-from gettext import gettext as _
+import typing as ty
 import shutil
 
 from gi.repository import Gtk, Gdk
@@ -19,6 +19,9 @@ from gi.repository import Gtk, Gdk
 from kupfer import runtimehelper, launch, icons, plugin_support
 from kupfer.obj import FileLeaf, Source, OperationError, RunnableLeaf
 from kupfer.obj.special import CommandNotAvailableLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

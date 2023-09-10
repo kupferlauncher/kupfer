@@ -35,7 +35,6 @@ from kupfer.obj import (  # noqa: E402
     TextSource,
 )
 
-
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 

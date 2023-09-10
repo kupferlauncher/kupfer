@@ -9,7 +9,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 from collections import deque
 from pathlib import Path
-from gettext import gettext as _, ngettext
+import typing as ty
 
 
 from gi.repository import Gdk, Gio, Gtk
@@ -26,6 +26,10 @@ from kupfer.obj import (
 )
 from kupfer.obj.compose import MultipleLeaf
 from kupfer.support import validators
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _, ngettext
+
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

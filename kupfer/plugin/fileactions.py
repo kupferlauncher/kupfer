@@ -8,7 +8,6 @@ __author__ = "Ulrik, KB"
 
 import os
 import typing as ty
-from gettext import gettext as _
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
@@ -20,6 +19,9 @@ from kupfer import launch
 from kupfer.core import settings
 from kupfer.obj import Action, FileLeaf, OperationError, TextLeaf, TextSource
 from kupfer.support import pretty, task
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 def _good_destination(dpath, spath):

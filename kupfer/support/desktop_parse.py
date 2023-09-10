@@ -14,6 +14,8 @@ import typing as ty
 
 from kupfer.support import itertools as kitertools
 
+__all__ = ("parse_argv", "parse_unesc_argv")
+
 # This is the "string" type encoding escapes
 # this is unescaped before we process anything..
 _ESCAPE_TABLE = {

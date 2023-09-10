@@ -7,11 +7,14 @@ see the main program file, and COPYING for details.
 """
 from __future__ import annotations
 
-from gettext import gettext as _
+import typing as ty
 
 from kupfer.ui import preferences
 from kupfer.obj.objects import RunnableLeaf
 from kupfer.core import commandexec
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __version__ = "2023-09-09"
 __all__ = (

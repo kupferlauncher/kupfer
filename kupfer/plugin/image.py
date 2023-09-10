@@ -9,8 +9,8 @@ __version__ = "2017.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import subprocess
-import typing as ty
 from contextlib import suppress
+import typing as ty
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
@@ -20,7 +20,8 @@ from kupfer.obj import Action, FileLeaf, OperationError, TextLeaf
 from kupfer.support import fileutils, pretty
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
+
 
 # TODO: use imagemagick -auto-orient ??
 

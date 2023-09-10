@@ -20,11 +20,13 @@ import tarfile
 import typing as ty
 import zipfile
 from pathlib import Path
-from gettext import gettext as _
 
 from kupfer.obj import FileLeaf, Leaf, Source
 from kupfer.obj.filesrc import DirectorySource
 from kupfer.support import pretty, scheduler
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 # Limit this to archives of a couple of megabytes
 MAX_ARCHIVE_BYTE_SIZE = 15 * 1024**2

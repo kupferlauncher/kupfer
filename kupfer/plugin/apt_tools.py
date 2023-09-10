@@ -18,13 +18,16 @@ __author__ = (
 )
 
 import subprocess
-import typing as ty
 import urllib.parse
+import typing as ty
 
 from kupfer import icons, launch, plugin_support, support
 from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.support import kupferstring, task
 from kupfer.ui import uiutils
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -36,9 +39,6 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 )
 
 plugin_support.check_command_available("apt", "apt-cache")
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 # pylint: disable=too-few-public-methods

@@ -22,6 +22,7 @@ from kupfer.plugin._firefox_support import (
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
+
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
         "key": "profile",

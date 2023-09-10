@@ -3,11 +3,11 @@ import typing as ty
 from kupfer.core import commandexec
 from kupfer.obj import Leaf, RunnableLeaf, Source
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
 __kupfer_sources__ = ("KupferInterals", "CommandResults")
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 
 class LastCommand(RunnableLeaf):

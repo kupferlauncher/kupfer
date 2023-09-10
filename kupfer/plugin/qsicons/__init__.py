@@ -26,6 +26,11 @@ __description__ = ""
 __version__ = ""
 __author__ = "Quicksilver Authors. License: Apache 2.0"
 
+import typing as ty
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _  # noqa
+
 
 def initialize_plugin(name):
     pass

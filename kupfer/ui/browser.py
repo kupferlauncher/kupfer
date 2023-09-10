@@ -25,7 +25,7 @@ from kupfer.ui._support import text_direction_is_ltr
 from kupfer.ui.interface import Interface
 
 if ty.TYPE_CHECKING:
-    _ = str
+    from gettext import gettext as _
 
 
 _KUPFER_CSS: ty.Final = b"""

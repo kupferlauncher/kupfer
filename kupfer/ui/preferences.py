@@ -19,13 +19,14 @@ from kupfer.ui.credentials_dialog import ask_user_credentials
 from kupfer.ui.uievents import GUIEnvironmentContext
 from kupfer.ui import _widgets as widgets
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
+
+
 # index in GtkNotebook
 _PLUGIN_LIST_PAGE: ty.Final = 2
 # List icon pixel size
 _LIST_ICON_SIZE: ty.Final = 18
-
-if ty.TYPE_CHECKING:
-    _ = str
 
 _KEYBINDING_TARGETS: ty.Final[dict[str, int]] = {
     "keybinding": keybindings.KEYBINDING_TARGET_DEFAULT,

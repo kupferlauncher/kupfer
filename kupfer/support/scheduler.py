@@ -6,6 +6,8 @@ from gi.repository import GLib, GObject
 
 from kupfer.support import pretty, weaklib
 
+__all__ = ("get_scheduler", "Scheduler", "Timer", "get_scheduler")
+
 
 def get_scheduler() -> Scheduler:
     """Get the shared instance"""

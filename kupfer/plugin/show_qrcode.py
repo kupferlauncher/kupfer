@@ -11,6 +11,7 @@ __author__ = "Thomas Renard <cybaer42@web.de>, KB"
 import io
 import tempfile
 from contextlib import closing
+import typing as ty
 
 import qrcode
 from gi.repository import GdkPixbuf, Gtk
@@ -18,6 +19,9 @@ from gi.repository import GdkPixbuf, Gtk
 from kupfer import plugin_support
 from kupfer.obj import Action, FileLeaf, Leaf, TextLeaf
 from kupfer.ui import uiutils
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

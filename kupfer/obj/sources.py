@@ -8,11 +8,13 @@ see the main program file, and COPYING for details.
 from __future__ import annotations
 
 import typing as ty
-from gettext import gettext as _
 
 from kupfer.support import itertools
 from kupfer.obj.base import Leaf, Source
 from kupfer.obj.objects import SourceLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 __all__ = (
     "SourcesSource",

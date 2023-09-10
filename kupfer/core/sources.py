@@ -20,6 +20,15 @@ from kupfer.obj.sources import MultiSource, SourcesSource
 from kupfer.support import conspickle, pretty, scheduler
 from kupfer.core import pluginload, plugins
 
+__all__ = (
+    "InternalError",
+    "PeriodicRescanner",
+    "SourceController",
+    "SourceDataPickler",
+    "SourcePickler",
+    "get_source_controller",
+)
+
 
 class InternalError(Exception):
     pass
