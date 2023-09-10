@@ -11,12 +11,15 @@ kupfer v323-beta2
   + After launch some action for leave next time this action get some
     bonus that make it higher on the list. Also this action get (smaller)
     bonus for each same type of leaves.
+  + URL-s can be opened with selected application ("Open with..." action)
 
 + Fix:
 
   + Fix "mark as default" action broken in beta1. Close: #170
   + Add some missing icons (stock_person, stock_mail)
   + Strip whitespaces from url-s when calling "show url"
+  + Do not decorate leaves in third panel as there is no way to "enter" to
+    it.
 
 + Plugins:
 
@@ -25,13 +28,15 @@ kupfer v323-beta2
     - *textutils*: various tools that convert, format and generate text
       content (i.e. generate random strings, convert case, encode base64,
       format json and xml).
+    - *librewolf*: load bookmarks from Librewolf web browser
+
 
   + Updated:
 
     - *ssh_hosts*: load and use host name from ssh .config file; update
       icons
     - *libvirt*: fix icons
-    - some plugins now report error (do not load) when required command or
+    - some plugins now report error (import error) when required command or
       application is missing in system.
 
 + Dev:
@@ -39,6 +44,7 @@ kupfer v323-beta2
     - Simplify caching icons/gicons
     - Cache `KupferObject` `repr` value
     - Fix types
+    - Colors in console output.
 
 
 kupfer v323-beta1
