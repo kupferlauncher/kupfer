@@ -79,6 +79,7 @@ kupfer/plugin/show_qrcode.py
 kupfer/plugin/shorten_links.py
 kupfer/plugin/applications.py
 kupfer/plugin/urlactions.py
+kupfer/plugin/screenshot.py
 kupfer/plugin/clawsmail.py
 kupfer/plugin/session_gnome.py
 kupfer/plugin/vim.py
@@ -146,6 +147,7 @@ kupfer/plugin/core/text.py
 kupfer/plugin/core/contents.py
 kupfer/plugin/clipboard.py
 kupfer/plugin/chromium_support.py
+kupfer/plugin/librewolf.py
 kupfer/plugin/zoxide.py
 kupfer/plugin/pinboard.py
 kupfer/plugin/higherorder.py
