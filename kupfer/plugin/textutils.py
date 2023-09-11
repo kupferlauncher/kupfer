@@ -4,7 +4,6 @@ __kupfer_name__ = _("Textutils")
 __kupfer_actions__ = (
     "Convert",
     "LineConvert",
-    "CaseConvert",
     "Format",
 )
 __kupfer_sources__ = ("Generators",)
@@ -115,6 +114,75 @@ def _str_to_unix_ts(inp: str) -> str:
     return str(datetime.datetime.fromtimestamp(ts))
 
 
+def _uncamellcase(text: str) -> str:
+    """Convert 'SomeTextInCamelCase' into 'some text in camel case'."""
+    res: list[str] = []
+    for let in text:
+        if let.isupper():
+            if res and res[-1] != " ":
+                res.append(" ")
+
+            res.append(let.lower())
+
+        else:
+            res.append(let)
+
+    return "".join(res)
+
+
+def _camelcase(instr: str) -> str:
+    words = instr.split(" ")
+    if words:
+        return words[0].lower() + "".join((p.capitalize() for p in words[1:]))
+
+    return instr
+
+
+def _trim_to_len_sep(
+    instr: str, max_len: int, sep: str, min_len: int = 10
+) -> str:
+    """If length of `instr` excess `max_len` trim it to this length.
+    If `sep` is given also try to trim string to last found `sep` but
+    keep `min_len` characters."""
+    if len(instr) > max_len:
+        instr = instr[:max_len]
+        if sep:
+            if (idx := instr.rfind(sep)) > min_len:
+                instr = instr[:idx]
+
+    return instr
+
+
+def _to_filename(instr: str) -> str:
+    """Remove/replace characters that may be not allowed in filename.
+    May be not necessary for posix filesystems, but there are still
+    fat/ntfs/etc around."""
+    unprintable = (
+        "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0e\x0f"
+        "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a"
+        "\x1b\x1c\x1d\x1e\x1f\x7f"
+    )
+    transtable = str.maketrans(
+        "\n\r/\\ :<>?*|\"'", "__--_-_______", unprintable
+    )
+    res = (
+        instr.strip()
+        .translate(transtable)
+        .replace("-_", "-")
+        .replace("_-", "-")
+    )
+    while "--" in res:
+        res = res.replace("__", "_")
+
+    if len(res) > 255:
+        base, _sep, ext = res.rpartition(".")
+        if ext and len(ext) < len(base):
+            base = _trim_to_len_sep(base, 250 - len(ext), "_")
+            return f"{base}.{ext}"
+
+    return _trim_to_len_sep(res, 255, "_")
+
+
 class Convert(_ConvertAction):
     def __init__(self, name=_("Convert…")):
         super().__init__(name)
@@ -146,6 +214,45 @@ class Convert(_ConvertAction):
             if float(for_leaf.object) > 0.0:
                 yield _Converter(_str_to_unix_ts, _("Unix timestamp to date"))
 
+        yield _Converter(lambda x: x.lower(), _("to lower case"))
+        yield _Converter(lambda x: x.upper(), _("to upper case"))
+        yield _Converter(lambda x: x.capitalize(), _("to sentence case"))
+        yield _Converter(
+            lambda x: " ".join((p.capitalize() for p in x.split(" "))),
+            _("Capitalize words"),
+            _("Convert 'some string' to 'Some String'"),
+        )
+        yield _Converter(
+            _camelcase,
+            _("To camel case"),
+            _("Convert 'Some string' to 'comeString'"),
+        )
+        yield _Converter(
+            lambda x: "".join((p.capitalize() for p in x.split(" "))),
+            _("To pascal case"),
+            _("Convert 'Some string' to 'SomeString'"),
+        )
+        yield _Converter(
+            lambda x: x.upper().replace(" ", "_"),
+            _("To constant case"),
+            _("Convert 'some string' to 'SOME_STRING'"),
+        )
+        yield _Converter(
+            _uncamellcase,
+            _("Camel case to lowercase"),
+            _("Convert 'SomeString' do 'some string'"),
+        )
+        yield _Converter(
+            lambda x: x.lower().replace("_", " "),
+            _("Constant case to lowercase"),
+            _("Convert 'SOME_STRING' do 'some string'"),
+        )
+        yield _Converter(
+            _to_filename,
+            _("To valid filename"),
+            _("Convert string to usable file name"),
+        )
+
 
 class LineConvert(_ConvertAction):
     def __init__(self, name=_("Convert lines…")):
@@ -166,73 +273,6 @@ class LineConvert(_ConvertAction):
             ),
             _("Quote and join lines"),
             _("Wrap with quote and join lines with comma"),
-        )
-
-
-def _uncamellcase(text: str) -> str:
-    """Convert 'SomeTextInCamelCase' into 'some text in camel case'."""
-    res: list[str] = []
-    for let in text:
-        if let.isupper():
-            if res and res[-1] != " ":
-                res.append(" ")
-
-            res.append(let.lower())
-
-        else:
-            res.append(let)
-
-    return "".join(res)
-
-
-def _camelcase(instr: str) -> str:
-    words = instr.split(" ")
-    if words:
-        return words[0].lower() + "".join((p.capitalize() for p in words[1:]))
-
-    return instr
-
-
-class CaseConvert(_ConvertAction):
-    def __init__(self, name=_("Convert case…")):
-        super().__init__(name)
-
-    def get_description(self):
-        return _("Convert text case")
-
-    def _get_converters(self, for_leaf: Leaf) -> ty.Iterator[_Converter]:
-        yield _Converter(lambda x: x.lower(), _("to lower case"))
-        yield _Converter(lambda x: x.upper(), _("to upper case"))
-        yield _Converter(lambda x: x.capitalize(), _("to sentence case"))
-        yield _Converter(
-            lambda x: " ".join((p.capitalize() for p in x.split(" "))),
-            _("capitalize words"),
-            _("Convert 'some string' to 'Some String'"),
-        )
-        yield _Converter(
-            _camelcase,
-            _("to camel case"),
-            _("Convert 'Some string' to 'comeString'"),
-        )
-        yield _Converter(
-            lambda x: "".join((p.capitalize() for p in x.split(" "))),
-            _("to pascal case"),
-            _("Convert 'Some string' to 'SomeString'"),
-        )
-        yield _Converter(
-            lambda x: x.upper().replace(" ", "_"),
-            _("to constant case"),
-            _("Convert 'some string' to 'SOME_STRING'"),
-        )
-        yield _Converter(
-            _uncamellcase,
-            _("camel case to lowercase"),
-            _("Convert 'SomeString' do 'some string'"),
-        )
-        yield _Converter(
-            lambda x: x.lower().replace("_", " "),
-            _("constant case to lowercase"),
-            _("Convert 'SOME_STRING' do 'some string'"),
         )
 
 
