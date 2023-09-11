@@ -990,7 +990,7 @@ class LeafSearch(Search):
 
 
 def _accel_for_action(
-    action: Action, action_accel_config: actionaccel.AccelConfig
+    action: Action, action_accel_config: actionaccel.AccelConfig | None
 ) -> str | None:
     if action_accel_config is None:
         return None
@@ -1083,8 +1083,6 @@ class ActionSearch(Search):
 
         Return pair of bool success, can activate
         """
-        assert self.action_accel_config
-
         if self.get_match_state() == State.NO_MATCH:
             return False, False
 
