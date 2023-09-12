@@ -119,6 +119,10 @@ class WindowController(pretty.OutputMixin):
         self._window.drag_dest_add_text_targets()  # pylint: disable=no-member
         self._window.connect("drag-data-received", self._on_drag_data_received)
 
+        signal.signal(signal.SIGINT, self._on_sigterm)
+        signal.signal(signal.SIGTERM, self._on_sigterm)
+        signal.signal(signal.SIGHUP, self._on_sigterm)
+
     def _on_window_map_event(self, *_args: ty.Any) -> None:
         self._interface.update_third()
 
@@ -733,10 +737,6 @@ class WindowController(pretty.OutputMixin):
 
         keyobj = keybindings.get_keybound_object()
         keyobj.connect("keybinding", self._on_key_binding)
-
-        signal.signal(signal.SIGINT, self._on_sigterm)
-        signal.signal(signal.SIGTERM, self._on_sigterm)
-        signal.signal(signal.SIGHUP, self._on_sigterm)
 
         client = session.SessionClient()
         client.connect("save-yourself", self._on_session_save)
