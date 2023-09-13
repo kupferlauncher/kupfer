@@ -200,7 +200,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         self._command_counter = itertools.count()
         self.last_command_id = -1
         self.last_command: CmdTuple | None = None
-        self.last_executed_command: CmdTuple | None = None
+        self._last_executed_command: CmdTuple | None = None
         self.last_results: collections.deque[ty.Any] = collections.deque(
             [], _MAX_LAST_RESULTS
         )
@@ -241,7 +241,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         The token must be used for posting late results or late errors.
         """
         assert self.last_command_id is not None
-        return (self.last_command_id, self.last_executed_command)
+        return (self.last_command_id, self._last_executed_command)
 
     def make_execution_token(
         self, ui_ctx: GUIEnvironmentContext | None
@@ -351,11 +351,9 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
 
         If a command carries out another command as part of its execution,
         and wishes to delegate to it, pass True for @delegate.
-
-        TODO: separate delegate executions to simplify code
         """
         self.last_command_id = next(self._command_counter)
-        self.last_executed_command = (obj, action, iobj)
+        self._last_executed_command = (obj, action, iobj)
 
         if not action or not obj:
             raise ActionExecutionError("Primary Object and Action required")
@@ -373,15 +371,13 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
 
         # remember last command, but not delegated commands.
         if not delegate:
-            self.last_command = self.last_executed_command
+            self.last_command = self._last_executed_command
 
         # Delegated command execution was previously requested: we take
         # the result of the nested execution context
         if self._delegate:
             assert not ret or isinstance(ret, tuple)
-            # K: added; ret can be None
-            # K: res was 0 (no value)
-            res, ret = ret or (ExecResult.ZERO, None)  # type: ignore
+            res, ret = ty.cast(tuple[ExecResult, ty.Any], ret)
             return self._return_result(res, ret, ui_ctx)
 
         assert not ret or isinstance(ret, (Source, Leaf, task.Task))
@@ -415,7 +411,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
     def combine_action_result_multiple(
         self,
         action: Action,
-        retvals: list[tuple[ExecResult, ActionResult] | ActionResult],
+        retvals: ty.Iterable[tuple[ExecResult, ActionResult] | ActionResult],
     ) -> tuple[ExecResult, ActionResult] | ActionResult:
         """
         When delegate is False `retvals` is list of `ActionResult` and function
@@ -429,32 +425,47 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
             "Combining", action, retvals, f"delegate={self._delegate}"
         )
 
-        if not self._delegate:
-            values: list[ActionResult] = []
-            res = ExecResult.NONE
-            for ret in ty.cast(list[ActionResult], retvals):
-                if not ret:
-                    continue
+        retvals_not_empty = filter(None, retvals)
 
-                res_type = parse_action_result(action, ret)
-                if res_type != ExecResult.NONE:
-                    values.append(ret)
-                    res = res_type
+        if self._delegate:
+            return self._combine_action_result_multiple_delegate(
+                action,
+                ty.cast(
+                    list[tuple[ExecResult, ActionResult]], retvals_not_empty
+                ),
+            )
 
-            return self._make_retvalue(res, values)
+        return self._combine_action_result_multiple_non_delegate(
+            action, ty.cast(list[ActionResult], retvals_not_empty)
+        )
 
-        # Re-parse result values
+    def _combine_action_result_multiple_non_delegate(
+        self,
+        action: Action,
+        retvals: ty.Iterable[ActionResult],
+    ) -> ActionResult:
+        values: list[ActionResult] = []
         res = ExecResult.NONE
+        for ret in retvals:
+            res_type = parse_action_result(action, ret)
+            if res_type != ExecResult.NONE:
+                values.append(ret)
+                res = res_type
+
+        return self._make_retvalue(res, values)
+
+    def _combine_action_result_multiple_delegate(
+        self,
+        action: Action,
+        retvals: list[tuple[ExecResult, ActionResult]],
+    ) -> tuple[ExecResult, ActionResult]:
+        # Re-parse result values
         resmap: dict[ExecResult, list[ActionResult]] = collections.defaultdict(
             list
         )
-        retvals_not_empty = filter(
-            None, ty.cast(list[tuple[ExecResult, ActionResult]], retvals)
-        )
-        for res_type, ret_obj in retvals_not_empty:
+        for res_type, ret_obj in retvals:
             if res_type != ExecResult.NONE:
                 resmap[res_type].append(ret_obj)
-                res = res_type
 
         # register tasks
         if tasks := resmap.pop(ExecResult.ASYNC, None):
@@ -492,7 +503,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
             return (
                 values[0]
                 if len(values) == 1
-                else MultiSource(values)  # type: ignore
+                else MultiSource(ty.cast(ty.Collection[Source], values))
             )
 
         if res == ExecResult.OBJECT:
