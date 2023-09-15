@@ -81,8 +81,7 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
     source_scan_interval: int = 3600
 
     _ssh_home = os.path.expanduser("~/.ssh")
-    _ssh_config_file = "config"
-    _config_path = os.path.join(_ssh_home, _ssh_config_file)
+    _config_path = os.path.join(_ssh_home, "config")
 
     def __init__(self, name=_("SSH Hosts")):
         ToplevelGroupingSource.__init__(self, name, "hosts")
@@ -91,15 +90,10 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
 
     def initialize(self):
         ToplevelGroupingSource.initialize(self)
-        self.monitor_token = self.monitor_directories(
-            self._ssh_home, force=True
-        )
+        self.monitor_token = self.monitor_files(self._config_path)
 
     def monitor_include_file(self, gfile):
-        return gfile and gfile.get_path() in (
-            self._ssh_config_file,
-            self._ssh_home,
-        )
+        return gfile.get_path() in (self._config_path, self._ssh_home)
 
     def _get_items(self) -> ty.Iterable[SSHLeaf]:
         with open(self._config_path, encoding="UTF-8") as cfile:
