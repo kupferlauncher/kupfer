@@ -105,6 +105,9 @@ class TestIsUrl(unittest.TestCase):
 
         self.assertFalse(v._is_http_domain("abcd"))
         self.assertFalse(v._is_http_domain("abc.xxxxxxxx"))
+        self.assertFalse(v._is_http_domain("abc..local"))
+        self.assertFalse(v._is_http_domain("abc.local."))
+        self.assertFalse(v._is_http_domain(".abc.local"))
 
     def test_valid_http(self):
         self.assertEqual("https://www.abc.com", v.is_url("www.abc.com"))

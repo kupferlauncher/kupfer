@@ -81,19 +81,34 @@ def validate_netloc(netloc: str) -> bool:
             return False
 
     host = netloc
+    # is there domain:port?
     if re.match(r".+:\d{1,5}$", netloc):
         # check is port valid
-        host, port = netloc.rsplit(":", 1)
+        host, _s, port = netloc.rpartition(":")
         if not _validate_port(port):
             return False
 
     if not host:
         return False
 
-    if host == "localhost":
-        return True
+    return (
+        host == "localhost"
+        or _is_ipv4(host)
+        or _is_valid_domain(host)
+        or _is_ipv6(host)
+    )
 
-    return _is_ipv4(host) or _is_valid_domain(host) or _is_ipv6(host)
+
+def _guess_schema(netloc: str) -> str:
+    """Guess schema for network location `netloc`."""
+    if netloc.startswith("ftp.") or "@ftp." in netloc:
+        return "ftp"
+
+    # assume localhost is http
+    if "localhost" in netloc or re.match(r"^127\.\d+\.\d+\.\d+$", netloc):
+        return "http"
+
+    return "https"
 
 
 def _is_http_domain(netloc: str) -> bool:
@@ -102,7 +117,10 @@ def _is_http_domain(netloc: str) -> bool:
     if netloc == "localhost":
         return True
 
-    parts = list(filter(None, netloc.split(".")))
+    parts = netloc.split(".")
+    if not all(parts):
+        return False
+
     len_parts = len(parts)
     if len_parts == 1:
         return False
@@ -148,20 +166,8 @@ def is_url(text: str) -> str | None:
 
     if netloc and validate_netloc(netloc):
         # valid netloc
-        if (
-            _is_ipv4(netloc)
-            or _is_ipv6(netloc)
-            or path
-            or url.query
-            or _is_http_domain(netloc)
-        ):
-            if netloc.startswith("ftp.") or "@ftp." in netloc:
-                schema = "ftp"
-            elif "localhost" in netloc:
-                schema = "http"
-            else:
-                schema = "https"
-
+        if path or url.query or _is_http_domain(netloc):
+            schema = _guess_schema(netloc)
             return f"{schema}://{text}"
 
     return None
