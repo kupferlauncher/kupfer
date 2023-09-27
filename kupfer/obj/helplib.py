@@ -124,7 +124,7 @@ class FilesystemWatchMixin:
 
             try:
                 monitor = gfile.monitor_directory(
-                    Gio.FileMonitorFlags.NONE, None
+                    Gio.FileMonitorFlags.WATCH_MOUNTS, None
                 )
             except GLib.GError as exc:
                 pretty.print_debug(__name__, "FilesystemWatchMixin", exc)
@@ -162,6 +162,9 @@ class FilesystemWatchMixin:
             Gio.FileMonitorEvent.CREATED,
             Gio.FileMonitorEvent.DELETED,
         ) and self.monitor_include_file(file1):
+            pretty.print_debug(
+                __name__, "_on_directory_changed", file1.get_path()
+            )
             assert hasattr(self, "mark_for_update")
             self.mark_for_update()
 
@@ -177,6 +180,7 @@ class FilesystemWatchMixin:
             Gio.FileMonitorEvent.DELETED,
             Gio.FileMonitorEvent.CHANGED,
         ) and self.monitor_include_file(file1):
+            pretty.print_debug(__name__, "_on_file_changed", file1.get_path())
             assert hasattr(self, "mark_for_update")
             self.mark_for_update()
 

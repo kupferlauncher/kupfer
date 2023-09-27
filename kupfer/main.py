@@ -4,7 +4,7 @@ import locale
 import runpy
 import sys
 import typing as ty
-from  pathlib import Path
+from pathlib import Path
 from contextlib import suppress
 
 if ty.TYPE_CHECKING:

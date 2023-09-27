@@ -367,7 +367,7 @@ class Generators(Source):
 
         yield _GeneraterLeaf(
             _("Current time in ISO8601 format"),
-            lambda: datetime.datetime.now().isoformat(),
+            datetime.datetime.now().isoformat,
         )
         yield _GeneraterLeaf(
             _("Current time as Unix timestamp"),

@@ -9,7 +9,7 @@ from kupfer.support.itertools import peekfirst, unique_iterator
 from kupfer.core import search
 from kupfer.core.search import Rankable
 
-__all__ = ("Searcher", )
+__all__ = ("Searcher",)
 
 T = ty.TypeVar("T")
 # function that validate leaves before search

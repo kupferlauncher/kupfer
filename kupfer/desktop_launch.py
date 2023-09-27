@@ -340,15 +340,14 @@ def launch_app_info(
         # Launch one process per file
         launch_records = [(launch_argv, [gfiles[0]])]
         for file in gfiles[1:]:
-            _ignore1, _ignore2, launch_argv = _replace_format_specs(
+            *_ignore, launch_argv = _replace_format_specs(
                 argv, desktop_file, desktop_info, [file]
             )
             launch_records.append((launch_argv, [file]))
 
     notify = bool(desktop_info["StartupNotify"])
-    if not work_dir and (desk_path := desktop_info["Path"]):
-        assert isinstance(desk_path, str)
-        work_dir = desk_path
+    if not work_dir:
+        work_dir = ty.cast(ty.Optional[str], desktop_info["Path"])
 
     if in_terminal is None:
         in_terminal = bool(desktop_info["Terminal"])

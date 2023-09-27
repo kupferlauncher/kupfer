@@ -283,9 +283,14 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
                 return True
 
+        # look for action accelerators
+        if event_state == self.action.accel_modifier:
+            keystr = Gtk.accelerator_name(keyv, 0)
+            if self._action_accelerator(keystr):
+                return True
+
         return False
 
-    # pylint: disable=too-many-statements,too-many-branches,too-many-return-statements
     def _on_entry_key_press(
         self, entry: Gtk.Entry, event: Gdk.EventKey
     ) -> bool:
@@ -304,12 +309,6 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         # process accelerators
         if self._process_accels(keyv, event_state):
             return True
-
-        # look for action accelerators
-        if event_state == self.action.accel_modifier:
-            keystr = Gtk.accelerator_name(keyv, 0)
-            if self._action_accelerator(keystr):
-                return True
 
         if self._preedit_text:
             return False
