@@ -95,6 +95,8 @@ class ApplicationSource(
 
 
 class AppLeaf(Leaf):
+    LOAD_EXTRA_ALIASES: bool = False
+
     def __init__(
         self,
         item: ty.Any = None,
@@ -127,9 +129,34 @@ class AppLeaf(Leaf):
         if cmdl := self.object.get_executable():
             self.kupfer_add_alias(cmdl)
 
+        # do not continue when application setting "load extra aliases" if off
+        if not AppLeaf.LOAD_EXTRA_ALIASES:
+            return
+
         # add non-localized name
         if (en_name := self.object.get_string("Name")) != self.name:
             self.kupfer_add_alias(en_name)
+
+        # add generic name
+        if (
+            name := (
+                self.object.get_string("GenericName")
+                or self.object.get_string("GenericName")
+            )
+        ) and name != self.name:
+            self.kupfer_add_alias(name)
+
+        # add keywords
+        if keywords := self.object.get_string_list("Keywords"):
+            for keyword in keywords:
+                self.kupfer_add_alias(keyword)
+
+        # add Comment
+        if comment := (
+            self.object.get_locale_string("Comment")
+            or self.object.get_string("Comment")
+        ):
+            self.kupfer_add_alias(comment)
 
     def __hash__(self) -> int:
         return hash(str(self))

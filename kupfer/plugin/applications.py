@@ -58,6 +58,17 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "type": bool,
         "value": True,
     },
+    {
+        "key": "load_extra_aliases",
+        "label": _("Load extra aliases"),
+        "type": bool,
+        "value": False,
+        "tooltip": _(
+            "Load additional aliases like keywords or "
+            "other names. This may slowdown searching. "
+            "Change this setting may require reload."
+        ),
+    },
 )
 
 # Gio.AppInfo / Desktop Item nodisplay vs hidden:
@@ -74,6 +85,13 @@ WHITELIST_IDS: ty.Final = (
     "shotwell-viewer.desktop",
 )
 BLACKLIST_IDS: ty.Final = ("nautilus-home.desktop",)
+
+
+def initialize_plugin(name: str) -> None:
+    def on_change_settings(*args: ty.Any) -> None:
+        AppLeaf.LOAD_EXTRA_ALIASES = __kupfer_settings__["load_extra_aliases"]
+
+    __kupfer_settings__.connect_settings_changed_cb(on_change_settings)
 
 
 def _should_show(
@@ -288,6 +306,16 @@ class SetDefaultApplication(Action):
 class AppsAll(Source):
     def __init__(self):
         super().__init__(_("Applications"))
+
+    def initialize(self):
+        weaklib.gobject_connect_weakly(
+            __kupfer_settings__,
+            "plugin-setting-changed",
+            self._on_setting_change,
+        )
+
+    def _on_setting_change(self, *_args):
+        self.mark_for_update()
 
     def get_items(self):
         use_filter = __kupfer_settings__["desktop_filter"]
