@@ -14,7 +14,7 @@ kupfer v323-beta3
 
   + Updated:
 
-    - *applcations*: user can enable loading additional application aliases.
+    - *applications*: user can enable loading additional application aliases.
       This make possible to select application by application comment,
       keywords or generic name but may have impact on overall performance.
 
