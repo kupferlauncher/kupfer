@@ -1,6 +1,28 @@
 NEWS for kupfer
 ===============
 
+
+kupfer v323-beta3
+-----------------
+
++ Fix:
+
+  + Fix detecting ssh configuration changes in `ssh_hosts` plugin
+
+
++ Plugins:
+
+  + Updated:
+
+    - *applcations*: user can enable loading additional application aliases.
+      This make possible to select application by application comment,
+      keywords or generic name but may have impact on overall performance.
+
++ Dev:
+
+  + Simplify URL validators
+
+
 kupfer v323-beta2
 -----------------
 
