@@ -119,6 +119,11 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
                             for host in args
                             if "*" not in host and host[0] != "!"
                         ]
+                    elif len(args) > 1:
+                        # process "key val" parameters of match
+                        for key, val in zip(args, args[1:]):
+                            if key.lower() == "host" and "*" not in val:
+                                current_hosts.append(val)
 
                 elif head == "hostname" and args:
                     # if found hostname use is as HOST_ADDRESS_KEY
