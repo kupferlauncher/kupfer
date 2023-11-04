@@ -2,14 +2,15 @@ from __future__ import annotations
 
 __kupfer_name__ = _("SSH Hosts")
 __description__ = _("Adds the SSH hosts found in ~/.ssh/config.")
-__version__ = "2010-04-12"
-__author__ = "Fabian Carlström"
+__version__ = "2023-11-04"
+__author__ = "Fabian Carlström, Karol Będkowski"
 
 __kupfer_sources__ = ("SSHSource",)
 __kupfer_actions__ = ("SSHConnect",)
 
 import os
 import typing as ty
+from contextlib import suppress
 
 from kupfer import icons, launch
 from kupfer.obj import Action
@@ -19,6 +20,7 @@ from kupfer.obj.hosts import (
     HOST_ADDRESS_KEY,
     HOST_NAME_KEY,
     HOST_SERVICE_NAME_KEY,
+    HOST_SERVICE_USER_KEY,
     HostLeaf,
 )
 
@@ -27,22 +29,30 @@ if ty.TYPE_CHECKING:
 
 
 class SSHLeaf(HostLeaf):
-    """The SSH host. It only stores the "Host" as it was specified in the ssh
-    config.
-    By default name is set as hostname.
+    """The SSH host. Using name defined in `Host` or by `Match` statement.
+    If `Hostname` is not defined in ssh config - is set to  `name`.
     """
 
-    def __init__(self, name: str, hostname: str | None = None) -> None:
-        hostname = hostname or name
+    def __init__(
+        self, name: str, hostname: str | None = None, user: str | None = None
+    ) -> None:
         slots = {
             HOST_NAME_KEY: name,
-            HOST_ADDRESS_KEY: hostname,
+            HOST_ADDRESS_KEY: hostname or name,
             HOST_SERVICE_NAME_KEY: "ssh",
         }
+        if user:
+            slots[HOST_SERVICE_USER_KEY] = user
+
         HostLeaf.__init__(self, slots, name)
 
     def get_description(self) -> str:
-        return _("SSH host: %s") % str(self[HOST_ADDRESS_KEY])
+        host = str(self[HOST_ADDRESS_KEY])
+        with suppress(KeyError):
+            if user := self[HOST_SERVICE_USER_KEY]:
+                host = f"{user}@{host}"
+
+        return _("SSH host: %s") % host
 
     def get_gicon(self):
         return icons.ComposedIconSmall(self.get_icon_name(), "terminal")
@@ -57,7 +67,12 @@ class SSHConnect(Action):
         Action.__init__(self, name=_("Connect"))
 
     def activate(self, leaf, iobj=None, ctx=None):
-        launch.spawn_in_terminal(["ssh", leaf[HOST_NAME_KEY]])
+        host = leaf[HOST_NAME_KEY]
+        with suppress(KeyError):
+            if user := leaf[HOST_SERVICE_USER_KEY]:
+                host = f"{user}@{host}"
+
+        launch.spawn_in_terminal(["ssh", host])
 
     def get_description(self):
         return _("Connect to SSH host")
@@ -73,6 +88,43 @@ class SSHConnect(Action):
             return leaf[HOST_SERVICE_NAME_KEY] == "ssh"
 
         return False
+
+
+def _parse_host_stms(args: list[str]) -> ty.Iterator[tuple[str, str | None]]:
+    """Load names from `Host` statement. Ignore names with `*` and exclusions."""
+    for host in args:
+        if "*" in host or host[0] == "!":
+            continue
+
+        user, _, host = host.partition("@")
+        if user and host:
+            yield host, user
+        else:
+            yield user, None
+
+
+def _parse_match_stmt(args: list[str]) -> tuple[str, str | None] | None:
+    """Parse `Match` arguments and return tuple of (host, optional user)
+    or None.
+
+    Load only `User` and `Host` keys from this statement.
+    """
+    user = None
+    host = None
+    for key, val in zip(args, args[1:]):
+        if "*" in val or val[0] == "!":
+            continue
+
+        key = key.lower()
+        if key == "host":
+            host = val
+        elif key == "user":
+            user = val
+
+    if not host:
+        return None
+
+    return host, user
 
 
 class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
@@ -97,7 +149,8 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
 
     def _get_items(self) -> ty.Iterable[SSHLeaf]:
         with open(self._config_path, encoding="UTF-8") as cfile:
-            current_hosts: list[str] = []
+            current_hosts: list[tuple[str, str | None]] = []
+            current_hostname: str | None = None
             for line in cfile:
                 line = line.strip()
                 if not line:
@@ -107,35 +160,27 @@ class SSHSource(ToplevelGroupingSource, FilesystemWatchMixin):
                 head = head.lower()
                 if head in ("host", "match"):
                     # new restriction, flush current data
-                    if current_hosts:
-                        yield from map(SSHLeaf, current_hosts)
+                    for host, user in current_hosts:
+                        yield SSHLeaf(host, current_hostname, user)
 
                     current_hosts.clear()
+                    current_hostname = None
+
                     if head == "host":
                         # process only 'host' restriction; skip wildcard and
                         # negative entries
-                        current_hosts = [
-                            host
-                            for host in args
-                            if "*" not in host and host[0] != "!"
-                        ]
+                        current_hosts = list(_parse_host_stms(args))
                     elif len(args) > 1:
                         # process "key val" parameters of match
-                        for key, val in zip(args, args[1:]):
-                            if key.lower() == "host" and "*" not in val:
-                                current_hosts.append(val)
+                        if hostuser := _parse_match_stmt(args):
+                            current_hosts = [hostuser]
 
                 elif head == "hostname" and args:
                     # if found hostname use is as HOST_ADDRESS_KEY
-                    hostname = args[0]
-                    if current_hosts:
-                        yield from (
-                            SSHLeaf(host, hostname) for host in current_hosts
-                        )
-                        current_hosts.clear()
+                    current_hostname = args[0]
 
-            if current_hosts:
-                yield from map(SSHLeaf, current_hosts)
+            for host, user in current_hosts:
+                yield SSHLeaf(host, current_hostname, user)
 
     def get_items(self):
         try:
