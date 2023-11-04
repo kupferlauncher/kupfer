@@ -146,7 +146,7 @@ class GroupingSource(Source):
             if len(gleaves) <= 1:
                 continue
 
-            for leaf in gleaves:
+            for leaf in list(gleaves):
                 for slot2 in leaf.grouping_slots:
                     for value2 in leaf.all(slot2):
                         if value2:
