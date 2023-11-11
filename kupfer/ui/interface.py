@@ -1249,6 +1249,15 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._reset_text()
         return True
 
+    def re_search_kpfer(self):
+        """Try to re-search current selected KupferObject if it has qf_id.
+        For leaves like selected text this update leaf to current selected not
+        previously selected."""
+        if obj := self.search.get_current():
+            if qf_id := getattr(obj, "qf_id", None):
+                pretty.print_debug(__name__, f"re-search qpfer '{qf_id}'")
+                self._data_ctrl.find_object(f"qpfer:{qf_id}")
+
 
 GObject.type_register(Interface)
 GObject.signal_new(
