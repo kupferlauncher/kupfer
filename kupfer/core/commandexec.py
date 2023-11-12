@@ -139,7 +139,9 @@ class ExecutionToken:
             self._token, result_object, show=show, ctxenv=self._ui_ctx
         )
 
-    def register_late_error(self, exc_info: ExecInfo | None = None) -> None:
+    def register_late_error(
+        self, exc_info: ExecInfo | BaseException | None = None
+    ) -> None:
         """Put error (`exc_info`) from failed execution into action execution
         context."""
         self._aectx.register_late_error(self._token, exc_info)
