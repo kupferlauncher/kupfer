@@ -69,7 +69,7 @@ class KeyboundObject(GObject.GObject):  # type:ignore
         self,
         _sender: ty.Any,
         keystring: str,
-        display: Gdk.Display,
+        display: str,
         timestamp: float,
     ) -> None:
         for target, key in _CURRENTLY_BOUND.items():
