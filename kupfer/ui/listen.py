@@ -110,6 +110,15 @@ class Service(ExportedGObject):  # type:ignore
             self.emit("put-files", fileuris, display, time)
 
     @dbus.service.method(_INTERFACE_NAME, in_signature="s")
+    def FindObject(self, qpfer):
+        self.FindObjectOnDisplay(qpfer, "", "")
+
+    @dbus.service.method(_INTERFACE_NAME, in_signature="sss")
+    def FindObjectOnDisplay(self, qpfer, display, notify_id):
+        with uievents.using_startup_notify_id(notify_id) as time:
+            self.emit("find-object", qpfer, display, time)
+
+    @dbus.service.method(_INTERFACE_NAME, in_signature="s")
     def ExecuteFile(self, filepath):
         self.ExecuteFileOnDisplay(filepath, "", "")
 
@@ -182,6 +191,15 @@ GObject.signal_new(
     GObject.SignalFlags.RUN_LAST,
     GObject.TYPE_BOOLEAN,
     (GObject.TYPE_PYOBJECT, GObject.TYPE_STRING, GObject.TYPE_UINT),
+)
+
+# Signature: string, displayname, timestamp
+GObject.signal_new(
+    "find-object",
+    Service,
+    GObject.SignalFlags.RUN_LAST,
+    GObject.TYPE_BOOLEAN,
+    (GObject.TYPE_STRING, GObject.TYPE_STRING, GObject.TYPE_UINT),
 )
 
 # Signature: fileuri, displayname, timestamp
@@ -269,6 +287,15 @@ class ServiceNew(ExportedGObject):  # type: ignore
             self.emit("put-files", fileuris, display, time)
 
     @dbus.service.method(_INTERFACE_NAME_NEW, in_signature="s")
+    def FindObject(self, qpfer):
+        self.FindObjectOnDisplay(qpfer, "", "")
+
+    @dbus.service.method(_INTERFACE_NAME_NEW, in_signature="sss")
+    def FindObjectOnDisplay(self, qpfer, display, notify_id):
+        with uievents.using_startup_notify_id(notify_id) as time:
+            self.emit("find-object", qpfer, display, time)
+
+    @dbus.service.method(_INTERFACE_NAME_NEW, in_signature="s")
     def ExecuteFile(self, filepath):
         self.ExecuteFileOnDisplay(filepath, "", "")
 
@@ -316,6 +343,15 @@ GObject.signal_new(
     GObject.SignalFlags.RUN_LAST,
     GObject.TYPE_BOOLEAN,
     (GObject.TYPE_PYOBJECT, GObject.TYPE_STRING, GObject.TYPE_UINT),
+)
+
+# Signature: string, displayname, timestamp
+GObject.signal_new(
+    "find-object",
+    ServiceNew,
+    GObject.SignalFlags.RUN_LAST,
+    GObject.TYPE_BOOLEAN,
+    (GObject.TYPE_STRING, GObject.TYPE_STRING, GObject.TYPE_UINT),
 )
 
 # Signature: fileuri, displayname, timestamp

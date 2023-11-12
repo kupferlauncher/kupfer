@@ -562,7 +562,6 @@ class WindowController(pretty.OutputMixin):
         """Present on @display, where None means default display"""
         self._window_hide_timer.invalidate()
         display = display or Gdk.Display.get_default().get_name()
-
         # Center window before first show
         if not self._window.get_realized():
             self._center_window(display)
@@ -647,6 +646,12 @@ class WindowController(pretty.OutputMixin):
     ) -> None:
         self._on_present(sender, display, timestamp)
         self._interface.put_files(fileuris, paths=True)
+
+    def _on_find_object(
+        self, sender: ty.Any, qpfer: str, display: str, timestamp: int
+    ) -> None:
+        self._on_present(sender, display, timestamp)
+        self._interface.find_object(qpfer)
 
     def _on_execute_file(
         self,
@@ -786,6 +791,7 @@ class WindowController(pretty.OutputMixin):
                 kserv.connect("show-hide", self._on_show_hide)
                 kserv.connect("put-text", self._on_put_text)
                 kserv.connect("put-files", self._on_put_files)
+                kserv.connect("find-object", self._on_find_object)
                 kserv.connect("execute-file", self._on_execute_file)
                 kserv.connect("quit", self._on_quit)
 

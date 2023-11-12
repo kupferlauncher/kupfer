@@ -1258,6 +1258,9 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 pretty.print_debug(__name__, f"re-search qpfer '{qf_id}'")
                 self._data_ctrl.find_object(f"qpfer:{qf_id}")
 
+    def find_object(self, qpfer: str) -> None:
+        self._data_ctrl.find_object(qpfer)
+
 
 GObject.type_register(Interface)
 GObject.signal_new(
