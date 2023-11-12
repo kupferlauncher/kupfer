@@ -1249,7 +1249,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._reset_text()
         return True
 
-    def re_search_kpfer(self):
+    def re_search_kpfer(self) -> None:
         """Try to re-search current selected KupferObject if it has qf_id.
         For leaves like selected text this update leaf to current selected not
         previously selected."""

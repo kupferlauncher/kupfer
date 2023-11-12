@@ -11,7 +11,7 @@ __all__ = ("TextRepresentation", "UriListRepresentation")
 
 
 # pylint: disable=too-few-public-methods
-class TextRepresentation(metaclass=abc.ABCMeta):
+class TextRepresentation(abc.ABC):
     """Kupfer Objects that implement this interface have a plain text
     representation that can be used for Copy & Paste etc."""
 
@@ -23,7 +23,7 @@ class TextRepresentation(metaclass=abc.ABCMeta):
 
 
 # pylint: disable=too-few-public-methods
-class UriListRepresentation(metaclass=abc.ABCMeta):
+class UriListRepresentation(abc.ABC):
     """Kupfer Objects that implement this interface have a uri-list
     representation that can be used for Copy & Paste etc
 

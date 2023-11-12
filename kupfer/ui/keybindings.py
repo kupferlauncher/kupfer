@@ -3,7 +3,7 @@ from __future__ import annotations
 import typing as ty
 
 import gi
-from gi.repository import Gdk, GObject
+from gi.repository import GObject
 
 from kupfer import environment
 from kupfer.support import pretty

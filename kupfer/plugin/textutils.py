@@ -133,7 +133,7 @@ def _uncamellcase(text: str) -> str:
 def _camelcase(instr: str) -> str:
     words = instr.split(" ")
     if words:
-        return words[0].lower() + "".join((p.capitalize() for p in words[1:]))
+        return words[0].lower() + "".join(p.capitalize() for p in words[1:])
 
     return instr
 
@@ -218,7 +218,7 @@ class Convert(_ConvertAction):
         yield _Converter(lambda x: x.upper(), _("to upper case"))
         yield _Converter(lambda x: x.capitalize(), _("to sentence case"))
         yield _Converter(
-            lambda x: " ".join((p.capitalize() for p in x.split(" "))),
+            lambda x: " ".join(p.capitalize() for p in x.split(" ")),
             _("Capitalize words"),
             _("Convert 'some string' to 'Some String'"),
         )
@@ -228,7 +228,7 @@ class Convert(_ConvertAction):
             _("Convert 'Some string' to 'comeString'"),
         )
         yield _Converter(
-            lambda x: "".join((p.capitalize() for p in x.split(" "))),
+            lambda x: "".join(p.capitalize() for p in x.split(" ")),
             _("To pascal case"),
             _("Convert 'Some string' to 'SomeString'"),
         )
