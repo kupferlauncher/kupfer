@@ -1,10 +1,6 @@
 kupfer is a smart, quick launcher
 +++++++++++++++++++++++++++++++++
 
-WARNING: THIS IS BETA (AKA "TESTING" / "NEXT") VERSION.
-This version may be incompatible with old, external plugins duo to reorganise
-Kupfer's modules.
-
 :Homepage:  https://kupferlauncher.github.io/
 :Credits:   Copyright 2007–2023 Ulrik Sverdrup and other Kupfer authors
 :Licence:   GNU General Public License v3 (or any later version)
@@ -65,7 +61,7 @@ The following files extracted::
 Build Requirements
 ------------------
 
-* Python 3
+* Python 3.9+
 * intltool
 * optionally: rst2man (python-docutils)  to install the manpage
 * optionally: itstool  to install mallard help pages
@@ -73,7 +69,7 @@ Build Requirements
 Runtime Requirements
 --------------------
 
-Kupfer requires Python 3 or later, and the following important libraries:
+Kupfer requires Python 3.9 or later, and the following important libraries:
 
 Because the port to Python 3 and Gtk 3 is new, I don't know what the lower
 boundaries of dependencies are. I've given the versions where it is
