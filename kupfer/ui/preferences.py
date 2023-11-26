@@ -688,7 +688,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         ## remove the format specifiers
         executable = dfile.getExec().replace("%F", "")
         dfile.set("Exec", executable)
-        dfile.write(filename=autostart_file)
+        dfile.write(filename=str(autostart_file))
 
     def on_helpbutton_clicked(self, widget: Gtk.Widget) -> None:
         kupferhelp.show_help()

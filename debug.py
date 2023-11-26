@@ -144,14 +144,19 @@ def learn_stats():
     for k, v in _REGISTER.items():
         if k not in (_CORRELATION_KEY, _ACTIVATIONS_KEY):
             print(f"  {k}: {v}")
-    print("------")
-    print("Correlations:")
-    for k, v in _REGISTER[_CORRELATION_KEY].items():  # type: ignore
-        print(f"  {k}: {v}")
-    print("------")
-    print("Activations:")
-    for k, v in _REGISTER[_ACTIVATIONS_KEY].items():  # type: ignore
-        print(f"  {k}: {v}")
+
+    if _CORRELATION_KEY in _REGISTER:
+        print("------")
+        print("Correlations:")
+        for k, v in _REGISTER[_CORRELATION_KEY].items():  # type: ignore
+            print(f"  {k}: {v}")
+
+    if _ACTIVATIONS_KEY in _REGISTER:
+        print("------")
+        print("Activations:")
+        for k, v in _REGISTER[_ACTIVATIONS_KEY].items():  # type: ignore
+            print(f"  {k}: {v}")
+
     print("---------------------\n")
 
 

@@ -106,7 +106,7 @@ def save_data_file(filename: str) -> str | None:
 
 def get_data_home() -> str:
     """Directory where data is to be saved. Guaranteed to exist."""
-    return ty.cast(str, base.save_data_path(PACKAGE_NAME))
+    return base.save_data_path(PACKAGE_NAME)
 
 
 def get_data_dirs(

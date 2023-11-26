@@ -47,10 +47,7 @@ def _find_desktop_file(desk_id: str) -> str:
         raise ResourceLookupError("Empty id")
 
     try:
-        return ty.cast(
-            str,
-            next(xdg.BaseDirectory.load_data_paths("applications", desk_id)),
-        )
+        return next(xdg.BaseDirectory.load_data_paths("applications", desk_id))
     except StopIteration:
         ## it was not found as an immediate child of the data paths,
         ## so we split by the hyphens and search deeper

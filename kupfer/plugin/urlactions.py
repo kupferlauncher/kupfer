@@ -36,7 +36,7 @@ def get_dest_name(response: http.client.HTTPResponse) -> str:
 
     name = "index"
     # try get filename from url
-    url = urllib.parse.urlparse(response.url)  # type: ignore
+    url = urllib.parse.urlparse(response.url)
     if url.path not in ("", "/"):
         name = os.path.basename(url.path.rstrip("/"))
         # if name have extension - return it
