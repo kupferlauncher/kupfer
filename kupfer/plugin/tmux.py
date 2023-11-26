@@ -59,12 +59,16 @@ def tmux_sessions(
     if libtmux:
         if srv := libtmux.Server():  # type: ignore
             for sess in srv.sessions:
+                if not sess.session_id:
+                    continue
+
                 yield (
                     sess.session_id,
-                    sess.session_name,
-                    sess.session_attached,
-                    sess.session_created,
+                    sess.session_name or f"session {sess.session_id}",
+                    sess.session_attached or "",
+                    sess.session_created or "",
                 )
+
             return
 
     # fallback
