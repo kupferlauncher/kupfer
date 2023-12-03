@@ -57,6 +57,17 @@ class SSHLeaf(HostLeaf):
     def get_gicon(self):
         return icons.ComposedIconSmall(self.get_icon_name(), "terminal")
 
+    def get_text_representation(self) -> str:
+        host = str(self[HOST_ADDRESS_KEY])
+        with suppress(KeyError):
+            if user := self[HOST_SERVICE_USER_KEY]:
+                host = f"{user}@{host}"
+
+        return f"ssh://{host}"
+
+    def get_urilist_representation(self) -> list[str]:
+        return [self.get_text_representation()]
+
 
 class SSHConnect(Action):
     """Used to launch a terminal connecting to the specified SSH host.
