@@ -63,6 +63,17 @@ def _is_valid_domain(domain: str) -> bool:
     return bool(re.match(domain_re, domain, re.IGNORECASE))
 
 
+def _is_valid_hostname(name: str) -> bool:
+    return bool(
+        re.match(
+            r"[a-z\u00a1-\uffff0-9](?:[a-z\u00a1-\uffff0-9-]{0,61}"
+            r"[a-z\u00a1-\uffff0-9])?",
+            name,
+            re.IGNORECASE,
+        )
+    )
+
+
 def validate_netloc(netloc: str) -> bool:
     """Check if `netloc` is valid netlocation.
 
@@ -138,9 +149,57 @@ def _is_http_domain(netloc: str) -> bool:
     return lpart in ("com", "org", "net", "gov", "local")
 
 
+# from https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
+# schemes that not require / not have netloc. Skipped exotic/historic.
+_schema_wo_netloc = {
+    "android",
+    "admin",  # unofficial, gnome
+    "apt",
+    "bitcoin",
+    "bitcoincash",
+    "callto",
+    "dab",
+    "dvb",
+    "ethereum",
+    "file",
+    "fm",
+    "gg",
+    "gtalk",
+    "ipfs",
+    "ipns",
+    "jabber",
+    "lastfm",
+    "magnet",
+    "mailto",
+    "maps",
+    "market",
+    "message",
+    "nntp",
+    "news",
+    "skype",
+    "sms",
+    "steam",
+}
+
+
 def is_url(text: str) -> str | None:
-    """If `text` is an URL, return a cleaned-up URL, else return `None`"""
+    """If `text` is an URL, return a cleaned-up URL, else return `None`
+
+    Ref:
+        https://en.wikipedia.org/wiki/Uniform_Resource_Identifier
+        https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
+        https://en.wikipedia.org/wiki/List_of_URI_schemes
+    """
     text = text.strip()
+
+    # quick check is text contain valid for url characters
+    if not re.match(
+        r"^[a-z\u00a1-\uffff0-9-:/?#\[\]@!$&;()*+.,;=~_-]+$",
+        text,
+        re.IGNORECASE,
+    ):
+        return None
+
     url = urllib.parse.urlparse(text)
     netloc = url.netloc
     scheme = url.scheme
@@ -151,7 +210,20 @@ def is_url(text: str) -> str | None:
         if validate_netloc(netloc):
             return text
 
+        # accept also non-fqdn hostname
+        if _is_valid_hostname(netloc):
+            return text
+
         return None
+
+    if scheme and path:
+        # this is valid for mailto:, news: and other urls that not have netloc
+        if scheme in _schema_wo_netloc:
+            return text
+
+        # spacial case for mail: replace mail: -> mailto:
+        if scheme == "mail":
+            return f"mailto{text[4:]}"
 
     if not netloc:
         # if there is no schema and no '//' on begin of netloc urlparse

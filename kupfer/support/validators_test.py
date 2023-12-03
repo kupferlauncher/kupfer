@@ -123,6 +123,28 @@ class TestIsUrl(unittest.TestCase):
         )
 
         self.assertEqual(
+            "https://john.doe@www.example.com:123/forum/questions/"
+            "?tag=networking&order=newest#top",
+            v.is_url(
+                "https://john.doe@www.example.com:123/forum/questions/"
+                "?tag=networking&order=newest#top"
+            ),
+        )
+
+    def test_valid_mail(self):
+        self.assertEqual(
+            "mailto:user@example.com",
+            v.is_url("mailto:user@example.com"),
+        )
+        # "mail:" is invalid schema for email, but still valid url...
+        # special case: fix to mailto
+        self.assertEqual(
+            "mailto:user@example.com",
+            v.is_url("mail:user@example.com"),
+        )
+
+    def test_valid_other(self):
+        self.assertEqual(
             "ftp://abc:123@localhost/test",
             v.is_url("ftp://abc:123@localhost/test"),
         )
@@ -131,11 +153,50 @@ class TestIsUrl(unittest.TestCase):
             v.is_url("abc:123@ftp.localhost/test"),
         )
 
+        self.assertEqual(
+            "sftp://sftp.localhost/",
+            v.is_url("sftp://sftp.localhost/"),
+        )
+        self.assertEqual(
+            "sftp://test@localhost",
+            v.is_url("sftp://test@localhost"),
+        )
+        self.assertEqual(
+            "sftp://test@sftp.localhost/",
+            v.is_url("sftp://test@sftp.localhost/"),
+        )
+
+        self.assertEqual(
+            "ldap://[2001:db8::7]/c=GB?objectClass?one",
+            v.is_url(
+                "ldap://[2001:db8::7]/c=GB?objectClass?one",
+            ),
+        )
+        self.assertEqual(
+            "news:comp.infosystems.www.servers.unix",
+            v.is_url("news:comp.infosystems.www.servers.unix"),
+        )
+        self.assertEqual(
+            "telnet://192.0.2.16:80/",
+            v.is_url(
+                "telnet://192.0.2.16:80/",
+            ),
+        )
+
     def test_valid_http_neg(self):
         self.assertIsNone(v.is_url("www.abc"))
         self.assertIsNone(v.is_url("abcdds"))
         self.assertIsNone(v.is_url("http daldkal alkl"))
         self.assertIsNone(v.is_url("com."))
+
+    def test_short_netloc(self):
+        self.assertEqual("sftp://localhost", v.is_url("sftp://localhost"))
+        self.assertEqual("sftp://test", v.is_url("sftp://test"))
+
+    def test_invalid(self):
+        self.assertIsNone(v.is_url("http://kla alsdalk"))
+        self.assertIsNone(v.is_url("http://www.^abc"))
+        self.assertIsNone(v.is_url("http://www.abc|dsl"))
 
 
 class TestIsEmail(unittest.TestCase):
