@@ -81,14 +81,32 @@ class OpenTextUrl(OpenUrl):
     rank_adjust = 1
 
     def activate(self, leaf, iobj=None, ctx=None):
-        if url := is_url(leaf.object):
+        if url := self._get_leaf_valid_url(leaf):
             launch.show_url(url)
 
     def item_types(self):
-        yield TextLeaf
+        yield Leaf
 
-    def valid_for_item(self, leaf):
-        return is_url(leaf.object)
+    def valid_for_item(self, leaf: Leaf) -> bool:
+        return bool(self._get_leaf_valid_url(leaf))
+
+    def _get_leaf_valid_url(self, leaf: Leaf) -> str | None:
+        if isinstance(leaf, TextLeaf):
+            if url := is_url(leaf.object):
+                return url
+
+        with suppress(AttributeError):
+            if repr := leaf.get_text_representation():  # type: ignore
+                if url := is_url(repr):
+                    return url
+
+        with suppress(AttributeError, NotImplementedError):
+            for url in leaf.get_urilist_representation() or []:  # type: ignore
+                if url:
+                    if url := is_url(url):
+                        return url
+
+        return None
 
 
 class URLTextSource(TextSource):
