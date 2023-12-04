@@ -349,7 +349,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         raise KeyError(f"Invalid settings section: {section}")
 
-    def _set_config(self, section: str, key: str, value: ty.Any) -> bool:
+    def set_config(self, section: str, key: str, value: ty.Any) -> bool:
         """General interface, but section must exist"""
         self.output_debug("Set", section, key, "to", value)
         key = key.lower()
@@ -467,7 +467,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def set_keybinding(self, keystr: str) -> bool:
         """Convenience: Set Kupfer keybinding as string"""
-        return self._set_config("Kupfer", "keybinding", keystr)
+        return self.set_config("Kupfer", "keybinding", keystr)
 
     def get_magic_keybinding(self) -> str:
         """Convenience: Kupfer alternate keybinding as string"""
@@ -475,7 +475,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def set_magic_keybinding(self, keystr: str) -> bool:
         """Convenience: Set alternate keybinding as string"""
-        return self._set_config("Kupfer", "magickeybinding", keystr)
+        return self.set_config("Kupfer", "magickeybinding", keystr)
 
     def get_global_keybinding(self, key: str) -> str:
         if key == "keybinding":
@@ -499,7 +499,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return _strbool(self.get_config("Kupfer", "usecommandkeys"))
 
     def set_use_command_keys(self, enabled: bool) -> bool:
-        return self._set_config("Kupfer", "usecommandkeys", enabled)
+        return self.set_config("Kupfer", "usecommandkeys", enabled)
 
     def get_action_accelerator_modifer(self) -> str:
         return str(self.get_config("Kupfer", "action_accelerator_modifer"))
@@ -508,13 +508,13 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         """
         Valid values are: 'alt', 'ctrl'
         """
-        return self._set_config("Kupfer", "action_accelerator_modifer", value)
+        return self.set_config("Kupfer", "action_accelerator_modifer", value)
 
     def set_large_icon_size(self, size: str) -> bool:
-        return self._set_config("Appearance", "icon_large_size", size)
+        return self.set_config("Appearance", "icon_large_size", size)
 
     def set_small_icon_size(self, size: str) -> bool:
-        return self._set_config("Appearance", "icon_small_size", size)
+        return self.set_config("Appearance", "icon_small_size", size)
 
     def get_show_status_icon(self) -> bool:
         """Convenience: Show icon in notification area as bool (GTK)."""
@@ -522,7 +522,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def set_show_status_icon(self, enabled: bool) -> bool:
         """Set config value and return success"""
-        return self._set_config("Kupfer", "showstatusicon", enabled)
+        return self.set_config("Kupfer", "showstatusicon", enabled)
 
     def get_show_status_icon_ai(self) -> bool:
         """Convenience: Show icon in notification area as bool (AppIndicator3)"""
@@ -530,7 +530,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def set_show_status_icon_ai(self, enabled: bool) -> bool:
         """Set config value and return success"""
-        return self._set_config("Kupfer", "showstatusicon_ai", enabled)
+        return self.set_config("Kupfer", "showstatusicon_ai", enabled)
 
     def get_directories(self, direct: bool = True) -> ty.Iterator[str]:
         """Yield directories to use as directory sources"""
@@ -554,7 +554,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             yield dpath or os.path.abspath(os.path.expanduser(direc))
 
     def set_directories(self, dirs: list[str]) -> bool:
-        return self._set_config("Directories", "direct", dirs)  #
+        return self.set_config("Directories", "direct", dirs)  #
 
     # pylint: disable=too-many-return-statements
     def get_plugin_config(
@@ -634,7 +634,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return res
 
     def set_accelerator(self, name: str, key: str) -> bool:
-        return self._set_config("Keybindings", name, key)
+        return self.set_config("Keybindings", name, key)
 
     def get_accelerators(self) -> dict[str, ty.Any]:
         return self._config["Keybindings"]
@@ -648,7 +648,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def reset_accelerators(self) -> None:
         for key, value in self._get_from_defaults_section("Keybindings") or ():
-            self._set_config("Keybindings", key, value)
+            self.set_config("Keybindings", key, value)
 
     def get_preferred_tool(self, tool_id: str) -> str | None:
         """Get preferred ID for a @tool_id.
@@ -660,7 +660,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return res
 
     def set_preferred_tool(self, tool_id: str, value: ty.Any) -> bool:
-        return self._set_config("Tools", tool_id, value)
+        return self.set_config("Tools", tool_id, value)
 
     ## Alternatives section
     ## Provide alternatives for each category
