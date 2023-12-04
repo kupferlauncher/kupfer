@@ -48,6 +48,12 @@ def _set_combobox(value: ty.Any, combobox: Gtk.ComboBoxText) -> None:
             return
 
 
+def _set_combobox_id(id_: ty.Any, combobox: Gtk.ComboBox) -> None:
+    """Set activate the alternative in the combobox with id."""
+    if id_:
+        combobox.set_active_id(str(id_))
+
+
 def _make_combobox_model(combobox: Gtk.ComboBox) -> None:
     # List store with columns (Name, ID)
     combobox_store = Gtk.ListStore(GObject.TYPE_STRING, GObject.TYPE_STRING)
@@ -418,6 +424,11 @@ class PreferencesWindowController(pretty.OutputMixin):
         self._icons_combobox = builder.get_object("icons_combobox")
         _make_combobox_model(self._icons_combobox)
         self._update_alternative_combobox("icon_renderer", self._icons_combobox)
+
+        _set_combobox_id(
+            setctl.get_config_int("Appearance", "ellipsize_mode"),
+            builder.get_object("ellipsize_mode"),
+        )
 
         # Plugin List
         self._init_plugin_lists(builder.get_object("plugin_list_parent"))
@@ -1112,6 +1123,13 @@ class PreferencesWindowController(pretty.OutputMixin):
             val = widget.get_active_text()
             setctl = settings.get_settings_controller()
             setctl.set_small_icon_size(val)
+
+    def on_ellipsize_mode_changed(self, widget: Gtk.ComboBox) -> None:
+        """Change 'Text ellipsization' setting - callback."""
+        setctl = settings.get_settings_controller()
+        if itr := widget.get_active_iter():
+            mode = widget.get_model().get_value(itr, 1)
+            setctl.set_config("Appearance", "ellipsize_mode", mode),
 
     def _update_alternative_combobox(
         self, category_key: str, combobox: Gtk.ComboBox

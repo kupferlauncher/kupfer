@@ -239,7 +239,7 @@
                           </packing>
                         </child>
                         <child>
-                          <!-- n-columns=2 n-rows=3 -->
+                          <!-- n-columns=2 n-rows=4 -->
                           <object class="GtkGrid">
                             <property name="visible">True</property>
                             <property name="can-focus">False</property>
@@ -347,6 +347,36 @@
                               <packing>
                                 <property name="left-attach">0</property>
                                 <property name="top-attach">0</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkLabel" id="label7.3">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <property name="tooltip-text" translatable="yes">What sort of ellipsization should be applied to text.
+Restart may be required.</property>
+                                <property name="xpad">3</property>
+                                <property name="label" translatable="yes">Text ellipsization:</property>
+                                <property name="xalign">0</property>
+                              </object>
+                              <packing>
+                                <property name="left-attach">0</property>
+                                <property name="top-attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkComboBoxText" id="ellipsize_mode">
+                                <property name="visible">True</property>
+                                <property name="can-focus">False</property>
+                                <items>
+                                  <item id="0" translatable="yes">in the middle </item>
+                                  <item id="1" translatable="yes">at the end</item>
+                                </items>
+                                <signal name="changed" handler="on_ellipsize_mode_changed" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="left-attach">1</property>
+                                <property name="top-attach">3</property>
                               </packing>
                             </child>
                           </object>

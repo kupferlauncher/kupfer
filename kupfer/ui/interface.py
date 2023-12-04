@@ -9,7 +9,7 @@ import functools
 import textwrap
 import typing as ty
 
-from gi.repository import Gdk, Gio, GObject, Gtk, Pango
+from gi.repository import Gdk, Gio, GObject, Gtk
 
 from kupfer import interface
 from kupfer.core import actionaccel, settings
@@ -25,7 +25,6 @@ from kupfer.ui.search import ActionSearch, LeafSearch, Search, State
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
-_ELLIPSIZE_MIDDLE: ty.Final = Pango.EllipsizeMode.MIDDLE
 _SLOW_INPUT_INTERVAL: ty.Final = 2
 _KEY_PRESS_INTERVAL: ty.Final = 0.3
 _KEY_PRESS_REPEAT_THRESHOLD: ty.Final = 0.02
@@ -135,6 +134,8 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self.search.reset()
 
     def _create_widgets(self, window: Gtk.Window) -> None:
+        setctl = settings.get_settings_controller()
+
         self._entry = Gtk.Entry()
         self._preedit = Gtk.Entry()
         ## make sure we lose the preedit focus ring
@@ -147,7 +148,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._label.set_width_chars(50)
         self._label.set_max_width_chars(50)
         self._label.set_single_line_mode(True)
-        self._label.set_ellipsize(_ELLIPSIZE_MIDDLE)
+        self._label.set_ellipsize(setctl.get_ellipsize_mode())
         self._label.set_name("kupfer-description")
 
         self._switch_to_source_init()

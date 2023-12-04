@@ -7,7 +7,7 @@ import os
 import typing as ty
 import ast
 
-from gi.repository import GLib, GObject
+from gi.repository import GLib, GObject, Pango
 
 from kupfer import config
 from kupfer.support import pretty, scheduler
@@ -703,6 +703,12 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self._alternatives[category_key] = alternatives
         self._alternative_validators[category_key] = validator
         self.emit("alternatives-changed::" + category_key, category_key)
+
+    def get_ellipsize_mode(self) -> Pango.EllipsizeMode:
+        if self.get_config("Appearance", "ellipsize_mode") == "1":
+            return Pango.EllipsizeMode.END
+
+        return Pango.EllipsizeMode.MIDDLE
 
 
 # Arguments: Section, Key, Value

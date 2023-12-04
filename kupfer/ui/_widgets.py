@@ -10,7 +10,7 @@ import typing as ty
 import re
 import traceback
 
-from gi.repository import Gtk, Gio, Pango, GLib
+from gi.repository import Gtk, Gio, GLib
 
 from kupfer import icons, launch, plugin_support
 from kupfer.core import settings, plugins
@@ -79,7 +79,8 @@ class DirsSelectWidget(Gtk.Bin):  # type: ignore
         icon_col.add_attribute(icon_cell, "gicon", 1)
 
         cell = Gtk.CellRendererText()
-        cell.set_property("ellipsize", Pango.EllipsizeMode.END)
+        setctl = settings.get_settings_controller()
+        cell.set_property("ellipsize", setctl.get_ellipsize_mode())
 
         col = Gtk.TreeViewColumn("name", cell)
         col.add_attribute(cell, "text", 2)

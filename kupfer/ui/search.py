@@ -5,7 +5,7 @@ import enum
 import itertools
 import typing as ty
 
-from gi.repository import Gdk, GdkPixbuf, GLib, GObject, Gtk, Pango
+from gi.repository import Gdk, GdkPixbuf, GLib, GObject, Gtk
 
 import kupfer.config
 import kupfer.environment
@@ -32,7 +32,6 @@ class State(enum.IntEnum):
     NO_MATCH = 3
 
 
-_ELLIPSIZE_MIDDLE: ty.Final = Pango.EllipsizeMode.MIDDLE
 _PREEDIT_HIDDEN_CLASS: ty.Final = "hidden"
 _WINDOW_BORDER_WIDTH: ty.Final = 8
 
@@ -73,7 +72,8 @@ class _LeafModel:
         # Name and description column
         # Expands to the rest of the space
         name_cell = Gtk.CellRendererText()
-        name_cell.set_property("ellipsize", _ELLIPSIZE_MIDDLE)
+        setctl = settings.get_settings_controller()
+        name_cell.set_property("ellipsize", setctl.get_ellipsize_mode())
         name_col = Gtk.TreeViewColumn("item", name_cell)
         name_col.set_expand(True)
         name_col.add_attribute(name_cell, "markup", _NAME_COL)
@@ -304,7 +304,9 @@ class MatchViewOwner(pretty.OutputMixin):
         label.set_single_line_mode(True)
         label.set_width_chars(_LABEL_CHAR_WIDTH)
         label.set_max_width_chars(_LABEL_CHAR_WIDTH)
-        label.set_ellipsize(_ELLIPSIZE_MIDDLE)
+
+        setctl = settings.get_settings_controller()
+        label.set_ellipsize(setctl.get_ellipsize_mode())
 
         self._icon_view = Gtk.Image()
 
