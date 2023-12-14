@@ -1055,11 +1055,19 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def _description_changed(self) -> None:
         assert self.current
         match = self.current.get_current()
-        # Use invisible WORD JOINER instead of empty, to maintain vertical size
-        desc = match and match.get_description() or "\N{WORD JOINER}"
-        desc = escape_markup_str(desc)
-        markup = f"<small>{desc}</small>"
-        self._label.set_markup(markup)
+        if desc := match and match.get_description():
+            desc = escape_markup_str(desc)
+            self._label.set_tooltip_markup(desc)
+            self._label.set_has_tooltip(True)
+
+            # show only first line of description
+            first_line = desc.split("\n", 1)[0]
+            self._label.set_markup(f"<small>{first_line}</small>")
+
+        else:
+            # Use invisible WORD JOINER instead of empty, to maintain vertical size
+            self._label.set_markup("<small>\N{WORD JOINER}</small>")
+            self._label.set_has_tooltip(False)
 
     def put_text(self, text: str) -> None:
         """Put @text into the interface to search, to use for "queries" from
