@@ -613,6 +613,8 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         table.set_name("kupfer-list-view")
         table.set_headers_visible(False)
         table.set_property("enable-search", False)
+        table.set_has_tooltip(True)
+        table.set_tooltip_column(2)
 
         for col in self._model.columns:
             table.append_column(col)
