@@ -111,12 +111,12 @@ def format_result(res):
     cres = complex(res)
     parts = []
     if cres.real:  # pylint: disable=using-constant-test
-        parts.append(f"{cres.real}")
+        parts.append(str(cres.real))
 
     if cres.imag:  # pylint: disable=using-constant-test
-        parts.append(f"{complex(0, cres.imag)}")
+        parts.append(str(complex(0, cres.imag)))
 
-    return "+".join(parts) or f"{res}"
+    return "+".join(parts) or str(res)
 
 
 class Calculate(Action):

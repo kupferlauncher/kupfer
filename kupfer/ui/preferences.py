@@ -1050,7 +1050,7 @@ class PreferencesWindowController(pretty.OutputMixin):
             setctl.reset_keybindings()
             self._show_keybindings(setctl)
             # Unbind all before re-binding
-            for keybind_id, target in _KEYBINDING_TARGETS.items():
+            for target in _KEYBINDING_TARGETS.values():
                 keybindings.bind_key(None, target)
 
             for keybind_id, target in _KEYBINDING_TARGETS.items():
