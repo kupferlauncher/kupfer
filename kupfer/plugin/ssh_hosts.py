@@ -6,14 +6,14 @@ __version__ = "2023-11-04"
 __author__ = "Fabian Carlström, Karol Będkowski"
 
 __kupfer_sources__ = ("SSHSource",)
-__kupfer_actions__ = ("SSHConnect",)
+__kupfer_actions__ = ("SSHConnect", "ScpFile")
 
 import os
 import typing as ty
 from contextlib import suppress
 
 from kupfer import icons, launch
-from kupfer.obj import Action
+from kupfer.obj import Action, FileLeaf
 from kupfer.obj.grouping import ToplevelGroupingSource
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.obj.hosts import (
@@ -76,6 +76,7 @@ class SSHConnect(Action):
 
     def __init__(self):
         Action.__init__(self, name=_("Connect"))
+        self.kupfer_add_alias("scp")
 
     def activate(self, leaf, iobj=None, ctx=None):
         host = leaf[HOST_NAME_KEY]
@@ -99,6 +100,47 @@ class SSHConnect(Action):
             return leaf[HOST_SERVICE_NAME_KEY] == "ssh"
 
         return False
+
+
+class ScpFile(Action):
+    """Send file or directory to remote host via scp."""
+
+    def __init__(self):
+        super().__init__(name=_("Send file to..."))
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert leaf and isinstance(leaf, FileLeaf)
+        assert iobj and isinstance(iobj, SSHLeaf)
+
+        host = iobj[HOST_NAME_KEY]
+        with suppress(KeyError):
+            if user := iobj[HOST_SERVICE_USER_KEY]:
+                host = f"{user}@{host}"
+
+        cmd = ["scp"]
+        if leaf.is_dir():
+            cmd += ["-r"]
+
+        cmd += [leaf.object, f"{host}:"]
+        launch.spawn_in_terminal(cmd)
+
+    def valid_for_item(self, leaf):
+        return os.access(leaf.object, os.R_OK)
+
+    def requires_object(self):
+        return True
+
+    def item_types(self):
+        yield FileLeaf
+
+    def object_types(self):
+        yield SSHLeaf
+
+    def get_description(self):
+        return _("Copy file or directory to remote host using scp")
+
+    def get_icon_name(self):
+        return "go-next"
 
 
 def _parse_host_stms(args: list[str]) -> ty.Iterator[tuple[str, str | None]]:
