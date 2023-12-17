@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 __kupfer_name__ = _("Kupfer Actions")
 __kupfer_sources__ = ("KupferActions",)
 __description__ = _(
@@ -12,56 +14,9 @@ import typing as ty
 from gettext import gettext as _
 
 from kupfer import icons
-from kupfer.core import sources
-from kupfer.obj import Action, Leaf, Source
-
-
-class ExecuteAction(Action):
-    """Execute action selected as leaf on iobj."""
-
-    def __init__(self, action: Action) -> None:
-        super().__init__(name=_("Run On..."))
-        self.action = action
-
-    def wants_context(self) -> bool:
-        return self.action.wants_context()
-
-    def activate(self, leaf, iobj=None, ctx=None):
-        assert iobj
-
-        self.action.activate(iobj, ctx=ctx)
-
-    def requires_object(self):
-        return True
-
-    def object_types(self):
-        yield from self.action.item_types()
-
-    def valid_object(self, iobj, for_item=None):
-        return self.action.valid_for_item(iobj)
-
-    def repr_key(self) -> ty.Any:
-        return self.action
-
-
-class ActionLeaf(Leaf):
-    def __init__(self, action: Action):
-        Leaf.__init__(self, action, action.name)
-
-    def get_actions(self):
-        return (ExecuteAction(self.object),)
-
-    def get_gicon(self):
-        return self.object.get_gicon()
-
-    def get_icon_name(self):
-        return self.object.get_icon_name()
-
-    def repr_key(self) -> ty.Any:
-        return self.object
-
-    def get_description(self):
-        return self.object.get_description()
+from kupfer.core import sources, settings
+from kupfer.obj import Source
+from kupfer.obj.objects import ActionLeaf
 
 
 class KupferActions(Source):
@@ -69,6 +24,15 @@ class KupferActions(Source):
 
     def __init__(self):
         Source.__init__(self, _("Kupfer Actions"))
+
+    def _on_plugin_enabled(
+        self, _setctl: ty.Any, _plugin_id: str, _enabled: bool | int
+    ) -> None:
+        self.mark_for_update()
+
+    def initialize(self):
+        setctl = settings.get_settings_controller()
+        setctl.connect("plugin-enabled-changed", self._on_plugin_enabled)
 
     def get_items(self):
         # we can skip action_generators

@@ -11,6 +11,7 @@ import typing as ty
 
 from gi.repository import GObject
 
+from kupfer.obj import objects
 from kupfer.obj.base import Action, AnySource, KupferObject, Leaf, Source
 from kupfer.support import pretty
 from kupfer.core import actioncompat
@@ -277,27 +278,37 @@ class PrimaryActionPane(Pane[Action]):
             self.emit_search_result(None, (), context)
             return
 
-        actions = actioncompat.actions_for_item(leaf, get_source_controller())
-        cache = self._action_valid_cache
+        if isinstance(leaf, objects.ActionLeaf):
+            # for ActionLeaf get only actions defined in leaf (should be one,
+            # ignore other actions).
+            actions = leaf.get_actions()
+            match, match_iter = self._searcher.rank_actions(actions, "", leaf)
 
-        def valid_decorator(seq):
-            """Check if actions are valid before access"""
-            assert leaf
+        else:
+            actions = actioncompat.actions_for_item(
+                leaf, get_source_controller()
+            )
+            cache = self._action_valid_cache
 
-            for obj in seq:
-                action = obj.object
-                action_hash = hash(action)
-                valid = cache.get(action_hash)
-                if valid is None:
-                    valid = actioncompat.action_valid_for_item(action, leaf)
-                    cache[action_hash] = valid
+            def valid_decorator(seq):
+                """Check if actions are valid before access"""
+                assert leaf
 
-                if valid:
-                    yield obj
+                for obj in seq:
+                    action = obj.object
+                    action_hash = hash(action)
+                    valid = cache.get(action_hash)
+                    if valid is None:
+                        valid = actioncompat.action_valid_for_item(action, leaf)
+                        cache[action_hash] = valid
 
-        match, match_iter = self._searcher.rank_actions(
-            actions, key, leaf, decorator=valid_decorator
-        )
+                    if valid:
+                        yield obj
+
+            match, match_iter = self._searcher.rank_actions(
+                actions, key, leaf, decorator=valid_decorator
+            )
+
         self.emit_search_result(match, match_iter, context)
 
 

@@ -158,3 +158,76 @@ class TextLeaf(Leaf, TextRepresentation):
 
     def get_icon_name(self) -> str:
         return "edit-select-all"
+
+
+class _ExecuteAction(Action):
+    """Execute action selected as leaf on iobj.
+    This is special action used in "action -> object" mode.
+
+    For most this action copy properties from real action; only replace
+    leaves with indirect objects.
+    """
+
+    rank_adjust = 99999
+
+    def __init__(self, action: Action) -> None:
+        super().__init__(name=_("Run On..."))
+        self.action = action
+
+    def wants_context(self) -> bool:
+        return self.action.wants_context()
+
+    def has_result(self):
+        return self.action.has_result()
+
+    def is_factory(self):
+        return self.action.is_factory()
+
+    def is_async(self):
+        return self.action.is_async()
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        """For this action leaf is Action type, iobj is
+        leaf of type accepted by action."""
+        assert iobj
+        return self.action.activate(iobj, ctx=ctx)
+
+    def requires_object(self):
+        return True
+
+    def object_types(self):
+        yield from self.action.item_types()
+
+    def valid_object(self, iobj, for_item=None):
+        return self.action.valid_for_item(iobj)
+
+    def repr_key(self) -> ty.Any:
+        return self.action
+
+
+class ActionLeaf(Leaf):
+    """ActionLeaf is special leaf that carry real "action". Is used in two-panes
+    mode (Action -> object) and allow user to select action in first panel.
+    """
+
+    object: Action
+
+    serializable = None
+
+    def __init__(self, action: Action):
+        Leaf.__init__(self, action, action.name)
+
+    def get_actions(self):
+        return (_ExecuteAction(self.object),)
+
+    def get_gicon(self):
+        return self.object.get_gicon()
+
+    def get_icon_name(self):
+        return self.object.get_icon_name()
+
+    def repr_key(self) -> ty.Any:
+        return self.object
+
+    def get_description(self):
+        return self.object.get_description()

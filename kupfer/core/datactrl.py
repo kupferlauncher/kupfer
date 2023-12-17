@@ -12,7 +12,7 @@ from pathlib import Path
 
 from gi.repository import GLib, GObject
 
-from kupfer.obj import compose
+from kupfer.obj import compose, objects
 from kupfer.obj.base import (
     Action,
     ActionGenerator,
@@ -60,8 +60,15 @@ class PaneSel(IntEnum):
 
 # In two-pane or three-pane mode
 class PaneMode(IntEnum):
+    # two-panels mode: source -> action
     SOURCE_ACTION = 1
+    # three panels mode: source -> action -> indirect object
     SOURCE_ACTION_OBJECT = 2
+    # two-panels mode: action -> object (source); in this mode we cheat -
+    # for specific leaf (ActionLeaf) which have only one action (ExecuteAction)
+    # we by default select this action and hide panel with actions, so user
+    # must select indirect object.
+    ACTION_OBJECT = 3
 
 
 # pylint: disable=too-many-public-methods
@@ -457,6 +464,18 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             citem = self._get_pane_object_composed(self._source_pane)
             self._action_pane.set_item(citem)
             self.search(PaneSel.ACTION, interactive=True)
+
+            # change mode according to selected in first panel leaf
+            newmode = self._mode
+            if isinstance(item, objects.ActionLeaf):
+                newmode = PaneMode.ACTION_OBJECT
+            elif self._mode == PaneMode.ACTION_OBJECT:
+                newmode = PaneMode.SOURCE_ACTION
+
+            if newmode != self._mode:
+                self._mode = newmode
+                self.emit("mode-changed", self._mode, item)
+
             if self._mode == PaneMode.SOURCE_ACTION_OBJECT:
                 self.object_stack_clear(PaneSel.OBJECT)
                 self._populate_third_pane()
@@ -713,7 +732,10 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             return (None, None, None)
 
         iobjects = self._get_pane_object_composed(self._object_pane)
-        if self._mode == PaneMode.SOURCE_ACTION_OBJECT:
+        if self._mode in (
+            PaneMode.SOURCE_ACTION_OBJECT,
+            PaneMode.ACTION_OBJECT,
+        ):
             if not iobjects:
                 return (None, None, None)
 

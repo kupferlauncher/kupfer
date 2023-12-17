@@ -111,6 +111,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         self._widget: Gtk.Widget | None = None
         self._ui_transition_timer = scheduler.Timer()
+        self._panel_two_is_visible = True
         self._pane_three_is_visible = False
         self._is_text_mode = False
         self._latest_input_timer = scheduler.Timer()
@@ -858,10 +859,21 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
             # use a delay before showing the third pane,
             # but set internal variable to "shown" already now
             self._pane_three_is_visible = True
+            self._show_second_pane(True)
             self._ui_transition_timer.set_ms(200, self._show_third_pane, True)
+        elif mode == PaneMode.ACTION_OBJECT:
+            self._pane_three_is_visible = True
+            self._show_second_pane(False)
+            self._show_third_pane(True)
         else:
             self._pane_three_is_visible = False
+            self._show_second_pane(True)
             self._show_third_pane(False)
+
+    def _show_second_pane(self, show: bool) -> None:
+        """Set visibility of second panel to `show`."""
+        self._panel_two_is_visible = show
+        self.action.set_visible(show)
 
     def _show_third_pane(self, show: bool) -> None:
         """Set visibility of third panel to `show`."""
@@ -900,11 +912,16 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """Switch selected pane.
 
         index: index (0, 1, or 2) of the pane to select.
+
+        In ACTION_OBJECT mode second panel is hidden.
         """
         order: tuple[LeafSearch, ActionSearch, LeafSearch] | tuple[
             LeafSearch, ActionSearch
-        ]
-        if self._pane_three_is_visible:
+        ] | tuple[LeafSearch, LeafSearch]
+
+        if not self._panel_two_is_visible:
+            order = (self.search, self.third)
+        elif self._pane_three_is_visible:
             order = (self.search, self.action, self.third)
         else:
             order = (self.search, self.action)
