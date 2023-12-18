@@ -85,7 +85,9 @@ skips = ["B101", "B410", "B303", "B110", "B404", "B311", "B405", "B201"]
 python_version = 3.9
 strict = true
 exclude = [
-  '_test\.py$'
+  '_test\.py$',
+  "waflib",
+  "oldplugins",
 ]
 allow_untyped_defs = true
 allow_untyped_calls = true
@@ -125,6 +127,7 @@ additional-builtins = ["_", "ngettext", "ic"]
 
 [tool.ruff]
 builtins = ["_", "ic", "ic_stack", "ngettext"]
+exclude = ["waflib", "waf", "oldplugins"]
 
 [tool.pytest]
 addopts = "--doctest-modules"
