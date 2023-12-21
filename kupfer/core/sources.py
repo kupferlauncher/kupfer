@@ -107,6 +107,13 @@ class PeriodicRescanner(pretty.OutputMixin):
         if source.is_dynamic():
             return
 
+        # on initial rescan force update also "cached" source when there is no
+        # items in cache.
+        force_update |= (
+            isinstance(source.cached_items, (list, tuple))
+            and len(source.cached_items) == 0
+        )
+
         self._rescan_source(source, force_update=force_update, campaign=False)
 
     def _start_source_rescan(self, source: Source) -> None:
@@ -744,7 +751,7 @@ class SourceController(pretty.OutputMixin):
                 src.initialize()
 
     def _cache_sources(self, srcs: ty.Iterable[Source]) -> None:
-        # Make sure that the toplevel sources are chached
+        # Make sure that the toplevel sources are cached
         # either newly rescanned or the cache is fully loaded
         self.output_info("Initial sources load")
         for src in srcs:

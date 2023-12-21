@@ -296,6 +296,11 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if enabled and not plugins.is_plugin_loaded(plugin_id):
             srcs = self._load_plugin(plugin_id)
             self._insert_sources(plugin_id, srcs, initialize=True)
+
+            # force update sources after plugin enable
+            for src in srcs:
+                src.mark_for_update()
+
         elif not enabled:
             self._remove_plugin(plugin_id)
 
