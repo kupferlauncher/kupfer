@@ -81,17 +81,22 @@ class PeriodicRescanner(pretty.OutputMixin):
                 continue
 
             # for old objects that may not have this attribute
-            oldtime = getattr(source, "last_scan", 0)
+            last_scan = getattr(source, "last_scan", 0)
             interval = max(
                 getattr(source, "source_scan_interval", 0),
                 self._min_rescan_interval,
             )
-            if time.time() - oldtime > interval:
+
+            next_scan = last_scan + interval - time.time()
+            if next_scan <= 0:
                 self.output_debug(f"scanning {source}")
                 self._start_source_rescan(source)
                 return
 
-            # self.output_debug(f"source {source} up to date")
+            self.output_debug(
+                f"source {source} up to date, next scan in "
+                f"{int(next_scan)}s"
+            )
 
         # No source to scan found
         self.output_info(f"Campaign finished, pausing {self._campaign} s")

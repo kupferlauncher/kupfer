@@ -330,7 +330,8 @@ class Source(KupferObject, pretty.OutputMixin):
     *source_scan_interval*
         set typical rescan interval (not guaranteed) in seconds.
         Set 0 to use default. values lower than min_rescan_interval in
-        PeriodicRescanner are ignored.
+        PeriodicRescanner are ignored. Warning: last scan time is pickled, so
+        after restart - source may be immediately rescanned.
 
     *rank_adjust*
         change all leaves rank by given value. This only apply to search with
