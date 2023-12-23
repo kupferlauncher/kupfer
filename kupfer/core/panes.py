@@ -107,6 +107,7 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
         # source_stack keep track on history selected sources and leaves
         self._source_stack: list[tuple[AnySource, Leaf | None]] = []
         self._source: AnySource | None = None
+        # object_stack is used by "comma trick"
         self.object_stack: list[Leaf] = []
 
     def select(self, item: Leaf | None) -> None:

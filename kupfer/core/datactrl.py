@@ -12,7 +12,7 @@ from pathlib import Path
 
 from gi.repository import GLib, GObject
 
-from kupfer.obj import compose, objects
+from kupfer.obj import compose, objects as kobjects
 from kupfer.obj.base import (
     Action,
     ActionGenerator,
@@ -472,7 +472,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
             # change mode according to selected in first panel leaf
             newmode = self._mode
-            if isinstance(item, objects.ActionLeaf):
+            if isinstance(item, kobjects.ActionLeaf):
                 newmode = PaneMode.ACTION_OBJECT
             elif self._mode == PaneMode.ACTION_OBJECT:
                 newmode = PaneMode.SOURCE_ACTION

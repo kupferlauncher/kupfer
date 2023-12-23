@@ -96,15 +96,14 @@ class OpenTextUrl(OpenUrl):
                 return url
 
         with suppress(AttributeError):
-            if repr := leaf.get_text_representation():  # type: ignore
-                if url := is_url(repr):
+            if trepr := leaf.get_text_representation():  # type: ignore
+                if url := is_url(trepr):
                     return url
 
         with suppress(AttributeError, NotImplementedError):
             for url in leaf.get_urilist_representation() or []:  # type: ignore
-                if url:
-                    if url := is_url(url):
-                        return url
+                if url and (url := is_url(url)):
+                    return url
 
         return None
 

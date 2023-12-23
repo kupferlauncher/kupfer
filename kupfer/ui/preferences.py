@@ -1129,7 +1129,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         setctl = settings.get_settings_controller()
         if itr := widget.get_active_iter():
             mode = widget.get_model().get_value(itr, 1)
-            setctl.set_config("Appearance", "ellipsize_mode", mode),
+            setctl.set_config("Appearance", "ellipsize_mode", mode)
 
     def _update_alternative_combobox(
         self, category_key: str, combobox: Gtk.ComboBox

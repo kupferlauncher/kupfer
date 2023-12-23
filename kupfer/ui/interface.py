@@ -454,15 +454,14 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def _populate_search(self) -> None:
         """Do a blanket search/empty search to populate current pane"""
-        if pane := self._pane_for_widget(self.current):
-            self._data_ctrl.search(pane, interactive=True)
+        pane = self._pane_for_widget(self.current)
+        self._data_ctrl.search(pane, interactive=True)
 
     def soft_reset(self, pane: PaneSel | None = None) -> None:
         """Reset `pane` or current pane context/source softly
         (without visible update), and unset _reset_to_toplevel marker.
         """
         pane = pane or self._pane_for_widget(self.current)
-        assert pane is not None
         if newsrc := self._data_ctrl.soft_reset(pane):
             assert self.current
             self.current.set_source(newsrc)
@@ -491,12 +490,10 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """We can enter text mode if the data backend allows,
         and the text entry is ready for input (empty)
         """
-        if pane := self._pane_for_widget(self.current):
-            val = self._data_ctrl.get_can_enter_text_mode(pane)
-            entry_text = self._entry.get_text()
-            return val and not entry_text
-
-        return False
+        pane = self._pane_for_widget(self.current)
+        val = self._data_ctrl.get_can_enter_text_mode(pane)
+        entry_text = self._entry.get_text()
+        return val and not entry_text
 
     def _try_enable_text_mode(self) -> bool:
         """Perform a soft reset if possible and then try enabling text mode"""
@@ -864,7 +861,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         elif mode == PaneMode.ACTION_OBJECT:
             self._pane_three_is_visible = True
             self._show_second_pane(False)
-            self._show_third_pane(True)
+            self._ui_transition_timer.set_ms(200, self._show_third_pane, True)
         else:
             self._pane_three_is_visible = False
             self._show_second_pane(True)
@@ -943,9 +940,6 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
             # Use toggle_text_mode to reset
             self._toggle_text_mode(False)
             pane = self._pane_for_widget(new_focus)
-            if not pane:
-                return False
-
             self._update_active()
             if self._data_ctrl.get_should_enter_text_mode(pane):
                 self.toggle_text_mode_quick()
@@ -953,14 +947,12 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         return True
 
     def _browse_up(self) -> bool:
-        if pane := self._pane_for_widget(self.current):
-            return self._data_ctrl.browse_up(pane)
-
-        return False
+        pane = self._pane_for_widget(self.current)
+        return self._data_ctrl.browse_up(pane)
 
     def _browse_down(self, alternate: bool = False) -> None:
-        if pane := self._pane_for_widget(self.current):
-            self._data_ctrl.browse_down(pane, alternate=alternate)
+        pane = self._pane_for_widget(self.current)
+        self._data_ctrl.browse_down(pane, alternate=alternate)
 
     def _make_gui_ctx(self) -> uievents.GUIEnvironmentContext:
         event_time = Gtk.get_current_event_time()
@@ -1060,9 +1052,6 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self, pane_owner: Search, match: Leaf | Action | None
     ) -> None:
         pane = self._pane_for_widget(pane_owner)
-        if not pane:
-            return
-
         self._data_ctrl.select(pane, match)
         if pane_owner is not self.current:
             return
@@ -1166,7 +1155,6 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         # start search for updated query
         pane = self._pane_for_widget(self.current)
-        assert pane
         if not self._is_text_mode and self._reset_to_toplevel:
             self.soft_reset(pane)
 
