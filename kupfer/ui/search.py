@@ -846,9 +846,17 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if len(self._model) == 0:
             return
 
-        if (row := self._model.find(leaf)) >= 0:
-            self._show_table()
-            self._table_set_cursor_at_row(row)
+        while True:
+            # try find
+            if (row := self._model.find(leaf)) >= 0:
+                self._show_table()
+                self._table_set_cursor_at_row(row)
+                return
+
+            # if not found try to load more items
+            if not self._populate(_SHOW_MORE):
+                # stop when no more leaves
+                return
 
     def relax_match(self) -> None:
         """Remove match text highlight"""
