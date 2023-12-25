@@ -216,18 +216,15 @@ def _fill_parser_from_config(
             parser.set(secname, key, value)
 
 
-# pylint: disable=too-many-public-methods
-class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
-    __gtype_name__ = "SettingsController"
+class ConfigurationStorage(pretty.OutputMixin):
     config_filename = "kupfer.cfg"
     defaults_filename = "defaults.cfg"
-    sep = ";"
+    # Minimal "defaults" to define all fields
+    # Read defaults defined in a defaults.cfg file
     default_directories = (
         "~/",
         "~/Desktop",
     )
-    # Minimal "defaults" to define all fields
-    # Read defaults defined in a defaults.cfg file
     _defaults: dict[str, ty.Any] = {
         "Kupfer": {
             "keybinding": "",
@@ -254,32 +251,32 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         "Tools": {},
     }
 
-    _inst: SettingsController | None = None
-
-    @classmethod
-    def instance(cls) -> SettingsController:
-        """SettingsController is singleton; instance return one, global
-        instance."""
-        if cls._inst is None:
-            cls._inst = SettingsController()
-
-        assert cls._inst
-        return cls._inst
-
-    def __init__(self) -> None:
-        GObject.GObject.__init__(self)
-        self._defaults_path: str | None = None
+    def __init__(self):
         self.encoding = _override_encoding(locale.getpreferredencoding())
         self.output_debug("Using", self.encoding)
-        self._config = self._read_config()
+        self._config = self.load()
         self._save_timer = scheduler.Timer(True)
-        self._alternatives: dict[str, ty.Any] = {}
-        self._alternative_validators: dict[str, AltValidator | None] = {}
 
-    def _update_config_save_timer(self) -> None:
-        self._save_timer.set(60, self._save_config)
+    def save(self, _scheduler: ty.Any = None) -> None:
+        self.output_debug("Saving config")
+        config_path = config.save_config_file(self.config_filename)
+        if not config_path:
+            self.output_info("Unable to save settings, can't find config dir")
+            return
 
-    def _read_config(self, read_config: bool = True) -> Config:
+        # read in just the default values
+        default_confmap = self.load(read_config=False)
+        parser = configparser.RawConfigParser()
+        confmap = _confmap_difference(self._config, default_confmap)
+        _fill_parser_from_config(parser, confmap)
+        ## Write to tmp then rename over for it to be atomic
+        temp_config_path = f"{config_path}.{os.getpid()}"
+        with open(temp_config_path, "w", encoding="UTF_8") as out:
+            parser.write(out)
+
+        os.rename(temp_config_path, config_path)
+
+    def load(self, read_config: bool = True) -> Config:
         """Read cascading config files: default -> then config
         (in all XDG_CONFIG_DIRS)."""
         parser = configparser.RawConfigParser()
@@ -321,25 +318,6 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         _fill_confmap_fom_parser(parser, confmap, self._defaults)
         return confmap
 
-    def _save_config(self, _scheduler: ty.Any = None) -> None:
-        self.output_debug("Saving config")
-        config_path = config.save_config_file(self.config_filename)
-        if not config_path:
-            self.output_info("Unable to save settings, can't find config dir")
-            return
-
-        # read in just the default values
-        default_confmap = self._read_config(read_config=False)
-        parser = configparser.RawConfigParser()
-        confmap = _confmap_difference(self._config, default_confmap)
-        _fill_parser_from_config(parser, confmap)
-        ## Write to tmp then rename over for it to be atomic
-        temp_config_path = f"{config_path}.{os.getpid()}"
-        with open(temp_config_path, "w", encoding="UTF_8") as out:
-            parser.write(out)
-
-        os.rename(temp_config_path, config_path)
-
     def get_config(self, section: str, key: str) -> ty.Any:
         """General interface, but section must exist"""
         if section in self._defaults:
@@ -348,6 +326,9 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             return value
 
         raise KeyError(f"Invalid settings section: {section}")
+
+    def get_section(self, section: str) -> dict[str, ty.Any]:
+        return self._config[section]
 
     def set_config(self, section: str, key: str, value: ty.Any) -> bool:
         """General interface, but section must exist"""
@@ -360,26 +341,19 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             else:
                 self._config[section][key] = type(oldvalue)(value)
 
-            self._emit_value_changed(section, key, value)
             self._update_config_save_timer()
             return True
 
         raise KeyError(f"Invalid settings section: {section}")
 
-    def _emit_value_changed(
-        self, section: str, key: str, value: ty.Any
-    ) -> None:
-        signal = f"value-changed::{section.lower()}.{key.lower()}"
-        self.emit(signal, section, key, value)
-
-    def _get_raw_config(
+    def get_raw_config(
         self, section: str, key: str
     ) -> str | bool | int | float | None:
         """General interface, but section must exist"""
         key = key.lower()
         return self._config[section].get(key)
 
-    def _set_raw_config(
+    def set_raw_config(
         self, section: str, key: str, value: str | bool | int | float | None
     ) -> bool:
         """General interface, but will create section"""
@@ -392,10 +366,10 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self._update_config_save_timer()
         return False
 
-    def _get_from_defaults(
-        self, section: str, option: str
-    ) -> str | bool | int | float | None:
-        """Load values from default configuration file."""
+    def get_from_defaults(self, section: str, option: str) -> str | None:
+        """Load values from default configuration file.
+        Configparser always store all values as strings.
+        """
         if self._defaults_path is None:
             self.output_error("Defaults not found")
             return None
@@ -404,7 +378,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         parser.read(self._defaults_path)
         return parser.get(section, option.lower())
 
-    def _get_from_defaults_section(
+    def get_from_defaults_section(
         self, section: str
     ) -> list[tuple[str, str]] | None:
         """Load values from default configuration file, return all section
@@ -417,14 +391,54 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         parser.read(self._defaults_path)
         return parser.items(section)
 
+    def _update_config_save_timer(self) -> None:
+        self._save_timer.set(60, self.save)
+
+
+# pylint: disable=too-many-public-methods
+class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
+    __gtype_name__ = "SettingsController"
+    sep = ";"
+    _inst: SettingsController | None = None
+
+    @classmethod
+    def instance(cls) -> SettingsController:
+        """SettingsController is singleton; instance return one, global
+        instance."""
+        if cls._inst is None:
+            cls._inst = SettingsController()
+
+        assert cls._inst
+        return cls._inst
+
+    def __init__(self) -> None:
+        GObject.GObject.__init__(self)
+        self._config_store = ConfigurationStorage()
+        self._alternatives: dict[str, ty.Any] = {}
+        self._alternative_validators: dict[str, AltValidator | None] = {}
+
+    def get_config(self, section: str, key: str) -> ty.Any:
+        """General interface, but section must exist"""
+        return self._config_store.get_config(section, key)
+
+    def set_config(self, section: str, key: str, value: ty.Any) -> bool:
+        """General interface, but section must exist"""
+        key = key.lower()
+        if self._config_store.set_config(section, key, value):
+            self._emit_value_changed(section, key, value)
+            return True
+
+        return False
+
+    def _emit_value_changed(
+        self, section: str, key: str, value: ty.Any
+    ) -> None:
+        signal = f"value-changed::{section.lower()}.{key.lower()}"
+        self.emit(signal, section, key, value)
+
     def get_config_int(self, section: str, key: str) -> int:
         """section must exist"""
-        if section not in self._defaults:
-            raise KeyError(f"Invalid settings section: {section}")
-
-        key = key.lower()
-        value = self._config[section].get(key)
-        return _strint(value)
+        return _strint(self._config_store.get_config(section, key))
 
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""
@@ -568,10 +582,12 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         Else return @default if does not exist, or can't be coerced
         """
         plug_section = f"plugin_{plugin}"
-        if plug_section not in self._config:
+
+        try:
+            val = self._config_store.get_raw_config(plug_section, key)
+        except KeyError:
             return default
 
-        val = self._get_raw_config(plug_section, key)
         if val is None:
             return default
 
@@ -627,7 +643,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         elif value is None or isinstance(value, (str, float, int)):
             value_repr = value
 
-        return self._set_raw_config(plug_section, key, value_repr)
+        return self._config_store.set_raw_config(plug_section, key, value_repr)
 
     def get_accelerator(self, name: str) -> str | None:
         res = self.get_config("Keybindings", name)
@@ -638,17 +654,21 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return self.set_config("Keybindings", name, key)
 
     def get_accelerators(self) -> dict[str, ty.Any]:
-        return self._config["Keybindings"]
+        return self._config_store.get_section("Keybindings")
 
     def reset_keybindings(self) -> None:
-        if key := self._get_from_defaults("Kupfer", "keybinding"):
-            self.set_keybinding(str(key))
+        if key := self._config_store.get_from_defaults("Kupfer", "keybinding"):
+            self.set_keybinding(key)
 
-        if key := self._get_from_defaults("Kupfer", "magickeybinding"):
-            self.set_magic_keybinding(str(key))
+        if key := self._config.stored.get_from_defaults(
+            "Kupfer", "magickeybinding"
+        ):
+            self.set_magic_keybinding(key)
 
     def reset_accelerators(self) -> None:
-        for key, value in self._get_from_defaults_section("Keybindings") or ():
+        for key, value in (
+            self._config_store.get_from_defaults_section("Keybindings") or ()
+        ):
             self.set_config("Keybindings", key, value)
 
     def get_preferred_tool(self, tool_id: str) -> str | None:
