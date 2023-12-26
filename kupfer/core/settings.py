@@ -43,6 +43,7 @@ class ConfBase:
                     value = _strlist(value)
             try:
                 old_val = getattr(self, name)
+                # notify about value changed
                 if old_val != value:
                     if SettingsController._inst:
                         SettingsController._inst.mark_updated()
@@ -53,15 +54,63 @@ class ConfBase:
 
         super().__setattr__(name, value)
 
+    def get_default_value(self, field_name: str) -> ty.Any:
+        """Get default value for `field_name`."""
+        field = self.__dataclass_fields__.get(field_name)
+        if not field:
+            return None
+
+        # either default or default_factory is set so this is safe
+        default = field.default
+        try:
+            default = field.default_factory()  # type: ignore
+        except TypeError:
+            pass
+
+        return default
+
+    def asdict_non_default(self) -> dict[str, ty.Any]:
+        """Get dict of attributes that differ from default. For
+        dict only first level is compared."""
+        res = {}
+
+        for key, val in self.__dict__.items():
+            if val is None:
+                continue
+
+            if hasattr(val, "asdict_non_default"):
+                res[key] = val.asdict_non_default()
+                continue
+
+            default = self.get_default_value(key)
+            # ship unchanged values
+            if default == val:
+                continue
+
+            if isinstance(val, dict):
+                assert isinstance(default, dict)
+                # support only 1-level of dict
+                res[key] = {
+                    dkey: dval
+                    for dkey, dval in val.items()
+                    if dval != default.get(dkey, {})
+                }
+
+                continue
+
+            res[key] = val
+
+        return res
+
 
 @dataclass
 class ConfKupfer(ConfBase):
-    keybinding: str = ""
+    keybinding: str = "<Ctrl>space"
     magickeybinding: str = ""
     showstatusicon: bool = True
     showstatusicon_ai: bool = False
     usecommandkeys: bool = True
-    action_accelerator_modifer: str = ""
+    action_accelerator_modifer: str = "ctrl"
 
 
 @dataclass
@@ -71,9 +120,12 @@ class ConfAppearance(ConfBase):
     list_height: int = 250
     ellipsize_mode: int = 0
 
+
 @dataclass
 class ConfDirectories(ConfBase):
-    direct: list[str] = field(default_factory=lambda: ["~/", "~/Desktop"])
+    direct: list[str] = field(
+        default_factory=lambda: ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
+    )
     catalog: list[str] = field(default_factory=list)
 
 
@@ -81,7 +133,67 @@ class ConfDirectories(ConfBase):
 class ConfDeepDirectories(ConfBase):
     direct: list[str] = field(default_factory=list)
     catalog: list[str] = field(default_factory=list)
-    depth: int = 1
+    depth: int = 2
+
+
+def _default_keybindings() -> dict[str, str]:
+    return {
+        "activate": "<Alt>a",
+        "comma_trick": "<Control>comma",
+        "compose_action": "<Control>Return",
+        "erase_affinity_for_first_pane": "",
+        "mark_as_default": "",
+        "reset_all": "<Control>r",
+        "select_quit": "<Control>q",
+        "select_selected_file": "",
+        "select_selected_text": "<Control>g",
+        "show_help": "F1",
+        "show_preferences": "<Control>semicolon",
+        "switch_to_source": "",
+        "toggle_text_mode_quick": "<Control>period",
+    }
+
+
+def _default_tools() -> dict[str, str]:
+    return {
+        "terminal": "kupfer.plugin.core.gnome-terminal",
+        "editor": "kupfer.plugin.core.sys-editor",
+        "icon_renderer": "kupfer.plugin.core.gtk",
+    }
+
+
+def _default_plugins() -> dict[str, dict[str, ty.Any]]:
+    res = {}
+
+    def set_enabled(name: str, val: bool) -> None:
+        res[name] = {"kupfer_enabled": val}
+
+    set_enabled("plugin_core", True)
+    set_enabled("plugin_applications", True)
+    set_enabled("plugin_archivemanager", True)
+    set_enabled("plugin_calculator", True)
+    set_enabled("plugin_clipboard", True)
+    set_enabled("plugin_commands", True)
+    set_enabled("plugin_dictionary", True)
+    set_enabled("plugin_documents", True)
+    set_enabled("plugin_favorites", True)
+    set_enabled("plugin_fileactions", False)
+    set_enabled("plugin_qsicons", True)
+    set_enabled("plugin_session_gnome", False)
+    set_enabled("plugin_session_xfce", False)
+    set_enabled("plugin_screen", False)
+    set_enabled("plugin_show_text", True)
+    set_enabled("plugin_tracker1", False)
+    set_enabled("plugin_triggers", True)
+    set_enabled("plugin_trash", True)
+    set_enabled("plugin_urlactions", True)
+    set_enabled("plugin_volumes", True)
+    set_enabled("plugin_wikipedia", True)
+    set_enabled("plugin_windows", False)
+
+    res["plugin_core"]["kupfer_hidden"] = True
+
+    return res
 
 
 @dataclass
@@ -93,9 +205,11 @@ class Configuration(ConfBase):
         default_factory=ConfDeepDirectories
     )
 
-    keybindings: dict[str, ty.Any] = field(default_factory=dict)
-    tools: dict[str, ty.Any] = field(default_factory=dict)
-    plugins: dict[str, dict[str, ty.Any]] = field(default_factory=dict)
+    keybindings: dict[str, ty.Any] = field(default_factory=_default_keybindings)
+    tools: dict[str, ty.Any] = field(default_factory=_default_tools)
+    plugins: dict[str, dict[str, ty.Any]] = field(
+        default_factory=_default_plugins
+    )
 
     def asdict(self) -> dict[str, ty.Any]:
         res = asdict(self)
@@ -289,10 +403,8 @@ class ConfigurationStorage(pretty.OutputMixin):
             self.output_info("Unable to save settings, can't find config dir")
             return
 
-        # read in just the default values
-        default_confmap = self.load(read_config=False)
         parser = configparser.RawConfigParser()
-        confmap = _confmap_difference(conf.asdict(), default_confmap.asdict())
+        confmap = conf.asdict_non_default()
         _fill_parser_from_config(parser, confmap)
         ## Write to tmp then rename over for it to be atomic
         temp_config_path = f"{config_path}.{os.getpid()}"
@@ -309,24 +421,8 @@ class ConfigurationStorage(pretty.OutputMixin):
         # Set up defaults
         confmap = Configuration()
 
-        # Read all config files
-        config_files: list[str] = []
-        try:
-            defaults_path = config.get_data_file(self.defaults_filename)
-        except config.ResourceLookupError:
-            self.output_error(
-                f"Error: no default config file {self.defaults_filename} "
-                "found!"
-            )
-        else:
-            self._defaults_path = defaults_path
-            config_files.append(defaults_path)
-
-        if read_config:
-            if config_path := config.get_config_file(self.config_filename):
-                config_files.append(config_path)
-
-        for config_file in config_files:
+        # load user config file
+        if config_file := config.get_config_file(self.config_filename):
             try:
                 parser.read(config_file, encoding=self.encoding)
             except OSError as exc:
@@ -341,31 +437,6 @@ class ConfigurationStorage(pretty.OutputMixin):
         # Read parsed file into the dictionary again
         _fill_configuration_fom_parser(parser, confmap)
         return confmap
-
-    def get_from_defaults(self, section: str, option: str) -> str | None:
-        """Load values from default configuration file.
-        Configparser always store all values as strings.
-        """
-        if self._defaults_path is None:
-            self.output_error("Defaults not found")
-            return None
-
-        parser = configparser.RawConfigParser()
-        parser.read(self._defaults_path)
-        return parser.get(section, option.lower())
-
-    def get_from_defaults_section(
-        self, section: str
-    ) -> list[tuple[str, str]] | None:
-        """Load values from default configuration file, return all section
-        items as (key, value)."""
-        if self._defaults_path is None:
-            self.output_error("Defaults not found")
-            return None
-
-        parser = configparser.RawConfigParser()
-        parser.read(self._defaults_path)
-        return parser.items(section)
 
 
 # pylint: disable=too-many-public-methods
@@ -686,18 +757,14 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         # return self._config_store.get_section("Keybindings")
 
     def reset_keybindings(self) -> None:
-        if key := self._config_store.get_from_defaults("Kupfer", "keybinding"):
+        if key := self.config.kupfer.get_default_value("keybinding"):
             self.set_keybinding(key)
 
-        if key := self._config.stored.get_from_defaults(
-            "Kupfer", "magickeybinding"
-        ):
+        if key := self.config.kupfer.get_default_value("magickeybinding"):
             self.set_magic_keybinding(key)
 
     def reset_accelerators(self) -> None:
-        for key, value in (
-            self._config_store.get_from_defaults_section("Keybindings") or ()
-        ):
+        for key, value in _default_keybindings().items():
             self.set_config("Keybindings", key, value)
 
     def get_preferred_tool(self, tool_id: str) -> str | None:
