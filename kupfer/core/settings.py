@@ -6,6 +6,8 @@ import locale
 import os
 import typing as ty
 import ast
+from enum import Enum
+from dataclasses import dataclass, field, is_dataclass, asdict
 
 from gi.repository import GLib, GObject, Pango
 
@@ -21,6 +23,86 @@ __all__ = (
 
 AltValidator = ty.Callable[[dict[str, ty.Any]], bool]
 Config = dict[str, dict[str, ty.Any]]
+
+
+
+@dataclass
+class ConfBase:
+    def __setattr__(self, name, value):
+        if field := self.__dataclass_fields__.get(name):
+            field_type = field.type
+            ic(field, name, value, repr(field_type), type(field_type))
+            if isinstance(value, str) and field_type is not str and value is not None:
+                if field_type is int or field_type == 'int':
+                    ic('!!! int')
+                    value = _strint(value)
+                elif field_type is bool or field_type == 'bool':
+                    ic('!!! bool')
+                    value = _strbool(value)
+                elif field.default_factory is list or field_type.startswith('list['):
+                    ic('!!! list', value)
+                    value = _strlist(value)
+            try:
+                old_val = getattr(self, name)
+                if old_val != value:
+                    # TODO: callback
+                    pass
+            except AttributeError:
+                pass
+
+        super().__setattr__(name, value)
+
+@dataclass
+class ConfKupfer(ConfBase):
+    keybinding: str = ""
+    magickeybinding: str = ""
+    showstatusicon: bool = True
+    showstatusicon_ai: bool = False
+    usecommandkeys: bool = True
+    action_accelerator_modifer: str = ""
+
+
+@dataclass
+class ConfAppearance(ConfBase):
+    icon_large_size: int = (
+        128  # FieldDescriptor = FieldDescriptor(int, default=128)
+    )
+    icon_small_size: int = 24
+    list_height: int = 200
+
+
+@dataclass
+class ConfDirectories(ConfBase):
+    direct: list[str] = field(
+        default_factory=lambda: ["~/", "~/Desktop"]
+    )
+    catalog: list[str] = field(default_factory=list)
+
+
+@dataclass
+class ConfDeepDirectories(ConfBase):
+    direct: list[str] = field(default_factory=list)
+    catalog: list[str] = field(default_factory=list)
+    depth: int = 1
+
+
+@dataclass
+class Configuration(ConfBase):
+    kupfer: ConfKupfer = field(default_factory=ConfKupfer)
+    appearance: ConfAppearance = field(
+        default_factory=ConfAppearance
+    )
+    directories: ConfDirectories =  field(
+        default_factory=ConfDirectories
+    )
+    deepdirectories: ConfDeepDirectories = field(
+        default_factory=ConfDeepDirectories
+    )
+
+    keybindings: dict[str, ty.Any] = field(default_factory=dict)
+    tools: dict[str, ty.Any] = field(default_factory=dict)
+    plugins: dict[str, dict[str, ty.Any]] = field(default_factory=dict)
+
 
 
 @ty.runtime_checkable
@@ -85,14 +167,24 @@ def _strlist(value: str, default: list[ty.Any] | None = None) -> list[ty.Any]:
 
     literal_eval handle only 'safe' data, so should work fine.
     """
-    try:
-        val = ast.literal_eval(value)
-        if isinstance(val, list):
-            return val
+    if not value:
+        return []
 
-        raise ValueError(f"invalid type: {val!r}")
-    except (TypeError, SyntaxError, MemoryError, RecursionError) as err:
-        raise ValueError(f"evaluate {value!r} error") from err
+    if (value[0] == '[' and value[-1] == ']') or (value[0] == '(' and value[-1] == ')'):
+        try:
+            val = ast.literal_eval(value)
+            if isinstance(val, list):
+                return val
+            if isinstance(val, tuple):
+                return list(val)
+
+            raise ValueError(f"invalid type: {val!r}")
+        except (TypeError, SyntaxError, MemoryError, RecursionError) as err:
+            raise ValueError(f"evaluate {value!r} error") from err
+
+    return list(
+        filter(None, map(str.strip, value.split(SettingsController.sep)))
+    )
 
 
 def _override_encoding(name: str) -> str | None:
@@ -150,6 +242,30 @@ def _parse_value(defval: ty.Any, value: str) -> ty.Any:
         return type(defval)(value)
 
     return value
+
+def _fill_configuration_fom_parser(
+    parser: configparser.RawConfigParser,
+    conf: Configuration,
+) -> None:
+    """Put values from `parser` to `confmap` using `defaults` as schema."""
+    for secname in parser.sections():
+        if secname.startswith('plugin_'):
+            sobj = conf.plugins.get(secname.lower())
+            if sobj is None:
+                sobj = conf.plugins[secname.lower()] = {}
+        else:
+            sobj = getattr(conf, secname.lower(), None)
+            if sobj is None:
+                ic('unknown secname', secname)
+                continue
+
+        if isinstance(sobj, dict):
+            sobj.update(parser[secname].items())
+        elif is_dataclass(sobj):
+            for key, val in parser[secname].items():
+                setattr(sobj, key.lower(), val)
+        else:
+            ic("unknown", secname, sobj)
 
 
 def _fill_confmap_fom_parser(
@@ -219,45 +335,13 @@ def _fill_parser_from_config(
 class ConfigurationStorage(pretty.OutputMixin):
     config_filename = "kupfer.cfg"
     defaults_filename = "defaults.cfg"
-    # Minimal "defaults" to define all fields
-    # Read defaults defined in a defaults.cfg file
-    default_directories = (
-        "~/",
-        "~/Desktop",
-    )
-    _defaults: dict[str, ty.Any] = {
-        "Kupfer": {
-            "keybinding": "",
-            "magickeybinding": "",
-            "showstatusicon": True,
-            "showstatusicon_ai": False,
-            "usecommandkeys": True,
-        },
-        "Appearance": {
-            "icon_large_size": 128,
-            "icon_small_size": 24,
-            "list_height": 200,
-        },
-        "Directories": {
-            "direct": default_directories,
-            "catalog": (),
-        },
-        "DeepDirectories": {
-            "direct": (),
-            "catalog": (),
-            "depth": 1,
-        },
-        "Keybindings": {},
-        "Tools": {},
-    }
 
     def __init__(self):
         self.encoding = _override_encoding(locale.getpreferredencoding())
         self.output_debug("Using", self.encoding)
-        self._config = self.load()
         self._save_timer = scheduler.Timer(True)
 
-    def save(self, _scheduler: ty.Any = None) -> None:
+    def save(self, conf: Configuration, _scheduler: ty.Any = None) -> None:
         self.output_debug("Saving config")
         config_path = config.save_config_file(self.config_filename)
         if not config_path:
@@ -267,7 +351,7 @@ class ConfigurationStorage(pretty.OutputMixin):
         # read in just the default values
         default_confmap = self.load(read_config=False)
         parser = configparser.RawConfigParser()
-        confmap = _confmap_difference(self._config, default_confmap)
+        confmap = _confmap_difference(asdict(conf), asdict(default_confmap))
         _fill_parser_from_config(parser, confmap)
         ## Write to tmp then rename over for it to be atomic
         temp_config_path = f"{config_path}.{os.getpid()}"
@@ -276,14 +360,14 @@ class ConfigurationStorage(pretty.OutputMixin):
 
         os.rename(temp_config_path, config_path)
 
-    def load(self, read_config: bool = True) -> Config:
+    def load(self, read_config: bool = True) -> Configuration:
         """Read cascading config files: default -> then config
         (in all XDG_CONFIG_DIRS)."""
         parser = configparser.RawConfigParser()
 
         # Set up defaults
-        confmap = copy.deepcopy(self._defaults)
-        _fill_parser_read(parser, confmap)
+        confmap = Configuration()
+        #_fill_parser_read(parser, confmap)
 
         # Read all config files
         config_files: list[str] = []
@@ -315,56 +399,8 @@ class ConfigurationStorage(pretty.OutputMixin):
                 )
 
         # Read parsed file into the dictionary again
-        _fill_confmap_fom_parser(parser, confmap, self._defaults)
+        _fill_configuration_fom_parser(parser, confmap)
         return confmap
-
-    def get_config(self, section: str, key: str) -> ty.Any:
-        """General interface, but section must exist"""
-        if section in self._defaults:
-            key = key.lower()
-            value = self._config[section].get(key)
-            return value
-
-        raise KeyError(f"Invalid settings section: {section}")
-
-    def get_section(self, section: str) -> dict[str, ty.Any]:
-        return self._config[section]
-
-    def set_config(self, section: str, key: str, value: ty.Any) -> bool:
-        """General interface, but section must exist"""
-        self.output_debug("Set", section, key, "to", value)
-        key = key.lower()
-        oldvalue = self._config[section].get(key)
-        if section in self._defaults:
-            if oldvalue is None:
-                self._config[section][key] = str(value)
-            else:
-                self._config[section][key] = type(oldvalue)(value)
-
-            self._update_config_save_timer()
-            return True
-
-        raise KeyError(f"Invalid settings section: {section}")
-
-    def get_raw_config(
-        self, section: str, key: str
-    ) -> str | bool | int | float | None:
-        """General interface, but section must exist"""
-        key = key.lower()
-        return self._config[section].get(key)
-
-    def set_raw_config(
-        self, section: str, key: str, value: str | bool | int | float | None
-    ) -> bool:
-        """General interface, but will create section"""
-        self.output_debug("Set", section, key, "to", value)
-        if section not in self._config:
-            self._config[section] = {}
-
-        key = key.lower()
-        self._config[section][key] = value
-        self._update_config_save_timer()
-        return False
 
     def get_from_defaults(self, section: str, option: str) -> str | None:
         """Load values from default configuration file.
@@ -414,20 +450,27 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def __init__(self) -> None:
         GObject.GObject.__init__(self)
         self._config_store = ConfigurationStorage()
+        self.config = self._config_store.load()
+        ic(self.config)
         self._alternatives: dict[str, ty.Any] = {}
         self._alternative_validators: dict[str, AltValidator | None] = {}
 
     def get_config(self, section: str, key: str) -> ty.Any:
         """General interface, but section must exist"""
-        return self._config_store.get_config(section, key)
+        # TODO: drop
+        obj = getattr(self.config, section.lower())
+        val = getattr(obj, key.lower())
+        return val
 
     def set_config(self, section: str, key: str, value: ty.Any) -> bool:
         """General interface, but section must exist"""
         key = key.lower()
-        if self._config_store.set_config(section, key, value):
-            self._emit_value_changed(section, key, value)
+        dobj = getattr(self.config, section.lower())
+        if is_dataclass(dobj):
+            setattr(dobj, key, value)
             return True
 
+        ic("unknown", section, key, value)
         return False
 
     def _emit_value_changed(
@@ -438,7 +481,10 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_config_int(self, section: str, key: str) -> int:
         """section must exist"""
-        return _strint(self._config_store.get_config(section, key))
+        # TODO
+        obj = getattr(self.config, section.lower())
+        val = getattr(obj, key)
+        return _strint(val)
 
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""
@@ -477,19 +523,25 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_keybinding(self) -> str:
         """Convenience: Kupfer keybinding as string"""
-        return str(self.get_config("Kupfer", "keybinding"))
+        return self.config.kupfer.keybinding
+        #return str(self.get_config("Kupfer", "keybinding"))
 
     def set_keybinding(self, keystr: str) -> bool:
         """Convenience: Set Kupfer keybinding as string"""
-        return self.set_config("Kupfer", "keybinding", keystr)
+        self.config.kupfer.keybinding = keystr
+        return True
+        #return self.set_config("Kupfer", "keybinding", keystr)
 
     def get_magic_keybinding(self) -> str:
         """Convenience: Kupfer alternate keybinding as string"""
-        return str(self.get_config("Kupfer", "magickeybinding"))
+        return self.config.kupfer.magickeybinding
+        #return str(self.get_config("Kupfer", "magickeybinding"))
 
     def set_magic_keybinding(self, keystr: str) -> bool:
         """Convenience: Set alternate keybinding as string"""
-        return self.set_config("Kupfer", "magickeybinding", keystr)
+        self.config.kupfer.magickeybinding = keystr
+        return True
+        #return self.set_config("Kupfer", "magickeybinding", keystr)
 
     def get_global_keybinding(self, key: str) -> str:
         if key == "keybinding":
@@ -510,41 +562,57 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return False
 
     def get_use_command_keys(self) -> bool:
-        return _strbool(self.get_config("Kupfer", "usecommandkeys"))
+        return self.config.kupfer.usecommandkeys
+        #return _strbool(self.get_config("Kupfer", "usecommandkeys"))
 
     def set_use_command_keys(self, enabled: bool) -> bool:
-        return self.set_config("Kupfer", "usecommandkeys", enabled)
+        self.config.kupfer.usecommandkeys = enabled
+        return True
+        #return self.set_config("Kupfer", "usecommandkeys", enabled)
 
     def get_action_accelerator_modifer(self) -> str:
-        return str(self.get_config("Kupfer", "action_accelerator_modifer"))
+        return self.config.kupfer.action_accelerator_modifer
+        #return str(self.get_config("Kupfer", "action_accelerator_modifer"))
 
     def set_action_accelerator_modifier(self, value: str) -> bool:
         """
         Valid values are: 'alt', 'ctrl'
         """
-        return self.set_config("Kupfer", "action_accelerator_modifer", value)
+        self.config.kupfer.action_accelerator_modifer = value
+        return True
+        #return self.set_config("Kupfer", "action_accelerator_modifer", value)
 
     def set_large_icon_size(self, size: str) -> bool:
-        return self.set_config("Appearance", "icon_large_size", size)
+        self.config.appearance.icon_large_size = _strint(size)
+        return True
+        #return self.set_config("Appearance", "icon_large_size", size)
 
     def set_small_icon_size(self, size: str) -> bool:
-        return self.set_config("Appearance", "icon_small_size", size)
+        self.config.appearance.icon_small_size = _strint(size)
+        return True
+        #return self.set_config("Appearance", "icon_small_size", size)
 
     def get_show_status_icon(self) -> bool:
         """Convenience: Show icon in notification area as bool (GTK)."""
-        return _strbool(self.get_config("Kupfer", "showstatusicon"))
+        return ic(self.config.kupfer.showstatusicon)
+        #return _strbool(self.get_config("Kupfer", "showstatusicon"))
 
     def set_show_status_icon(self, enabled: bool) -> bool:
         """Set config value and return success"""
-        return self.set_config("Kupfer", "showstatusicon", enabled)
+        self.config.kupfer.showstatusicon = enabled
+        return True
+        #return self.set_config("Kupfer", "showstatusicon", enabled)
 
     def get_show_status_icon_ai(self) -> bool:
         """Convenience: Show icon in notification area as bool (AppIndicator3)"""
-        return _strbool(self.get_config("Kupfer", "showstatusicon_ai"))
+        return self.config.kupfer.showstatusicon_ai
+        #return _strbool(self.get_config("Kupfer", "showstatusicon_ai"))
 
     def set_show_status_icon_ai(self, enabled: bool) -> bool:
         """Set config value and return success"""
-        return self.set_config("Kupfer", "showstatusicon_ai", enabled)
+        self.config.kupfer.showstatusicon_ai = enabled
+        return True
+        #return self.set_config("Kupfer", "showstatusicon_ai", enabled)
 
     def get_directories(self, direct: bool = True) -> ty.Iterator[str]:
         """Yield directories to use as directory sources"""
@@ -562,13 +630,15 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
             return None
 
-        level = "Direct" if direct else "Catalog"
-        for direc in self.get_config("Directories", level):
+        cat = self.config.directories.direct if direct else self.config.directories.catalog
+        for direc in cat:
             dpath = get_special_dir(direc)
             yield dpath or os.path.abspath(os.path.expanduser(direc))
 
     def set_directories(self, dirs: list[str]) -> bool:
-        return self.set_config("Directories", "direct", dirs)  #
+        self.config.directories.direct = dirs
+        return True
+        #return self.set_config("Directories", "direct", dirs)  #
 
     def get_plugin_config(
         self,
@@ -584,7 +654,8 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         plug_section = f"plugin_{plugin}"
 
         try:
-            val = self._config_store.get_raw_config(plug_section, key)
+            plug_conf = self.config.plugins[plug_section]
+            val = plug_conf[key]
         except KeyError:
             return default
 
@@ -643,18 +714,27 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         elif value is None or isinstance(value, (str, float, int)):
             value_repr = value
 
-        return self._config_store.set_raw_config(plug_section, key, value_repr)
+        if plug_section not in self.config.plugins:
+            self.config.plugins[plug_section] = {}
+
+        self.config.plugins[plug_section][key] = value_repr
+        return True
+        #return self._config_store.set_raw_config(plug_section, key, value_repr)
 
     def get_accelerator(self, name: str) -> str | None:
-        res = self.get_config("Keybindings", name)
+        #res = self.get_config("Keybindings", name)
+        res = self.config.keybindings.get(name)
         assert res is None or isinstance(res, str)
         return res
 
     def set_accelerator(self, name: str, key: str) -> bool:
-        return self.set_config("Keybindings", name, key)
+        #return self.set_config("Keybindings", name, key)
+        self.config.keybindings[name] = key
+        return True
 
     def get_accelerators(self) -> dict[str, ty.Any]:
-        return self._config_store.get_section("Keybindings")
+        return self.config.keybindings
+        #return self._config_store.get_section("Keybindings")
 
     def reset_keybindings(self) -> None:
         if key := self._config_store.get_from_defaults("Kupfer", "keybinding"):
@@ -676,12 +756,15 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         Supported: 'terminal', 'editor'
         """
-        res = self.get_config("Tools", tool_id)
+        #res = self.get_config("Tools", tool_id)
+        res = self.config.tools.get(tool_id)
         assert res is None or isinstance(res, str)
         return res
 
     def set_preferred_tool(self, tool_id: str, value: ty.Any) -> bool:
-        return self.set_config("Tools", tool_id, value)
+        #return self.set_config("Tools", tool_id, value)
+        self.config.tools[tool_id] = value
+        return True
 
     ## Alternatives section
     ## Provide alternatives for each category
