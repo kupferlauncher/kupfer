@@ -37,7 +37,7 @@ class ConfBase:
                     value = _strint(value)
                 elif field_type is bool or field_type == "bool":
                     value = _strbool(value)
-                elif field.default_factory is list or field_type.startswith(
+                elif field.default_factory is list or str(field_type).startswith(
                     "list["
                 ):
                     value = _strlist(value)
@@ -266,7 +266,7 @@ def _strbool(value: ty.Any, default: bool = False) -> bool:
     if value in ("no", "false"):
         return False
 
-    if value in ("yes", "true"):
+    if value in ("yes", "true", "1"):
         return True
 
     return default
