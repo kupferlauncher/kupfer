@@ -393,15 +393,15 @@ class PreferencesWindowController(pretty.OutputMixin):
 
         setctl = settings.get_settings_controller()
         _set_combobox(
-            setctl.get_config_int("Appearance", "icon_large_size"),
+            setctl.config.appearance.icon_large_size,
             builder.get_object("icons_large_size"),
         )
         _set_combobox(
-            setctl.get_config_int("Appearance", "icon_small_size"),
+            setctl.config.appearance.icon_small_size,
             builder.get_object("icons_small_size"),
         )
         builder.get_object("checkusecommandkeys").set_active(
-            setctl.get_use_command_keys()
+            setctl.config.kupfer.usecommandkeys
         )
         builder.get_object("radio_actionaccelalt").set_active(
             setctl.get_action_accelerator_modifer() != "ctrl"
@@ -426,7 +426,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         self._update_alternative_combobox("icon_renderer", self._icons_combobox)
 
         _set_combobox_id(
-            setctl.get_config_int("Appearance", "ellipsize_mode"),
+            setctl.config.appearance.ellipsize_mode,
             builder.get_object("ellipsize_mode"),
         )
 
@@ -575,7 +575,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         names = accelerators.ACCELERATOR_NAMES
         self.gkeybind_store.clear()
         for binding in sorted(names, key=lambda k: str(names[k])):
-            accel = setctl.get_accelerator(binding) or ""
+            accel = setctl.config.keybindings.get(binding) or ""
             label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(accel))
             self.gkeybind_store.append((names[binding], label, binding))
 
@@ -1030,7 +1030,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         pathit = self.gkeybind_store.get_iter(path)
         keybind_id = self.gkeybind_store.get_value(pathit, 2)
         setctl = settings.get_settings_controller()
-        curr_key = setctl.get_accelerator(keybind_id)
+        curr_key = setctl.config.keybindings.get(keybind_id)
         keystr = getkey_dialog.ask_for_key(
             _is_good_keystr,
             previous_key=curr_key,
@@ -1039,7 +1039,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         )
 
         if keystr is not None:
-            setctl.set_accelerator(keybind_id, keystr)
+            setctl.config.keybindings[keybind_id] = keystr
             label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(keystr))
             self.gkeybind_store.set_value(pathit, 1, label)
 
@@ -1067,7 +1067,7 @@ class PreferencesWindowController(pretty.OutputMixin):
     def on_checkusecommandkeys_toggled(self, widget: Gtk.Widget) -> None:
         """Change 'use single keystroke commands...' setting - callback."""
         setctl = settings.get_settings_controller()
-        setctl.set_use_command_keys(widget.get_active())
+        setctl.config.kupfer.usecommandkeys = widget.get_active()
 
     def on_radio_action_accel_alt(self, widget: Gtk.RadioButton) -> None:
         """Change 'Action accelerators use alt' setting - callback."""
@@ -1094,21 +1094,21 @@ class PreferencesWindowController(pretty.OutputMixin):
         setctl = settings.get_settings_controller()
         if itr := widget.get_active_iter():
             term_id = widget.get_model().get_value(itr, 1)
-            setctl.set_preferred_tool("terminal", term_id)
+            setctl.config.tools["terminal"] = term_id
 
     def on_editor_combobox_changed(self, widget: Gtk.ComboBox) -> None:
         """Change editor setting - callback."""
         setctl = settings.get_settings_controller()
         if itr := widget.get_active_iter():
             editor_id = widget.get_model().get_value(itr, 1)
-            setctl.set_preferred_tool("editor", editor_id)
+            setctl.config.tools["editor"] = editor_id
 
     def on_icons_combobox_changed(self, widget: Gtk.ComboBox) -> None:
         """Change 'icons set' setting - callback."""
         setctl = settings.get_settings_controller()
         if itr := widget.get_active_iter():
             term_id = widget.get_model().get_value(itr, 1)
-            setctl.set_preferred_tool("icon_renderer", term_id)
+            setctl.config.tools["icon_renderer"] = term_id
 
     def on_icons_large_size_changed(self, widget: Gtk.ComboBoxText) -> None:
         """Change 'large icon size' setting - callback."""
@@ -1129,7 +1129,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         setctl = settings.get_settings_controller()
         if itr := widget.get_active_iter():
             mode = widget.get_model().get_value(itr, 1)
-            setctl.set_config("Appearance", "ellipsize_mode", mode)
+            setctl.config.appearance.ellipsize_mode = int(mode)
 
     def _update_alternative_combobox(
         self, category_key: str, combobox: Gtk.ComboBox
@@ -1140,7 +1140,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         combobox_store = combobox.get_model()
         combobox_store.clear()
         setctl = settings.get_settings_controller()
-        term_id = setctl.get_preferred_tool(category_key)
+        term_id = setctl.config.tools.get(category_key)
         # fill in the available alternatives
         alternatives = kupferstring.locale_sort(
             setctl.get_valid_alternative_ids(category_key), key=lambda t: t[1]

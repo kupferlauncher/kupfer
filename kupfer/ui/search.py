@@ -288,7 +288,7 @@ class MatchViewOwner(pretty.OutputMixin):
         key: str | None,
         value: ty.Any,
     ) -> None:
-        self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
+        self._icon_size = setctl.config.appearance.icon_large_size
 
     def _read_icon_size(self, *_args: ty.Any) -> None:
         setctl = settings.get_settings_controller()
@@ -583,10 +583,8 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         key: str | None,
         value: ty.Any,
     ) -> None:
-        self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
-        self._icon_size_small = setctl.get_config_int(
-            "Appearance", "icon_small_size"
-        )
+        self._icon_size = setctl.config.appearance.icon_large_size
+        self._icon_size_small = setctl.config.appearance.icon_small_size
         self._model.icon_size = self._icon_size_small
 
     def _read_icon_size(self, *args: ty.Any) -> None:
@@ -666,7 +664,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def _show_table(self) -> None:  # pylint: disable=too-many-locals
         setctl = settings.get_settings_controller()
-        list_maxheight = setctl.get_config_int("Appearance", "list_height")
+        list_maxheight = setctl.config.appearance.list_height
         if list_maxheight < self._icon_size_small * self.LIST_MIN_MULT:
             list_maxheight = self.LIST_MIN_MULT * self._icon_size_small
 

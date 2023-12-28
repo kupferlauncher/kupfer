@@ -223,8 +223,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """Return a tuple of dir_sources, indir_sources for directory sources
         directly included and for catalog inclusion respectively."""
         setctl = settings.get_settings_controller()
-        source_config = setctl.get_config
-        dir_depth = source_config("DeepDirectories", "Depth")
+        deepdirectories = setctl.config.deepdirectories
+        dir_depth = deepdirectories.depth
 
         def file_source(opt, depth=1):
             abs_path = os.path.abspath(os.path.expanduser(opt))
@@ -236,10 +236,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 for item in setctl.get_directories(False)
                 if Path(item).is_dir()
             ),
-            (
-                file_source(item, dir_depth)
-                for item in source_config("DeepDirectories", "Catalog")
-            ),
+            (file_source(item, dir_depth) for item in deepdirectories.catalog),
         )
 
         dir_sources = itertools.chain(
@@ -248,10 +245,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 for item in setctl.get_directories(True)
                 if Path(item).is_dir()
             ),
-            (
-                file_source(item, dir_depth)
-                for item in source_config("DeepDirectories", "Direct")
-            ),
+            (file_source(item, dir_depth) for item in deepdirectories.direct),
         )
 
         return tuple(dir_sources), tuple(indir_sources)

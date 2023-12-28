@@ -726,14 +726,14 @@ class WindowController(pretty.OutputMixin):
             self._showstatusicon_ai_changed,
         )
 
-        if keystr := setctl.get_keybinding():
+        if keystr := setctl.config.kupfer.keybinding:
             succ = keybindings.bind_key(keystr)
             self.output_info(
                 f"Trying to register {keystr} to spawn kupfer.. "
                 + ("success" if succ else "failed")
             )
 
-        if magickeystr := setctl.get_magic_keybinding():
+        if magickeystr := setctl.config.kupfer.magickeybinding:
             succ = keybindings.bind_key(
                 magickeystr, keybindings.KEYBINDING_TARGET_MAGIC
             )

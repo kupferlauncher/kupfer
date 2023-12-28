@@ -275,7 +275,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
     def _process_accels(self, keyv: int, event_state: int) -> bool:
         setctl = settings.get_settings_controller()
         # process accelerators
-        for action, accel in setctl.get_accelerators().items():
+        for action, accel in setctl.config.keybindings.items():
             akeyv, amodf = Gtk.accelerator_parse(accel)
             if akeyv and akeyv == keyv and amodf == event_state:
                 if action_method := getattr(self, action, None):
@@ -317,7 +317,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         key_book = self._key_book
         use_command_keys = (
-            settings.get_settings_controller().get_use_command_keys()
+            settings.get_settings_controller().config.kupfer.usecommandkeys
         )
         has_selection = self.current.get_match_state() == State.MATCH
         if not self._is_text_mode and use_command_keys:

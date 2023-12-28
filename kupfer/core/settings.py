@@ -37,9 +37,9 @@ class ConfBase:
                     value = _strint(value)
                 elif field_type is bool or field_type == "bool":
                     value = _strbool(value)
-                elif field.default_factory is list or str(field_type).startswith(
-                    "list["
-                ):
+                elif field.default_factory is list or str(
+                    field_type
+                ).startswith("list["):
                     value = _strlist(value)
             try:
                 old_val = getattr(self, name)
@@ -93,7 +93,7 @@ class ConfBase:
                 res[key] = {
                     dkey: dval
                     for dkey, dval in val.items()
-                    if dval != default.get(dkey, {})
+                    if dval != default.get(dkey)
                 }
 
                 continue
@@ -105,7 +105,9 @@ class ConfBase:
 
 @dataclass
 class ConfKupfer(ConfBase):
+    # Kupfer keybinding as string
     keybinding: str = "<Ctrl>space"
+    # Kupfer alternate keybinding as string
     magickeybinding: str = ""
     showstatusicon: bool = True
     showstatusicon_ai: bool = False
@@ -388,7 +390,7 @@ def _fill_parser_from_config(
             parser.set(secname, key, value)
 
 
-class ConfigurationStorage(pretty.OutputMixin):
+class ConfigparserAdapter(pretty.OutputMixin):
     config_filename = "kupfer.cfg"
     defaults_filename = "defaults.cfg"
 
@@ -457,8 +459,8 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def __init__(self) -> None:
         GObject.GObject.__init__(self)
-        self._config_store = ConfigurationStorage()
-        self.config = self._config_store.load()
+        self._adapter = ConfigparserAdapter()
+        self.config = self._adapter.load()
         self._save_timer = scheduler.Timer(True)
 
         self._alternatives: dict[str, ty.Any] = {}
@@ -466,22 +468,22 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         self.output_debug("config", self.config)
 
-    def get_config(self, section: str, key: str) -> ty.Any:
-        """General interface, but section must exist"""
-        # TODO: drop
-        obj = getattr(self.config, section.lower())
-        val = getattr(obj, key.lower())
-        return val
+    # def get_config(self, section: str, key: str) -> ty.Any:
+    #     """General interface, but section must exist"""
+    #     # TODO: drop
+    #     obj = getattr(self.config, section.lower())
+    #     val = getattr(obj, key.lower())
+    #     return val
 
-    def set_config(self, section: str, key: str, value: ty.Any) -> bool:
-        """General interface, but section must exist"""
-        key = key.lower()
-        dobj = getattr(self.config, section.lower())
-        if is_dataclass(dobj):
-            setattr(dobj, key, value)
-            return True
+    # def set_config(self, section: str, key: str, value: ty.Any) -> bool:
+    #     """General interface, but section must exist"""
+    #     key = key.lower()
+    #     dobj = getattr(self.config, section.lower())
+    #     if is_dataclass(dobj):
+    #         setattr(dobj, key, value)
+    #         return True
 
-        return False
+    #     return False
 
     def mark_updated(self):
         self.output_info("mark_updated", SettingsController._inst)
@@ -489,18 +491,18 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             self._save_timer.set(60, self._save_config)
 
     def _save_config(self, _scheduler: ty.Any = None) -> None:
-        self._config_store.save(self.config)
+        self._adapter.save(self.config)
 
     def emit_value_changed(self, section: str, key: str, value: ty.Any) -> None:
         signal = f"value-changed::{section.lower()}.{key.lower()}"
         self.emit(signal, section, key, value)
 
-    def get_config_int(self, section: str, key: str) -> int:
-        """section must exist"""
-        # TODO
-        obj = getattr(self.config, section.lower())
-        val = getattr(obj, key)
-        return _strint(val)
+    # def get_config_int(self, section: str, key: str) -> int:
+    #     """section must exist"""
+    #     # TODO
+    #     obj = getattr(self.config, section.lower())
+    #     val = getattr(obj, key)
+    #     return _strint(val)
 
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""
@@ -537,54 +539,25 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             plugin_id, key, value, value_type=_strbool
         )
 
-    def get_keybinding(self) -> str:
-        """Convenience: Kupfer keybinding as string"""
-        return self.config.kupfer.keybinding
-        # return str(self.get_config("Kupfer", "keybinding"))
-
-    def set_keybinding(self, keystr: str) -> bool:
-        """Convenience: Set Kupfer keybinding as string"""
-        self.config.kupfer.keybinding = keystr
-        return True
-        # return self.set_config("Kupfer", "keybinding", keystr)
-
-    def get_magic_keybinding(self) -> str:
-        """Convenience: Kupfer alternate keybinding as string"""
-        return self.config.kupfer.magickeybinding
-        # return str(self.get_config("Kupfer", "magickeybinding"))
-
-    def set_magic_keybinding(self, keystr: str) -> bool:
-        """Convenience: Set alternate keybinding as string"""
-        self.config.kupfer.magickeybinding = keystr
-        return True
-        # return self.set_config("Kupfer", "magickeybinding", keystr)
-
     def get_global_keybinding(self, key: str) -> str:
         if key == "keybinding":
-            return self.get_keybinding()
+            return self.config.kupfer.keybinding
 
         if key == "magickeybinding":
-            return self.get_magic_keybinding()
+            return self.config.kupfer.magickeybinding
 
         raise ValueError("invalid key {key}")
 
     def set_global_keybinding(self, key: str, val: str) -> bool:
         if key == "keybinding":
-            return self.set_keybinding(val)
+            self.config.kupfer.keybinding = val
+            return True
 
         if key == "magickeybinding":
-            return self.set_magic_keybinding(val)
+            self.config.kupfer.magickeybinding = val
+            return True
 
         return False
-
-    def get_use_command_keys(self) -> bool:
-        return self.config.kupfer.usecommandkeys
-        # return _strbool(self.get_config("Kupfer", "usecommandkeys"))
-
-    def set_use_command_keys(self, enabled: bool) -> bool:
-        self.config.kupfer.usecommandkeys = enabled
-        return True
-        # return self.set_config("Kupfer", "usecommandkeys", enabled)
 
     def get_action_accelerator_modifer(self) -> str:
         return self.config.kupfer.action_accelerator_modifer
@@ -739,48 +712,17 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         self.config.plugins[plug_section][key] = value_repr
         return True
-        # return self._config_store.set_raw_config(plug_section, key, value_repr)
-
-    def get_accelerator(self, name: str) -> str | None:
-        # res = self.get_config("Keybindings", name)
-        res = self.config.keybindings.get(name)
-        assert res is None or isinstance(res, str)
-        return res
-
-    def set_accelerator(self, name: str, key: str) -> bool:
-        # return self.set_config("Keybindings", name, key)
-        self.config.keybindings[name] = key
-        return True
-
-    def get_accelerators(self) -> dict[str, ty.Any]:
-        return self.config.keybindings
-        # return self._config_store.get_section("Keybindings")
 
     def reset_keybindings(self) -> None:
-        if key := self.config.kupfer.get_default_value("keybinding"):
-            self.set_keybinding(key)
-
-        if key := self.config.kupfer.get_default_value("magickeybinding"):
-            self.set_magic_keybinding(key)
+        self.config.kupfer.keybinding = self.config.kupfer.get_default_value(
+            "keybinding"
+        )
+        self.config.kupfer.magickeybinding = (
+            self.config.kupfer.get_default_value("magickeybinding")
+        )
 
     def reset_accelerators(self) -> None:
-        for key, value in _default_keybindings().items():
-            self.set_config("Keybindings", key, value)
-
-    def get_preferred_tool(self, tool_id: str) -> str | None:
-        """Get preferred ID for a @tool_id.
-
-        Supported: 'terminal', 'editor'
-        """
-        # res = self.get_config("Tools", tool_id)
-        res = self.config.tools.get(tool_id)
-        assert res is None or isinstance(res, str)
-        return res
-
-    def set_preferred_tool(self, tool_id: str, value: ty.Any) -> bool:
-        # return self.set_config("Tools", tool_id, value)
-        self.config.tools[tool_id] = value
-        return True
+        self.config.keybindings.update(_default_keybindings())
 
     ## Alternatives section
     ## Provide alternatives for each category
@@ -805,7 +747,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self, category_key: str
     ) -> dict[str, ty.Any] | None:
         """Get preferred alternative dict for @category_key."""
-        tool_id = self.get_preferred_tool(category_key)
+        tool_id = self.config.tools.get(category_key)
         alternatives = self._alternatives[category_key]
         if alt := alternatives.get(tool_id):
             assert not alt or isinstance(alt, dict)
@@ -825,7 +767,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self.emit("alternatives-changed::" + category_key, category_key)
 
     def get_ellipsize_mode(self) -> Pango.EllipsizeMode:
-        if self.get_config("Appearance", "ellipsize_mode") == "1":
+        if self.config.appearance.ellipsize_mode == 1:
             return Pango.EllipsizeMode.END
 
         return Pango.EllipsizeMode.MIDDLE

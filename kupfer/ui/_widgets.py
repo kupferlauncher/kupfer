@@ -288,7 +288,7 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
         super().__init__()
 
         setctl = settings.get_settings_controller()
-        small_icon_size = setctl.get_config_int("Appearance", "icon_small_size")
+        small_icon_size = setctl.config.appearance.icon_small_size
 
         box = Gtk.Grid()
         box.set_row_spacing(6)
