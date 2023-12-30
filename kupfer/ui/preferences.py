@@ -473,7 +473,9 @@ class PreferencesWindowController(pretty.OutputMixin):
             checkstatusicon_ai.get_label() + " (AppIndicator)"
         )
         if _supports_app_indicator():
-            checkstatusicon_ai.set_active(setctl.config.kupfer.showstatusicon_ai)
+            checkstatusicon_ai.set_active(
+                setctl.config.kupfer.showstatusicon_ai
+            )
         else:
             checkstatusicon_ai.set_sensitive(False)
 

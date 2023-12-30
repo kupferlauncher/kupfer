@@ -1029,7 +1029,9 @@ class ActionSearch(Search):
             "value-changed::kupfer.action_accelerator_modifer",
             self._on_modifier_changed,
         )
-        self._read_accel_modifer(setctl.config.kupfer.action_accelerator_modifer)
+        self._read_accel_modifer(
+            setctl.config.kupfer.action_accelerator_modifer
+        )
 
     def _on_modifier_changed(
         self,
