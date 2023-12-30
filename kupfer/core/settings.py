@@ -5,7 +5,7 @@ import locale
 import os
 import typing as ty
 import ast
-from dataclasses import dataclass, field, is_dataclass, asdict
+import inspect
 
 from gi.repository import GLib, GObject, Pango
 
@@ -23,59 +23,113 @@ AltValidator = ty.Callable[[dict[str, ty.Any]], bool]
 Config = dict[str, dict[str, ty.Any]]
 
 
-@dataclass
 class ConfBase:
+    """Base class for all configuration.
+    On create copy all dict, list and other values from class defaults."""
+
+    def __init__(self):
+        self._defaults: dict[str, ty.Any] = {}
+        clazz = self.__class__
+        ann = inspect.get_annotations(self.__class__, eval_str=True)
+        for key, field_type in ann.items():
+            value = None
+
+            if field_type in (str, int, tuple, bool, float):
+                # this types are safe to copy
+                value = getattr(clazz, key)
+            elif str(field_type).startswith("list"):
+                # copy list or create empty
+                if dval := getattr(clazz, key, None):
+                    value = dval.copy()
+                else:
+                    value = []
+
+            elif str(field_type).startswith("dict"):
+                # copy dict or create empty
+                if dval := getattr(clazz, key, None):
+                    value = dval.copy()
+                else:
+                    value = {}
+
+            else:
+                # for other types create object
+                value = field_type()
+
+            super().__setattr__(key, value)
+
     def __setattr__(self, name, value):
-        if field := self.__dataclass_fields__.get(name):
-            field_type = field.type
+        if field_type := self.__class__.__annotations__.get(name):
             if (
                 isinstance(value, str)
-                and field_type is not str
+                and (field_type is not str and field_type != "str")
                 and value is not None
             ):
                 if field_type is int or field_type == "int":
                     value = _strint(value)
                 elif field_type is bool or field_type == "bool":
                     value = _strbool(value)
-                elif field.default_factory is list or str(
-                    field_type
-                ).startswith("list["):
+                elif str(field_type).startswith("list["):
                     value = _strlist(value)
+
+            # do nothing when value is not changed
+            current_val = getattr(self, name, None)
+            if current_val == value:
+                return
+
+            # do not update values when not changed
+            if name in self._defaults and self._defaults[name] == value:
+                return
 
             try:
                 # notify about value changed
-                if getattr(self, name) != value and SettingsController._inst:
+                if SettingsController._inst:
                     SettingsController._inst.mark_updated()
 
             except AttributeError:
                 pass
 
-        else:
+        elif name[0] != "_":
             pretty.print_error("unknown parameter", name, value)
 
         super().__setattr__(name, value)
 
+    def save_as_defaults(self):
+        """Save current values as default. For objectc call `save_as_defaults`
+        method if exists. For sets/dicts/lists - make copy."""
+        fields = set(self.__annotations__.keys())
+        for key, val in self.__dict__.items():
+            if key not in fields:
+                continue
+
+            if val is None:
+                continue
+
+            if hasattr(val, "save_as_defaults"):
+                val.save_as_defaults()
+                continue
+
+            if isinstance(val, (dict, set, list)):
+                val = val.copy()
+
+            self._defaults[key] = val
+
     def get_default_value(self, field_name: str) -> ty.Any:
         """Get default value for `field_name`."""
-        field = self.__dataclass_fields__.get(field_name)
-        if not field:
-            return None
+        if field_name in self._defaults:
+            return self._defaults[field_name]
 
-        # either default or default_factory is set so this is safe
-        default = field.default
-        try:
-            default = field.default_factory()  # type: ignore
-        except TypeError:
-            pass
-
-        return default
+        return getattr(self.__class__, field_name)
 
     def asdict_non_default(self) -> dict[str, ty.Any]:
         """Get dict of attributes that differ from default. For
         dict only first level is compared."""
         res = {}
 
+        fields = set(self.__annotations__.keys())
         for key, val in self.__dict__.items():
+            if key not in fields:
+                continue
+
             if val is None:
                 continue
 
@@ -104,7 +158,6 @@ class ConfBase:
         return res
 
 
-@dataclass
 class ConfKupfer(ConfBase):
     # Kupfer keybinding as string
     keybinding: str = "<Ctrl>space"
@@ -116,7 +169,6 @@ class ConfKupfer(ConfBase):
     action_accelerator_modifer: str = "ctrl"
 
 
-@dataclass
 class ConfAppearance(ConfBase):
     icon_large_size: int = 128
     icon_small_size: int = 24
@@ -124,18 +176,14 @@ class ConfAppearance(ConfBase):
     ellipsize_mode: int = 0
 
 
-@dataclass
 class ConfDirectories(ConfBase):
-    direct: list[str] = field(
-        default_factory=lambda: ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
-    )
-    catalog: list[str] = field(default_factory=list)
+    direct: list[str] = ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
+    catalog: list[str] = []
 
 
-@dataclass
 class ConfDeepDirectories(ConfBase):
-    direct: list[str] = field(default_factory=list)
-    catalog: list[str] = field(default_factory=list)
+    direct: list[str]
+    catalog: list[str]
     depth: int = 2
 
 
@@ -199,31 +247,15 @@ def _default_plugins() -> dict[str, dict[str, ty.Any]]:
     return res
 
 
-@dataclass
 class Configuration(ConfBase):
-    kupfer: ConfKupfer = field(default_factory=ConfKupfer)
-    appearance: ConfAppearance = field(default_factory=ConfAppearance)
-    directories: ConfDirectories = field(default_factory=ConfDirectories)
-    deepdirectories: ConfDeepDirectories = field(
-        default_factory=ConfDeepDirectories
-    )
+    kupfer: ConfKupfer
+    appearance: ConfAppearance
+    directories: ConfDirectories
+    deepdirectories: ConfDeepDirectories
 
-    keybindings: dict[str, ty.Any] = field(default_factory=_default_keybindings)
-    tools: dict[str, ty.Any] = field(default_factory=_default_tools)
-    plugins: dict[str, dict[str, ty.Any]] = field(
-        default_factory=_default_plugins
-    )
-
-    def asdict(self) -> dict[str, ty.Any]:
-        res = asdict(self)
-        try:
-            if plugins := res.pop("plugins"):
-                for key, val in plugins.items():
-                    res[key] = val
-        except KeyError:
-            pass
-
-        return res
+    keybindings: dict[str, ty.Any] = _default_keybindings()
+    tools: dict[str, ty.Any] = _default_tools()
+    plugins: dict[str, dict[str, ty.Any]] = _default_plugins()
 
 
 @ty.runtime_checkable
@@ -339,7 +371,7 @@ def _fill_configuration_fom_parser(
 
         if isinstance(sobj, dict):
             sobj.update(parser[secname].items())
-        elif is_dataclass(sobj):
+        elif isinstance(sobj, ConfBase):
             for key, val in parser[secname].items():
                 setattr(sobj, key.lower(), val)
         else:
@@ -423,6 +455,7 @@ class ConfigparserAdapter(pretty.OutputMixin):
 
         # Set up defaults
         confmap = Configuration()
+        confmap.save_as_defaults()
 
         # load user config file
         if config_file := config.get_config_file(self.config_filename):
