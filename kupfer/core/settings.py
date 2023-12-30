@@ -153,6 +153,9 @@ class ConfBase:
 
         return res
 
+    def reset_value(self, field_name: str) -> None:
+        setattr(self, field_name, self.get_default_value(field_name))
+
 
 class ConfKupfer(ConfBase):
     # Kupfer keybinding as string
@@ -678,12 +681,8 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return True
 
     def reset_keybindings(self) -> None:
-        self.config.kupfer.keybinding = self.config.kupfer.get_default_value(
-            "keybinding"
-        )
-        self.config.kupfer.magickeybinding = (
-            self.config.kupfer.get_default_value("magickeybinding")
-        )
+        self.config.kupfer.reset_value("keybinding")
+        self.config.kupfer.reset_value("magickeybinding")
 
     def reset_accelerators(self) -> None:
         self.config.keybindings.update(_default_keybindings())

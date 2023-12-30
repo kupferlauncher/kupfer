@@ -194,6 +194,44 @@ class TestConfBase(unittest.TestCase):
         self.assertEqual(tconf.get_default_value("boolean1"), True)
         self.assertEqual(tconf.get_default_value("boolean2"), True)
 
+    def test_reset(self):
+        class TSubConf(S.ConfBase):
+            integer1: int = 134
+            integer2: int = 234
+            string1: str = "qwe"
+            string2: str = "asd"
+
+        tconf = TSubConf()
+
+        tconf.integer1 = 456
+        tconf.string1 = "zxc"
+
+        self.assertEqual(tconf.integer1, 456)
+        self.assertEqual(tconf.string1, "zxc")
+
+        tconf.reset_value("integer1")
+        tconf.reset_value("string1")
+
+        self.assertEqual(tconf.integer1, 134)
+        self.assertEqual(tconf.string1, "qwe")
+
+        tconf.integer1 = 4567
+        tconf.string1 = "zxcd"
+
+        tconf.save_as_defaults()
+
+        tconf.integer1 = 1
+        tconf.string1 = "aaa"
+
+        self.assertEqual(tconf.integer1, 1)
+        self.assertEqual(tconf.string1, "aaa")
+
+        tconf.reset_value("integer1")
+        tconf.reset_value("string1")
+
+        self.assertEqual(tconf.integer1, 4567)
+        self.assertEqual(tconf.string1, "zxcd")
+
 
 class TestFillConfigurationFromParser(unittest.TestCase):
     def test_load(self):
