@@ -41,14 +41,15 @@ class ConfBase:
                     field_type
                 ).startswith("list["):
                     value = _strlist(value)
+
             try:
-                old_val = getattr(self, name)
                 # notify about value changed
-                if old_val != value:
-                    if SettingsController._inst:
-                        SettingsController._inst.mark_updated()
+                if getattr(self, name) != value and SettingsController._inst:
+                    SettingsController._inst.mark_updated()
+
             except AttributeError:
                 pass
+
         else:
             pretty.print_error("unknown parameter", name, value)
 
