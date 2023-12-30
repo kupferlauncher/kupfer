@@ -353,7 +353,7 @@ def _override_encoding(name: str) -> str | None:
     return None
 
 
-def _fill_configuration_fom_parser(
+def _fill_configuration_from_parser(
     parser: configparser.RawConfigParser,
     conf: Configuration,
 ) -> None:
@@ -376,31 +376,6 @@ def _fill_configuration_fom_parser(
                 setattr(sobj, key.lower(), val)
         else:
             pretty.print_error("unknown secname", secname, sobj)
-
-
-def _confmap_difference(conf: Config, defaults: Config) -> Config:
-    """Extract the non-default keys to write out"""
-    difference = {}
-    for secname, section in conf.items():
-        if secname not in defaults:
-            difference[secname] = section.copy()
-            continue
-
-        difference[secname] = {}
-        for key, config_val in section.items():
-            if (
-                secname in defaults
-                and key in defaults[secname]
-                and defaults[secname][key] == config_val
-            ):
-                continue
-
-            difference[secname][key] = config_val
-
-        if not difference[secname]:
-            difference.pop(secname)
-
-    return difference
 
 
 def _fill_parser_from_config(
@@ -448,30 +423,41 @@ class ConfigparserAdapter(pretty.OutputMixin):
 
         os.rename(temp_config_path, config_path)
 
+    def _load_from_file(
+        self, config_file: str
+    ) -> configparser.RawConfigParser | None:
+        parser = configparser.RawConfigParser()
+        try:
+            parser.read(config_file, encoding=self.encoding)
+            return parser
+        except OSError as exc:
+            self.output_error(
+                f"Error reading configuration file {config_file}: {exc}"
+            )
+        except UnicodeDecodeError as exc:
+            self.output_error(
+                f"Error reading configuration file {config_file}: {exc}"
+            )
+
+        return None
+
     def load(self, read_config: bool = True) -> Configuration:
         """Read cascading config files: default -> then config
         (in all XDG_CONFIG_DIRS)."""
-        parser = configparser.RawConfigParser()
 
         # Set up defaults
         confmap = Configuration()
+        if config_file := config.get_config_file(self.defaults_filename):
+            if parser := self._load_from_file(config_file):
+                _fill_configuration_from_parser(parser, confmap)
+
         confmap.save_as_defaults()
 
         # load user config file
         if config_file := config.get_config_file(self.config_filename):
-            try:
-                parser.read(config_file, encoding=self.encoding)
-            except OSError as exc:
-                self.output_error(
-                    f"Error reading configuration file {config_file}: {exc}"
-                )
-            except UnicodeDecodeError as exc:
-                self.output_error(
-                    f"Error reading configuration file {config_file}: {exc}"
-                )
+            if parser := self._load_from_file(config_file):
+                _fill_configuration_from_parser(parser, confmap)
 
-        # Read parsed file into the dictionary again
-        _fill_configuration_fom_parser(parser, confmap)
         return confmap
 
 
@@ -502,23 +488,6 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         self.output_debug("config", self.config)
 
-    # def get_config(self, section: str, key: str) -> ty.Any:
-    #     """General interface, but section must exist"""
-    #     # TODO: drop
-    #     obj = getattr(self.config, section.lower())
-    #     val = getattr(obj, key.lower())
-    #     return val
-
-    # def set_config(self, section: str, key: str, value: ty.Any) -> bool:
-    #     """General interface, but section must exist"""
-    #     key = key.lower()
-    #     dobj = getattr(self.config, section.lower())
-    #     if is_dataclass(dobj):
-    #         setattr(dobj, key, value)
-    #         return True
-
-    #     return False
-
     def mark_updated(self):
         self.output_info("mark_updated", SettingsController._inst)
         if SettingsController._inst is not None:
@@ -530,13 +499,6 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def emit_value_changed(self, section: str, key: str, value: ty.Any) -> None:
         signal = f"value-changed::{section.lower()}.{key.lower()}"
         self.emit(signal, section, key, value)
-
-    # def get_config_int(self, section: str, key: str) -> int:
-    #     """section must exist"""
-    #     # TODO
-    #     obj = getattr(self.config, section.lower())
-    #     val = getattr(obj, key)
-    #     return _strint(val)
 
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""

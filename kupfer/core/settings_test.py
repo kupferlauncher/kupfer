@@ -5,6 +5,7 @@
 """
 import unittest
 import typing as ty
+import configparser
 
 from kupfer.core import settings as S
 
@@ -157,6 +158,78 @@ class TestConfBase(unittest.TestCase):
         self.assertEqual(tconf.list2, [0, 1, "qwe"])
         self.assertEqual(tconf.boolean1, True)
         self.assertEqual(tconf.boolean2, False)
+
+    def test_save_defaults(self):
+        class TSubConf(S.ConfBase):
+            integer1: int = 134
+            integer2: int = 234
+            string1: str = "qwe"
+            string2: str = "asd"
+
+        class TConf(S.ConfBase):
+            boolean1: bool = False
+            boolean2: bool = True
+            sub: TSubConf
+
+        tconf = TConf()
+        tconf.save_as_defaults()
+
+        self.assertEqual(tconf.sub.get_default_value("integer1"), 134)
+        self.assertEqual(tconf.sub.get_default_value("integer2"), 234)
+        self.assertEqual(tconf.sub.get_default_value("string1"), "qwe")
+        self.assertEqual(tconf.sub.get_default_value("string2"), "asd")
+        self.assertEqual(tconf.get_default_value("boolean1"), False)
+        self.assertEqual(tconf.get_default_value("boolean2"), True)
+
+        tconf.sub.integer1 = 456
+        tconf.sub.string1 = "zxc"
+        tconf.boolean1 = True
+
+        tconf.save_as_defaults()
+
+        self.assertEqual(tconf.sub.get_default_value("integer1"), 456)
+        self.assertEqual(tconf.sub.get_default_value("integer2"), 234)
+        self.assertEqual(tconf.sub.get_default_value("string1"), "zxc")
+        self.assertEqual(tconf.sub.get_default_value("string2"), "asd")
+        self.assertEqual(tconf.get_default_value("boolean1"), True)
+        self.assertEqual(tconf.get_default_value("boolean2"), True)
+
+
+class TestFillConfigurationFromParser(unittest.TestCase):
+    def test_load(self):
+        data = """
+[Kupfer]
+keybinding = keybinding123
+usecommandkeys = False
+
+[Appearance]
+icon_large_size = 1
+
+[keybindings]
+keybinding1 = key123
+activate = key321
+
+[deepdirectories]
+direct = dir1;dir2;dir3
+ """
+
+        parser = configparser.RawConfigParser()
+        parser.read_string(data)
+
+        c = S.Configuration()
+        S._fill_configuration_from_parser(parser, c)
+
+        self.assertEqual(c.kupfer.keybinding, "keybinding123")
+        self.assertEqual(c.kupfer.usecommandkeys, False)
+        self.assertEqual(c.appearance.icon_large_size, 1)
+        # new key
+        self.assertEqual(c.keybindings["keybinding1"], "key123")
+        # changed
+        self.assertEqual(c.keybindings["activate"], "key321")
+        # not changed
+        self.assertEqual(c.keybindings["comma_trick"], "<Control>comma")
+
+        self.assertEqual(c.deepdirectories.direct, ["dir1", "dir2", "dir3"])
 
 
 class TestConfiguration(unittest.TestCase):
