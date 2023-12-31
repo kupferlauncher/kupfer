@@ -1,6 +1,56 @@
 NEWS for kupfer
 ===============
 
+kupfer v324 (2024-01-07)
+------------------------
+
++ New features:
+
+  + Allow user to choose how trim displayed text - add new options in
+    preferences "Text ellipsization". Close: #98
+  + "Actions in first panel" - experimental feature that allow user to run
+    actions by selecting it in first panel and then select target object in
+    next panel. Require enabled "Kupfer Actions" plugin. Close: #77 (maybe).
+
++ Fix:
+
+  + Fix validator for URLs: better support for URLs without FQDN and netloc.
+  + Show only first line of multi-line descriptions. Whole description is
+    in tooltip. Close: #116
+  + Fix refreshing sources cache on start - sources are force refreshed on
+    plugin enabled and on Kupfer start when cache not contains items.
+    This prevent bizarre behavior when Kupfer is restarted and sources
+    depend on some unavailable files.
+  + Fix return to parent leave - try to load all leaves until parent leave
+    is found instead of go to first leave.
+
++ Plugins:
+
+  + New:
+
+    - *Kupfer Actions*: put actions into first panel.
+
+  + Updated:
+
+    - *clipboard*: fix broken description for URL and file path; handle
+      errors when text is recognized as file path but is broken.
+    - *core*: leaves with can text and uri representation can be used in
+      "OpenTextUrl" action.
+    - *ssh_hosts*: add text representation in form of ssh://host... so now
+      can be opened i.e. in external applications.
+      Add new action "Send file to..." - send file/directory to remote host.
+    - *websearch*: new action "Search..." - search with default engine; user
+      do not have to select search engine, default can be configured or
+      is take from "user search engines" with DDG as fallback.
+
++ Dev:
+
+  + Fix loading plugin configuration that base on `ExtendedSetting`. For
+    now no one plugin use it anyway...
+  + Minor code cleanup
+
+
+
 kupfer v323 (final, 2023-11-26)
 -------------------------------
 
