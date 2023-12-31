@@ -170,6 +170,7 @@ class TestConfBase(unittest.TestCase):
             boolean1: bool = False
             boolean2: bool = True
             sub: TSubConf
+            dictionary: dict[int, int] = {1: 1, 2: 2}
 
         tconf = TConf()
         tconf.save_as_defaults()
@@ -180,10 +181,14 @@ class TestConfBase(unittest.TestCase):
         self.assertEqual(tconf.sub.get_default_value("string2"), "asd")
         self.assertEqual(tconf.get_default_value("boolean1"), False)
         self.assertEqual(tconf.get_default_value("boolean2"), True)
+        self.assertTrue(tconf._defaults["dictionary"] is not tconf.dictionary)
 
         tconf.sub.integer1 = 456
         tconf.sub.string1 = "zxc"
         tconf.boolean1 = True
+        tconf.dictionary[3] = 3
+
+        self.assertTrue(3 not in tconf._defaults["dictionary"])
 
         tconf.save_as_defaults()
 

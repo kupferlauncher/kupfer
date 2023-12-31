@@ -7,6 +7,7 @@ import typing as ty
 import ast
 import inspect
 from contextlib import suppress
+import copy
 
 from gi.repository import GLib, GObject, Pango
 
@@ -22,6 +23,28 @@ __all__ = (
 
 AltValidator = ty.Callable[[dict[str, ty.Any]], bool]
 Config = dict[str, dict[str, ty.Any]]
+
+
+def _compare_dicts(
+    dictionary: dict[str, ty.Any], base: dict[str, ty.Any]
+) -> ty.Iterator[tuple[str, ty.Any]]:
+    """Compare recursive two dictionaries and return (key, val) from first
+    `dictionary` that are changed or not exists in `base`."""
+    if not base:
+        yield from dictionary.items()
+        return
+
+    for key, val in dictionary.items():
+        if key not in base:
+            yield key, val
+            continue
+
+        base_val = base[key]
+        if val == base_val:
+            continue
+
+        if isinstance(val, dict):
+            yield key, dict(_compare_dicts(val, base_val))
 
 
 class ConfBase:
@@ -75,6 +98,7 @@ class ConfBase:
             # do nothing when value is not changed
             current_val = getattr(self, name, None)
             if current_val == value:
+                pretty.print_debug("skip", self, name, value)
                 return
 
             try:
@@ -85,8 +109,11 @@ class ConfBase:
             except AttributeError:
                 pass
 
+            pretty.print_debug("set", self, name, value)
+
         else:
             pretty.print_error("unknown parameter", name, value)
+            return
 
         super().__setattr__(name, value)
 
@@ -106,7 +133,7 @@ class ConfBase:
                 continue
 
             if isinstance(val, (dict, set, list)):
-                val = val.copy()
+                val = copy.deepcopy(val)
 
             self._defaults[key] = val
 
@@ -115,7 +142,7 @@ class ConfBase:
         if field_name in self._defaults:
             return self._defaults[field_name]
 
-        return getattr(self.__class__, field_name)
+        return getattr(self.__class__, field_name, None)
 
     def asdict_non_default(self) -> dict[str, ty.Any]:
         """Get dict of attributes that differ from default. For
@@ -142,12 +169,17 @@ class ConfBase:
             if isinstance(val, dict):
                 assert isinstance(default, dict)
                 # support only 1-level of dict
-                res[key] = {
-                    dkey: dval
-                    for dkey, dval in val.items()
-                    if dval != default.get(dkey)
-                }
+                val = dict(_compare_dicts(val, default))
 
+            res[key] = val
+
+        return res
+
+    def asdict(self) -> dict[str, ty.Any]:
+        res = {}
+        for key, val in self.__dict__.items():
+            if hasattr(val, "asdict_non_default"):
+                res[key] = val.asdict_non_default()
                 continue
 
             res[key] = val
@@ -428,12 +460,10 @@ def _fill_parser_from_config(
         if not parser.has_section(secname):
             parser.add_section(secname)
 
-        for key in sorted(section):
-            value = section[key]
+        for key, value in sorted(section.items()):
             if isinstance(value, (tuple, list)):
                 value = SettingsController.sep.join(value)
-
-            elif isinstance(value, int):
+            else:
                 value = str(value)
 
             parser.set(secname, key, value)
@@ -444,12 +474,10 @@ def _fill_parser_from_config(
         if not parser.has_section(secname):
             parser.add_section(secname)
 
-        for key in sorted(section):
-            value = section[key]
+        for key, value in sorted(section.items()):
             if isinstance(value, (tuple, list)):
                 value = SettingsController.sep.join(value)
-
-            elif isinstance(value, int):
+            else:
                 value = str(value)
 
             parser.set(secname, key, value)
@@ -699,6 +727,8 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         plug_section = f"plugin_{plugin}"
         self.emit_value_changed(plug_section, key, value)
+
+        self.output_debug("set_plugin_config", plug_section, key, value)
 
         value_repr: int | str | float | None
 
