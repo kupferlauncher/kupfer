@@ -122,7 +122,7 @@ class ConfBase:
         dict only first level is compared."""
         res = {}
 
-        fields = set(self.__annotations__.keys())
+        fields = set(self._annotations.keys())
         for key, val in self.__dict__.items():
             if key not in fields:
                 continue
@@ -294,6 +294,7 @@ class ValueConverter(ty.Protocol):
 PlugConfigValueType = ty.Union[ty.Any, ValueConverter]
 
 
+# pylint: disable=too-many-return-statements
 def _convert(value: ty.Any, dst_type: ty.Any) -> ty.Any:
     """Convert `value` to `dst_type`."""
     if value is None:
@@ -417,10 +418,10 @@ def _fill_configuration_from_parser(
 
 
 def _fill_parser_from_config(
-    parser: configparser.RawConfigParser, config: Config
+    parser: configparser.RawConfigParser, conf: Config
 ) -> None:
     """Put content of `config` dict into `parser`."""
-    for secname, section in sorted(config.items()):
+    for secname, section in sorted(conf.items()):
         if secname == "plugins":
             continue
 
@@ -438,7 +439,7 @@ def _fill_parser_from_config(
             parser.set(secname, key, value)
 
     # save plugins
-    plugins = config["plugins"]
+    plugins = conf["plugins"]
     for secname, section in sorted(plugins.items()):
         if not parser.has_section(secname):
             parser.add_section(secname)
