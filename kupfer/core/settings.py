@@ -28,10 +28,13 @@ class ConfBase:
     On create copy all dict, list and other values from class defaults."""
 
     def __init__(self):
+        # store evaluated annotations
+        self._annotations = inspect.get_annotations(self.__class__, eval_str=True)  # type: ignore
+        # defauls
         self._defaults: dict[str, ty.Any] = {}
+
         clazz = self.__class__
-        ann = inspect.get_annotations(self.__class__, eval_str=True)  # type: ignore
-        for key, field_type in ann.items():
+        for key, field_type in self._annotations.items():
             value = None
 
             if field_type in (str, int, tuple, bool, float):
@@ -58,18 +61,15 @@ class ConfBase:
             super().__setattr__(key, value)
 
     def __setattr__(self, name, value):
-        if field_type := self.__class__.__annotations__.get(name):
+        if name[0] == "_":
+            pass
+        elif field_type := self._annotations.get(name):
             if (
                 isinstance(value, str)
-                and (field_type is not str and field_type != "str")
+                and field_type != str
                 and value is not None
             ):
-                if field_type is int or field_type == "int":
-                    value = _strint(value)
-                elif field_type is bool or field_type == "bool":
-                    value = _strbool(value)
-                elif str(field_type).startswith("list["):
-                    value = _strlist(value)
+                value = _convert(value, field_type)
 
             # do nothing when value is not changed
             current_val = getattr(self, name, None)
@@ -84,7 +84,7 @@ class ConfBase:
             except AttributeError:
                 pass
 
-        elif name[0] != "_":
+        else:
             pretty.print_error("unknown parameter", name, value)
 
         super().__setattr__(name, value)
@@ -92,7 +92,7 @@ class ConfBase:
     def save_as_defaults(self):
         """Save current values as default. For objectc call `save_as_defaults`
         method if exists. For sets/dicts/lists - make copy."""
-        fields = set(self.__annotations__.keys())
+        fields = set(self._annotations.keys())
         for key, val in self.__dict__.items():
             if key not in fields:
                 continue
@@ -291,6 +291,42 @@ class ValueConverter(ty.Protocol):
 
 # PlugConfigValueType = ty.Union[type[PlugConfigValue], ValueConverter]
 PlugConfigValueType = ty.Union[ty.Any, ValueConverter]
+
+
+def _convert(value: ty.Any, dst_type: ty.Any) -> ty.Any:
+    """Convert `value` to `dst_type`."""
+    if value is None:
+        return None
+
+    # if value is in right type - return it
+    if isinstance(dst_type, type) and isinstance(value, dst_type):
+        return value
+
+    if dst_type in ("int", int):
+        return _strint(value)
+
+    if dst_type in ("bool", bool):
+        return _strbool(value)
+
+    if dst_type in ("tuple", tuple, "float", float):
+        raise NotImplementedError()
+
+    if dst_type in ("str", str):
+        return str(value)
+
+    if dst_type == list:
+        return _strlist(value)
+
+    # complex types
+    dst_types = (
+        dst_type.__name__ if isinstance(dst_type, type) else str(dst_type)
+    )
+    if dst_types.startswith("list["):
+        value = _strlist(value)
+        items_type = dst_types[5:-1]
+        return [_convert(item, items_type) for item in value]
+
+    raise ValueError(f"not supported dst_type: `{dst_type}` for {value!r}")
 
 
 def _strbool(value: ty.Any, default: bool = False) -> bool:

@@ -279,3 +279,25 @@ class TestConfiguration(unittest.TestCase):
         self.assertEqual(
             c.directories.direct, ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
         )
+
+
+class TestConvert(unittest.TestCase):
+    def test_simple(self):
+        self.assertEqual(S._convert(None, str), None)
+        self.assertEqual(S._convert("abc", str), "abc")
+        self.assertEqual(S._convert("abc", "str"), "abc")
+
+        self.assertEqual(S._convert(123, int), 123)
+        self.assertEqual(S._convert(123, "int"), 123)
+        self.assertEqual(S._convert("123", "int"), 123)
+        self.assertEqual(S._convert("123", int), 123)
+
+        self.assertEqual(S._convert("True", bool), True)
+        self.assertEqual(S._convert("1", bool), True)
+        self.assertEqual(S._convert("yes", bool), True)
+        self.assertEqual(S._convert("false", bool), False)
+        self.assertEqual(S._convert("No", bool), False)
+
+        self.assertEqual(S._convert("[1,2,3]", list), [1, 2, 3])
+
+        self.assertEqual(S._convert("[1,2,3]", "list[str]"), ["1", "2", "3"])
