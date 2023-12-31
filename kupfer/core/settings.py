@@ -6,6 +6,7 @@ import os
 import typing as ty
 import ast
 import inspect
+from contextlib import suppress
 
 from gi.repository import GLib, GObject, Pango
 
@@ -635,7 +636,6 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             dpath = get_special_dir(direc)
             yield dpath or os.path.abspath(os.path.expanduser(direc))
 
-    # pylint: disable=too-many-return-statements
     def get_plugin_config(
         self,
         plugin: str,
@@ -649,11 +649,9 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         """
         plug_section = f"plugin_{plugin}"
 
-        try:
-            plug_conf = self.config.plugins[plug_section]
-            val = plug_conf[key]
-        except KeyError:
-            return default
+        val = None
+        with suppress(KeyError):
+            val = self.config.plugins[plug_section][key]
 
         if val is None:
             return default
