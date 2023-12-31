@@ -1,3 +1,29 @@
+"""This module implement `SettingsController` and classes related to Kupfer
+configuration.
+
+Configuration (in new model) is stored in `Configuration` class
+(SettingsController.config).
+
+Each field of `Configuration` class should be either or simple objects (int,
+floats, string, tuple, list, dict, set) or object that extend `ConfBase` class.
+
+`ConfBase` provide some "magic" like:
+1. keep "default" values for each field; default values are declared in class or
+   can be get from current values by `save_as_defaults`.
+2. notify SettingsController on changes
+3. on assign - convert value to declared for each field type - each field must
+   be declared.
+4. return recursive object as dict.
+
+
+For persist or load configuration `SettingsController` use adapter; for now
+only adapter for `configparser` is implemented.
+
+TODO: tuples; better handling for plugins configuration
+
+"""
+
+
 from __future__ import annotations
 
 import configparser
@@ -67,14 +93,14 @@ class ConfBase:
             elif str(field_type).startswith("list"):
                 # copy list or create empty
                 if dval := getattr(clazz, key, None):
-                    value = dval.copy()
+                    value = copy.deepcopy(dval)
                 else:
                     value = []
 
             elif str(field_type).startswith("dict"):
                 # copy dict or create empty
                 if dval := getattr(clazz, key, None):
-                    value = dval.copy()
+                    value = copy.deepcopy(dval)
                 else:
                     value = {}
 
@@ -145,8 +171,7 @@ class ConfBase:
         return getattr(self.__class__, field_name, None)
 
     def asdict_non_default(self) -> dict[str, ty.Any]:
-        """Get dict of attributes that differ from default. For
-        dict only first level is compared."""
+        """Get dict of attributes that differ from default."""
         res = {}
 
         fields = set(self._annotations.keys())
@@ -154,10 +179,7 @@ class ConfBase:
             if key not in fields:
                 continue
 
-            if val is None:
-                continue
-
-            if hasattr(val, "asdict_non_default"):
+            if val and hasattr(val, "asdict_non_default"):
                 res[key] = val.asdict_non_default()
                 continue
 
@@ -168,7 +190,6 @@ class ConfBase:
 
             if isinstance(val, dict):
                 assert isinstance(default, dict)
-                # support only 1-level of dict
                 val = dict(_compare_dicts(val, default))
 
             res[key] = val
@@ -176,17 +197,14 @@ class ConfBase:
         return res
 
     def asdict(self) -> dict[str, ty.Any]:
-        res = {}
-        for key, val in self.__dict__.items():
-            if hasattr(val, "asdict_non_default"):
-                res[key] = val.asdict_non_default()
-                continue
-
-            res[key] = val
-
-        return res
+        """Return content as dict."""
+        return {
+            key: (val.asdict() if hasattr(val, "asdict") else val)
+            for key, val in self.__dict__.items()
+        }
 
     def reset_value(self, field_name: str) -> None:
+        """Reset value in `field_name` to default value."""
         setattr(self, field_name, self.get_default_value(field_name))
 
 
@@ -493,7 +511,7 @@ class ConfigparserAdapter(pretty.OutputMixin):
 
     def save(self, conf: Configuration) -> None:
         self.output_debug("Saving config")
-        config_path = config.save_config_file(self.config_filename + ".new")
+        config_path = config.save_config_file(self.config_filename)
         if not config_path:
             self.output_info("Unable to save settings, can't find config dir")
             return
@@ -530,8 +548,9 @@ class ConfigparserAdapter(pretty.OutputMixin):
         """Read cascading config files: default -> then config
         (in all XDG_CONFIG_DIRS)."""
 
-        # Set up defaults
+        # Set up defaults - declared in classes
         confmap = Configuration()
+        # load defaults from file
         if config_file := config.get_config_file(self.defaults_filename):
             if parser := self._load_from_file(config_file):
                 _fill_configuration_from_parser(parser, confmap)
@@ -699,10 +718,12 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             elif value_type is list:
                 assert isinstance(val, str)
                 value = _strlist(val)
-            elif isinstance(value_type, type):
+            elif isinstance(value_type, type) and not isinstance(
+                value_type, ValueConverter
+            ):
                 value = value_type(val)
             elif isinstance(value_type, ValueConverter):
-                value = value_type(val, default=default)  # type: ignore
+                value = value_type(val, default=default)
 
         except (ValueError, TypeError) as err:
             self.output_info(f"Error for load value {plug_section}.{key}", err)
