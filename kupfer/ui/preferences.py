@@ -404,10 +404,10 @@ class PreferencesWindowController(pretty.OutputMixin):
             setctl.config.kupfer.usecommandkeys
         )
         builder.get_object("radio_actionaccelalt").set_active(
-            setctl.get_action_accelerator_modifer() != "ctrl"
+            setctl.config.kupfer.action_accelerator_modifer != "ctrl"
         )
         builder.get_object("radio_actionaccelctrl").set_active(
-            setctl.get_action_accelerator_modifer() == "ctrl"
+            setctl.config.kupfer.action_accelerator_modifer == "ctrl"
         )
 
         self._init_checkstatus(setctl, builder)
@@ -466,14 +466,14 @@ class PreferencesWindowController(pretty.OutputMixin):
         checkstatusicon_gtk.set_label(
             checkstatusicon_gtk.get_label() + " (GtkStatusIcon)"
         )
-        checkstatusicon_gtk.set_active(setctl.get_show_status_icon())
+        checkstatusicon_gtk.set_active(setctl.config.kupfer.showstatusicon)
 
         checkstatusicon_ai = builder.get_object("checkstatusicon_ai")
         checkstatusicon_ai.set_label(
             checkstatusicon_ai.get_label() + " (AppIndicator)"
         )
         if _supports_app_indicator():
-            checkstatusicon_ai.set_active(setctl.get_show_status_icon_ai())
+            checkstatusicon_ai.set_active(setctl.config.kupfer.showstatusicon_ai)
         else:
             checkstatusicon_ai.set_sensitive(False)
 
@@ -603,7 +603,7 @@ class PreferencesWindowController(pretty.OutputMixin):
 
         if store:
             setctl = settings.get_settings_controller()
-            setctl.set_directories(have)
+            setctl.config.directories.direct = have
 
     def _remove_indexed_folder(
         self, rowiter: Gtk.TreeIter, store: bool = True
@@ -616,7 +616,7 @@ class PreferencesWindowController(pretty.OutputMixin):
                 os.path.normpath(row[0]) for row in self._indexed_folders_store
             ]
             setctl = settings.get_settings_controller()
-            setctl.set_directories(have)
+            setctl.config.directories.direct = have
 
     def on_preferenceswindow_key_press_event(
         self, widget: Gtk.Widget, event: Gdk.EventKey
@@ -630,12 +630,12 @@ class PreferencesWindowController(pretty.OutputMixin):
     def on_checkstatusicon_gtk_toggled(self, widget: Gtk.Widget) -> None:
         """Toggle status icon checkbox callback."""
         setctl = settings.get_settings_controller()
-        setctl.set_show_status_icon(widget.get_active())
+        setctl.config.kupfer.showstatusicon = widget.get_active()
 
     def on_checkstatusicon_ai_toggled(self, widget: Gtk.Widget) -> None:
         """Toggle AppIndicator3 status icon checkbox callback."""
         setctl = settings.get_settings_controller()
-        setctl.set_show_status_icon_ai(widget.get_active())
+        setctl.config.kupfer.showstatusicon_ai = widget.get_active()
 
     def _is_autostart_enabled(self) -> bool:
         """Get state of autostart settings."""
@@ -1073,13 +1073,13 @@ class PreferencesWindowController(pretty.OutputMixin):
         """Change 'Action accelerators use alt' setting - callback."""
         if widget.get_active():
             setctl = settings.get_settings_controller()
-            setctl.set_action_accelerator_modifier("alt")
+            setctl.config.kupfer.action_accelerator_modifer = "alt"
 
     def on_radio_action_accel_ctrl(self, widget: Gtk.RadioButton) -> None:
         """Change 'Action accelerators use ctrl' setting - callback."""
         if widget.get_active():
             setctl = settings.get_settings_controller()
-            setctl.set_action_accelerator_modifier("ctrl")
+            setctl.config.kupfer.action_accelerator_modifer = "ctrl"
 
     def _on_indexed_folders_sel_changed(self, table: Gtk.TreeView) -> None:
         curpath, _curcol = table.get_cursor()
@@ -1115,14 +1115,14 @@ class PreferencesWindowController(pretty.OutputMixin):
         if widget.get_active_iter():
             val = widget.get_active_text()
             setctl = settings.get_settings_controller()
-            setctl.set_large_icon_size(val)
+            setctl.config.appearance.icon_large_size = val
 
     def on_icons_small_size_changed(self, widget: Gtk.ComboBoxText) -> None:
         """Change 'small icon size' setting - callback."""
         if widget.get_active_iter():
             val = widget.get_active_text()
             setctl = settings.get_settings_controller()
-            setctl.set_small_icon_size(val)
+            setctl.config.appearance.icon_small_size = val
 
     def on_ellipsize_mode_changed(self, widget: Gtk.ComboBox) -> None:
         """Change 'Text ellipsization' setting - callback."""

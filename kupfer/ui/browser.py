@@ -711,10 +711,10 @@ class WindowController(pretty.OutputMixin):
         self.output_debug("in lazy_setup")
 
         setctl = settings.get_settings_controller()
-        if setctl.get_show_status_icon():
+        if setctl.config.kupfer.showstatusicon:
             self._show_statusicon()
 
-        if setctl.get_show_status_icon_ai():
+        if setctl.config.kupfer.showstatusicon_ai:
             self._show_statusicon_ai()
 
         setctl.connect(

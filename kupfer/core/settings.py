@@ -30,7 +30,7 @@ class ConfBase:
     def __init__(self):
         self._defaults: dict[str, ty.Any] = {}
         clazz = self.__class__
-        ann = inspect.get_annotations(self.__class__, eval_str=True)
+        ann = inspect.get_annotations(self.__class__, eval_str=True)  # type: ignore
         for key, field_type in ann.items():
             value = None
 
@@ -74,10 +74,6 @@ class ConfBase:
             # do nothing when value is not changed
             current_val = getattr(self, name, None)
             if current_val == value:
-                return
-
-            # do not update values when not changed
-            if name in self._defaults and self._defaults[name] == value:
                 return
 
             try:
@@ -177,6 +173,7 @@ class ConfAppearance(ConfBase):
 
 
 class ConfDirectories(ConfBase):
+    # it safe to create list here because on instantiate there are be copied
     direct: list[str] = ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
     catalog: list[str] = []
 
@@ -219,7 +216,6 @@ def _default_plugins() -> dict[str, dict[str, ty.Any]]:
     def set_enabled(name: str, val: bool) -> None:
         res[name] = {"kupfer_enabled": val}
 
-    set_enabled("plugin_core", True)
     set_enabled("plugin_applications", True)
     set_enabled("plugin_archivemanager", True)
     set_enabled("plugin_calculator", True)
@@ -228,20 +224,22 @@ def _default_plugins() -> dict[str, dict[str, ty.Any]]:
     set_enabled("plugin_dictionary", True)
     set_enabled("plugin_documents", True)
     set_enabled("plugin_favorites", True)
-    set_enabled("plugin_fileactions", False)
     set_enabled("plugin_qsicons", True)
-    set_enabled("plugin_session_gnome", False)
-    set_enabled("plugin_session_xfce", False)
-    set_enabled("plugin_screen", False)
     set_enabled("plugin_show_text", True)
-    set_enabled("plugin_tracker1", False)
     set_enabled("plugin_triggers", True)
     set_enabled("plugin_trash", True)
     set_enabled("plugin_urlactions", True)
     set_enabled("plugin_volumes", True)
     set_enabled("plugin_wikipedia", True)
+
+    set_enabled("plugin_fileactions", False)
+    set_enabled("plugin_session_gnome", False)
+    set_enabled("plugin_session_xfce", False)
+    set_enabled("plugin_screen", False)
+    set_enabled("plugin_tracker1", False)
     set_enabled("plugin_windows", False)
 
+    set_enabled("plugin_core", True)
     res["plugin_core"]["kupfer_hidden"] = True
 
     return res
@@ -555,50 +553,6 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         return False
 
-    def get_action_accelerator_modifer(self) -> str:
-        return self.config.kupfer.action_accelerator_modifer
-        # return str(self.get_config("Kupfer", "action_accelerator_modifer"))
-
-    def set_action_accelerator_modifier(self, value: str) -> bool:
-        """
-        Valid values are: 'alt', 'ctrl'
-        """
-        self.config.kupfer.action_accelerator_modifer = value
-        return True
-        # return self.set_config("Kupfer", "action_accelerator_modifer", value)
-
-    def set_large_icon_size(self, size: str) -> bool:
-        self.config.appearance.icon_large_size = _strint(size)
-        return True
-        # return self.set_config("Appearance", "icon_large_size", size)
-
-    def set_small_icon_size(self, size: str) -> bool:
-        self.config.appearance.icon_small_size = _strint(size)
-        return True
-        # return self.set_config("Appearance", "icon_small_size", size)
-
-    def get_show_status_icon(self) -> bool:
-        """Convenience: Show icon in notification area as bool (GTK)."""
-        return self.config.kupfer.showstatusicon
-        # return _strbool(self.get_config("Kupfer", "showstatusicon"))
-
-    def set_show_status_icon(self, enabled: bool) -> bool:
-        """Set config value and return success"""
-        self.config.kupfer.showstatusicon = enabled
-        return True
-        # return self.set_config("Kupfer", "showstatusicon", enabled)
-
-    def get_show_status_icon_ai(self) -> bool:
-        """Convenience: Show icon in notification area as bool (AppIndicator3)"""
-        return self.config.kupfer.showstatusicon_ai
-        # return _strbool(self.get_config("Kupfer", "showstatusicon_ai"))
-
-    def set_show_status_icon_ai(self, enabled: bool) -> bool:
-        """Set config value and return success"""
-        self.config.kupfer.showstatusicon_ai = enabled
-        return True
-        # return self.set_config("Kupfer", "showstatusicon_ai", enabled)
-
     def get_directories(self, direct: bool = True) -> ty.Iterator[str]:
         """Yield directories to use as directory sources"""
         specialdirs = {
@@ -624,11 +578,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             dpath = get_special_dir(direc)
             yield dpath or os.path.abspath(os.path.expanduser(direc))
 
-    def set_directories(self, dirs: list[str]) -> bool:
-        self.config.directories.direct = dirs
-        return True
-        # return self.set_config("Directories", "direct", dirs)  #
-
+    # pylint: disable=too-many-return-statements
     def get_plugin_config(
         self,
         plugin: str,

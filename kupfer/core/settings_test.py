@@ -99,27 +99,27 @@ class TestConfBase(unittest.TestCase):
             boolean2: bool = True
 
         tconf = TConf()
-        tconf.integer = "123"
+        tconf.integer = "123"  # type: ignore
         self.assertEqual(tconf.integer, 123)
 
-        tconf.boolean1 = "yes"
+        tconf.boolean1 = "yes"  # type: ignore
         self.assertEqual(tconf.boolean1, True)
-        tconf.boolean1 = "no"
+        tconf.boolean1 = "no"  # type: ignore
         self.assertEqual(tconf.boolean1, False)
-        tconf.boolean1 = "True"
+        tconf.boolean1 = "True"  # type: ignore
         self.assertEqual(tconf.boolean1, True)
-        tconf.boolean1 = "False"
+        tconf.boolean1 = "False"  # type: ignore
         self.assertEqual(tconf.boolean1, False)
-        tconf.boolean1 = "true"
+        tconf.boolean1 = "true"  # type: ignore
         self.assertEqual(tconf.boolean1, True)
-        tconf.boolean1 = "false"
+        tconf.boolean1 = "false"  # type: ignore
         self.assertEqual(tconf.boolean1, False)
-        tconf.boolean1 = "1"
+        tconf.boolean1 = "1"  # type: ignore
         self.assertEqual(tconf.boolean1, True)
-        tconf.boolean1 = "0"
+        tconf.boolean1 = "0"  # type: ignore
         self.assertEqual(tconf.boolean1, False)
 
-        tconf.list1 = "[1,2,3,99]"
+        tconf.list1 = "[1,2,3,99]"  # type: ignore
         self.assertEqual(tconf.list1, [1, 2, 3, 99])
 
     def test_embended(self):
