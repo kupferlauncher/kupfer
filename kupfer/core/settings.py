@@ -556,7 +556,6 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def set_directories(self, dirs: list[str]) -> bool:
         return self.set_config("Directories", "direct", dirs)  #
 
-    # pylint: disable=too-many-return-statements
     def get_plugin_config(
         self,
         plugin: str,
@@ -576,27 +575,29 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         if val is None:
             return default
 
-        if value_type is ExtendedSetting:
-            val_obj: ExtendedSetting = value_type()  # type: ignore
+        if isinstance(value_type, type) and issubclass(
+            value_type, ExtendedSetting
+        ):
+            val_obj: ExtendedSetting = value_type()
             val_obj.load(plugin, key, val)
             return val_obj
 
+        value = default
         try:
             if value_type is bool:
-                return _strbool(val)
-
-            if value_type is list:
+                value = _strbool(val)
+            elif value_type is list:
                 assert isinstance(val, str)
-                return _strlist(val)
+                value = _strlist(val)
+            elif isinstance(value_type, type):
+                value = value_type(val)
+            elif isinstance(value_type, ValueConverter):
+                value = value_type(val, default=default)  # type: ignore
 
-            return value_type(val)  # type: ignore
+        except (ValueError, TypeError) as err:
+            self.output_info(f"Error for load value {plug_section}.{key}", err)
 
-        except ValueError as err:
-            self.output_info(
-                f"Error for stored value {plug_section}.{key}", err
-            )
-
-        return default
+        return value
 
     def get_plugin_config_bool(
         self, plugin: str, key: str, default: bool
