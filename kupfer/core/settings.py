@@ -73,14 +73,34 @@ def _compare_dicts(
             yield key, dict(_compare_dicts(val, base_val))
 
 
+def _get_annotations(clazz: type) -> dict[str, ty.Any]:
+    """Get type annotations for given class `clazz`. Support python <3.10."""
+    # for python 3.10+
+    if hasattr(inspect, "get_annotations"):
+        return inspect.get_annotations(clazz, eval_str=True)  # type: ignore
+
+    # python <3.10; simplified version - this is sufficient for our classes
+    ann: dict[str, ty.Any]
+    ann = clazz.__dict__.get("__annotations__", None)
+    assert ann
+
+    for key, val in ann.items():
+        if isinstance(val, str):
+            ann[key] = eval(val)
+
+    return ann
+
+
 class ConfBase:
     """Base class for all configuration.
     On create copy all dict, list and other values from class defaults."""
 
     def __init__(self):
         # store evaluated annotations
-        self._annotations = inspect.get_annotations(self.__class__, eval_str=True)  # type: ignore
-        # defauls
+        self._annotations = _get_annotations(self.__class__)
+        assert self._annotations, "class should have annotated fields"
+
+        # defaults
         self._defaults: dict[str, ty.Any] = {}
 
         clazz = self.__class__
@@ -114,11 +134,8 @@ class ConfBase:
         if name[0] == "_":
             pass
         elif field_type := self._annotations.get(name):
-            if (
-                isinstance(value, str)
-                and field_type != str
-                and value is not None
-            ):
+            # conversion only from strings
+            if isinstance(value, str) and field_type != str:
                 value = _convert(value, field_type)
 
             # do nothing when value is not changed
@@ -127,13 +144,10 @@ class ConfBase:
                 pretty.print_debug("skip", self, name, value)
                 return
 
-            try:
+            with suppress(AttributeError):
                 # notify about value changed
                 if SettingsController._inst:
                     SettingsController._inst.mark_updated()
-
-            except AttributeError:
-                pass
 
             pretty.print_debug("set", self, name, value)
 
