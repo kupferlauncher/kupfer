@@ -136,6 +136,23 @@ class TestConfBase(unittest.TestCase):
         self.assertTrue(isinstance(tconf.sub, TSubConf))
         self.assertEqual(tconf.sub.integer, 134)
 
+    def test_asdict(self):
+        class TSubConf(S.ConfBase):
+            integer: int = 134
+            string: str = "qwe"
+
+        class TConf(S.ConfBase):
+            boolean1: bool = False
+            boolean2: bool = True
+            sub: TSubConf
+
+        tconf = TConf()
+        odict = tconf.asdict()
+        self.assertEqual(odict["boolean1"], False)
+        self.assertEqual(odict["boolean2"], True)
+        self.assertEqual(odict["sub"]["integer"], 134)
+        self.assertEqual(odict["sub"]["string"], "qwe")
+
     def test_set(self):
         class TConf(S.ConfBase):
             integer: int = 191
@@ -306,3 +323,66 @@ class TestConvert(unittest.TestCase):
         self.assertEqual(S._convert("[1,2,3]", list), [1, 2, 3])
 
         self.assertEqual(S._convert("[1,2,3]", "list[str]"), ["1", "2", "3"])
+
+
+class TestFill(unittest.TestCase):
+    def test_fill_from_parser(self):
+        c = S.Configuration()
+        data = """
+[Appearance]
+ellipsize_mode = 321
+icon_small_size = 3333
+
+[Directories]
+direct = /test;/test2/ttt
+
+[plugin_aria2]
+aria2_token = token
+aria2_url = http://address:6800/jsonrpc
+kupfer_enabled = True
+
+[plugin_apt_tools]
+installation_method = gksu -- apt-get install --yes
+kupfer_enabled = False
+"""
+        parser = configparser.RawConfigParser()
+        parser.read_string(data)
+        S._fill_configuration_from_parser(parser, c)
+
+        self.assertEqual(c.appearance.ellipsize_mode, 321)
+        self.assertEqual(c.appearance.icon_small_size, 3333)
+        self.assertEqual(c.directories.direct, ["/test", "/test2/ttt"])
+
+        aria = c.plugins["plugin_aria2"]
+        self.assertEqual(aria["aria2_token"], "token")
+        self.assertEqual(aria["aria2_url"], "http://address:6800/jsonrpc")
+        self.assertEqual(aria["kupfer_enabled"], "True")
+
+        apt = c.plugins["plugin_apt_tools"]
+        self.assertEqual(
+            apt["installation_method"], "gksu -- apt-get install --yes"
+        )
+        self.assertEqual(apt["kupfer_enabled"], "False")
+
+    def test_fill_parser(self):
+        # test using default values for simplify
+        c = S.Configuration()
+        confmap = c.asdict()
+
+        parser = configparser.RawConfigParser()
+        S._fill_parser_from_config(parser, confmap)
+
+        # all values are strings
+        self.assertEqual(parser["appearance"]["icon_large_size"], "128")
+        self.assertEqual(parser["appearance"]["ellipsize_mode"], "0")
+        # lists are strings separated by SettingsController.sep
+        self.assertEqual(
+            parser["directories"]["direct"],
+            "~/;~/Desktop;USER_DIRECTORY_DESKTOP",
+        )
+        # plugins should be on toplevel
+        self.assertEqual(
+            parser["plugin_applications"]["kupfer_enabled"], "True"
+        )
+        self.assertEqual(parser["plugin_core"]["kupfer_enabled"], "True")
+        self.assertEqual(parser["plugin_core"]["kupfer_hidden"], "True")
