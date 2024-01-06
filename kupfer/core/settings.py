@@ -473,7 +473,13 @@ def _fill_configuration_from_parser(
                 continue
 
         if isinstance(sobj, dict):
-            sobj.update(parser[secname].items())
+            # empty section clear current (also default) settings
+            items = parser[secname]
+            if len(items):
+                sobj.update(parser[secname].items())
+            else:
+                sobj.clear()
+
         elif isinstance(sobj, ConfBase):
             for key, val in parser[secname].items():
                 setattr(sobj, key.lower(), val)

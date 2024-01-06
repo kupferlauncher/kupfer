@@ -291,6 +291,36 @@ direct = dir1;dir2;dir3
 
         self.assertEqual(c.deepdirectories.direct, ["dir1", "dir2", "dir3"])
 
+    def test_load_defaults(self):
+        """Test if loading configuration for plugins correct overwrite default
+        values."""
+        data = """
+# qsicon is empty, so this configuration should be cleared
+[plugin_qsicons]
+
+# this should be merged
+[plugin_favorites]
+test = 1
+
+# and this partial overwritten
+[plugin_core]
+kupfer_hidden = False
+ """
+
+        parser = configparser.RawConfigParser()
+        parser.read_string(data)
+
+        c = S.Configuration()
+        S._fill_configuration_from_parser(parser, c)
+
+        self.assertEqual(c.plugins["plugin_qsicons"], {})
+        self.assertEqual(c.plugins["plugin_favorites"]["kupfer_enabled"], True)
+        # this raw value
+        self.assertEqual(c.plugins["plugin_favorites"]["test"], "1")
+        self.assertEqual(c.plugins["plugin_core"]["kupfer_enabled"], True)
+        # this raw value
+        self.assertEqual(c.plugins["plugin_core"]["kupfer_hidden"], "False")
+
 
 class TestConfiguration(unittest.TestCase):
     def test_create(self):
