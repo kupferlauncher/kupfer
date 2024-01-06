@@ -732,15 +732,13 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             elif value_type is list:
                 assert isinstance(val, str)
                 value = _strlist(val)
-            elif isinstance(value_type, type) and not isinstance(
-                value_type, ValueConverter
-            ):
-                value = value_type(val)
+            elif value_type in (str, float, int):
+                value = value_type(val)  # type: ignore
             elif isinstance(value_type, ValueConverter):
                 value = value_type(val, default=default)
 
         except (ValueError, TypeError) as err:
-            self.output_info(f"Error for load value {plug_section}.{key}", err)
+            self.output_error(f"Error for load value {plug_section}.{key}", err)
 
         return value
 
@@ -767,12 +765,12 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         value_repr: int | str | float | None
 
-        if isinstance(value, ExtendedSetting):
+        if value is None or isinstance(value, (str, float, int)):
+            value_repr = value
+        elif isinstance(value, ExtendedSetting):
             value_repr = value.save(plugin, key)
         elif value_type is list:
             value_repr = str(value)
-        elif value is None or isinstance(value, (str, float, int)):
-            value_repr = value
 
         if plug_section not in self.config.plugins:
             self.config.plugins[plug_section] = {}
