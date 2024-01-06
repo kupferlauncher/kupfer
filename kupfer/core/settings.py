@@ -530,7 +530,7 @@ class ConfigparserAdapter(pretty.OutputMixin):
         self.output_debug("Using", self.encoding)
 
     def save(self, conf: Configuration) -> None:
-        self.output_debug("Saving config")
+        self.output_info("Saving config")
         config_path = config.save_config_file(self.config_filename)
         if not config_path:
             self.output_info("Unable to save settings, can't find config dir")
@@ -613,8 +613,8 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self.output_debug("config", self.config)
 
     def mark_updated(self):
-        self.output_info("mark_updated", SettingsController._inst)
         if SettingsController._inst is not None:
+            self.output_info("mark_updated", SettingsController._inst)
             self._save_timer.set(60, self._save_config)
 
     def _save_config(self, _scheduler: ty.Any = None) -> None:
@@ -782,6 +782,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             self.config.plugins[plug_section] = {}
 
         self.config.plugins[plug_section][key] = value_repr
+        self.mark_updated()
         return True
 
     def reset_keybindings(self) -> None:
