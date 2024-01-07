@@ -313,13 +313,14 @@ kupfer_hidden = False
         c = S.Configuration()
         S._fill_configuration_from_parser(parser, c)
 
-        self.assertEqual(c.plugins["plugin_qsicons"], {})
-        self.assertEqual(c.plugins["plugin_favorites"]["kupfer_enabled"], True)
+        ic(c.plugins)
+        self.assertEqual(len(c.plugins["qsicons"]), 0)
+        self.assertEqual(c.plugins["favorites"]["kupfer_enabled"], True)
         # this raw value
-        self.assertEqual(c.plugins["plugin_favorites"]["test"], "1")
-        self.assertEqual(c.plugins["plugin_core"]["kupfer_enabled"], True)
+        self.assertEqual(c.plugins["favorites"]["test"], "1")
+        self.assertEqual(c.plugins["core"]["kupfer_enabled"], True)
         # this raw value
-        self.assertEqual(c.plugins["plugin_core"]["kupfer_hidden"], "False")
+        self.assertEqual(c.plugins["core"]["kupfer_hidden"], "False")
 
 
 class TestConfiguration(unittest.TestCase):
@@ -383,12 +384,12 @@ kupfer_enabled = False
         self.assertEqual(c.appearance.icon_small_size, 3333)
         self.assertEqual(c.directories.direct, ["/test", "/test2/ttt"])
 
-        aria = c.plugins["plugin_aria2"]
+        aria = c.plugins["aria2"]
         self.assertEqual(aria["aria2_token"], "token")
         self.assertEqual(aria["aria2_url"], "http://address:6800/jsonrpc")
         self.assertEqual(aria["kupfer_enabled"], "True")
 
-        apt = c.plugins["plugin_apt_tools"]
+        apt = c.plugins["apt_tools"]
         self.assertEqual(
             apt["installation_method"], "gksu -- apt-get install --yes"
         )

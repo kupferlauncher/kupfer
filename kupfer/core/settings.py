@@ -252,6 +252,78 @@ class ConfDeepDirectories(ConfBase):
     depth: int = 2
 
 
+class ConfPlugin(dict[str, ty.Any]):
+    def __init__(
+        self, plugin_name: str, *argv: ty.Any, **kwarg: ty.Any
+    ) -> None:
+        self.plugin_name = plugin_name
+        super().__init__(*argv, **kwarg)
+
+    def get_bool(self, key: str, default: bool) -> bool:
+        return _strbool(self.get(key, default))
+
+    def set_enabled(self, enabled: bool) -> None:
+        self["kupfer_enabled"] = enabled
+
+    def is_enabled(self) -> bool:
+        return _strbool(self.get("kupfer_enabled", False))
+
+    def is_hidden(self) -> bool:
+        return _strbool(self.get("kupfer_hidden", False))
+
+    def get_value(
+        self,
+        key: str,
+        value_type: PlugConfigValueType = str,
+        default: PlugConfigValue | None = None,
+    ) -> PlugConfigValue | None:
+        val = self.get(key, default)
+
+        if isinstance(value_type, type) and issubclass(
+            value_type, ExtendedSetting
+        ):
+            val_obj: ExtendedSetting = value_type()
+            val_obj.load(self.plugin_name, key, val)
+            return val_obj
+
+        value = default
+        try:
+            if value_type is bool:
+                value = _strbool(val)
+            elif value_type is list:
+                assert isinstance(val, str)
+                value = _strlist(val)
+            elif value_type in (str, float, int):
+                value = value_type(val)  # type: ignore
+            elif isinstance(value_type, ValueConverter):
+                value = value_type(val, default=default)
+
+        except (ValueError, TypeError) as err:
+            raise err
+
+        return value
+
+    def set_value(
+        self,
+        key: str,
+        value: PlugConfigValue,
+        value_type: PlugConfigValueType = str,
+    ) -> bool:
+        """Try set @key for plugin names @plugin, coerce to @value_type first."""
+
+        value_repr: int | str | float | None
+
+        if value is None or isinstance(value, (str, float, int)):
+            value_repr = value
+        elif isinstance(value, ExtendedSetting):
+            value_repr = value.save(self.plugin_name, key)
+        elif value_type is list:
+            value_repr = str(value)
+
+        self[key] = value_repr
+        return True
+
+
 def _default_keybindings() -> dict[str, str]:
     return {
         "activate": "<Alt>a",
@@ -278,37 +350,37 @@ def _default_tools() -> dict[str, str]:
     }
 
 
-def _default_plugins() -> dict[str, dict[str, ty.Any]]:
+def _default_plugins() -> dict[str, ConfPlugin]:
     res = {}
 
     def set_enabled(name: str, val: bool) -> None:
-        res[name] = {"kupfer_enabled": val}
+        res[name] = ConfPlugin(name, {"kupfer_enabled": val})
 
-    set_enabled("plugin_applications", True)
-    set_enabled("plugin_archivemanager", True)
-    set_enabled("plugin_calculator", True)
-    set_enabled("plugin_clipboard", True)
-    set_enabled("plugin_commands", True)
-    set_enabled("plugin_dictionary", True)
-    set_enabled("plugin_documents", True)
-    set_enabled("plugin_favorites", True)
-    set_enabled("plugin_qsicons", True)
-    set_enabled("plugin_show_text", True)
-    set_enabled("plugin_triggers", True)
-    set_enabled("plugin_trash", True)
-    set_enabled("plugin_urlactions", True)
-    set_enabled("plugin_volumes", True)
-    set_enabled("plugin_wikipedia", True)
+    set_enabled("applications", True)
+    set_enabled("archivemanager", True)
+    set_enabled("calculator", True)
+    set_enabled("clipboard", True)
+    set_enabled("commands", True)
+    set_enabled("dictionary", True)
+    set_enabled("documents", True)
+    set_enabled("favorites", True)
+    set_enabled("qsicons", True)
+    set_enabled("show_text", True)
+    set_enabled("triggers", True)
+    set_enabled("trash", True)
+    set_enabled("urlactions", True)
+    set_enabled("volumes", True)
+    set_enabled("wikipedia", True)
 
-    set_enabled("plugin_fileactions", False)
-    set_enabled("plugin_session_gnome", False)
-    set_enabled("plugin_session_xfce", False)
-    set_enabled("plugin_screen", False)
-    set_enabled("plugin_tracker1", False)
-    set_enabled("plugin_windows", False)
+    set_enabled("fileactions", False)
+    set_enabled("session_gnome", False)
+    set_enabled("session_xfce", False)
+    set_enabled("screen", False)
+    set_enabled("tracker1", False)
+    set_enabled("windows", False)
 
-    set_enabled("plugin_core", True)
-    res["plugin_core"]["kupfer_hidden"] = True
+    set_enabled("core", True)
+    res["core"]["kupfer_hidden"] = True
 
     return res
 
@@ -321,7 +393,7 @@ class Configuration(ConfBase):
 
     keybindings: dict[str, ty.Any] = _default_keybindings()
     tools: dict[str, ty.Any] = _default_tools()
-    plugins: dict[str, dict[str, ty.Any]] = _default_plugins()
+    plugins: dict[str, ConfPlugin] = _default_plugins()
 
 
 @ty.runtime_checkable
@@ -462,10 +534,12 @@ def _fill_configuration_from_parser(
 ) -> None:
     """Put values from `parser` to `confmap` using `defaults` as schema."""
     for secname in parser.sections():
+        section = parser[secname]
         if secname.startswith("plugin_"):
-            sobj = conf.plugins.get(secname.lower())
+            psecname = secname[7:].lower()
+            sobj = conf.plugins.get(psecname)
             if sobj is None:
-                sobj = conf.plugins[secname.lower()] = {}
+                sobj = conf.plugins[psecname] = ConfPlugin(psecname)
         else:
             sobj = getattr(conf, secname.lower(), None)
             if sobj is None:
@@ -474,14 +548,13 @@ def _fill_configuration_from_parser(
 
         if isinstance(sobj, dict):
             # empty section clear current (also default) settings
-            items = parser[secname]
-            if len(items):
-                sobj.update(parser[secname].items())
+            if len(section):
+                sobj.update(section.items())
             else:
                 sobj.clear()
 
         elif isinstance(sobj, ConfBase):
-            for key, val in parser[secname].items():
+            for key, val in section.items():
                 setattr(sobj, key.lower(), val)
         else:
             pretty.print_error("unknown secname", secname, sobj)
@@ -509,6 +582,7 @@ def _fill_parser_from_config(
     # save plugins
     plugins = conf["plugins"]
     for secname, section in sorted(plugins.items()):
+        secname = f"plugin_{secname}"
         if not parser.has_section(secname):
             parser.add_section(secname)
 
@@ -715,38 +789,17 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         type @value_type.
         Else return @default if does not exist, or can't be coerced
         """
-        plug_section = f"plugin_{plugin}"
-
-        val = None
-        with suppress(KeyError):
-            val = self.config.plugins[plug_section][key]
-
-        if val is None:
+        try:
+            plugin_cfg = self.config.plugins[plugin]
+        except KeyError:
             return default
 
-        if isinstance(value_type, type) and issubclass(
-            value_type, ExtendedSetting
-        ):
-            val_obj: ExtendedSetting = value_type()
-            val_obj.load(plugin, key, val)
-            return val_obj
-
-        value = default
         try:
-            if value_type is bool:
-                value = _strbool(val)
-            elif value_type is list:
-                assert isinstance(val, str)
-                value = _strlist(val)
-            elif value_type in (str, float, int):
-                value = value_type(val)  # type: ignore
-            elif isinstance(value_type, ValueConverter):
-                value = value_type(val, default=default)
-
+            return plugin_cfg.get_value(key, value_type, default)
         except (ValueError, TypeError) as err:
-            self.output_error(f"Error for load value {plug_section}.{key}", err)
+            self.output_error(f"Error for load value {plugin}.{key}", err)
 
-        return value
+        return default
 
     def get_plugin_config_bool(
         self, plugin: str, key: str, default: bool
@@ -763,25 +816,14 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         value_type: PlugConfigValueType = str,
     ) -> bool:
         """Try set @key for plugin names @plugin, coerce to @value_type first."""
+        self.output_debug("set_plugin_config", plugin, key, value)
 
-        plug_section = f"plugin_{plugin}"
-        self.emit_value_changed(plug_section, key, value)
+        plugin_conf = self.config.plugins.get(plugin)
+        if plugin_conf is None:
+            plugin_conf = self.config.plugins[plugin] = ConfPlugin(plugin)
 
-        self.output_debug("set_plugin_config", plug_section, key, value)
-
-        value_repr: int | str | float | None
-
-        if value is None or isinstance(value, (str, float, int)):
-            value_repr = value
-        elif isinstance(value, ExtendedSetting):
-            value_repr = value.save(plugin, key)
-        elif value_type is list:
-            value_repr = str(value)
-
-        if plug_section not in self.config.plugins:
-            self.config.plugins[plug_section] = {}
-
-        self.config.plugins[plug_section][key] = value_repr
+        plugin_conf.set_value(key, value, value_type)
+        self.emit_value_changed(f"plugin_{plugin}", key, value)
         self.mark_updated()
         return True
 
