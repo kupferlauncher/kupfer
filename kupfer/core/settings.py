@@ -278,7 +278,7 @@ class ConfPlugin(dict[str, ty.Any]):
     def get_value(
         self,
         key: str,
-        value_type: PlugConfigValueType = str,
+        value_type: ty.Any = str,
         default: PlugConfigValue | None = None,
     ) -> PlugConfigValue | None:
         val = self.get(key, default)
@@ -294,13 +294,13 @@ class ConfPlugin(dict[str, ty.Any]):
         try:
             if val is None:
                 value = None
-            elif value_type is bool:
+            elif value_type == bool:
                 value = _strbool(val)
-            elif value_type is list:
+            elif value_type == list:
                 assert isinstance(val, str)
                 value = _strlist(val)
             elif value_type in (str, float, int):
-                value = value_type(val)  # type: ignore
+                value = value_type(val)
             elif isinstance(value_type, ValueConverter):
                 value = value_type(val, default=default)
 
@@ -313,7 +313,7 @@ class ConfPlugin(dict[str, ty.Any]):
         self,
         key: str,
         value: PlugConfigValue,
-        value_type: PlugConfigValueType = str,
+        value_type: ty.Any = str,
     ) -> bool:
         """Try set @key for plugin names @plugin, coerce to @value_type first."""
 
@@ -433,10 +433,6 @@ class ValueConverter(ty.Protocol):
 
     def __call__(self, value: str, default: ty.Any) -> PlugConfigValue:
         ...
-
-
-# PlugConfigValueType = ty.Union[type[PlugConfigValue], ValueConverter]
-PlugConfigValueType = ty.Union[ty.Any, ValueConverter]
 
 
 # pylint: disable=too-many-return-statements
@@ -668,6 +664,11 @@ class ConfigparserAdapter(pretty.OutputMixin):
         return confmap
 
 
+def _source_config_repr(obj: ty.Any) -> str:
+    name = type(obj).__name__
+    return "".join((c if c.isalnum() else "_") for c in name)
+
+
 # pylint: disable=too-many-public-methods
 class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     __gtype_name__ = "SettingsController"
@@ -703,44 +704,40 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     def _save_config(self, _scheduler: ty.Any = None) -> None:
         self._adapter.save(self.config)
 
-    def emit_value_changed(self, section: str, key: str, value: ty.Any) -> None:
-        signal = f"value-changed::{section.lower()}.{key.lower()}"
-        self.emit(signal, section, key, value)
-
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""
-        return self.get_plugin_config_bool(plugin_id, KUPFER_ENABLED, False)
+        return ty.cast(
+            bool,
+            self.get_plugin_config(plugin_id, KUPFER_ENABLED, _strbool, False),
+        )
 
-    def set_plugin_enabled(self, plugin_id: str, enabled: bool) -> bool:
+    def set_plugin_enabled(self, plugin_id: str, enabled: bool) -> None:
         """Convenience: set if @plugin_id is enabled"""
-        ret = self.set_plugin_config(
+        self.set_plugin_config(
             plugin_id, KUPFER_ENABLED, enabled, value_type=_strbool
         )
         self.emit("plugin-enabled-changed", plugin_id, enabled)
-        return ret
 
     def get_plugin_is_hidden(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is hidden"""
-        return self.get_plugin_config_bool(plugin_id, KUPFER_HIDDEN, False)
-
-    @classmethod
-    def _source_config_repr(cls, obj: ty.Any) -> str:
-        name = type(obj).__name__
-        return "".join((c if c.isalnum() else "_") for c in name)
+        return ty.cast(
+            bool,
+            self.get_plugin_config(plugin_id, KUPFER_HIDDEN, _strbool, False),
+        )
 
     def get_source_is_toplevel(self, plugin_id: str, src: ty.Any) -> bool:
-        key = "kupfer_toplevel_" + self._source_config_repr(src)
+        key = "kupfer_toplevel_" + _source_config_repr(src)
         default = not getattr(src, "source_prefer_sublevel", False)
-        return self.get_plugin_config_bool(plugin_id, key, default)
+        return ty.cast(
+            bool, self.get_plugin_config(plugin_id, key, _strbool, default)
+        )
 
     def set_source_is_toplevel(
         self, plugin_id: str, src: ty.Any, value: bool
-    ) -> bool:
-        key = "kupfer_toplevel_" + self._source_config_repr(src)
+    ) -> None:
+        key = "kupfer_toplevel_" + _source_config_repr(src)
         self.emit("plugin-toplevel-changed", plugin_id, value)
-        return self.set_plugin_config(
-            plugin_id, key, value, value_type=_strbool
-        )
+        self.set_plugin_config(plugin_id, key, value, value_type=_strbool)
 
     def get_global_keybinding(self, key: str) -> str:
         if key == "keybinding":
@@ -751,16 +748,11 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         raise ValueError("invalid key {key}")
 
-    def set_global_keybinding(self, key: str, val: str) -> bool:
+    def set_global_keybinding(self, key: str, val: str) -> None:
         if key == "keybinding":
             self.config.kupfer.keybinding = val
-            return True
-
-        if key == "magickeybinding":
+        elif key == "magickeybinding":
             self.config.kupfer.magickeybinding = val
-            return True
-
-        return False
 
     def get_directories(self, direct: bool = True) -> ty.Iterator[str]:
         """Yield directories to use as directory sources"""
@@ -772,9 +764,8 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         def get_special_dir(opt):
             if opt.startswith("USER_"):
-                opt = opt[5:]
-                if opt in specialdirs:
-                    return GLib.get_user_special_dir(specialdirs[opt])
+                if sdir := specialdirs.get(opt[5:]):
+                    return GLib.get_user_special_dir(sdir)
 
             return None
 
@@ -791,7 +782,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self,
         plugin: str,
         key: str,
-        value_type: PlugConfigValueType = str,
+        value_type: ty.Any = str,
         default: PlugConfigValue | None = None,
     ) -> PlugConfigValue | None:
         """Return setting @key for plugin names @plugin, try to coerce to
@@ -810,19 +801,12 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
         return default
 
-    def get_plugin_config_bool(
-        self, plugin: str, key: str, default: bool
-    ) -> bool:
-        res = self.get_plugin_config(plugin, key, _strbool, default)
-        assert isinstance(res, bool)
-        return res
-
     def set_plugin_config(
         self,
         plugin: str,
         key: str,
         value: PlugConfigValue,
-        value_type: PlugConfigValueType = str,
+        value_type: ty.Any = str,
     ) -> bool:
         """Try set @key for plugin names @plugin, coerce to @value_type first."""
         self.output_debug("set_plugin_config", plugin, key, value)
@@ -832,7 +816,13 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             plugin_conf = self.config.plugins[plugin] = ConfPlugin(plugin)
 
         plugin_conf.set_value(key, value, value_type)
-        self.emit_value_changed(f"plugin_{plugin}", key, value)
+        section = f"plugin_{plugin}"
+        self.emit(
+            f"value-changed::{section.lower()}.{key.lower()}",
+            section,
+            key,
+            value,
+        )
         self.mark_updated()
         return True
 
