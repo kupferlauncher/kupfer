@@ -315,9 +315,9 @@ class ConfPlugin(dict[str, ty.Any]):
     ) -> bool:
         """Try set @key for plugin names @plugin, coerce to @value_type first."""
 
-        value_repr: int | str | float | None
+        value_repr: int | str | float | bool | None
 
-        if value is None or isinstance(value, (str, float, int)):
+        if value is None or isinstance(value, (str, float, int, bool)):
             value_repr = value
         elif isinstance(value, ExtendedSetting):
             value_repr = value.save(self.plugin_name, key)
@@ -405,7 +405,10 @@ class ExtendedSetting(ty.Protocol):
     """Protocol that define non-simple configuration option"""
 
     def load(
-        self, plugin_id: str, key: str, config_value: str | float | int | None
+        self,
+        plugin_id: str,
+        key: str,
+        config_value: str | float | int | bool | None,
     ) -> None:
         """load value for @plugin_id and @key, @config_value is value
         stored in regular Kupfer config for plugin/key"""
