@@ -50,6 +50,10 @@ __all__ = (
 AltValidator = ty.Callable[[dict[str, ty.Any]], bool]
 Config = dict[str, dict[str, ty.Any]]
 
+# TODO: move to StrEnum (py3.11+)
+KUPFER_ENABLED: ty.Final = "kupfer_enabled"
+KUPFER_HIDDEN: ty.Final = "kupfer_hidden"
+
 
 def _compare_dicts(
     dictionary: dict[str, ty.Any], base: dict[str, ty.Any]
@@ -263,13 +267,13 @@ class ConfPlugin(dict[str, ty.Any]):
         return _strbool(self.get(key, default))
 
     def set_enabled(self, enabled: bool) -> None:
-        self["kupfer_enabled"] = enabled
+        self[KUPFER_ENABLED] = enabled
 
     def is_enabled(self) -> bool:
-        return _strbool(self.get("kupfer_enabled", False))
+        return _strbool(self.get(KUPFER_ENABLED, False))
 
     def is_hidden(self) -> bool:
-        return _strbool(self.get("kupfer_hidden", False))
+        return _strbool(self.get(KUPFER_HIDDEN, False))
 
     def get_value(
         self,
@@ -354,7 +358,7 @@ def _default_plugins() -> dict[str, ConfPlugin]:
     res = {}
 
     def set_enabled(name: str, val: bool) -> None:
-        res[name] = ConfPlugin(name, {"kupfer_enabled": val})
+        res[name] = ConfPlugin(name, {KUPFER_ENABLED: val})
 
     set_enabled("applications", True)
     set_enabled("archivemanager", True)
@@ -380,7 +384,7 @@ def _default_plugins() -> dict[str, ConfPlugin]:
     set_enabled("windows", False)
 
     set_enabled("core", True)
-    res["core"]["kupfer_hidden"] = True
+    res["core"][KUPFER_HIDDEN] = True
 
     return res
 
@@ -700,19 +704,19 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""
-        return self.get_plugin_config_bool(plugin_id, "kupfer_enabled", False)
+        return self.get_plugin_config_bool(plugin_id, KUPFER_ENABLED, False)
 
     def set_plugin_enabled(self, plugin_id: str, enabled: bool) -> bool:
         """Convenience: set if @plugin_id is enabled"""
         ret = self.set_plugin_config(
-            plugin_id, "kupfer_enabled", enabled, value_type=_strbool
+            plugin_id, KUPFER_ENABLED, enabled, value_type=_strbool
         )
         self.emit("plugin-enabled-changed", plugin_id, enabled)
         return ret
 
     def get_plugin_is_hidden(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is hidden"""
-        return self.get_plugin_config_bool(plugin_id, "kupfer_hidden", False)
+        return self.get_plugin_config_bool(plugin_id, KUPFER_HIDDEN, False)
 
     @classmethod
     def _source_config_repr(cls, obj: ty.Any) -> str:
