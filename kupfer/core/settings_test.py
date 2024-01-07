@@ -313,7 +313,6 @@ kupfer_hidden = False
         c = S.Configuration()
         S._fill_configuration_from_parser(parser, c)
 
-        ic(c.plugins)
         self.assertEqual(len(c.plugins["qsicons"]), 0)
         self.assertEqual(c.plugins["favorites"]["kupfer_enabled"], True)
         # this raw value
@@ -332,6 +331,35 @@ class TestConfiguration(unittest.TestCase):
         self.assertEqual(
             c.directories.direct, ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
         )
+
+    def test_get_plugin_defaule_value(self):
+        c = S.Configuration()
+        # for test use core plugin
+        plugc = c.plugins["core"]
+        self.assertTrue(plugc)
+
+        self.assertEqual(
+            plugc.get_value("test_not_existing", str, "abcd"), "abcd"
+        )
+        self.assertEqual(plugc.get_value("test_not_existing", int, 123), 123)
+        self.assertEqual(plugc.get_value("test_not_existing", bool, True), True)
+        self.assertEqual(
+            plugc.get_value("test_not_existing", bool, False), False
+        )
+
+        plugc["test_existing"] = "qwe"
+        self.assertEqual(plugc.get_value("test_existing", str, "abcd"), "qwe")
+        plugc["test_existing"] = "321"
+        self.assertEqual(plugc.get_value("test_existing", int, 123), 321)
+        plugc["test_existing"] = False
+        self.assertEqual(plugc.get_value("test_existing", bool, True), False)
+        plugc["test_existing"] = True
+        self.assertEqual(plugc.get_value("test_existing", bool, False), True)
+
+        self.assertEqual(plugc.get_value("test_not_existing", str), None)
+        self.assertEqual(plugc.get_value("test_not_existing", int), None)
+        self.assertEqual(plugc.get_value("test_not_existing", bool), None)
+        self.assertEqual(plugc.get_value("test_not_existing", bool), None)
 
 
 class TestConvert(unittest.TestCase):

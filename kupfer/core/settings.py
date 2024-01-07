@@ -292,7 +292,9 @@ class ConfPlugin(dict[str, ty.Any]):
 
         value = default
         try:
-            if value_type is bool:
+            if val is None:
+                value = None
+            elif value_type is bool:
                 value = _strbool(val)
             elif value_type is list:
                 assert isinstance(val, str)
