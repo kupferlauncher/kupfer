@@ -10,7 +10,7 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 from collections import deque
 from pathlib import Path
 import typing as ty
-
+from contextlib import suppress
 
 from gi.repository import Gdk, Gio, Gtk
 
@@ -122,12 +122,12 @@ class CurrentClipboardText(ClipboardText):
 
 class ClipboardUrl(UrlLeaf):
     def get_description(self):
-        return _('Clipboard "%(desc)s"') % {"desc": self.object}
+        return _('Clipboard "%(desc)s"') % {"desc": self.object, "num": 1}
 
 
 class ClipboardFile(FileLeaf):
     def get_description(self):
-        return _('Clipboard "%(desc)s"') % {"desc": self.object}
+        return _('Clipboard "%(desc)s"') % {"desc": self.object, "num": 1}
 
 
 class CurrentClipboardUrl(ClipboardUrl):
@@ -173,8 +173,9 @@ def _new_current_leaf(text: str | None) -> Leaf | None:
 
     if validators.is_valid_file_path(text):
         path = Path(text).expanduser()
-        if path.exists():
-            return CurrentClipboardFile(path)
+        with suppress(OSError):
+            if path.exists():
+                return CurrentClipboardFile(path)
 
     return CurrentClipboardText(text)
 
@@ -185,8 +186,9 @@ def _new_clipboard_leaf(text: str) -> Leaf:
 
     if validators.is_valid_file_path(text):
         path = Path(text).expanduser()
-        if path.exists():
-            return ClipboardFile(path)
+        with suppress(OSError):
+            if path.exists():
+                return ClipboardFile(path)
 
     return ClipboardText(text)
 
