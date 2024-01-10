@@ -162,7 +162,7 @@ class ConfBase:
         super().__setattr__(name, value)
 
     def save_as_defaults(self):
-        """Save current values as default. For objectc call `save_as_defaults`
+        """Save current values as default. For objects call `save_as_defaults`
         method if exists. For sets/dicts/lists - make copy."""
         fields = set(self._annotations.keys())
         for key, val in self.__dict__.items():
@@ -206,7 +206,9 @@ class ConfBase:
             if default == val:
                 continue
 
-            if isinstance(val, dict):
+            # for dict compare current value against defaults and return
+            # only changes.
+            if isinstance(val, dict) and default is not None:
                 assert isinstance(default, dict)
                 val = dict(_compare_dicts(val, default))
 
@@ -227,6 +229,7 @@ class ConfBase:
 
 
 class ConfKupfer(ConfBase):
+    """Basic Kupfer configuration."""
     # Kupfer keybinding as string
     keybinding: str = "<Ctrl>space"
     # Kupfer alternate keybinding as string
@@ -238,6 +241,7 @@ class ConfKupfer(ConfBase):
 
 
 class ConfAppearance(ConfBase):
+    """Appearance configuration."""
     icon_large_size: int = 128
     icon_small_size: int = 24
     list_height: int = 250
@@ -245,18 +249,21 @@ class ConfAppearance(ConfBase):
 
 
 class ConfDirectories(ConfBase):
+    """Directories configuration."""
     # it safe to create list here because on instantiate there are be copied
     direct: list[str] = ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
     catalog: list[str] = []
 
 
 class ConfDeepDirectories(ConfBase):
+    """Deep directories configuration."""
     direct: list[str]
     catalog: list[str]
     depth: int = 2
 
 
 class ConfPlugin(dict[str, ty.Any]):
+    """Plugin configuration - extended dict.    """
     def __init__(
         self, plugin_name: str, *argv: ty.Any, **kwarg: ty.Any
     ) -> None:
@@ -451,7 +458,13 @@ def _convert(value: ty.Any, dst_type: ty.Any) -> ty.Any:
     if dst_type in ("bool", bool):
         return _strbool(value)
 
-    if dst_type in ("tuple", tuple, "float", float):
+    if dst_type in ("tuple", tuple):
+        try:
+            return float(value)
+        except ValueError:
+            return None
+
+    if dst_type in ("tuple", tuple):
         raise NotImplementedError()
 
     if dst_type in ("str", str):
