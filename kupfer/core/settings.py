@@ -230,6 +230,7 @@ class ConfBase:
 
 class ConfKupfer(ConfBase):
     """Basic Kupfer configuration."""
+
     # Kupfer keybinding as string
     keybinding: str = "<Ctrl>space"
     # Kupfer alternate keybinding as string
@@ -242,6 +243,7 @@ class ConfKupfer(ConfBase):
 
 class ConfAppearance(ConfBase):
     """Appearance configuration."""
+
     icon_large_size: int = 128
     icon_small_size: int = 24
     list_height: int = 250
@@ -250,6 +252,7 @@ class ConfAppearance(ConfBase):
 
 class ConfDirectories(ConfBase):
     """Directories configuration."""
+
     # it safe to create list here because on instantiate there are be copied
     direct: list[str] = ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
     catalog: list[str] = []
@@ -257,13 +260,15 @@ class ConfDirectories(ConfBase):
 
 class ConfDeepDirectories(ConfBase):
     """Deep directories configuration."""
+
     direct: list[str]
     catalog: list[str]
     depth: int = 2
 
 
 class ConfPlugin(dict[str, ty.Any]):
-    """Plugin configuration - extended dict.    """
+    """Plugin configuration - extended dict."""
+
     def __init__(
         self, plugin_name: str, *argv: ty.Any, **kwarg: ty.Any
     ) -> None:
@@ -585,6 +590,14 @@ def _fill_parser_from_config(
     for secname, section in sorted(conf.items()):
         if secname == "plugins":
             continue
+
+        # for backward compatibility capitalize first character in section
+        # name; section are case-sensitive.
+        if secname == "deepdirectories":
+            # only one special case
+            secname = "DeepDirectories"
+        else:
+            secname = secname.capitalize()
 
         if not parser.has_section(secname):
             parser.add_section(secname)
