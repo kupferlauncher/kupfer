@@ -181,24 +181,26 @@ def _truncate_source(
         if line.startswith("from __future__ import "):
             continue
 
-        yield line
+        # keep empty lines
         if not line.strip():
+            yield line
             continue
 
-        first_word, *_rest = line.split(None, 1)
+        first_word = line.split(None, 1)[0]
         if first_word in found_info_attributes:
             found_info_attributes.discard(first_word)
-
-        if first_word in ("from", "import", "class", "def", "if"):
-            raise LoadingError(
-                "Could not pre-load plugin: Fields missing: "
-                f"{list(found_info_attributes)}. "
-                "These fields need to be defined before any other code, "
-                "including imports."
-            )
-
-        if not found_info_attributes:
+        elif first_word in ("from", "import", "class", "def", "if"):
             break
+
+        yield line
+
+    if found_info_attributes:
+        raise LoadingError(
+            "Could not pre-load plugin: Fields missing: "
+            f"{list(found_info_attributes)}. "
+            "These fields need to be defined before any other code, "
+            "including imports."
+        )
 
 
 def _import_plugin_fake(
