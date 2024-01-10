@@ -11,12 +11,14 @@ __author__ = "KB"
 
 
 import typing as ty
-from gettext import gettext as _
 
 from kupfer import icons
 from kupfer.core import sources, settings
 from kupfer.obj import Source
 from kupfer.obj.objects import ActionLeaf
+
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 
 class KupferActions(Source):

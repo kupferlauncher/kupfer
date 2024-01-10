@@ -11,7 +11,7 @@ __author__ = "Thomas Renard <cybaer42@web.de>, KB"
 import io
 import tempfile
 from contextlib import closing
-from gettext import gettext as _
+import typing as ty
 
 import qrcode
 
@@ -21,6 +21,8 @@ from kupfer import plugin_support
 from kupfer.obj import Action, FileLeaf, Leaf, TextLeaf
 from kupfer.ui import uiutils
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 if not hasattr(qrcode, "QRCode"):
     raise ImportError("missing (right) qrcode package")

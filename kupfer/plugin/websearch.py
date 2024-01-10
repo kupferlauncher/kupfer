@@ -20,12 +20,13 @@ import typing as ty
 import urllib.parse
 from pathlib import Path
 from xml.etree import ElementTree
-from gettext import gettext as _
 
 from kupfer import config, launch, plugin_support
 from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.plugin._firefox_support import get_firefox_home_file
 
+if ty.TYPE_CHECKING:
+    from gettext import gettext as _
 
 # default search engine when user no configure default_engine and there is no
 # extra_engines
