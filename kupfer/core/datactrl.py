@@ -223,7 +223,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """Return a tuple of dir_sources, indir_sources for directory sources
         directly included and for catalog inclusion respectively."""
         setctl = settings.get_settings_controller()
-        deepdirectories = setctl.config.deepdirectories
+        deepdirectories = setctl.config.deep_directories
         dir_depth = deepdirectories.depth
 
         def file_source(opt, depth=1):

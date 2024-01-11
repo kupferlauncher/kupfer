@@ -269,7 +269,7 @@ icon_large_size = 1
 keybinding1 = key123
 activate = key321
 
-[deepdirectories]
+[DeepDirectories]
 direct = dir1;dir2;dir3
  """
 
@@ -289,7 +289,7 @@ direct = dir1;dir2;dir3
         # not changed
         self.assertEqual(c.keybindings["comma_trick"], "<Control>comma")
 
-        self.assertEqual(c.deepdirectories.direct, ["dir1", "dir2", "dir3"])
+        self.assertEqual(c.deep_directories.direct, ["dir1", "dir2", "dir3"])
 
     def test_load_defaults(self):
         """Test if loading configuration for plugins correct overwrite default
@@ -432,11 +432,11 @@ kupfer_enabled = False
         S._fill_parser_from_config(parser, confmap)
 
         # all values are strings
-        self.assertEqual(parser["appearance"]["icon_large_size"], "128")
-        self.assertEqual(parser["appearance"]["ellipsize_mode"], "0")
+        self.assertEqual(parser["Appearance"]["icon_large_size"], "128")
+        self.assertEqual(parser["Appearance"]["ellipsize_mode"], "0")
         # lists are strings separated by SettingsController.sep
         self.assertEqual(
-            parser["directories"]["direct"],
+            parser["Directories"]["direct"],
             "~/;~/Desktop;USER_DIRECTORY_DESKTOP",
         )
         # plugins should be on toplevel
@@ -445,3 +445,13 @@ kupfer_enabled = False
         )
         self.assertEqual(parser["plugin_core"]["kupfer_enabled"], "True")
         self.assertEqual(parser["plugin_core"]["kupfer_hidden"], "True")
+
+
+class TestConvertNames(unittest.TestCase):
+    def test_name_to_configparser(self):
+        self.assertEqual(S._name_to_configparser("kupfer"), "Kupfer")
+        self.assertEqual(S._name_to_configparser("deep_dirs"), "DeepDirs")
+
+    def test_name_from_configparser(self):
+        self.assertEqual(S._name_from_configparser("Kupfer"), "kupfer")
+        self.assertEqual(S._name_from_configparser("DeepDirs"), "deep_dirs")

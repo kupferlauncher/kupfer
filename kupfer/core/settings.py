@@ -407,7 +407,7 @@ class Configuration(ConfBase):
     kupfer: ConfKupfer
     appearance: ConfAppearance
     directories: ConfDirectories
-    deepdirectories: ConfDeepDirectories
+    deep_directories: ConfDeepDirectories
 
     keybindings: dict[str, ty.Any] = _default_keybindings()
     tools: dict[str, ty.Any] = _default_tools()
@@ -551,6 +551,16 @@ def _override_encoding(name: str) -> str | None:
     return None
 
 
+def _name_from_configparser(name: str) -> str:
+    """Convert `CamelCase` to `name_with_underscopes`.
+    It's not perfect (work well only for alfa-characters.
+    """
+    return "".join(
+        f"_{c.lower()}" if c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" else c
+        for c in name
+    ).lstrip("_")
+
+
 def _fill_configuration_from_parser(
     parser: configparser.RawConfigParser,
     conf: Configuration,
@@ -564,7 +574,8 @@ def _fill_configuration_from_parser(
             if sobj is None:
                 sobj = conf.plugins[psecname] = ConfPlugin(psecname)
         else:
-            sobj = getattr(conf, secname.lower(), None)
+            name = _name_from_configparser(secname)
+            sobj = getattr(conf, name, None)
             if sobj is None:
                 pretty.print_error("unknown secname", secname)
                 continue
@@ -583,6 +594,11 @@ def _fill_configuration_from_parser(
             pretty.print_error("unknown secname", secname, sobj)
 
 
+def _name_to_configparser(name: str) -> str:
+    """Convert `name_with_underscopes` to `CamelCase`."""
+    return "".join(p.capitalize() for p in name.split("_"))
+
+
 def _fill_parser_from_config(
     parser: configparser.RawConfigParser, conf: Config
 ) -> None:
@@ -593,11 +609,7 @@ def _fill_parser_from_config(
 
         # for backward compatibility capitalize first character in section
         # name; section are case-sensitive.
-        if secname == "deepdirectories":
-            # only one special case
-            secname = "DeepDirectories"
-        else:
-            secname = secname.capitalize()
+        secname = _name_to_configparser(secname)
 
         if not parser.has_section(secname):
             parser.add_section(secname)
