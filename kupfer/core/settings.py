@@ -38,7 +38,7 @@ import copy
 from gi.repository import GLib, GObject, Pango
 
 from kupfer import config
-from kupfer.support import pretty, scheduler
+from kupfer.support import pretty, scheduler, datatools
 
 __all__ = (
     "SettingsController",
@@ -47,34 +47,12 @@ __all__ = (
     "get_configured_terminal",
 )
 
+# Function used to validate/accept alternatives
 AltValidator = ty.Callable[[dict[str, ty.Any]], bool]
-Config = dict[str, dict[str, ty.Any]]
 
 # TODO: move to StrEnum (py3.11+)
 KUPFER_ENABLED: ty.Final = "kupfer_enabled"
 KUPFER_HIDDEN: ty.Final = "kupfer_hidden"
-
-
-def _compare_dicts(
-    dictionary: dict[str, ty.Any], base: dict[str, ty.Any]
-) -> ty.Iterator[tuple[str, ty.Any]]:
-    """Compare recursive two dictionaries and return (key, val) from first
-    `dictionary` that are changed or not exists in `base`."""
-    if not base:
-        yield from dictionary.items()
-        return
-
-    for key, val in dictionary.items():
-        if key not in base:
-            yield key, val
-            continue
-
-        base_val = base[key]
-        if val == base_val:
-            continue
-
-        if isinstance(val, dict):
-            yield key, dict(_compare_dicts(val, base_val))
 
 
 def _get_annotations(clazz: type) -> dict[str, ty.Any]:
@@ -136,7 +114,9 @@ class ConfBase:
 
     def __setattr__(self, name, value):
         if name[0] == "_":
+            # attributes that name starts with _ are set as is
             pass
+
         elif field_type := self._annotations.get(name):
             # conversion only from strings
             if isinstance(value, str) and field_type != str:
@@ -210,7 +190,7 @@ class ConfBase:
             # only changes.
             if isinstance(val, dict) and default is not None:
                 assert isinstance(default, dict)
-                val = dict(_compare_dicts(val, default))
+                val = dict(datatools.compare_dicts(val, default))
 
             res[key] = val
 
@@ -266,8 +246,13 @@ class ConfDeepDirectories(ConfBase):
     depth: int = 2
 
 
-class ConfPlugin(dict[str, ty.Any]):
-    """Plugin configuration - extended dict."""
+ConfPluginValueType = ty.Union[int, float, str, bool, None]
+
+
+class ConfPlugin(dict[str, ConfPluginValueType]):
+    """Plugin configuration - extended dict.
+    All values are simple types, list/tuples/objects are stored as strings.
+    """
 
     def __init__(
         self, plugin_name: str, *argv: ty.Any, **kwarg: ty.Any
@@ -275,17 +260,8 @@ class ConfPlugin(dict[str, ty.Any]):
         self.plugin_name = plugin_name
         super().__init__(*argv, **kwarg)
 
-    def get_bool(self, key: str, default: bool) -> bool:
-        return _strbool(self.get(key, default))
-
     def set_enabled(self, enabled: bool) -> None:
         self[KUPFER_ENABLED] = enabled
-
-    def is_enabled(self) -> bool:
-        return _strbool(self.get(KUPFER_ENABLED, False))
-
-    def is_hidden(self) -> bool:
-        return _strbool(self.get(KUPFER_HIDDEN, False))
 
     def get_value(
         self,
@@ -293,7 +269,10 @@ class ConfPlugin(dict[str, ty.Any]):
         value_type: ty.Any = str,
         default: PlugConfigValue | None = None,
     ) -> PlugConfigValue | None:
-        val = self.get(key, default)
+        if key not in self:
+            return default
+
+        val = self[key]
 
         if isinstance(value_type, type) and issubclass(
             value_type, ExtendedSetting
@@ -302,23 +281,10 @@ class ConfPlugin(dict[str, ty.Any]):
             val_obj.load(self.plugin_name, key, val)
             return val_obj
 
-        value = default
-        try:
-            if val is None:
-                value = None
-            elif value_type == bool:
-                value = _strbool(val)
-            elif value_type == list:
-                assert isinstance(val, str)
-                value = _strlist(val)
-            elif value_type in (str, float, int):
-                value = value_type(val)
-            elif isinstance(value_type, ValueConverter):
-                value = value_type(val, default=default)
+        if val is None:
+            return None
 
-        except (ValueError, TypeError) as err:
-            raise err
-
+        value = ty.cast(PlugConfigValue, _convert(val, value_type, default))
         return value
 
     def set_value(
@@ -448,7 +414,7 @@ class ValueConverter(ty.Protocol):
 
 
 # pylint: disable=too-many-return-statements
-def _convert(value: ty.Any, dst_type: ty.Any) -> ty.Any:
+def _convert(value: ty.Any, dst_type: ty.Any, default: ty.Any = None) -> ty.Any:
     """Convert `value` to `dst_type`."""
     if value is None:
         return None
@@ -458,24 +424,27 @@ def _convert(value: ty.Any, dst_type: ty.Any) -> ty.Any:
         return value
 
     if dst_type in ("int", int):
-        return _strint(value)
+        try:
+            return int(value)
+        except ValueError:
+            return default
 
     if dst_type in ("bool", bool):
         return _strbool(value)
 
-    if dst_type in ("tuple", tuple):
+    if dst_type in ("float", float):
         try:
             return float(value)
         except ValueError:
-            return None
-
-    if dst_type in ("tuple", tuple):
-        raise NotImplementedError()
+            return default
 
     if dst_type in ("str", str):
         return str(value)
 
-    if dst_type == list:
+    if dst_type in ("tuple", tuple):
+        raise NotImplementedError()
+
+    if dst_type in ("list", list):
         return _strlist(value)
 
     # complex types
@@ -483,9 +452,18 @@ def _convert(value: ty.Any, dst_type: ty.Any) -> ty.Any:
         dst_type.__name__ if isinstance(dst_type, type) else str(dst_type)
     )
     if dst_types.startswith("list["):
+        # support only simple types inside list
         value = _strlist(value)
         items_type = dst_types[5:-1]
         return [_convert(item, items_type) for item in value]
+
+    if isinstance(dst_type, ValueConverter):
+        if isinstance(value, str):
+            with suppress(NameError):
+                return dst_type(value, default=default)
+
+    with suppress(TypeError):
+        return dst_type(value)
 
     raise ValueError(f"not supported dst_type: `{dst_type}` for {value!r}")
 
@@ -503,14 +481,6 @@ def _strbool(value: ty.Any, default: bool = False) -> bool:
         return True
 
     return default
-
-
-def _strint(value: ty.Any, default: int = 0) -> int:
-    """Coerce bool from string value or bool"""
-    try:
-        return int(value)
-    except ValueError:
-        return default
 
 
 def _strlist(value: str, default: list[ty.Any] | None = None) -> list[ty.Any]:
@@ -600,7 +570,7 @@ def _name_to_configparser(name: str) -> str:
 
 
 def _fill_parser_from_config(
-    parser: configparser.RawConfigParser, conf: Config
+    parser: configparser.RawConfigParser, conf: dict[str, dict[str, ty.Any]]
 ) -> None:
     """Put content of `config` dict into `parser`."""
     for secname, section in sorted(conf.items()):
@@ -746,13 +716,13 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         """Convenience: if @plugin_id is enabled"""
         return ty.cast(
             bool,
-            self.get_plugin_config(plugin_id, KUPFER_ENABLED, _strbool, False),
+            self.get_plugin_config(plugin_id, KUPFER_ENABLED, bool, False),
         )
 
     def set_plugin_enabled(self, plugin_id: str, enabled: bool) -> None:
         """Convenience: set if @plugin_id is enabled"""
         self.set_plugin_config(
-            plugin_id, KUPFER_ENABLED, enabled, value_type=_strbool
+            plugin_id, KUPFER_ENABLED, enabled, value_type=bool
         )
         self.emit("plugin-enabled-changed", plugin_id, enabled)
 
@@ -760,14 +730,14 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         """Convenience: if @plugin_id is hidden"""
         return ty.cast(
             bool,
-            self.get_plugin_config(plugin_id, KUPFER_HIDDEN, _strbool, False),
+            self.get_plugin_config(plugin_id, KUPFER_HIDDEN, bool, False),
         )
 
     def get_source_is_toplevel(self, plugin_id: str, src: ty.Any) -> bool:
         key = "kupfer_toplevel_" + _source_config_repr(src)
         default = not getattr(src, "source_prefer_sublevel", False)
         return ty.cast(
-            bool, self.get_plugin_config(plugin_id, key, _strbool, default)
+            bool, self.get_plugin_config(plugin_id, key, bool, default)
         )
 
     def set_source_is_toplevel(
@@ -775,7 +745,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
     ) -> None:
         key = "kupfer_toplevel_" + _source_config_repr(src)
         self.emit("plugin-toplevel-changed", plugin_id, value)
-        self.set_plugin_config(plugin_id, key, value, value_type=_strbool)
+        self.set_plugin_config(plugin_id, key, value, value_type=bool)
 
     def get_global_keybinding(self, key: str) -> str:
         if key == "keybinding":

@@ -190,3 +190,25 @@ def evaluate_once(func: ty.Callable[..., RT]) -> ty.Callable[..., RT]:
         return result
 
     return wrapper
+
+
+def compare_dicts(
+    dictionary: dict[str, ty.Any], base: dict[str, ty.Any]
+) -> ty.Iterator[tuple[str, ty.Any]]:
+    """Compare recursive two dictionaries and return (key, val) from
+    `dictionary` that are changed or not exists in `base`."""
+    if not base:
+        yield from dictionary.items()
+        return
+
+    for key, val in dictionary.items():
+        if key not in base:
+            yield key, val
+            continue
+
+        base_val = base[key]
+        if val == base_val:
+            continue
+
+        if isinstance(val, dict):
+            yield key, dict(compare_dicts(val, base_val))
