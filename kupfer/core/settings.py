@@ -658,8 +658,8 @@ class ConfigparserAdapter(pretty.OutputMixin):
         # Set up defaults - declared in classes
         confmap = Configuration()
         # load defaults from file
-        if config_file := config.get_config_file(self.defaults_filename):
-            if parser := self._load_from_file(config_file):
+        if def_config_file := config.get_data_file(self.defaults_filename):
+            if parser := self._load_from_file(def_config_file):
                 _fill_configuration_from_parser(parser, confmap)
 
         confmap.save_as_defaults()
