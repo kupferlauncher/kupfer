@@ -277,6 +277,8 @@ direct = dir1;dir2;dir3
         parser.read_string(data)
 
         c = S.Configuration()
+        c.keybindings["comma_trick"] = "<Control>comma"
+
         S._fill_configuration_from_parser(parser, c)
 
         self.assertEqual(c.kupfer.keybinding, "keybinding123")
@@ -300,11 +302,13 @@ direct = dir1;dir2;dir3
 
 # this should be merged
 [plugin_favorites]
+kupfer_enabled = True
 test = 1
 
 # and this partial overwritten
 [plugin_core]
 kupfer_hidden = False
+kupfer_enabled = True
  """
 
         parser = configparser.RawConfigParser()
@@ -314,26 +318,19 @@ kupfer_hidden = False
         S._fill_configuration_from_parser(parser, c)
 
         self.assertEqual(len(c.plugins["qsicons"]), 0)
-        self.assertEqual(c.plugins["favorites"]["kupfer_enabled"], True)
-        # this raw value
+        self.assertEqual(c.plugins["favorites"]["kupfer_enabled"], "True")
         self.assertEqual(c.plugins["favorites"]["test"], "1")
-        self.assertEqual(c.plugins["core"]["kupfer_enabled"], True)
-        # this raw value
+        self.assertEqual(c.plugins["core"]["kupfer_enabled"], "True")
         self.assertEqual(c.plugins["core"]["kupfer_hidden"], "False")
 
 
 class TestConfiguration(unittest.TestCase):
-    def test_create(self):
-        c = S.Configuration()
-        self.assertTrue(isinstance(c.kupfer, S.ConfKupfer))
-        self.assertEqual(c.kupfer.keybinding, "<Ctrl>space")
-        self.assertEqual(c.keybindings.get("activate"), "<Alt>a")
-        self.assertEqual(
-            c.directories.direct, ["~/", "~/Desktop", "USER_DIRECTORY_DESKTOP"]
-        )
-
     def test_get_plugin_defaule_value(self):
         c = S.Configuration()
+        c.plugins["core"] = S.ConfPlugin(
+            "core", {"kupfer_enabled": "True", "kupfer_hidden": "True"}
+        )
+
         # for test use core plugin
         plugc = c.plugins["core"]
         self.assertTrue(plugc)
@@ -426,6 +423,15 @@ kupfer_enabled = False
     def test_fill_parser(self):
         # test using default values for simplify
         c = S.Configuration()
+        c.appearance.icon_large_size = 128
+        c.appearance.ellipsize_mode = 0
+        c.directories.direct = ["~/", "~/Desktop;USER_DIRECTORY_DESKTOP"]
+        c.plugins["applications"] = S.ConfPlugin(
+            "applications", {"kupfer_enabled": True}
+        )
+        c.plugins["core"] = S.ConfPlugin(
+            "core", {"kupfer_enabled": True, "kupfer_hidden": True}
+        )
         confmap = c.asdict()
 
         parser = configparser.RawConfigParser()

@@ -201,11 +201,17 @@ class ConfBase:
         return {
             key: (val.asdict() if hasattr(val, "asdict") else val)
             for key, val in self.__dict__.items()
+            if key[0] != "_"
         }
 
     def reset_value(self, field_name: str) -> None:
         """Reset value in `field_name` to default value."""
-        setattr(self, field_name, self.get_default_value(field_name))
+        value = self.get_default_value(field_name)
+
+        if isinstance(value, (dict, list, set)):
+            value = copy.deepcopy(value)
+
+        setattr(self, field_name, value)
 
 
 class ConfKupfer(ConfBase):
@@ -308,76 +314,15 @@ class ConfPlugin(dict[str, ConfPluginValueType]):
         return True
 
 
-def _default_keybindings() -> dict[str, str]:
-    return {
-        "activate": "<Alt>a",
-        "comma_trick": "<Control>comma",
-        "compose_action": "<Control>Return",
-        "erase_affinity_for_first_pane": "",
-        "mark_as_default": "",
-        "reset_all": "<Control>r",
-        "select_quit": "<Control>q",
-        "select_selected_file": "",
-        "select_selected_text": "<Control>g",
-        "show_help": "F1",
-        "show_preferences": "<Control>semicolon",
-        "switch_to_source": "",
-        "toggle_text_mode_quick": "<Control>period",
-    }
-
-
-def _default_tools() -> dict[str, str]:
-    return {
-        "terminal": "kupfer.plugin.core.gnome-terminal",
-        "editor": "kupfer.plugin.core.sys-editor",
-        "icon_renderer": "kupfer.plugin.core.gtk",
-    }
-
-
-def _default_plugins() -> dict[str, ConfPlugin]:
-    res = {}
-
-    def set_enabled(name: str, val: bool) -> None:
-        res[name] = ConfPlugin(name, {KUPFER_ENABLED: val})
-
-    set_enabled("applications", True)
-    set_enabled("archivemanager", True)
-    set_enabled("calculator", True)
-    set_enabled("clipboard", True)
-    set_enabled("commands", True)
-    set_enabled("dictionary", True)
-    set_enabled("documents", True)
-    set_enabled("favorites", True)
-    set_enabled("qsicons", True)
-    set_enabled("show_text", True)
-    set_enabled("triggers", True)
-    set_enabled("trash", True)
-    set_enabled("urlactions", True)
-    set_enabled("volumes", True)
-    set_enabled("wikipedia", True)
-
-    set_enabled("fileactions", False)
-    set_enabled("session_gnome", False)
-    set_enabled("session_xfce", False)
-    set_enabled("screen", False)
-    set_enabled("tracker1", False)
-    set_enabled("windows", False)
-
-    set_enabled("core", True)
-    res["core"][KUPFER_HIDDEN] = True
-
-    return res
-
-
 class Configuration(ConfBase):
     kupfer: ConfKupfer
     appearance: ConfAppearance
     directories: ConfDirectories
     deep_directories: ConfDeepDirectories
 
-    keybindings: dict[str, ty.Any] = _default_keybindings()
-    tools: dict[str, ty.Any] = _default_tools()
-    plugins: dict[str, ConfPlugin] = _default_plugins()
+    keybindings: dict[str, ty.Any] = {}
+    tools: dict[str, ty.Any] = {}
+    plugins: dict[str, ConfPlugin] = {}
 
 
 @ty.runtime_checkable
@@ -839,7 +784,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self.config.kupfer.reset_value("magickeybinding")
 
     def reset_accelerators(self) -> None:
-        self.config.keybindings.update(_default_keybindings())
+        self.config.reset_value("keybindings")
 
     ## Alternatives section
     ## Provide alternatives for each category
