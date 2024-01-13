@@ -124,12 +124,7 @@ def _create_plugin_credentials_cb(
             # pylint: disable=no-member
             upass.username, upass.password = user_password  # type:ignore
             # TODO: fix
-            setctl.set_plugin_config(
-                plugin_id,
-                key,
-                upass,  # type:ignore
-                val_type,
-            )
+            setctl.set_plugin_config(plugin_id, key, upass, val_type)
 
     return callback
 

@@ -380,6 +380,29 @@ class TestConvert(unittest.TestCase):
 
         self.assertEqual(S._convert("[1,2,3]", "list[str]"), ["1", "2", "3"])
 
+    def test_convert_value_converter(self):
+        def vc1(value: str, default: ty.Any) -> S.PlugConfigValue:
+            if not value:
+                return f"={default}="
+
+            return f"-{value}-"
+
+        self.assertEqual(S._convert(None, vc1), None)
+        self.assertEqual(S._convert("abc", vc1), "-abc-")
+        self.assertEqual(S._convert("", vc1), "=None=")
+        self.assertEqual(S._convert("", vc1, "123"), "=123=")
+        self.assertEqual(S._convert("123", vc1, "abc"), "-123-")
+
+    def test_convert_func(self):
+        def vc1(value: str) -> S.PlugConfigValue:
+            return f"-{value}-"
+
+        self.assertEqual(S._convert(None, vc1), None)
+        self.assertEqual(S._convert("abc", vc1), "-abc-")
+        self.assertEqual(S._convert("", vc1), "--")
+        self.assertEqual(S._convert("", vc1, "123"), "--")
+        self.assertEqual(S._convert("123", vc1, "abc"), "-123-")
+
 
 class TestFill(unittest.TestCase):
     def test_fill_from_parser(self):

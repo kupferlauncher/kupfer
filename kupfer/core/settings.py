@@ -272,12 +272,15 @@ class ConfDeepDirectories(ConfBase):
     depth: int = 2
 
 
-PlugConfigValue = ty.Union[str, bool, int, float, list[ty.Any], ExtendedSetting]
+# type of value stored (virtually) in ConfPlugin, i.e. type of one field in
+# plugin setting
+PlugConfigValue = ty.Union[str, bool, int, float, list, ExtendedSetting]  # type: ignore
+PlugConfigValueT = ty.TypeVar("PlugConfigValueT", bound=PlugConfigValue)
 
 
-class ConfPlugin(dict[str, ty.Union[int, float, str, bool, None]]):
+class ConfPlugin(dict[str, ty.Union[str, None]]):
     """Plugin configuration - extended dict.
-    All values are simple types, list/tuples/objects are stored as strings.
+    All values are stored as strings.
     """
 
     def __init__(
@@ -287,40 +290,41 @@ class ConfPlugin(dict[str, ty.Union[int, float, str, bool, None]]):
         super().__init__(*argv, **kwarg)
 
     def set_enabled(self, enabled: bool) -> None:
-        self[KUPFER_ENABLED] = enabled
+        self[KUPFER_ENABLED] = str(enabled)
 
     def get_value(
         self,
         key: str,
-        value_type: ty.Type[ty.Any] = str,
-        default: PlugConfigValue | None = None,
-    ) -> PlugConfigValue | None:
+        value_type: ty.Type[PlugConfigValueT] | None = None,
+        default: PlugConfigValueT | None = None,
+    ) -> PlugConfigValueT | None:
+        """Get value from plugin setting stored under `key` and try to convert
+        it to `value_type`. If not exists - return `default`."""
         if key not in self:
             return default
 
         val = self[key]
+
+        if val is None:
+            return None
 
         if isinstance(value_type, ExtendedSetting):
             val_obj: ExtendedSetting = value_type()
             val_obj.load(self.plugin_name, key, val)
             return val_obj
 
-        if val is None:
-            return None
+        return ty.cast(
+            PlugConfigValueT, _convert(val, value_type or str, default)
+        )
 
-        value = ty.cast(PlugConfigValue, _convert(val, value_type, default))
-        return value
-
-    def set_value(
-        self,
-        key: str,
-        value: PlugConfigValue,
-    ) -> bool:
-        """Try set @key for plugin."""
+    def set_value(self, key: str, value: PlugConfigValue) -> bool:
+        """Try set `key` for plugin.
+        Internally, all values are stored as strings
+        """
 
         value_repr: int | str | float | bool | None
 
-        if value is None or isinstance(value, (str, float, int, bool)):
+        if value is None or isinstance(value, str):
             value_repr = value
         elif isinstance(value, ExtendedSetting):
             value_repr = value.save(self.plugin_name, key)
@@ -355,7 +359,11 @@ class ValueConverter(ty.Protocol):
 
 # pylint: disable=too-many-return-statements
 def _convert(value: ty.Any, dst_type: ty.Any, default: ty.Any = None) -> ty.Any:
-    """Convert `value` to `dst_type`."""
+    """Convert `value` to `dst_type`.
+    `dst_type` may be simple type (str, float, int, bool) or complex types
+    (list (optionally typed)) or function compatible with ValueConverter or
+    simple function str->any.
+    """
     if value is None:
         return None
 
@@ -399,7 +407,7 @@ def _convert(value: ty.Any, dst_type: ty.Any, default: ty.Any = None) -> ty.Any:
 
     if isinstance(dst_type, ValueConverter):
         if isinstance(value, str):
-            with suppress(NameError):
+            with suppress(TypeError):
                 return dst_type(value, default=default)
 
     with suppress(TypeError):
@@ -658,9 +666,8 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_plugin_enabled(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is enabled"""
-        return ty.cast(
-            bool,
-            self.get_plugin_config(plugin_id, KUPFER_ENABLED, bool, False),
+        return bool(
+            self.get_plugin_config(plugin_id, KUPFER_ENABLED, bool, False)
         )
 
     def set_plugin_enabled(self, plugin_id: str, enabled: bool) -> None:
@@ -672,17 +679,14 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def get_plugin_is_hidden(self, plugin_id: str) -> bool:
         """Convenience: if @plugin_id is hidden"""
-        return ty.cast(
-            bool,
-            self.get_plugin_config(plugin_id, KUPFER_HIDDEN, bool, False),
+        return bool(
+            self.get_plugin_config(plugin_id, KUPFER_HIDDEN, bool, False)
         )
 
     def get_source_is_toplevel(self, plugin_id: str, src: ty.Any) -> bool:
         key = "kupfer_toplevel_" + _source_config_repr(src)
         default = not getattr(src, "source_prefer_sublevel", False)
-        return ty.cast(
-            bool, self.get_plugin_config(plugin_id, key, bool, default)
-        )
+        return bool(self.get_plugin_config(plugin_id, key, bool, default))
 
     def set_source_is_toplevel(
         self, plugin_id: str, src: ty.Any, value: bool
@@ -734,9 +738,9 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self,
         plugin: str,
         key: str,
-        value_type: ty.Type[ty.Any] = str,
-        default: PlugConfigValue | None = None,
-    ) -> PlugConfigValue | None:
+        value_type: ty.Type[PlugConfigValueT] | None = None,
+        default: PlugConfigValueT | None = None,
+    ) -> PlugConfigValueT | None:
         """Return setting @key for plugin names @plugin, try to coerce to
         type @value_type.
         Else return @default if does not exist, or can't be coerced
@@ -768,13 +772,11 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             plugin_conf = self.config.plugins[plugin] = ConfPlugin(plugin)
 
         plugin_conf.set_value(key, value)
+
         section = f"plugin_{plugin}"
-        self.emit(
-            f"value-changed::{section.lower()}.{key.lower()}",
-            section,
-            key,
-            value,
-        )
+        msg = f"value-changed::{section.lower()}.{key.lower()}"
+        self.emit(msg, section, key, value)
+
         self.mark_updated()
         return True
 
