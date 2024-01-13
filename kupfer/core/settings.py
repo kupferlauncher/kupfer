@@ -34,6 +34,7 @@ import ast
 import inspect
 from contextlib import suppress
 import copy
+import string
 
 from gi.repository import GLib, GObject, Pango
 
@@ -53,6 +54,25 @@ AltValidator = ty.Callable[[dict[str, ty.Any]], bool]
 # TODO: move to StrEnum (py3.11+)
 KUPFER_ENABLED: ty.Final = "kupfer_enabled"
 KUPFER_HIDDEN: ty.Final = "kupfer_hidden"
+
+
+@ty.runtime_checkable
+class ExtendedSetting(ty.Protocol):
+    """Protocol that define non-simple configuration option"""
+
+    def load(
+        self,
+        plugin_id: str,
+        key: str,
+        config_value: str | float | int | bool | None,
+    ) -> None:
+        """load value for @plugin_id and @key, @config_value is value
+        stored in regular Kupfer config for plugin/key"""
+
+    def save(self, plugin_id: str, key: str) -> str:
+        """Save value for @plugin_id and @key.
+        @Return value that should be stored in Kupfer config for
+        plugin/key (string)"""
 
 
 def _get_annotations(clazz: type) -> dict[str, ty.Any]:
@@ -197,7 +217,7 @@ class ConfBase:
         return res
 
     def asdict(self) -> dict[str, ty.Any]:
-        """Return content as dict."""
+        """Return public content as dict."""
         return {
             key: (val.asdict() if hasattr(val, "asdict") else val)
             for key, val in self.__dict__.items()
@@ -252,10 +272,10 @@ class ConfDeepDirectories(ConfBase):
     depth: int = 2
 
 
-ConfPluginValueType = ty.Union[int, float, str, bool, None]
+PlugConfigValue = ty.Union[str, bool, int, float, list[ty.Any], ExtendedSetting]
 
 
-class ConfPlugin(dict[str, ConfPluginValueType]):
+class ConfPlugin(dict[str, ty.Union[int, float, str, bool, None]]):
     """Plugin configuration - extended dict.
     All values are simple types, list/tuples/objects are stored as strings.
     """
@@ -272,7 +292,7 @@ class ConfPlugin(dict[str, ConfPluginValueType]):
     def get_value(
         self,
         key: str,
-        value_type: ty.Any = str,
+        value_type: ty.Type[ty.Any] = str,
         default: PlugConfigValue | None = None,
     ) -> PlugConfigValue | None:
         if key not in self:
@@ -280,9 +300,7 @@ class ConfPlugin(dict[str, ConfPluginValueType]):
 
         val = self[key]
 
-        if isinstance(value_type, type) and issubclass(
-            value_type, ExtendedSetting
-        ):
+        if isinstance(value_type, ExtendedSetting):
             val_obj: ExtendedSetting = value_type()
             val_obj.load(self.plugin_name, key, val)
             return val_obj
@@ -297,9 +315,8 @@ class ConfPlugin(dict[str, ConfPluginValueType]):
         self,
         key: str,
         value: PlugConfigValue,
-        value_type: ty.Any = str,
     ) -> bool:
-        """Try set @key for plugin names @plugin, coerce to @value_type first."""
+        """Try set @key for plugin."""
 
         value_repr: int | str | float | bool | None
 
@@ -307,7 +324,7 @@ class ConfPlugin(dict[str, ConfPluginValueType]):
             value_repr = value
         elif isinstance(value, ExtendedSetting):
             value_repr = value.save(self.plugin_name, key)
-        elif value_type is list:
+        else:
             value_repr = str(value)
 
         self[key] = value_repr
@@ -323,28 +340,6 @@ class Configuration(ConfBase):
     keybindings: dict[str, ty.Any] = {}
     tools: dict[str, ty.Any] = {}
     plugins: dict[str, ConfPlugin] = {}
-
-
-@ty.runtime_checkable
-class ExtendedSetting(ty.Protocol):
-    """Protocol that define non-simple configuration option"""
-
-    def load(
-        self,
-        plugin_id: str,
-        key: str,
-        config_value: str | float | int | bool | None,
-    ) -> None:
-        """load value for @plugin_id and @key, @config_value is value
-        stored in regular Kupfer config for plugin/key"""
-
-    def save(self, plugin_id: str, key: str) -> str:
-        """Save value for @plugin_id and @key.
-        @Return value that should be stored in Kupfer config for
-        plugin/key (string)"""
-
-
-PlugConfigValue = ty.Union[str, bool, int, float, list[ty.Any], ExtendedSetting]
 
 
 # pylint: disable=too-few-public-methods
@@ -471,8 +466,7 @@ def _name_from_configparser(name: str) -> str:
     It's not perfect (work well only for alfa-characters.
     """
     return "".join(
-        f"_{c.lower()}" if c in "ABCDEFGHIJKLMNOPQRSTUVWXYZ" else c
-        for c in name
+        f"_{c.lower()}" if c in string.ascii_uppercase else c for c in name
     ).lstrip("_")
 
 
@@ -480,7 +474,7 @@ def _fill_configuration_from_parser(
     parser: configparser.RawConfigParser,
     conf: Configuration,
 ) -> None:
-    """Put values from `parser` to `confmap` using `defaults` as schema."""
+    """Put values from `parser` to `confmap`."""
     for secname in parser.sections():
         section = parser[secname]
         if secname.startswith("plugin_"):
@@ -488,6 +482,7 @@ def _fill_configuration_from_parser(
             sobj = conf.plugins.get(psecname)
             if sobj is None:
                 sobj = conf.plugins[psecname] = ConfPlugin(psecname)
+
         else:
             name = _name_from_configparser(secname)
             sobj = getattr(conf, name, None)
@@ -505,6 +500,7 @@ def _fill_configuration_from_parser(
         elif isinstance(sobj, ConfBase):
             for key, val in section.items():
                 setattr(sobj, key.lower(), val)
+
         else:
             pretty.print_error("unknown secname", secname, sobj)
 
@@ -582,13 +578,16 @@ class ConfigparserAdapter(pretty.OutputMixin):
         self, config_file: str
     ) -> configparser.RawConfigParser | None:
         parser = configparser.RawConfigParser()
+
         try:
             parser.read(config_file, encoding=self.encoding)
             return parser
+
         except OSError as exc:
             self.output_error(
                 f"Error reading configuration file {config_file}: {exc}"
             )
+
         except UnicodeDecodeError as exc:
             self.output_error(
                 f"Error reading configuration file {config_file}: {exc}"
@@ -651,7 +650,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
 
     def mark_updated(self):
         if SettingsController._inst is not None:
-            self.output_info("mark_updated", SettingsController._inst)
+            self.output_debug("settings updated")
             self._save_timer.set(60, self._save_config)
 
     def _save_config(self, _scheduler: ty.Any = None) -> None:
@@ -735,7 +734,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         self,
         plugin: str,
         key: str,
-        value_type: ty.Any = str,
+        value_type: ty.Type[ty.Any] = str,
         default: PlugConfigValue | None = None,
     ) -> PlugConfigValue | None:
         """Return setting @key for plugin names @plugin, try to coerce to
@@ -759,7 +758,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         plugin: str,
         key: str,
         value: PlugConfigValue,
-        value_type: ty.Any = str,
+        value_type: ty.Type[ty.Any] = str,
     ) -> bool:
         """Try set @key for plugin names @plugin, coerce to @value_type first."""
         self.output_debug("set_plugin_config", plugin, key, value)
@@ -768,7 +767,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         if plugin_conf is None:
             plugin_conf = self.config.plugins[plugin] = ConfPlugin(plugin)
 
-        plugin_conf.set_value(key, value, value_type)
+        plugin_conf.set_value(key, value)
         section = f"plugin_{plugin}"
         self.emit(
             f"value-changed::{section.lower()}.{key.lower()}",
@@ -890,5 +889,4 @@ def is_known_terminal_executable(exearg: str) -> bool:
 
 def get_configured_terminal() -> dict[str, ty.Any] | None:
     """Return the configured Terminal object"""
-    setctl = get_settings_controller()
-    return setctl.get_preferred_alternative("terminal")
+    return get_settings_controller().get_preferred_alternative("terminal")
