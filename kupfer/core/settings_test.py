@@ -408,6 +408,51 @@ class TestConfiguration(unittest.TestCase):
         with self.assertRaises(KeyError):
             plugc.get_value("test_not_existing", bool)
 
+    def test_plugins_defaults(self):
+        c = S.Configuration()
+        c.plugins["core"] = S.ConfPlugin(
+            "core", {"kupfer_enabled": "True", "kupfer_hidden": "True"}
+        )
+        c.save_as_defaults()
+
+        c.plugins["core"]["kupfer_enabled"] = "False"
+        self.assertEqual(
+            c.plugins.asdict_non_default(),
+            {"core": {"kupfer_enabled": "False"}},
+        )
+
+        c.plugins["core"]["custom1"] = "12313"
+        self.assertEqual(
+            c.plugins.asdict_non_default(),
+            {"core": {"kupfer_enabled": "False", "custom1": "12313"}},
+        )
+
+    def test_plugins_setvalue(self):
+        c = S.Configuration()
+        c.plugins["core"] = S.ConfPlugin(
+            "core", {"kupfer_enabled": "True", "kupfer_hidden": "True"}
+        )
+        c.save_as_defaults()
+
+        c.plugins["core"].set_value("kupfer_enabled", "False")
+        self.assertEqual(
+            c.plugins["core"].get_value("kupfer_enabled", bool), False
+        )
+
+        c.plugins["core"].set_value("custom1", "12313")
+        self.assertEqual(c.plugins["core"].get_value("custom1", int), 12313)
+        self.assertEqual(c.plugins["core"].get_value("custom1", str), "12313")
+
+        c.plugins["core"].set_value("custom1", 12313)
+        self.assertEqual(c.plugins["core"].get_value("custom1", int), 12313)
+
+        c.plugins["core"].set_value("custom2", "123.3")
+        self.assertEqual(c.plugins["core"].get_value("custom2", float), 123.3)
+
+        self.assertEqual(
+            c.plugins["core"].get_default_value("kupfer_enabled"), "True"
+        )
+
 
 class TestConvert(unittest.TestCase):
     def test_simple(self):

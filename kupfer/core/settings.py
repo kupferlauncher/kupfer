@@ -231,6 +231,10 @@ class ConfBase:
         """Reset value in `field_name` to default value."""
         value = self.get_default_value(field_name)
 
+        if hasattr(value, "reset_value"):
+            value.reset_value(field_name)
+            return
+
         if isinstance(value, (dict, list, set)):
             value = copy.deepcopy(value)
 
@@ -290,6 +294,7 @@ class ConfPlugin(dict[str, ty.Union[str, None]]):
         self, plugin_name: str, *argv: ty.Any, **kwarg: ty.Any
     ) -> None:
         self.plugin_name = plugin_name
+        self._defaults: dict[str, ty.Any] | None = None
         super().__init__(*argv, **kwarg)
 
     def set_enabled(self, enabled: bool) -> None:
@@ -332,6 +337,38 @@ class ConfPlugin(dict[str, ty.Union[str, None]]):
         self[key] = value_repr
         return True
 
+    def get_default_value(self, field_name: str) -> ty.Any:
+        """Get default value for `field_name`."""
+        if self._defaults and field_name in self._defaults:
+            return self._defaults[field_name]
+
+        return None
+
+    def save_as_defaults(self) -> None:
+        self._defaults = copy.deepcopy(self)
+
+    def asdict_non_default(self) -> dict[str, ty.Any]:
+        if self._defaults is None:
+            return {}
+
+        return dict(datatools.compare_dicts(self, self._defaults))
+
+
+class ConfPlugins(dict[str, ConfPlugin]):
+    """ConfPlugin is dict of plugins configurations."""
+
+    def asdict_non_default(self) -> dict[str, ty.Any]:
+        res = {}
+        for key, val in self.items():
+            if diff := val.asdict_non_default():
+                res[key] = diff
+
+        return res
+
+    def save_as_defaults(self):
+        for val in self.values():
+            val.save_as_defaults()
+
 
 class Configuration(ConfBase):
     kupfer: ConfKupfer
@@ -341,7 +378,7 @@ class Configuration(ConfBase):
 
     keybindings: dict[str, ty.Any] = {}
     tools: dict[str, ty.Any] = {}
-    plugins: dict[str, ConfPlugin] = {}
+    plugins: ConfPlugins = ConfPlugins()
 
 
 # pylint: disable=too-many-return-statements
