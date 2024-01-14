@@ -15,11 +15,10 @@ floats, string, tuple, list, dict, set) or object that extend `ConfBase` class.
    be declared.
 4. return recursive object as dict.
 
-
 For persist or load configuration `SettingsController` use adapter; for now
 only adapter for `configparser` is implemented.
 
-TODO: tuples; better handling for plugins configuration
+TODO: tuples
 
 """
 
@@ -112,6 +111,7 @@ class ConfBase:
             if field_type in (str, int, tuple, bool, float):
                 # this types are safe to copy
                 value = getattr(clazz, key)
+
             elif str(field_type).startswith("list"):
                 # copy list or create empty
                 if dval := getattr(clazz, key, None):
@@ -138,7 +138,7 @@ class ConfBase:
             pass
 
         elif field_type := self._annotations.get(name):
-            # conversion only from strings
+            # conversion only from strings to non-string
             if isinstance(value, str) and field_type != str:
                 value = _convert(value, field_type)
 
@@ -167,6 +167,7 @@ class ConfBase:
         fields = set(self._annotations.keys())
         for key, val in self.__dict__.items():
             if key not in fields:
+                # skip not annotated fields
                 continue
 
             if val is None:
@@ -177,6 +178,7 @@ class ConfBase:
                 continue
 
             if isinstance(val, (dict, set, list)):
+                # make copy mutable types
                 val = copy.deepcopy(val)
 
             self._defaults[key] = val
@@ -195,6 +197,7 @@ class ConfBase:
         fields = set(self._annotations.keys())
         for key, val in self.__dict__.items():
             if key not in fields:
+                # skip non-annotated fields
                 continue
 
             if val and hasattr(val, "asdict_non_default"):
@@ -202,8 +205,8 @@ class ConfBase:
                 continue
 
             default = self.get_default_value(key)
-            # ship unchanged values
             if default == val:
+                # ship unchanged values
                 continue
 
             # for dict compare current value against defaults and return
@@ -296,27 +299,21 @@ class ConfPlugin(dict[str, ty.Union[str, None]]):
         self,
         key: str,
         value_type: ty.Type[PlugConfigValueT] | None = None,
-        default: PlugConfigValueT | None = None,
     ) -> PlugConfigValueT | None:
         """Get value from plugin setting stored under `key` and try to convert
-        it to `value_type`. If not exists - return `default`."""
-        if key not in self:
-            return default
+        it to `value_type`.
+        Raise KeyError when no value is defined for `key` or ValueError when
+        it's not possible convert value to `value_type`.
+        """
 
         val = self[key]
-
-        if val is None:
-            return None
 
         if isinstance(value_type, ExtendedSetting):
             val_obj: ExtendedSetting = value_type()
             val_obj.load(self.plugin_name, key, val)
             return val_obj
 
-        with suppress(ValueError):
-            return _convert(val, value_type or str)  # type: ignore
-
-        return default
+        return _convert(val, value_type or str)  # type: ignore
 
     def set_value(self, key: str, value: PlugConfigValue) -> bool:
         """Try set `key` for plugin.
@@ -350,8 +347,11 @@ class Configuration(ConfBase):
 # pylint: disable=too-many-return-statements
 def _convert(value: ty.Any, dst_type: ty.Any) -> ty.Any:
     """Convert `value` to `dst_type`.
+
     `dst_type` may be simple type (str, float, int, bool) or complex types
-    (list (optionally typed)) or simple function str->any.
+    (list (optionally typed)) or simple function str->any - provided as string,
+    type, or typing alias.
+
     Raise ValueError when value can't be converted.
     """
     if value is None:
@@ -456,7 +456,7 @@ def _name_from_configparser(name: str) -> str:
     It's not perfect (work well only for alfa-characters.
     """
     return "".join(
-        f"_{c.lower()}" if c in string.ascii_uppercase else c for c in name
+        "_" + c.lower() if c in string.ascii_uppercase else c for c in name
     ).lstrip("_")
 
 
@@ -549,6 +549,7 @@ class ConfigparserAdapter(pretty.OutputMixin):
 
     def save(self, conf: Configuration) -> None:
         self.output_info("Saving config")
+
         config_path = config.save_config_file(self.config_filename)
         if not config_path:
             self.output_info("Unable to save settings, can't find config dir")
@@ -558,7 +559,7 @@ class ConfigparserAdapter(pretty.OutputMixin):
         confmap = conf.asdict_non_default()
         _fill_parser_from_config(parser, confmap)
         ## Write to tmp then rename over for it to be atomic
-        temp_config_path = f"{config_path}.{os.getpid()}"
+        temp_config_path = f"{config_path}.tmp"
         with open(temp_config_path, "w", encoding="UTF_8") as out:
             parser.write(out)
 
@@ -573,12 +574,7 @@ class ConfigparserAdapter(pretty.OutputMixin):
             parser.read(config_file, encoding=self.encoding)
             return parser
 
-        except OSError as exc:
-            self.output_error(
-                f"Error reading configuration file {config_file}: {exc}"
-            )
-
-        except UnicodeDecodeError as exc:
+        except (OSError, UnicodeDecodeError) as exc:
             self.output_error(
                 f"Error reading configuration file {config_file}: {exc}"
             )
@@ -733,7 +729,10 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             return default
 
         try:
-            return plugin_cfg.get_value(key, value_type, default)
+            return plugin_cfg.get_value(key, value_type)
+        except KeyError:
+            # no value defined, use default
+            pass
         except (ValueError, TypeError) as err:
             self.output_error(f"Error for load value {plugin}.{key}", err)
 

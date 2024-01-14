@@ -336,28 +336,38 @@ class TestConfiguration(unittest.TestCase):
         plugc = c.plugins["core"]
         self.assertTrue(plugc)
 
-        self.assertEqual(
-            plugc.get_value("test_not_existing", str, "abcd"), "abcd"
-        )
-        self.assertEqual(plugc.get_value("test_not_existing", int, 123), 123)
-        self.assertEqual(plugc.get_value("test_not_existing", bool, True), True)
-        self.assertEqual(
-            plugc.get_value("test_not_existing", bool, False), False
-        )
+        with self.assertRaises(KeyError):
+            plugc.get_value("test_not_existing", str)
+
+        with self.assertRaises(KeyError):
+            plugc.get_value("test_not_existing", int)
+
+        with self.assertRaises(KeyError):
+            plugc.get_value("test_not_existing", bool)
+
+        with self.assertRaises(KeyError):
+            plugc.get_value("test_not_existing", bool)
 
         plugc["test_existing"] = "qwe"
-        self.assertEqual(plugc.get_value("test_existing", str, "abcd"), "qwe")
+        self.assertEqual(plugc.get_value("test_existing", str), "qwe")
         plugc["test_existing"] = "321"
-        self.assertEqual(plugc.get_value("test_existing", int, 123), 321)
+        self.assertEqual(plugc.get_value("test_existing", int), 321)
         plugc["test_existing"] = False  # type: ignore
-        self.assertEqual(plugc.get_value("test_existing", bool, True), False)
+        self.assertEqual(plugc.get_value("test_existing", bool), False)
         plugc["test_existing"] = True  # type: ignore
-        self.assertEqual(plugc.get_value("test_existing", bool, False), True)
+        self.assertEqual(plugc.get_value("test_existing", bool), True)
 
-        self.assertEqual(plugc.get_value("test_not_existing", str), None)
-        self.assertEqual(plugc.get_value("test_not_existing", int), None)
-        self.assertEqual(plugc.get_value("test_not_existing", bool), None)
-        self.assertEqual(plugc.get_value("test_not_existing", bool), None)
+        with self.assertRaises(KeyError):
+            plugc.get_value("test_not_existing", str)
+
+        with self.assertRaises(KeyError):
+            plugc.get_value("test_not_existing", int)
+
+        with self.assertRaises(KeyError):
+            plugc.get_value("test_not_existing", bool)
+
+        with self.assertRaises(KeyError):
+            plugc.get_value("test_not_existing", bool)
 
 
 class TestConvert(unittest.TestCase):
