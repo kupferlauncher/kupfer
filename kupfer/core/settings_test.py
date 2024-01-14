@@ -317,6 +317,7 @@ kupfer_enabled = True
         c = S.Configuration()
         S._fill_configuration_from_parser(parser, c)
 
+        self.assertEqual(c.kupfer.keybinding, "<Ctrl>space")
         self.assertEqual(len(c.plugins["qsicons"]), 0)
         self.assertEqual(c.plugins["favorites"]["kupfer_enabled"], "True")
         self.assertEqual(c.plugins["favorites"]["test"], "1")
@@ -348,9 +349,9 @@ class TestConfiguration(unittest.TestCase):
         self.assertEqual(plugc.get_value("test_existing", str, "abcd"), "qwe")
         plugc["test_existing"] = "321"
         self.assertEqual(plugc.get_value("test_existing", int, 123), 321)
-        plugc["test_existing"] = False
+        plugc["test_existing"] = False  # type: ignore
         self.assertEqual(plugc.get_value("test_existing", bool, True), False)
-        plugc["test_existing"] = True
+        plugc["test_existing"] = True  # type: ignore
         self.assertEqual(plugc.get_value("test_existing", bool, False), True)
 
         self.assertEqual(plugc.get_value("test_not_existing", str), None)
@@ -380,19 +381,6 @@ class TestConvert(unittest.TestCase):
 
         self.assertEqual(S._convert("[1,2,3]", "list[str]"), ["1", "2", "3"])
 
-    def test_convert_value_converter(self):
-        def vc1(value: str, default: ty.Any) -> S.PlugConfigValue:
-            if not value:
-                return f"={default}="
-
-            return f"-{value}-"
-
-        self.assertEqual(S._convert(None, vc1), None)
-        self.assertEqual(S._convert("abc", vc1), "-abc-")
-        self.assertEqual(S._convert("", vc1), "=None=")
-        self.assertEqual(S._convert("", vc1, "123"), "=123=")
-        self.assertEqual(S._convert("123", vc1, "abc"), "-123-")
-
     def test_convert_func(self):
         def vc1(value: str) -> S.PlugConfigValue:
             return f"-{value}-"
@@ -400,8 +388,6 @@ class TestConvert(unittest.TestCase):
         self.assertEqual(S._convert(None, vc1), None)
         self.assertEqual(S._convert("abc", vc1), "-abc-")
         self.assertEqual(S._convert("", vc1), "--")
-        self.assertEqual(S._convert("", vc1, "123"), "--")
-        self.assertEqual(S._convert("123", vc1, "abc"), "-123-")
 
 
 class TestFill(unittest.TestCase):

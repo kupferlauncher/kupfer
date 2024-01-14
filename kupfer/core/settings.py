@@ -313,16 +313,17 @@ class ConfPlugin(dict[str, ty.Union[str, None]]):
             val_obj.load(self.plugin_name, key, val)
             return val_obj
 
-        return ty.cast(
-            PlugConfigValueT, _convert(val, value_type or str, default)
-        )
+        with suppress(ValueError):
+            return _convert(val, value_type or str)  # type: ignore
+
+        return default
 
     def set_value(self, key: str, value: PlugConfigValue) -> bool:
         """Try set `key` for plugin.
         Internally, all values are stored as strings
         """
 
-        value_repr: int | str | float | bool | None
+        value_repr: str | None
 
         if value is None or isinstance(value, str):
             value_repr = value
@@ -346,23 +347,12 @@ class Configuration(ConfBase):
     plugins: dict[str, ConfPlugin] = {}
 
 
-# pylint: disable=too-few-public-methods
-@ty.runtime_checkable
-class ValueConverter(ty.Protocol):
-    """Protocol that represent callable used to convert value stored
-    in config file (as str) into required value (int, float, etc).
-    """
-
-    def __call__(self, value: str, default: ty.Any) -> PlugConfigValue:
-        ...
-
-
 # pylint: disable=too-many-return-statements
-def _convert(value: ty.Any, dst_type: ty.Any, default: ty.Any = None) -> ty.Any:
+def _convert(value: ty.Any, dst_type: ty.Any) -> ty.Any:
     """Convert `value` to `dst_type`.
     `dst_type` may be simple type (str, float, int, bool) or complex types
-    (list (optionally typed)) or function compatible with ValueConverter or
-    simple function str->any.
+    (list (optionally typed)) or simple function str->any.
+    Raise ValueError when value can't be converted.
     """
     if value is None:
         return None
@@ -372,19 +362,13 @@ def _convert(value: ty.Any, dst_type: ty.Any, default: ty.Any = None) -> ty.Any:
         return value
 
     if dst_type in ("int", int):
-        try:
-            return int(value)
-        except ValueError:
-            return default
+        return int(value)
 
     if dst_type in ("bool", bool):
         return _strbool(value)
 
     if dst_type in ("float", float):
-        try:
-            return float(value)
-        except ValueError:
-            return default
+        return float(value)
 
     if dst_type in ("str", str):
         return str(value)
@@ -405,13 +389,11 @@ def _convert(value: ty.Any, dst_type: ty.Any, default: ty.Any = None) -> ty.Any:
         items_type = dst_types[5:-1]
         return [_convert(item, items_type) for item in value]
 
-    if isinstance(dst_type, ValueConverter):
-        if isinstance(value, str):
-            with suppress(TypeError):
-                return dst_type(value, default=default)
-
-    with suppress(TypeError):
-        return dst_type(value)
+    if hasattr(dst_type, "__call__"):
+        try:
+            return dst_type(value)
+        except Exception:
+            pretty.print_exc(f"convert value to {dst_type!r} error")
 
     raise ValueError(f"not supported dst_type: `{dst_type}` for {value!r}")
 
