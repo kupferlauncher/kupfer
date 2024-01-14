@@ -89,6 +89,23 @@ class TestConfBase(unittest.TestCase):
             },
         )
 
+    def test_dict_not_default_dicts(self):
+        class TConf(S.ConfBase):
+            d: dict[int, dict[int, int]] = {1: {11: 11, 12: 12}, 2: {21: 21}}
+
+        tconf = TConf()
+        tconf.d = {1: {11: 111, 12: 12}, 2: {21: 21, 22: 22}}
+        res = tconf.asdict_non_default()
+        self.assertEqual(
+            res,
+            {
+                "d": {
+                    1: {11: 111},
+                    2: {22: 22},
+                }
+            },
+        )
+
     def test_conversion(self):
         class TConf(S.ConfBase):
             integer: int = 191
@@ -190,6 +207,16 @@ class TestConfBase(unittest.TestCase):
             dictionary: dict[int, int] = {1: 1, 2: 2}
 
         tconf = TConf()
+
+        self.assertEqual(tconf.sub.get_default_value("integer1"), 134)
+        self.assertEqual(tconf.sub.get_default_value("integer2"), 234)
+        self.assertEqual(tconf.sub.get_default_value("string1"), "qwe")
+        self.assertEqual(tconf.sub.get_default_value("string2"), "asd")
+        self.assertEqual(tconf.get_default_value("boolean1"), False)
+        self.assertEqual(tconf.get_default_value("boolean2"), True)
+        self.assertEqual(tconf.get_default_value("dictionary"), {1: 1, 2: 2})
+
+        # this should not change anything now
         tconf.save_as_defaults()
 
         self.assertEqual(tconf.sub.get_default_value("integer1"), 134)
@@ -198,13 +225,16 @@ class TestConfBase(unittest.TestCase):
         self.assertEqual(tconf.sub.get_default_value("string2"), "asd")
         self.assertEqual(tconf.get_default_value("boolean1"), False)
         self.assertEqual(tconf.get_default_value("boolean2"), True)
+        # is dict copied?
         self.assertTrue(tconf._defaults["dictionary"] is not tconf.dictionary)
+        self.assertEqual(tconf.get_default_value("dictionary"), {1: 1, 2: 2})
 
         tconf.sub.integer1 = 456
         tconf.sub.string1 = "zxc"
         tconf.boolean1 = True
         tconf.dictionary[3] = 3
 
+        # is defaults not changed?
         self.assertTrue(3 not in tconf._defaults["dictionary"])
 
         tconf.save_as_defaults()
@@ -222,6 +252,7 @@ class TestConfBase(unittest.TestCase):
             integer2: int = 234
             string1: str = "qwe"
             string2: str = "asd"
+            dictionary: dict[int, ty.Any] = {1: 1, 2: 2, 3: {1: 3}}
 
         tconf = TSubConf()
 
@@ -253,6 +284,14 @@ class TestConfBase(unittest.TestCase):
 
         self.assertEqual(tconf.integer1, 4567)
         self.assertEqual(tconf.string1, "zxcd")
+
+        tconf.dictionary[3][1] = 2
+        tconf.reset_value("dictionary")
+        self.assertEqual(tconf.dictionary, {1: 1, 2: 2, 3: {1: 3}})
+
+        tconf.dictionary = {2: 3, 4: 12}
+        tconf.reset_value("dictionary")
+        self.assertEqual(tconf.dictionary, {1: 1, 2: 2, 3: {1: 3}})
 
 
 class TestFillConfigurationFromParser(unittest.TestCase):
