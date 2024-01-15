@@ -21,8 +21,6 @@ only adapter for `configparser` is implemented.
 TODO: tuples
 
 """
-
-
 from __future__ import annotations
 
 import configparser
@@ -59,12 +57,7 @@ KUPFER_HIDDEN: ty.Final = "kupfer_hidden"
 class ExtendedSetting(ty.Protocol):
     """Protocol that define non-simple configuration option"""
 
-    def load(
-        self,
-        plugin_id: str,
-        key: str,
-        config_value: str | float | int | bool | None,
-    ) -> None:
+    def load(self, plugin_id: str, key: str, config_value: str | None) -> None:
         """load value for @plugin_id and @key, @config_value is value
         stored in regular Kupfer config for plugin/key"""
 
@@ -314,28 +307,24 @@ class ConfPlugin(dict[str, ty.Union[str, None]]):
         val = self[key]
 
         if isinstance(value_type, ExtendedSetting):
+            assert val is None or isinstance(val, str)
             val_obj: ExtendedSetting = value_type()
             val_obj.load(self.plugin_name, key, val)
             return val_obj
 
         return _convert(val, value_type or str)  # type: ignore
 
-    def set_value(self, key: str, value: PlugConfigValue) -> bool:
+    def set_value(self, key: str, value: PlugConfigValue) -> None:
         """Try set `key` for plugin.
         Internally, all values are stored as strings
         """
 
-        value_repr: str | None
-
         if value is None or isinstance(value, str):
-            value_repr = value
+            self[key] = value
         elif isinstance(value, ExtendedSetting):
-            value_repr = value.save(self.plugin_name, key)
+            self[key] = value.save(self.plugin_name, key)
         else:
-            value_repr = str(value)
-
-        self[key] = value_repr
-        return True
+            self[key] = str(value)
 
     def get_default_value(self, field_name: str) -> ty.Any:
         """Get default value for `field_name`."""
@@ -349,21 +338,20 @@ class ConfPlugin(dict[str, ty.Union[str, None]]):
 
     def asdict_non_default(self) -> dict[str, ty.Any]:
         if self._defaults is None:
-            return {}
+            return copy.deepcopy(self)
 
         return dict(datatools.compare_dicts(self, self._defaults))
 
 
 class ConfPlugins(dict[str, ConfPlugin]):
-    """ConfPlugin is dict of plugins configurations."""
+    """ConfPlugin is dict of plugins configuration."""
 
     def asdict_non_default(self) -> dict[str, ty.Any]:
-        res = {}
-        for key, val in self.items():
-            if diff := val.asdict_non_default():
-                res[key] = diff
-
-        return res
+        return {
+            key: diff
+            for key, val in self.items()
+            if (diff := val.asdict_non_default())
+        }
 
     def save_as_defaults(self):
         for val in self.values():

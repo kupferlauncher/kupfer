@@ -194,12 +194,7 @@ def check_dbus_connection() -> None:
 
 # pylint: disable=too-few-public-methods
 class UserNamePassword(settings.ExtendedSetting):
-    def load(
-        self,
-        plugin_id: str,
-        key: str,
-        config_value: str | float | int | bool | None,
-    ) -> None:
+    def load(self, plugin_id: str, key: str, config_value: str | None) -> None:
         raise NotImplementedError()
 
     def save(self, plugin_id: str, key: str) -> str:
