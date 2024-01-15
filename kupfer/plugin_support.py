@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import typing as ty
 import shutil
+from collections import OrderedDict
 
 from gi.repository import GObject
 
@@ -56,35 +57,35 @@ class PluginSettings(GObject.GObject, pretty.OutputMixin):  # type:ignore
         'kupfer_', which are reserved
         """
         GObject.GObject.__init__(self)
-        self.setting_descriptions: dict[str, dict[str, ty.Any]] = {}
-        self.setting_key_order: list[str] = []
+        self.setting_descriptions: OrderedDict[
+            str, dict[str, ty.Any]
+        ] = OrderedDict()
         self.signal_connection: int = -1
         req_keys = {"key", "value", "type", "label"}
         for desc in setdescs:
-            if not req_keys.issubset(list(desc.keys())):
-                missing = req_keys.difference(list(desc.keys()))
+            if not req_keys.issubset(desc.keys()):
+                missing = req_keys.difference(desc.keys())
                 raise KeyError(f"Plugin setting missing keys: {missing}")
 
             if _is_core_setting(desc["key"]):
                 raise KeyError(f"Reserved plugin setting key: {desc['key']!r}")
 
             self.setting_descriptions[desc["key"]] = desc.copy()
-            self.setting_key_order.append(desc["key"])
 
     def __iter__(self) -> ty.Iterator[str]:
-        return iter(self.setting_key_order)
+        return iter(self.setting_descriptions.keys())
 
     def initialize(self, plugin_name: str) -> None:
         """Init by reading from global settings and setting up callbacks"""
         setctl = settings.get_settings_controller()
-        for key in self:
-            value_type = self.setting_descriptions[key]["type"]
+        for key, desc in self.setting_descriptions.items():
+            value_type = desc["type"]
             value = setctl.get_plugin_config(plugin_name, key, value_type)
             if value is not None:
                 self[key] = value
 
             elif _is_core_setting(key):
-                default = self.setting_descriptions[key]["value"]
+                default = desc["value"]
                 setctl.set_plugin_config(plugin_name, key, default, value_type)
 
         setctl.connect("value-changed", self._on_value_changed, plugin_name)
