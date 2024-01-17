@@ -29,6 +29,16 @@ def _is_core_setting(key: str) -> bool:
 
 SettingChangeCB = ty.Callable[[ty.Any, str, ty.Any], None]
 
+_PLUG_REQ_KEYS = {"key", "value", "type", "label"}
+_PLUG_OPT_KEYS = {
+    "helper",
+    "min",
+    "max",
+    "alternatives",
+    "tooltip",
+    "multiline",
+}
+
 
 class PluginSettings(GObject.GObject, pretty.OutputMixin):  # type:ignore
     """Allows plugins to have preferences by assigning an instance
@@ -61,14 +71,19 @@ class PluginSettings(GObject.GObject, pretty.OutputMixin):  # type:ignore
             str, dict[str, ty.Any]
         ] = OrderedDict()
         self.signal_connection: int = -1
-        req_keys = {"key", "value", "type", "label"}
+
         for desc in setdescs:
-            if not req_keys.issubset(desc.keys()):
-                missing = req_keys.difference(desc.keys())
+            if not _PLUG_REQ_KEYS.issubset(desc.keys()):
+                missing = _PLUG_REQ_KEYS.difference(desc.keys())
                 raise KeyError(f"Plugin setting missing keys: {missing}")
 
             if _is_core_setting(desc["key"]):
                 raise KeyError(f"Reserved plugin setting key: {desc['key']!r}")
+
+            # check for unknown keys
+            for key in desc.keys():
+                if key not in _PLUG_REQ_KEYS and key not in _PLUG_OPT_KEYS:
+                    self.output_info("unknown plugin configuration key:", key)
 
             self.setting_descriptions[desc["key"]] = desc.copy()
 
