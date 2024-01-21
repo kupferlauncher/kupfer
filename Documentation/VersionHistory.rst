@@ -1,6 +1,14 @@
 NEWS for kupfer
 ===============
 
+kupfer v325 (2024-01-21)
+------------------------
+
++ Fix:
+
+  + Fix syntax error that sometimes happen on plugin activation. Close: #173
+  + Fix missing translations in *websearch* and *qrcode* plugins.
+
 kupfer v324 (2024-01-07)
 ------------------------
 
