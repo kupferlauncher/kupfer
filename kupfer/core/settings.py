@@ -157,9 +157,8 @@ class ConfBase:
     def save_as_defaults(self):
         """Save current values as default. For objects call `save_as_defaults`
         method if exists. For sets/dicts/lists - make copy."""
-        fields = set(self._annotations.keys())
         for key, val in self.__dict__.items():
-            if key not in fields:
+            if key not in self._annotations:
                 # skip not annotated fields
                 continue
 
@@ -187,9 +186,8 @@ class ConfBase:
         """Get dict of attributes that differ from default."""
         res = {}
 
-        fields = set(self._annotations.keys())
         for key, val in self.__dict__.items():
-            if key not in fields:
+            if key not in self._annotations:
                 # skip non-annotated fields
                 continue
 
@@ -220,18 +218,19 @@ class ConfBase:
             if key[0] != "_"
         }
 
-    def reset_value(self, field_name: str) -> None:
-        """Reset value in `field_name` to default value."""
-        value = self.get_default_value(field_name)
+    def reset_value(self, /, *field_names: str) -> None:
+        """Reset values in `field_names` to default value."""
+        for field_name in field_names:
+            value = self.get_default_value(field_name)
 
-        if hasattr(value, "reset_value"):
-            value.reset_value(field_name)
-            return
+            if hasattr(value, "reset_value"):
+                value.reset_value(field_name)
+                return
 
-        if isinstance(value, (dict, list, set)):
-            value = copy.deepcopy(value)
+            if isinstance(value, (dict, list, set)):
+                value = copy.deepcopy(value)
 
-        setattr(self, field_name, value)
+            setattr(self, field_name, value)
 
 
 class ConfKupfer(ConfBase):
@@ -359,6 +358,7 @@ class ConfPlugins(dict[str, ConfPlugin]):
 
 
 class Configuration(ConfBase):
+    """Top-level that keep Kupfer configuration."""
     kupfer: ConfKupfer
     appearance: ConfAppearance
     directories: ConfDirectories
@@ -787,8 +787,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return True
 
     def reset_keybindings(self) -> None:
-        self.config.kupfer.reset_value("keybinding")
-        self.config.kupfer.reset_value("magickeybinding")
+        self.config.kupfer.reset_value("keybinding", "magickeybinding")
 
     def reset_accelerators(self) -> None:
         self.config.reset_value("keybindings")
