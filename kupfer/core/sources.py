@@ -136,6 +136,7 @@ class PeriodicRescanner(pretty.OutputMixin):
             )
         except Exception as exc:
             self.output_error(f"Scanning {source}: {exc}")
+            self.output_exc()
 
         if campaign:
             # try to process next source
