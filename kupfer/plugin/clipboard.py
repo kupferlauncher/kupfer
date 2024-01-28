@@ -185,8 +185,8 @@ def _new_clipboard_leaf(text: str) -> Leaf:
         return ClipboardUrl(text, None)
 
     if validators.is_valid_file_path(text):
-        path = Path(text).expanduser()
-        with suppress(OSError):
+        with suppress(OSError, RuntimeError):
+            path = Path(text).expanduser()
             if path.exists():
                 return ClipboardFile(path)
 
