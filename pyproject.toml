@@ -132,3 +132,13 @@ exclude = ["waflib", "waf", "oldplugins"]
 [tool.pytest]
 addopts = "--doctest-modules"
 collect_ignore_glob = ["contrib/*", "oldplugins/*"]
+
+
+
+[tool.fixit]
+enable = [
+  ".rules",
+]
+disable = [
+  "fixit.rules:NoStringTypeAnnotation",
+]

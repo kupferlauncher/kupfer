@@ -235,7 +235,7 @@ class TestConfBase(unittest.TestCase):
         tconf.dictionary[3] = 3
 
         # is defaults not changed?
-        self.assertTrue(3 not in tconf._defaults["dictionary"])
+        self.assertNotIn(3, tconf._defaults["dictionary"])
 
         tconf.save_as_defaults()
 

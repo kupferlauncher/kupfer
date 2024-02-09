@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from configparser import RawConfigParser
 from pathlib import Path
-from contextlib import closing
+from contextlib import closing, suppress
 import itertools
 import sqlite3
 import typing as ty
@@ -98,18 +98,19 @@ def _get_home_file(
     """
     if profile_dir:
         # user define profile name or dir, check it and if valid use id
-        profile_dir = Path(profile_dir).expanduser()
-        if not profile_dir.is_absolute():
-            profile_dir = firefox_dir.joinpath(profile_dir)
+        with suppress(RuntimeError, IOError):
+            profile_dir = Path(profile_dir).expanduser()
+            if not profile_dir.is_absolute():
+                profile_dir = firefox_dir.joinpath(profile_dir)
 
-        if not profile_dir.is_dir():
-            # fail; given profile not exists
-            pretty.print_debug(
-                __name__, "Firefox custom profile_dir not exists", profile_dir
-            )
-            return None
+            if not profile_dir.is_dir():
+                # fail; given profile not exists
+                pretty.print_debug(
+                    __name__, "Firefox custom profile_dir not exists", profile_dir
+                )
+                return None
 
-        return profile_dir.joinpath(needed_file)
+            return profile_dir.joinpath(needed_file)
 
     if not firefox_dir.exists():
         pretty.print_debug(__name__, "Firefox dir not exists", firefox_dir)

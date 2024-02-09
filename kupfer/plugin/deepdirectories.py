@@ -14,6 +14,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
 import typing as ty
+from contextlib import suppress
 
 from kupfer import plugin_support
 from kupfer.obj.filesrc import FileSource
@@ -67,9 +68,10 @@ class DeepDirSource(FileSource):
         dirs = __kupfer_settings__["dirs"]
         for path in dirs or ():
             if path := path.strip():
-                path = os.path.expanduser(path)
-                if os.path.isdir(path):
-                    yield path
+                with suppress(RuntimeError):
+                    path = os.path.expanduser(path)
+                    if os.path.isdir(path):
+                        yield path
 
     def _on_setting_changed(self, settings, key, value):
         if key in ("dirs", "depth"):
