@@ -11,9 +11,10 @@ import os
 import typing as ty
 from collections import defaultdict
 
-from gi.repository import Gio
+from gi.repository import Gio, GLib
 
 from kupfer import launch
+from kupfer.support import pretty
 from kupfer.obj import files
 from kupfer.obj.base import Action, Leaf
 from kupfer.obj.exceptions import NoDefaultApplicationError
@@ -38,10 +39,19 @@ class Open(Action):
         Action.__init__(self, name)
 
     @classmethod
-    def default_application_for_leaf(cls, leaf: files.FileLeaf) -> Gio.AppInfo:
+    def default_application_for_leaf(
+        cls, leaf: files.FileLeaf
+    ) -> Gio.AppInfo | None:
         content_attr = Gio.FILE_ATTRIBUTE_STANDARD_CONTENT_TYPE
         gfile = leaf.get_gfile()
-        info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
+        try:
+            info = gfile.query_info(
+                content_attr, Gio.FileQueryInfoFlags.NONE, None
+            )
+        except GLib.GError as err:
+            pretty.print_error("get appinfo for leaf", leaf, "error", err)
+            return None
+
         content_type = info.get_attribute_string(content_attr)
         def_app = Gio.app_info_get_default_for_type(content_type, False)
         if not def_app:
@@ -77,10 +87,10 @@ class Open(Action):
         leafmap: dict[str, list[files.FileLeaf]] = defaultdict(list)
         for obj in objects:
             assert isinstance(obj, files.FileLeaf)
-            app = self.default_application_for_leaf(obj)
-            id_ = app.get_id()
-            appmap[id_] = app
-            leafmap[id_].append(obj)
+            if app := self.default_application_for_leaf(obj):
+                id_ = app.get_id()
+                appmap[id_] = app
+                leafmap[id_].append(obj)
 
         for id_, leaves in leafmap.items():
             app = appmap[id_]
