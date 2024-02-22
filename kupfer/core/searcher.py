@@ -74,12 +74,13 @@ class Searcher:
         Return (first, match_iter), where first is the first match,
         and match_iter an iterator to all matches, including the first match.
         """
-        key = key.lower()
+        # use lowercase for search, but for text sources keep original case.
+        keyl = key.lower()
 
-        if not self._old_key or not key.startswith(self._old_key):
+        if not self._old_key or not keyl.startswith(self._old_key):
             self._source_cache.clear()
 
-        self._old_key = key
+        self._old_key = keyl
 
         # General strategy: Extract a `list` from each source,
         # and perform ranking as in place operations on lists
@@ -111,10 +112,10 @@ class Searcher:
             if score:
                 if fixedrank:
                     rankables = search.add_rank_objects(rankables, fixedrank)
-                elif key:
+                elif keyl:
                     rankables = search.bonus_objects(
-                        search.score_objects(rankables, key),
-                        key,
+                        search.score_objects(rankables, keyl),
+                        keyl,
                         src.rank_adjust,
                     )
 
