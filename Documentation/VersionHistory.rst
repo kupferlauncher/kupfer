@@ -1,6 +1,27 @@
 NEWS for kupfer
 ===============
 
+kupfer v326 (2024-02-24)
+------------------------
+
++ Fix:
+
+  + Do not lowercase entered search term when passing it to sources that
+    create text leaves. Sources like *Shell Commands* and *Text*  now get
+    exact text that user entered/select. Close: #175
+
++ Plugins:
+
+  + Updated:
+
+    - *clipboard*: handle errors on creating file leaves from text when
+      text is not valid file path.
+
++ Dev:
+
+  + Minor changes related to handling / logging errors.
+
+
 kupfer v325 (2024-01-21)
 ------------------------
 
