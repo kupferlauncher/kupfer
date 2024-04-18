@@ -20,17 +20,27 @@ def try_close_unused_displays(screen: Gdk.Screen) -> None:
     current screen. If no windows remain then we close
     the display, but we never close the default display.
     """
-    skip_displays = (screen.get_display(), Gdk.Display.get_default())
+
+    skip_displays = [
+        d.get_name()
+        for d in (screen.get_display(), Gdk.Display.get_default())
+        if d
+    ]
+    if not skip_displays:
+        pretty.print_error(__name__, "empty skip_displays")
+        return
+
     dmgr = Gdk.DisplayManager.get()
     for disp in dmgr.list_displays():
-        if disp in skip_displays:
+        dname = disp.get_name()
+        if dname in skip_displays:
             continue
 
-        pretty.print_debug(__name__, "Trying to close", disp.get_name())
+        pretty.print_debug(__name__, "Trying to close", dname)
         open_windows = 0
         for window in Gtk.Window.list_toplevels():
             # find windows on @disp
-            if window.get_screen().get_display() != disp:
+            if window.get_screen().get_display().get_name() != dname:
                 continue
 
             if not window.get_property("visible"):
@@ -42,7 +52,7 @@ def try_close_unused_displays(screen: Gdk.Screen) -> None:
                 open_windows += 1
 
         if not open_windows:
-            pretty.print_debug(__name__, "Closing display", disp.get_name())
+            pretty.print_debug(__name__, "Closing display", dname)
             disp.close()
 
 
