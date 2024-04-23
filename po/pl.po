@@ -7,14 +7,14 @@
 # Maciej Kwiatkowski <kfiadeg@gmail.com>, 2009.
 # Aviary.pl <gnomepl@aviary.pl>, 2011-2015.
 # Piotr Drąg <piotrdrag@gmail.com>, 2011-2023.
-# Karol Będkowski <karol.bedkowski@gmail.com>, 2009-2023.
+# Karol Będkowski <karol.bedkowski@gmail.com>, 2009-2024.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-12-24 11:33+0100\n"
-"PO-Revision-Date: 2023-12-24 11:48+0100\n"
+"POT-Creation-Date: 2024-04-23 18:57+0200\n"
+"PO-Revision-Date: 2024-04-23 18:58+0200\n"
 "Last-Translator: Karol Będkowski <karol.bedkowski@gmail.com>\n"
 "Language-Team: Polish <->\n"
 "Language: pl\n"
@@ -25,7 +25,7 @@ msgstr ""
 "|| n%100>=20) ? 1 : 2)\n"
 "X-Poedit-Language: Polish\n"
 "X-Poedit-Country: Poland\n"
-"X-Generator: Gtranslator 45.3\n"
+"X-Generator: Gtranslator 46.0\n"
 
 #: ../data/credentials_dialog.ui.h:1
 msgid "User credentials"
@@ -53,7 +53,7 @@ msgid "Set Keyboard Shortcut"
 msgstr "Wybór klawisza skrótu"
 
 #: ../data/getkey_dialog.ui.h:2 ../kupfer/ui/_widgets.py:210
-#: ../kupfer/plugin/clipboard.py:196
+#: ../kupfer/plugin/clipboard.py:198
 msgid "Clear"
 msgstr "Wyczyść"
 
@@ -395,30 +395,30 @@ msgstr "%s i inni"
 msgid "Recursive source of %(dir)s, (%(levels)d levels)"
 msgstr "Rekurencyjne źródło %(dir)s, (%(levels)d poziomów)"
 
-#: ../kupfer/obj/fileactions.py:37 ../kupfer/plugin/gtg.py:154
+#: ../kupfer/obj/fileactions.py:38 ../kupfer/plugin/gtg.py:154
 #: ../kupfer/plugin/notes.py:181
 msgid "Open"
 msgstr "Otwórz"
 
-#: ../kupfer/obj/fileactions.py:50
+#: ../kupfer/obj/fileactions.py:60
 #, python-format
 msgid "No default application for %(file)s (%(type)s)"
 msgstr "Brak domyślnego programu dla %(file)s (%(type)s)"
 
-#: ../kupfer/obj/fileactions.py:54
+#: ../kupfer/obj/fileactions.py:64
 #, python-format
 msgid "Please use \"%s\""
 msgstr "Proszę użyć „%s”"
 
-#: ../kupfer/obj/fileactions.py:54 ../kupfer/plugin/applications.py:277
+#: ../kupfer/obj/fileactions.py:64 ../kupfer/plugin/applications.py:277
 msgid "Set Default Application..."
 msgstr "Ustaw domyślny program…"
 
-#: ../kupfer/obj/fileactions.py:95
+#: ../kupfer/obj/fileactions.py:105
 msgid "Open with default application"
 msgstr "Otwiera za pomocą domyślnego programu"
 
-#: ../kupfer/obj/fileactions.py:102
+#: ../kupfer/obj/fileactions.py:112
 msgid "Get Parent Folder"
 msgstr "Wybierz katalog nadrzędny"
 
@@ -828,39 +828,39 @@ msgstr "Nie można wykonać „%s”"
 msgid "\"%s\" produced a result"
 msgstr "„%s” zwróciło wynik"
 
-#: ../kupfer/plugin/show_qrcode.py:5 ../kupfer/plugin/show_qrcode.py:46
-#: ../kupfer/plugin/show_qrcode.py:60 ../kupfer/plugin/show_qrcode.py:118
-#: ../kupfer/plugin/show_qrcode.py:168
+#: ../kupfer/plugin/show_qrcode.py:5 ../kupfer/plugin/show_qrcode.py:48
+#: ../kupfer/plugin/show_qrcode.py:62 ../kupfer/plugin/show_qrcode.py:120
+#: ../kupfer/plugin/show_qrcode.py:170
 msgid "Show QRCode"
 msgstr "Wyświetl QRCode"
 
-#: ../kupfer/plugin/show_qrcode.py:7 ../kupfer/plugin/show_qrcode.py:91
+#: ../kupfer/plugin/show_qrcode.py:7 ../kupfer/plugin/show_qrcode.py:93
 msgid "Display text as QRCode in a window"
 msgstr "Wyświetla tekst jako QRCode w oknie"
 
-#: ../kupfer/plugin/show_qrcode.py:32
+#: ../kupfer/plugin/show_qrcode.py:34
 msgid "Max QRCode size (pixels)"
 msgstr "Maks. rozmiar QRCode (piksele)"
 
-#: ../kupfer/plugin/show_qrcode.py:60 ../kupfer/plugin/show_qrcode.py:118
-#: ../kupfer/plugin/show_qrcode.py:168
+#: ../kupfer/plugin/show_qrcode.py:62 ../kupfer/plugin/show_qrcode.py:120
+#: ../kupfer/plugin/show_qrcode.py:170
 #, python-format
 msgid "Cannot create QRCode: %s"
 msgstr "Nie można utworzyć QRCode: %s"
 
-#: ../kupfer/plugin/show_qrcode.py:103
+#: ../kupfer/plugin/show_qrcode.py:105
 msgid "Create QRCode image"
 msgstr "Utwórz obraz z QRCode"
 
-#: ../kupfer/plugin/show_qrcode.py:136
+#: ../kupfer/plugin/show_qrcode.py:138
 msgid "Create PNG file with QRCode"
 msgstr "Utwórz plik PNG z QRCode"
 
-#: ../kupfer/plugin/show_qrcode.py:150
+#: ../kupfer/plugin/show_qrcode.py:152
 msgid "Create QRCode text"
 msgstr "Utwórz QRCode jako tekst"
 
-#: ../kupfer/plugin/show_qrcode.py:185
+#: ../kupfer/plugin/show_qrcode.py:187
 msgid "Create QRCode as text with unicode characters"
 msgstr "Utwórz QRCode jako tekst ze znakami unicode"
 
@@ -1173,20 +1173,20 @@ msgstr ""
 "Wyszukiwanie w sieci za pomocą wyszukiwarek OpenSearch oraz zdefiniowanych "
 "przez użytkownika"
 
-#: ../kupfer/plugin/websearch.py:37
+#: ../kupfer/plugin/websearch.py:38
 msgid "User search engines:"
 msgstr "Wyszukiwarki użytkownika:"
 
-#: ../kupfer/plugin/websearch.py:43
+#: ../kupfer/plugin/websearch.py:44
 #, python-format
 msgid "Define URLs for search engines; '%s' is replaced by search term."
 msgstr "URL-e wyszukiwarek; \"%s\" jest zastępowany przez szukane wyrażenie."
 
-#: ../kupfer/plugin/websearch.py:49
+#: ../kupfer/plugin/websearch.py:50
 msgid "Default search engine:"
 msgstr "Domyśnla wyszukiwarka:"
 
-#: ../kupfer/plugin/websearch.py:53
+#: ../kupfer/plugin/websearch.py:54
 #, python-format
 msgid ""
 "Define URL for default search engine; '%s' is replaced by search term. If "
@@ -1196,28 +1196,28 @@ msgstr ""
 "wyrażenie. Jeżeli puste, używany jest pierwszy wpis z \"Wyszukiwarek "
 "użytkownika\" lub DuckDuckGo"
 
-#: ../kupfer/plugin/websearch.py:106
+#: ../kupfer/plugin/websearch.py:107
 msgid "Search..."
 msgstr "Znajdź..."
 
-#: ../kupfer/plugin/websearch.py:121
+#: ../kupfer/plugin/websearch.py:122
 msgid "Search the web with default search engines"
 msgstr "Wyszukiwanie w sieci za domyslnej wyszukiwarki"
 
-#: ../kupfer/plugin/websearch.py:131 ../kupfer/plugin/firefox_keywords.py:140
+#: ../kupfer/plugin/websearch.py:132 ../kupfer/plugin/firefox_keywords.py:140
 msgid "Search With..."
 msgstr "Znajdź za pomocą…"
 
-#: ../kupfer/plugin/websearch.py:151 ../kupfer/plugin/websearch.py:184
+#: ../kupfer/plugin/websearch.py:152 ../kupfer/plugin/websearch.py:185
 msgid "Search the web with OpenSearch search engines"
 msgstr "Wyszukiwanie w sieci za pomocą wyszukiwarek OpenSearch"
 
-#: ../kupfer/plugin/websearch.py:166 ../kupfer/plugin/zeal.py:193
+#: ../kupfer/plugin/websearch.py:167 ../kupfer/plugin/zeal.py:193
 #: ../kupfer/plugin/firefox_keywords.py:178
 msgid "Search For..."
 msgstr "Znajdź…"
 
-#: ../kupfer/plugin/websearch.py:291
+#: ../kupfer/plugin/websearch.py:292
 msgid "Search Engines"
 msgstr "Wyszukiwarki"
 
@@ -1400,8 +1400,8 @@ msgid "Content of %s"
 msgstr "Zawartość %s"
 
 #: ../kupfer/plugin/tmux.py:8
-msgid "tmux / tmuxp"
-msgstr "tmux / tmuxp"
+msgid "Tmux / Tmuxp"
+msgstr "Tmux / Tmuxp"
 
 #: ../kupfer/plugin/tmux.py:10
 msgid "Manage tmux and tmuxp sessions"
@@ -1880,7 +1880,7 @@ msgstr "Wysuń"
 msgid "Unmount and eject this media"
 msgstr "Odmontowuje i wysuwa ten nośnik"
 
-#: ../kupfer/plugin/kupfer_actions.py:3 ../kupfer/plugin/kupfer_actions.py:26
+#: ../kupfer/plugin/kupfer_actions.py:3 ../kupfer/plugin/kupfer_actions.py:28
 msgid "Kupfer Actions"
 msgstr "Akcje Kupfer"
 
@@ -2392,8 +2392,8 @@ msgid "Depth (max 10):"
 msgstr "Głębokość (maks 10):"
 
 #: ../kupfer/plugin/libvirt.py:10
-msgid "libvirt"
-msgstr "libvirt"
+msgid "Libvirt"
+msgstr "Libvirt"
 
 #: ../kupfer/plugin/libvirt.py:12
 msgid "Control libvirt guest domains."
@@ -2964,7 +2964,7 @@ msgstr "Wyświetla pomocy programu Kupfer"
 msgid "Show preferences window for Kupfer"
 msgstr "Wyświetla okno preferencji programu Kupfer"
 
-#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:222
+#: ../kupfer/plugin/clipboard.py:3 ../kupfer/plugin/clipboard.py:224
 msgid "Clipboards"
 msgstr "Schowki"
 
@@ -3021,7 +3021,7 @@ msgstr "Plik w schowku"
 msgid "Clipboard Files"
 msgstr "Pliki w schowku"
 
-#: ../kupfer/plugin/clipboard.py:208
+#: ../kupfer/plugin/clipboard.py:210
 msgid "Remove all recent clipboards"
 msgstr "Usuwa wszystkie ostatnie schowki"
 
