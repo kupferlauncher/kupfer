@@ -5,7 +5,7 @@ additional modules.
 
 from __future__ import annotations
 
-__kupfer_name__ = _("tmux / tmuxp")
+__kupfer_name__ = _("Tmux / Tmuxp")
 __kupfer_sources__ = ("TmuxSessionsSource", "TmuxpWorkspacesSource")
 __description__ = _("Manage tmux and tmuxp sessions")
 __version__ = "2023.1"

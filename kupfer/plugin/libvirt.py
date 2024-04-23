@@ -7,7 +7,7 @@ Plugin allow control domains (virtual machines) managed by libvirt.
 """
 from __future__ import annotations
 
-__kupfer_name__ = _("libvirt")
+__kupfer_name__ = _("Libvirt")
 __kupfer_sources__ = ("LibvirtDomainsSource",)
 __description__ = _("Control libvirt guest domains.")
 __version__ = "0.1"
