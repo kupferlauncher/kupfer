@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import os
 
 try:
@@ -18,7 +20,7 @@ def is_kwin() -> bool:
     """
     if Wnck:
         if (screen := Wnck.Screen.get_default()) is not None:
-            winmgr: str = screen.get_window_manager_name()
+            winmgr: str | None = screen.get_window_manager_name()
             pretty.print_debug(__name__, "window manager is", winmgr)
             if winmgr:
                 return winmgr.lower() == "kwin"
