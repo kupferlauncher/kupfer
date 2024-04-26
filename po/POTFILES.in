@@ -98,6 +98,7 @@ kupfer/plugin/glob.py
 kupfer/plugin/commands.py
 kupfer/plugin/duckduckgo.py
 kupfer/plugin/audacious.py
+kupfer/plugin/recoll.py
 kupfer/plugin/quickview.py
 kupfer/plugin/windows.py
 kupfer/plugin/virtualbox/vboxapi_support.py
