@@ -543,7 +543,8 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._match_state = State.WAIT
         self._text: str | None = ""
         self._source: AnySource | None = None
-        self._old_win_position = None
+        self._old_win_position: tuple[int, int] | None = None
+        self._old_win_size: tuple[int, int] | None = None
         self._has_search_result = False
         self._initialized = False
         self._icon_size: int = 0
@@ -664,27 +665,38 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if self.get_table_visible():
             self._list_window.hide()
 
-    def _show_table(self) -> None:  # pylint: disable=too-many-locals
-        setctl = settings.get_settings_controller()
-        list_maxheight = setctl.get_config_int("Appearance", "list_height")
-        if list_maxheight < self._icon_size_small * self.LIST_MIN_MULT:
-            list_maxheight = self.LIST_MIN_MULT * self._icon_size_small
-
+    def _reposition_list_window(
+        self,
+    ) -> None:  # pylint: disable=too-many-locals
         widget = self.widget()
         window = widget.get_toplevel()
-        _win_width, win_height = window.get_size()
+        win_size = window.get_size()
+        if not win_size:
+            return
 
-        self_x, _self_y = widget.translate_coordinates(window, 0, 0)
-        pos_x, pos_y = window.get_position()
+        win_pos = window.get_position()
+
+        # do nothing if position and size not changed
+        if self._old_win_position == win_pos and self._old_win_size == win_size:
+            return
+
+        ssize = widget.translate_coordinates(window, 0, 0)
+        if not ssize:
+            return
+
+        pos_x, pos_y = win_pos
+        self_x = ssize[0]
         self_width = widget.size_request().width
         self_end = self_x + self_width
 
-        sub_y = pos_y + win_height
-        # to stop a warning
-        _dummy_sr = self._table.size_request()
+        sub_y = pos_y + win_size[1]
+        self._table.size_request()
 
-        # FIXME: Adapt list length
-        subwin_height = list_maxheight
+        setctl = settings.get_settings_controller()
+        subwin_height = setctl.get_config_int("Appearance", "list_height")
+        if subwin_height < self._icon_size_small * self.LIST_MIN_MULT:
+            subwin_height = self.LIST_MIN_MULT * self._icon_size_small
+
         subwin_width = self_width * 2 + _WINDOW_BORDER_WIDTH
 
         if self_end < subwin_width:
@@ -698,8 +710,12 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._list_window.resize(subwin_width, subwin_height)
         self._list_window.set_transient_for(window)
         self._list_window.set_property("focus-on-map", False)
+        self._old_win_position = win_pos
+        self._old_win_size = win_size
+
+    def _show_table(self) -> None:  # pylint: disable=too-many-locals
+        self._reposition_list_window()
         self._list_window.show()
-        self._old_win_position = pos_x, pos_y
 
     def show_table(self) -> None:
         self.go_down(True)
@@ -793,12 +809,8 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self, widget: Gtk.Widget, event: Gdk.EventConfigure
     ) -> None:
         """When the window moves"""
-        winpos = event.x, event.y
-        # only hide on move, not resize
-        # set old win position in _show_table
-        if self.get_table_visible() and winpos != self._old_win_position:
-            self.hide_table()
-            GLib.timeout_add(300, self._show_table)
+        if self.get_table_visible():
+            self._reposition_list_window()
 
     def window_hidden(self, window: Gtk.Widget) -> None:
         """Window changed hid"""
