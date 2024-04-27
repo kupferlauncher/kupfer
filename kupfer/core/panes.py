@@ -175,7 +175,13 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
                 succ = True
 
         if succ:
-            self.refresh_data(select=self._selection)
+            sel = self._selection
+            # select again only leaves that have some content (as we go from
+            # source we can back only to source)
+            if sel and hasattr(sel, 'has_content') and sel.has_content():
+                self.refresh_data(select=sel)
+            else:
+                self.refresh_data()
 
         return succ
 
