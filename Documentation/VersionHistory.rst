@@ -1,6 +1,38 @@
 NEWS for kupfer
 ===============
 
+kupfer v327 (2024-04-28)
+------------------------
+
++ Fix:
+
+  + Fix random crashes reported on Arch and Python 3.11.8 probably caused by
+    broken support for multi display/monitor support. Close: #176
+
+  + Fix returning to previous leaf in browser (left key action); when leaves
+    come from action result there is not valid parent, so searching for it
+    is waste of time.
+
+  + Fix browser window placement; especially after text box is show/hide.
+
+  + Fix random crashes on startup related probably to too fast application
+    start.
+
++ Plugins:
+
+  + New:
+
+    - *recoll*: query Recoll full text search system
+
+  + Fixed:
+    - *tmux*, *libvirt* - fix names
+
+
++ Dev:
+
+  + Minor fixes (types)
+
+
 kupfer v326 (2024-02-24)
 ------------------------
 
