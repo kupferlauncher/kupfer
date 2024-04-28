@@ -796,7 +796,7 @@ class WindowController(pretty.OutputMixin):
                 kserv.connect("quit", self._on_quit)
 
         if not quiet:
-            self._on_activate()
+            GLib.idle_add(self._on_activate)
 
         GLib.idle_add(self.lazy_setup)
 
