@@ -13,8 +13,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: kupfer\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-04-23 18:57+0200\n"
-"PO-Revision-Date: 2024-04-23 18:58+0200\n"
+"POT-Creation-Date: 2024-04-28 19:19+0200\n"
+"PO-Revision-Date: 2024-04-28 19:22+0200\n"
 "Last-Translator: Karol Będkowski <karol.bedkowski@gmail.com>\n"
 "Language-Team: Polish <->\n"
 "Language: pl\n"
@@ -341,7 +341,7 @@ msgstr "Uruchom"
 msgid "Perform command"
 msgstr "Wykonuje polecenie"
 
-#: ../kupfer/obj/base.py:508 ../kupfer/ui/search.py:995
+#: ../kupfer/obj/base.py:508 ../kupfer/ui/search.py:1007
 msgid "Type to search"
 msgstr "Pisz aby szukać"
 
@@ -756,16 +756,16 @@ msgstr "Przejście do trzeciego panelu"
 msgid "Toggle Text Mode"
 msgstr "Przełączenie trybu tekstowego"
 
-#: ../kupfer/ui/search.py:977
+#: ../kupfer/ui/search.py:989
 #, python-format
 msgid "No matches in %(src)s for \"%(query)s\""
 msgstr "Brak wyników w %(src)s dla „%(query)s”"
 
-#: ../kupfer/ui/search.py:985
+#: ../kupfer/ui/search.py:997
 msgid "No matches"
 msgstr "Brak wyników"
 
-#: ../kupfer/ui/search.py:1078
+#: ../kupfer/ui/search.py:1090
 #, python-format
 msgid "No action matches \"%s\""
 msgstr "Brak wyników dla \"%s\""
@@ -1620,6 +1620,36 @@ msgstr "Wyświetla obecnie odtwarzany utwór"
 msgid "Playlist"
 msgstr "Lista odtwarzania"
 
+#: ../kupfer/plugin/recoll.py:3
+msgid "Recoll"
+msgstr "Recoll"
+
+#: ../kupfer/plugin/recoll.py:5
+msgid "Search in Recoll full text search system"
+msgstr "Wyszukiwanie pełno-tekstowe w aplikacji Recoll"
+
+#: ../kupfer/plugin/recoll.py:45
+msgid "Search in Recoll"
+msgstr "Wyszukiwanie Recoll"
+
+#: ../kupfer/plugin/recoll.py:57
+msgid "Search for text in Recoll database"
+msgstr "Wyszukaj tekst w Recoll"
+
+#: ../kupfer/plugin/recoll.py:67
+msgid "Open in Recoll"
+msgstr "Otwórz w Recoll"
+
+#: ../kupfer/plugin/recoll.py:79
+msgid "Open Recoll and search for text"
+msgstr "Otwiera Recoll i wyszukuje tekst"
+
+#: ../kupfer/plugin/recoll.py:87 ../kupfer/plugin/tracker3.py:108
+#: ../kupfer/plugin/locate.py:59 ../kupfer/plugin/tracker1.py:236
+#, python-format
+msgid "Results for \"%s\""
+msgstr "Wyniki dla \"%s\""
+
 #: ../kupfer/plugin/quickview.py:1
 msgid "Quick Image Viewer"
 msgstr "Szybki podgląd obrazów"
@@ -1778,12 +1808,6 @@ msgstr "Integracja z programem Tracker3"
 #: ../kupfer/plugin/tracker3.py:44 ../kupfer/plugin/tracker3.py:53
 msgid "Search in Tracker3"
 msgstr "Wyszukaj w Tracker3"
-
-#: ../kupfer/plugin/tracker3.py:108 ../kupfer/plugin/locate.py:59
-#: ../kupfer/plugin/tracker1.py:236
-#, python-format
-msgid "Results for \"%s\""
-msgstr "Wyniki dla \"%s\""
 
 #: ../kupfer/plugin/tracker3.py:121
 msgid "Tracker3 Full Text Search"
