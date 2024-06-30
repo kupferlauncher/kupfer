@@ -95,9 +95,11 @@ try:
 
         import typing
         typing.TYPE_CHECKING = True
+
+        import typeguard._checkers as checkers
+        checkers.check_protocol = None  # agronholm/typeguard#465
 except ImportError as err:
     print(err)
-    pass
 
 try:
     from pympler import tracker
@@ -110,6 +112,15 @@ if __name__ == "__main__":
 
     if tracker:
         tr = tracker.SummaryTracker()
+
+    print("!!!!!!!!!!!!!! WARN !!!!!!!!!!!!!!")
+    print("Launching Kupfer by kupfer.py is dedicated only for development. "
+          "This may totally broke some plugins, and some parts may not not "
+          "work as expected.")
+    print("Also Kupfer may run much slower.")
+    print("Please install and run Kupfer as described in documentation.")
+    print("!!!!!!!!!!!!!! WARN !!!!!!!!!!!!!!")
+
 
     main.main()
 
