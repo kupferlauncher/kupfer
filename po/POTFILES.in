@@ -2,6 +2,7 @@
 
 [type: gettext/glade]data/credentials_dialog.ui
 [type: gettext/glade]data/getkey_dialog.ui
+[type: gettext/glade]data/getdata_dialog.ui
 [type: gettext/glade]data/preferences.ui
 [type: gettext/glade]data/progress_dialog.ui
 [type: gettext/glade]data/result.ui
