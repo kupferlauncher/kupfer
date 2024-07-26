@@ -706,10 +706,12 @@ class WindowController(pretty.OutputMixin):
         """
         self._quit_now()
 
-    def lazy_setup(self) -> None:
+    def _lazy_setup(self, activate: bool = False) -> None:
         """Do all setup that can be done after showing main interface.
         Connect to desktop services (keybinding callback, session logout
         callbacks etc).
+
+        When `activate`, call _on_activate at the end (show main window).
         """
         # pylint: disable=import-outside-toplevel
         from kupfer.ui import session
@@ -756,9 +758,12 @@ class WindowController(pretty.OutputMixin):
         client.connect("die", self._on_session_die)
         self._interface.lazy_setup()
 
+        if activate:
+            self._on_activate()
+
         self.output_debug("finished lazy_setup")
 
-    def main(self, quiet: bool = False) -> None:  # noqa:PLR0915
+    def main(self, quiet: bool = False) -> None:
         """Start WindowController, present its window (if not @quiet)"""
         signal.signal(signal.SIGINT, self._on_early_interrupt)
 
@@ -801,10 +806,7 @@ class WindowController(pretty.OutputMixin):
                 kserv.connect("execute-file", self._on_execute_file)
                 kserv.connect("quit", self._on_quit)
 
-        if not quiet:
-            GLib.idle_add(self._on_activate)
-
-        GLib.idle_add(self.lazy_setup)
+        GLib.idle_add(self._lazy_setup, not quiet)
 
         def do_main_iterations(max_events=0):
             # use sentinel form of iter
