@@ -194,7 +194,7 @@ def is_url(text: str) -> str | None:  # noqa: PLR0911
 
     # quick check is text contain valid for url characters
     if not re.match(
-        r"^[a-z\u00a1-\uffff0-9-:/?#\[\]@!$&;()*+.,;=~_-]+$",
+        r"^[a-z\u00a1-\uffff0-9-:/?#\[\]@!$&;()*+.,;=~_%-]+$",
         text,
         re.IGNORECASE,
     ):

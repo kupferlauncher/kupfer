@@ -4,6 +4,7 @@
 """
 Tests for validators.
 """
+
 import unittest
 
 from kupfer.support import validators as v
@@ -129,6 +130,11 @@ class TestIsUrl(unittest.TestCase):
                 "https://john.doe@www.example.com:123/forum/questions/"
                 "?tag=networking&order=newest#top"
             ),
+        )
+
+        self.assertEqual(
+            "https://example.com/tests/file%20name.pdf",
+            v.is_url("https://example.com/tests/file%20name.pdf"),
         )
 
     def test_valid_mail(self):
