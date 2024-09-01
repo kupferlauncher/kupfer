@@ -55,8 +55,7 @@ def _get_thunar():
         pretty.print_error(__name__, exc)
         return None
 
-    iface_obj = dbus.Interface(proxy_obj, _IFACE_NAME)
-    return iface_obj
+    return dbus.Interface(proxy_obj, _IFACE_NAME)
 
 
 def _get_thunar_trash():
@@ -70,8 +69,7 @@ def _get_thunar_trash():
         pretty.print_error(__name__, exc)
         return None
 
-    iface_obj = dbus.Interface(proxy_obj, _TRASH_IFACE_NAME)
-    return iface_obj
+    return dbus.Interface(proxy_obj, _TRASH_IFACE_NAME)
 
 
 def _dummy(*args):
@@ -261,7 +259,7 @@ class MoveTo(Action, pretty.OutputMixin):
 
     def activate_multiple(self, leaves, iobjects, ctx):
         if len(iobjects) != 1:
-            raise NoMultiError()
+            raise NoMultiError
 
         def _reply():
             self.output_debug("reply got for moving")

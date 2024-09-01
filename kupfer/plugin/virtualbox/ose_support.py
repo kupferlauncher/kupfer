@@ -9,15 +9,16 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __version__ = "2018-10-21"
 
 import os
+from pathlib import Path
 from xml.dom import minidom
 
 from kupfer import launch
-from kupfer.support import pretty
 from kupfer.plugin.virtualbox import constants as vbox_const
+from kupfer.support import pretty
 
 _VBOX_CONFIG_DIRS = (
-    os.path.expanduser("~/.config/VirtualBox/"),
-    os.path.expanduser("~/.VirtualBox/"),
+    Path("~/.config/VirtualBox/").expanduser(),
+    Path("~/.VirtualBox/").expanduser(),
 )
 _VBOX_CONFIG_FILE = "VirtualBox.xml"
 
@@ -58,7 +59,9 @@ def get_machine_state(vm_uuid):
             state = vbox_const.VM_STATE_SAVED
 
     except OSError as err:
-        pretty.print_error(__name__, "get_machine_state", vm_uuid, "error", err)
+        pretty.print_error(
+            __name__, "get_machine_state", vm_uuid, "error", err
+        )
         state = vbox_const.VM_STATE_POWEROFF
 
     return state
@@ -132,13 +135,13 @@ def _get_machine_info(vm_uuid, config_file):
 
 def get_machines():
     for dirname in _VBOX_CONFIG_DIRS:
-        vbox_conf = os.path.join(dirname, _VBOX_CONFIG_FILE)
-        if not os.path.isfile(vbox_conf):
+        vbox_conf = Path(dirname, _VBOX_CONFIG_FILE)
+        if not vbox_conf.is_file():
             continue
 
         for vm_uuid, config in _get_virtual_machines(vbox_conf):
             if not os.path.isabs(config):
-                config = os.path.join(dirname, config)
+                config = os.path.join(dirname, config)  # noqa: PLW2901
 
             name, description = _get_machine_info(vm_uuid, config)
             if name:

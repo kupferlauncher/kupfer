@@ -158,10 +158,11 @@ class SSToClipboard(RunnableLeaf):
         argv = ["scrot", "--file", path, "--delay", "1", "--overwrite"]
 
         def finish_callback(acommand, stdout, stderr):
-            if not acommand.exit_status:
-                if pixbuf := icons.get_pixbuf_from_file(path):
-                    clip = Gtk.Clipboard.get_default(Gdk.Display.get_default())
-                    clip.set_image(pixbuf)
+            if not acommand.exit_status and (
+                pixbuf := icons.get_pixbuf_from_file(path)
+            ):
+                clip = Gtk.Clipboard.get_default(Gdk.Display.get_default())
+                clip.set_image(pixbuf)
 
             Path(path).unlink()
 

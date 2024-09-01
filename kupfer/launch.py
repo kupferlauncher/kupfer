@@ -18,7 +18,7 @@ try:
 
     Wnck.set_client_type(Wnck.ClientType.PAGER)
     if "WAYLAND_DISPLAY" in os.environ:
-        Wnck.Screen.get_default = lambda *x: None
+        Wnck.Screen.get_default = lambda *_x: None
 
 except ImportError as e:
     from kupfer.support import pretty
@@ -31,7 +31,7 @@ from kupfer.core import settings
 
 ## NOTE: SpawnError  *should* be imported from this module TODO: check
 # pylint: disable=unused-import
-from kupfer.desktop_launch import SpawnError  # noqa: F401
+from kupfer.desktop_launch import SpawnError
 from kupfer.support import fileutils, pretty, scheduler, system
 from kupfer.ui import uievents
 
@@ -68,8 +68,7 @@ def application_id(
 ) -> str:
     """Return an application id (string) for GAppInfo @app_info"""
     app_id = app_info.get_id() or desktop_file or ""
-    app_id = app_id.removesuffix(".desktop")
-    return app_id
+    return app_id.removesuffix(".desktop")
 
 
 # pylint: disable=too-many-arguments
@@ -98,9 +97,9 @@ def launch_application(
     Raises `SpawnError` on failed program start.
     """
     assert app_info
-    assert not (
-        bool(paths) and bool(uris)
-    ), "either paths or uris must be given: " + repr((paths, uris))
+    assert not (bool(paths) and bool(uris)), (
+        "either paths or uris must be given: " + repr((paths, uris))
+    )
 
     svc = get_applications_matcher_service()
     app_id = application_id(app_info, desktop_file)
@@ -170,9 +169,8 @@ class ApplicationsMatcherService(pretty.OutputMixin):
 
     @classmethod
     def _get_wnck_screen_windows_stacked(cls) -> ty.Iterable["Wnck.Window"]:
-        if Wnck:
-            if screen := Wnck.Screen.get_default():
-                return screen.get_windows_stacked()  # type: ignore
+        if Wnck and (screen := Wnck.Screen.get_default()):
+            return screen.get_windows_stacked()  # type: ignore
 
         return ()
 
@@ -247,10 +245,7 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         if reg_name and reg_name in (application.get_name(), res_class):
             return True
 
-        if app_id in (application.get_name().lower(), res_class.lower()):
-            return True
-
-        return False
+        return app_id in (application.get_name().lower(), res_class.lower())
 
     def launched_application(self, app_id: str, pid: int) -> None:
         if self._has_match(app_id):
@@ -698,7 +693,7 @@ def start_plugin_helper(
 
     raises SpawnError
 
-    UNUNSED
+    UNUSED
     """
     argv = [sys.executable]
     argv.extend(sys.argv)

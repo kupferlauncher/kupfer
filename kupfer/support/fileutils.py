@@ -1,9 +1,10 @@
-""" File-related support functions.
+"""File-related support functions.
 
 This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import itertools
@@ -43,8 +44,8 @@ def get_dirlist(
         return ShouldInclude
     """
 
-    h_include: FilterFunc = include or (lambda x: True)
-    h_exclude: FilterFunc = exclude or (lambda x: False)
+    h_include: FilterFunc = include or (lambda _x: True)
+    h_exclude: FilterFunc = exclude or (lambda _x: False)
 
     def accept_file(file):
         return h_include(file) and not h_exclude(file)
@@ -165,7 +166,7 @@ def get_destfile(
             fileno = os.open(
                 destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o666
             )
-        except OSError as exc:
+        except OSError as exc:  # noqa: PERF203
             pretty.print_error(__name__, exc)
         else:
             return (os.fdopen(fileno, "wb"), str(destpath))

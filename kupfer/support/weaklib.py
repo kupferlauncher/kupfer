@@ -8,7 +8,8 @@ import sys
 import typing as ty
 import weakref
 
-from gi.repository import GObject
+if ty.TYPE_CHECKING:
+    from gi.repository import GObject
 
 __all__ = (
     "WeakCallback",
@@ -90,7 +91,7 @@ class GobjectWeakCallback(WeakCallback):
         sender.disconnect(token)
     """
 
-    __senders: dict[ty.Any, GObject] = {}
+    __senders: ty.ClassVar[dict[ty.Any, GObject]] = {}
 
     def object_deleted(self, wref: weakref.ReferenceType[GObject]) -> None:
         # App is shutting down
@@ -141,7 +142,9 @@ def gobject_connect_weakly(
     >>>
     """
     # pylint: disable=protected-access
-    GobjectWeakCallback._connect(sender, signal, mcallback, *user_args)
+    GobjectWeakCallback._connect(  # noqa: SLF001
+        sender, signal, mcallback, *user_args
+    )
 
 
 if __name__ == "__main__":

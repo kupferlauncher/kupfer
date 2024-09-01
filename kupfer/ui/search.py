@@ -10,14 +10,15 @@ from gi.repository import Gdk, GdkPixbuf, GLib, GObject, Gtk
 import kupfer.config
 import kupfer.environment
 from kupfer import icons
-from kupfer.core import actionaccel, learn, relevance, settings, search
-from kupfer.core.search import Rankable
+from kupfer.core import actionaccel, learn, relevance, search, settings
 from kupfer.obj import Action, AnySource, KupferObject, Leaf
 from kupfer.support import pretty
 from kupfer.ui._support import escape_markup_str, text_direction_is_ltr
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.core.search import Rankable
 
 
 def _format_match(match: str) -> str:
@@ -41,6 +42,8 @@ _NAME_COL: ty.Final = 2
 _FAV_COL: ty.Final = 3
 _INFO_COL: ty.Final = 4
 _RANK_COL: ty.Final = 5
+
+_MIN_ICON_SIZE_TO_SHOW: ty.Final[int] = 8
 
 
 class _LeafModel:
@@ -194,9 +197,11 @@ class _LeafModel:
 
         return -1
 
-    def _get_icon(self, leaf: search.RankableObject) -> GdkPixbuf.Pixbuf | None:
+    def _get_icon(
+        self, leaf: search.RankableObject
+    ) -> GdkPixbuf.Pixbuf | None:
         """Get icon from `leaf` to show in row."""
-        if (size := self.icon_size) > 8:
+        if (size := self.icon_size) > _MIN_ICON_SIZE_TO_SHOW:
             return leaf.get_thumbnail(size, size) or leaf.get_pixbuf(size)
 
         return None
@@ -220,7 +225,7 @@ class _LeafModel:
         return ""
 
     def _get_aux_info(self, leaf: search.RankableObject) -> str:
-        """Show additional informations about leaves using aux_info_callback.
+        """Show additional information about leaves using aux_info_callback.
         For objects: Show arrow if it has content.
         For actions: Show accelerator.
         """
@@ -299,7 +304,7 @@ class MatchViewOwner(pretty.OutputMixin):
         self._on_icon_size_changed(setctl, None, None, None)
 
     def _build_widget(self) -> None:
-        """Core initalization method that builds the widget."""
+        """Core initialization method that builds the widget."""
         self._label = label = Gtk.Label.new("<match>")
         label.set_single_line_mode(True)
         label.set_width_chars(_LABEL_CHAR_WIDTH)
@@ -604,7 +609,7 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
     def _build_widget(self) -> None:
         """
-        Core initalization method that builds the widget
+        Core initialization method that builds the widget
         """
         self.match_view = MatchViewOwner()
 
@@ -780,9 +785,10 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 if len(self._model) - rows_count <= row:
                     self._populate(_SHOW_MORE)
                 # go down only if table is visible
-                if table_visible:
-                    if step := min(len(self._model) - row - 1, rows_count):
-                        self._table_set_cursor_at_row(row + step)
+                if table_visible and (
+                    step := min(len(self._model) - row - 1, rows_count)
+                ):
+                    self._table_set_cursor_at_row(row + step)
             else:
                 self._table_set_cursor_at_row(0)
 
@@ -1043,7 +1049,7 @@ class ActionSearch(Search):
             "value-changed::kupfer.action_accelerator_modifer",
             self._on_modifier_changed,
         )
-        self._read_accel_modifer(setctl.get_action_accelerator_modifer())
+        self._read_accel_modifier(setctl.get_action_accelerator_modifer())
 
     def _on_modifier_changed(
         self,
@@ -1052,9 +1058,9 @@ class ActionSearch(Search):
         key: ty.Any,
         value: str,
     ) -> None:
-        self._read_accel_modifer(value)
+        self._read_accel_modifier(value)
 
-    def _read_accel_modifer(self, value: str) -> None:
+    def _read_accel_modifier(self, value: str) -> None:
         if value == "alt":
             # pylint: disable=no-member
             self.accel_modifier = Gdk.ModifierType.MOD1_MASK

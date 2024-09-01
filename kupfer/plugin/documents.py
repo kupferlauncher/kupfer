@@ -13,12 +13,12 @@ import typing as ty
 from os import path
 from pathlib import Path
 
-import xdg.BaseDirectory as base
 from gi.repository import Gio, Gtk
+from xdg import BaseDirectory
 
 from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, AppLeaf, FileLeaf, Source, SourceLeaf, UrlLeaf
-from kupfer.support import weaklib, datatools
+from kupfer.support import datatools, weaklib
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
@@ -102,7 +102,7 @@ def _get_app_id(item: Gtk.RecentInfo) -> ty.Iterator[str]:
     for app in item.get_applications():
         # get app_id from application info
         instr = item.get_application_info(app)[0]
-        app = app.lower()
+        app = app.lower()  # noqa:PLW2901
         yield app
         # get first word as app id
         if (aid := instr.split(None, 1)[0]) != app:
@@ -171,9 +171,10 @@ def _app_names(leaf: AppLeaf) -> tuple[str, ...]:
     if (exe := leaf.object.get_executable()) != leaf_id:
         ids.append(exe)
 
-    if app_name := svc.application_name(leaf_id):
-        if (app_name := app_name.lower()) != leaf_id:
-            ids.append(app_name)
+    if (app_name := svc.application_name(leaf_id)) and (
+        app_name := app_name.lower()
+    ) != leaf_id:
+        ids.append(app_name)
 
     ids.extend(v for k, v in ALIASES.items() if k in ids)
     # return tuple as wee need hashable object for caching
@@ -263,7 +264,7 @@ class PlacesSource(Source):
 
     def initialize(self):
         self.places_file = path.join(
-            base.xdg_config_home, "gtk-3.0", "bookmarks"
+            BaseDirectory.xdg_config_home, "gtk-3.0", "bookmarks"
         )
 
     def get_items(self):
@@ -280,7 +281,7 @@ class PlacesSource(Source):
     def _get_places(self, fileloc):
         with open(fileloc, encoding="UTF-8") as fin:
             for line in fin:
-                line = line.strip()
+                line = line.strip()  # noqa:PLW2901
                 if not line:
                     continue
 
@@ -309,7 +310,7 @@ class PlacesSource(Source):
 
 
 class IgnoredApps(Source):
-    # This Source is invisibile and has no content
+    # This Source is invisible and has no content
     # It exists just to store (through the config mechanism) the list of apps
     # we ignore for recent documents content decoration
     instance: IgnoredApps = None  # type:ignore
@@ -389,7 +390,7 @@ class Toggle(Action):
             IgnoredApps.add(leaf)
         # Neat trick: We return the leaf, and that updates the decoration
         # pylint: disable=protected-access
-        leaf._content_source = None
+        leaf._content_source = None  # noqa: SLF001
         return leaf
 
     def get_description(self):

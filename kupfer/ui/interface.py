@@ -14,16 +14,23 @@ from gi.repository import Gdk, Gio, GObject, Gtk
 from kupfer import interface
 from kupfer.core import actionaccel, settings
 from kupfer.core.datactrl import DataController, PaneMode, PaneSel
-from kupfer.core.search import Rankable
-from kupfer.obj import AnySource, FileLeaf, Leaf, Action
+from kupfer.obj import Action, AnySource, FileLeaf, Leaf
 from kupfer.support import pretty, scheduler
-from kupfer.ui import accelerators, getkey_dialog, kupferhelp, uievents, uiutils
-from kupfer.ui import preferences
+from kupfer.ui import (
+    accelerators,
+    getkey_dialog,
+    kupferhelp,
+    preferences,
+    uievents,
+    uiutils,
+)
 from kupfer.ui._support import escape_markup_str, text_direction_is_ltr
 from kupfer.ui.search import ActionSearch, LeafSearch, Search, State
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.core.search import Rankable
 
 _SLOW_INPUT_INTERVAL: ty.Final = 2
 _KEY_PRESS_INTERVAL: ty.Final = 0.3
@@ -43,10 +50,17 @@ class KeyCallback(ty.Protocol):
         ...
 
 
+_MAX_STRING_LEN: ty.Final[int] = 27
+
+
 def _trunc_long_str(instr: ty.Any) -> str:
     "truncate long object names"
     ustr = str(instr)
-    return ustr[:25] + "…" if len(ustr) > 27 else ustr
+    return (
+        ustr[: _MAX_STRING_LEN - 2] + "…"
+        if len(ustr) > _MAX_STRING_LEN
+        else ustr
+    )
 
 
 def _get_accel(key: str, acf: AccelFunc) -> tuple[str, AccelFunc]:
@@ -293,7 +307,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         return False
 
-    def _on_entry_key_press(
+    def _on_entry_key_press(  # noqa: PLR0911
         self, entry: Gtk.Entry, event: Gdk.EventKey
     ) -> bool:
         """Intercept arrow keys and manipulate table without losing focus from
@@ -333,10 +347,9 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
                 if self.comma_trick():
                     return True
 
-            elif keyv in init_text_keys:
-                if self._try_enable_text_mode():
-                    # swallow if it is the direct key
-                    return keyv == direct_text_key
+            elif keyv in init_text_keys and self._try_enable_text_mode():
+                # swallow if it is the direct key
+                return keyv == direct_text_key
 
         if self._is_text_mode and keyv in (
             key_book["Left"],
@@ -912,9 +925,11 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         In ACTION_OBJECT mode second panel is hidden.
         """
-        order: tuple[LeafSearch, ActionSearch, LeafSearch] | tuple[
-            LeafSearch, ActionSearch
-        ] | tuple[LeafSearch, LeafSearch]
+        order: (
+            tuple[LeafSearch, ActionSearch, LeafSearch]
+            | tuple[LeafSearch, ActionSearch]
+            | tuple[LeafSearch, LeafSearch]
+        )
 
         if not self._panel_two_is_visible:
             order = (self.search, self.third)
@@ -1042,7 +1057,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """mouse clicked on a pane widget - activate it."""
         # activate on double-click
         # pylint: disable=no-member,protected-access
-        if event.type == Gdk.EventType._2BUTTON_PRESS:
+        if event.type == Gdk.EventType._2BUTTON_PRESS:  # noqa:SLF001
             self.activate()
             return True
 
@@ -1142,11 +1157,11 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if not text:
             self._data_ctrl.cancel_search()
             # See if it was a deleting key press
-            curev = Gtk.get_current_event()
+            curr_evt = Gtk.get_current_event()
             if (
-                curev
-                and curev.type == Gdk.EventType.KEY_PRESS
-                and curev.keyval
+                curr_evt
+                and curr_evt.type == Gdk.EventType.KEY_PRESS
+                and curr_evt.keyval
                 in (self._key_book["Delete"], self._key_book["BackSpace"])
             ):
                 self._delete_from_stack()
@@ -1267,10 +1282,11 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """Try to re-search current selected KupferObject if it has qf_id.
         For leaves like selected text this update leaf to current selected not
         previously selected."""
-        if obj := self.search.get_current():
-            if qf_id := getattr(obj, "qf_id", None):
-                pretty.print_debug(__name__, f"re-search qpfer '{qf_id}'")
-                self._data_ctrl.find_object(f"qpfer:{qf_id}")
+        if (obj := self.search.get_current()) and (
+            qf_id := getattr(obj, "qf_id", None)
+        ):
+            pretty.print_debug(__name__, f"re-search qpfer '{qf_id}'")
+            self._data_ctrl.find_object(f"qpfer:{qf_id}")
 
     def find_object(self, qpfer: str) -> None:
         self._data_ctrl.find_object(qpfer)

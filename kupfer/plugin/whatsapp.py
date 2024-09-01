@@ -1,4 +1,4 @@
-""" This plugin opens WhatsApp Web in the browser, and can send messages to
+"""This plugin opens WhatsApp Web in the browser, and can send messages to
 numbers that are not scheduled
 """
 

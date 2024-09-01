@@ -1,13 +1,14 @@
 """
-Module for confiugration and misc things
+Module for configuration and misc things
 """
+
 from __future__ import annotations
 
 import os
 import typing as ty
 from pathlib import Path
 
-import xdg.BaseDirectory as base
+from xdg import BaseDirectory
 
 try:
     from kupfer import version_subst  # type:ignore
@@ -48,7 +49,7 @@ def get_kupfer_env(name: str, default: str = "") -> str:
 
 def get_cache_home() -> str | None:
     """Directory where cache files should be put.  Guaranteed to exist."""
-    cache_home = base.xdg_cache_home or os.path.expanduser("~/.cache")
+    cache_home = BaseDirectory.xdg_cache_home or os.path.expanduser("~/.cache")
     cache_dir = Path(cache_home, PACKAGE_NAME)
     if not cache_dir.exists():
         try:
@@ -62,7 +63,7 @@ def get_cache_home() -> str | None:
 
 def get_cache_file(path: tuple[str, ...] = ()) -> str | None:
     """Get file by @path from cache directory.  Return None when no exists."""
-    cache_home = base.xdg_cache_home or os.path.expanduser("~/.cache")
+    cache_home = BaseDirectory.xdg_cache_home or os.path.expanduser("~/.cache")
     cache_path = Path(cache_home, *path)
     if not cache_path.exists():
         return None
@@ -82,7 +83,7 @@ def get_data_file(filename: str, package: str = PACKAGE_NAME) -> str:
     if file_path.exists():
         return str(file_path)
 
-    for data_path in base.load_data_paths(package):
+    for data_path in BaseDirectory.load_data_paths(package):
         file_path = Path(data_path, filename)
         if file_path.exists():
             return str(file_path)
@@ -98,7 +99,7 @@ def get_data_file(filename: str, package: str = PACKAGE_NAME) -> str:
 def save_data_file(filename: str) -> str | None:
     """Return filename in the XDG data home directory, where the directory is
     guaranteed to exist."""
-    if direc := base.save_data_path(PACKAGE_NAME):
+    if direc := BaseDirectory.save_data_path(PACKAGE_NAME):
         return os.path.join(direc, filename)
 
     return None
@@ -106,7 +107,7 @@ def save_data_file(filename: str) -> str | None:
 
 def get_data_home() -> str:
     """Directory where data is to be saved. Guaranteed to exist."""
-    return base.save_data_path(PACKAGE_NAME)
+    return BaseDirectory.save_data_path(PACKAGE_NAME)  # type: ignore
 
 
 def get_data_dirs(
@@ -114,7 +115,8 @@ def get_data_dirs(
 ) -> ty.Iterable[str]:
     """Iterate over all data dirs of @name that exist."""
     return ty.cast(
-        ty.Iterable[str], base.load_data_paths(os.path.join(package, name))
+        ty.Iterable[str],
+        BaseDirectory.load_data_paths(os.path.join(package, name)),
     )
 
 
@@ -122,20 +124,20 @@ def get_config_file(filename: str, package: str = PACKAGE_NAME) -> str | None:
     """Return path to @package/@filename if it exists anywhere in the config
     paths, else return None"""
     return ty.cast(
-        ty.Union[str, None], base.load_first_config(package, filename)
+        ty.Union[str, None], BaseDirectory.load_first_config(package, filename)
     )
 
 
 def get_config_files(filename: str) -> ty.Iterable[str]:
     """Iterator to @filename in all config paths, with most important (takes
-    precendence) files first."""
-    return base.load_config_paths(PACKAGE_NAME, filename) or ()
+    precedence) files first."""
+    return BaseDirectory.load_config_paths(PACKAGE_NAME, filename) or ()
 
 
 def save_config_file(filename: str) -> str | None:
     """Return filename in the XDG data home directory, where the directory
     is guaranteed to exist."""
-    if direc := base.save_config_path(PACKAGE_NAME):
+    if direc := BaseDirectory.save_config_path(PACKAGE_NAME):
         return os.path.join(direc, filename)
 
     return None

@@ -67,9 +67,9 @@ class LruCache(ty.Generic[K, V]):
         # try to get item from dict, if not found KeyError is raised
         try:
             value = self._data[key]
-        except KeyError as err:
+        except KeyError:
             self._miss += 1
-            raise err
+            raise
 
         self._hit += 1
         # found, so move it to the end
@@ -119,7 +119,7 @@ class LruCache(ty.Generic[K, V]):
 RT = ty.TypeVar("RT")  # return type
 
 
-class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name
+class simple_cache(ty.Generic[RT]):  # pylint: disable=invalid-name # noqa:N801
     """Function wrapper that remember (cache) one result and return it
     if no arguments changed.
 
@@ -186,7 +186,7 @@ def evaluate_once(func: ty.Callable[..., RT]) -> ty.Callable[..., RT]:
             return result
 
         result = func(*args, **kwargs)
-        setattr(wrapper, "cached_value", result)
+        wrapper.cached_value = result  # type: ignore
         return result
 
     return wrapper

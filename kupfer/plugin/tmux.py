@@ -25,7 +25,7 @@ if ty.TYPE_CHECKING:
 try:
     import libtmux
 except ImportError:
-    libtmux = None  # type: ignore
+    libtmux = None
 
 plugin_support.check_command_available("tmux")
 
@@ -56,20 +56,19 @@ class TmuxSession(Leaf):
 def tmux_sessions(
     session_id: str | None = None,
 ) -> ty.Iterator[ty.Collection[str]]:
-    if libtmux:
-        if srv := libtmux.Server():  # type: ignore
-            for sess in srv.sessions:
-                if not sess.session_id:
-                    continue
+    if libtmux and (srv := libtmux.Server()):
+        for sess in srv.sessions:
+            if not sess.session_id:
+                continue
 
-                yield (
-                    sess.session_id,
-                    sess.session_name or f"session {sess.session_id}",
-                    sess.session_attached or "",
-                    sess.session_created or "",
-                )
+            yield (
+                sess.session_id,
+                sess.session_name or f"session {sess.session_id}",
+                sess.session_attached or "",
+                sess.session_created or "",
+            )
 
-            return
+        return
 
     # fallback
     cmd = (

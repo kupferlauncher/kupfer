@@ -95,7 +95,9 @@ class SendFileByMail(Action):
     def activate_multiple(self, objects, iobjects):
         recipients = ",".join(filter(None, map(email_from_leaf, iobjects)))
         attachlist = ["--attach"] + [L.object for L in objects]
-        launch.spawn_async(["claws-mail", "--compose", recipients] + attachlist)
+        launch.spawn_async(
+            ["claws-mail", "--compose", recipients, *attachlist]
+        )
 
     def item_types(self):
         yield FileLeaf

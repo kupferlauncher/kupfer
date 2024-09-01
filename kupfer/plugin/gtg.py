@@ -54,9 +54,10 @@ def _create_dbus_connection_gtg(iface, obj, service, activate=False):
             "org.freedesktop.DBus", "/org/freedesktop/DBus"
         )
         dbus_iface = dbus.Interface(proxy_obj, "org.freedesktop.DBus")
-        if activate or dbus_iface.NameHasOwner(iface):
-            if obj := sbus.get_object(service, obj):
-                interface = dbus.Interface(obj, iface)
+        if (activate or dbus_iface.NameHasOwner(iface)) and (
+            obj := sbus.get_object(service, obj)
+        ):
+            interface = dbus.Interface(obj, iface)
 
     except dbus.exceptions.DBusException as err:
         pretty.print_debug(__name__, err)

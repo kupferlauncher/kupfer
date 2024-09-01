@@ -3,22 +3,24 @@
 """
 Custom widgets used mostly in Preferences Dialog
 """
+
 from __future__ import annotations
 
 import os
-import typing as ty
 import re
 import traceback
+import typing as ty
 
-from gi.repository import Gtk, Gio, GLib
+from gi.repository import Gio, GLib, Gtk
 
 from kupfer import icons, launch, plugin_support
-from kupfer.core import settings, plugins
+from kupfer.core import plugins, settings
 from kupfer.obj import KupferObject, Source
-from kupfer.support import types as kty
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.support import types as kty
 
 
 # pylint: disable=too-few-public-methods
@@ -114,8 +116,7 @@ class DirsSelectWidget(Gtk.Bin):  # type: ignore
         self.add(box)
 
     def _add_dirs(self, dirs: list[str]) -> None:
-        for directory in dirs:
-            directory = os.path.expanduser(directory)
+        for directory in map(os.path.expanduser, dirs):
             dispname = launch.get_display_path_for_bytestring(directory)
             gicon = icons.get_gicon_for_file(directory)
             self.model.append((directory, gicon, dispname))
@@ -316,7 +317,7 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
             # Display information for application content-sources.
             # only sources have leaf representation
             if isinstance(obj, Source):
-                _valud, leaf_repr = obj.get_valid_leaf_repr()
+                _valid, leaf_repr = obj.get_valid_leaf_repr()
                 if leaf_repr is not None:
                     hbox = self._create_leaves_info(leaf_repr, small_icon_size)
                     ibox.pack_start(hbox, True, True, 0)
@@ -350,7 +351,7 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
 
 # pylint: disable=too-few-public-methods
 class PluginAboutWidget(Gtk.Bin):  # type: ignore
-    """Widget with basic informations about plugin."""
+    """Widget with basic information about plugin."""
 
     def __init__(self, plugin_id: str, info: dict[str, ty.Any]) -> None:
         super().__init__()

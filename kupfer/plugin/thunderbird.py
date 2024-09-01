@@ -51,7 +51,7 @@ class ComposeMail(RunnableLeaf):
 
 
 class NewMailAction(Action):
-    """Createn new mail to selected leaf (Contact or TextLeaf)"""
+    """Create new mail to selected leaf (Contact or TextLeaf)"""
 
     def __init__(self):
         Action.__init__(self, _("Compose Email To"))
@@ -99,8 +99,8 @@ class AttachToNewMail(Action):
             return
 
         args = ["-compose", f"to='{recipients}',attachment='{attachments}'"]
-        if not launch.spawn_async(["thunderbird"] + args):
-            launch.spawn_async(["icedove"] + args)
+        if not launch.spawn_async(["thunderbird", *args]):
+            launch.spawn_async(["icedove", *args])
 
     def get_icon_name(self):
         return "mail-message-new"
@@ -130,8 +130,8 @@ class NewMailWithBody(Action):
 
     def activate(self, leaf, iobj=None, ctx=None):
         args = ["-compose", f"body='{leaf.object}'"]
-        if not launch.spawn_async(["thunderbird"] + args):
-            launch.spawn_async(["icedove"] + args)
+        if not launch.spawn_async(["thunderbird", *args]):
+            launch.spawn_async(["icedove", *args])
 
     def get_icon_name(self):
         return "mail-message-new"

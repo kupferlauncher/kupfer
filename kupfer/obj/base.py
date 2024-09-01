@@ -5,19 +5,21 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import time
 import typing as ty
 
-from gi.repository import GdkPixbuf
-
 from kupfer import icons
 from kupfer.support import itertools, kupferstring, pretty
-from kupfer.core import commandexec
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from gi.repository import GdkPixbuf
+
+    from kupfer.core import commandexec
 
 __all__ = [
     "KupferObject",
@@ -79,7 +81,7 @@ class KupferObject:
         else:
             rep = f"<{self.__module__}.{self.__class__.__name__}>"
 
-        setattr(self, "_cached_repr", rep)
+        self._cached_repr = rep
         return rep
 
     def repr_key(self) -> ty.Any:
@@ -103,13 +105,15 @@ class KupferObject:
         Subclasses should implement: get_gicon and get_icon_name,
         if they make sense.  The methods are tried in that order."""
 
-        if gicon := self.get_gicon():
-            if pbuf := icons.get_icon_for_gicon(gicon, icon_size):
-                return pbuf
+        if (gicon := self.get_gicon()) and (
+            pbuf := icons.get_icon_for_gicon(gicon, icon_size)
+        ):
+            return pbuf
 
-        if icon_name := self.get_icon_name():
-            if icon := icons.get_icon_for_name(icon_name, icon_size):
-                return icon
+        if (icon_name := self.get_icon_name()) and (
+            icon := icons.get_icon_for_name(icon_name, icon_size)
+        ):
+            return icon
 
         return icons.get_icon_for_name(self.fallback_icon_name, icon_size)
 
@@ -119,13 +123,13 @@ class KupferObject:
         Subclasses should implement: get_gicon and get_icon_name,
         if they make sense. The methods are tried in that order."""
 
-        if gicon := self.get_gicon():
-            if icons.is_good_gicon(gicon):
-                return gicon
+        if (gicon := self.get_gicon()) and icons.is_good_gicon(gicon):
+            return gicon
 
-        if icon_name := self.get_icon_name():
-            if icons.get_good_name_for_icon_names((icon_name,)):
-                return icons.get_gicon_for_names(icon_name)
+        if (
+            icon_name := self.get_icon_name()
+        ) and icons.get_good_name_for_icon_names((icon_name,)):
+            return icons.get_gicon_for_names(icon_name)
 
         return icons.get_gicon_for_names(self.fallback_icon_name)
 
@@ -173,8 +177,8 @@ class Leaf(KupferObject):
     def __hash__(self) -> int:
         return hash(str(self))
 
-    def __eq__(self, other: ty.Any) -> bool:
-        return type(self) is type(other) and self.object == other.object
+    def __eq__(self, other: object) -> bool:
+        return type(self) is type(other) and self.object == other.object  # type: ignore
 
     def add_content(self, content: Source | None) -> None:
         """Register content source @content with Leaf"""
@@ -223,7 +227,7 @@ class Action(KupferObject):
     def __hash__(self) -> int:
         return hash(repr(self))
 
-    def __eq__(self, other: ty.Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         return (
             type(self) is type(other)
             and repr(self) == repr(other)
@@ -481,19 +485,21 @@ class Source(KupferObject, pretty.OutputMixin):
         return None
 
     def get_leaf_repr(self) -> Leaf | None:
-        """Return, if appicable, another object to take the source's place as
+        """Return, if applicable, another object to take the source's place as
         Leaf"""
         return None
 
     def get_valid_leaf_repr(self) -> tuple[bool, Leaf | None]:
-        """Return, if appicable, another object to take the source's place as
+        """Return, if applicable, another object to take the source's place as
         Leaf.  Return tuple (leaf representation is valid, leaf).
         Valid representation may be None, so first element of tuple must be
         checked."""
-        if leaf_repr := self.get_leaf_repr():
-            if hasattr(leaf_repr, "is_valid"):
-                if not leaf_repr.is_valid():
-                    return False, None
+        if (
+            (leaf_repr := self.get_leaf_repr())
+            and (hasattr(leaf_repr, "is_valid"))
+            and not leaf_repr.is_valid()
+        ):
+            return False, None
 
         return True, leaf_repr
 
@@ -530,7 +536,7 @@ class TextSource(KupferObject):
         KupferObject.__init__(self, name)
         self.placeholder = placeholder
 
-    def __eq__(self, other: ty.Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         return type(self) is type(other) and repr(self).__eq__(repr(other))
 
     def __hash__(self) -> int:

@@ -19,7 +19,7 @@ __kupfer_sources__ = ("KupferSource",)
 __kupfer_actions__ = ()
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-__all__ = __kupfer_sources__ + __kupfer_actions__
+__all__ = list(__kupfer_sources__)
 
 
 def _is_debug():
@@ -33,7 +33,7 @@ class DebugRestart(RunnableLeaf):
 
     @classmethod
     def _exec_new_kupfer(cls, executable, argv):
-        os.execvp(executable, [executable] + argv)
+        os.execvp(executable, [executable, *argv])
 
     def run(self, ctx=None):
         Gtk.main_quit()

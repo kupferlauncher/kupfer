@@ -108,9 +108,8 @@ class SearchWithDefaultEngine(Action):
 
     def activate(self, leaf, iobj=None, ctx=None):
         url = __kupfer_settings__["default_engine"].strip()
-        if not url:
-            if urls := __kupfer_settings__["extra_engines"]:
-                url = urls.replace(";", "\n").split("\n", 1)[0].strip()
+        if not url and (urls := __kupfer_settings__["extra_engines"]):
+            url = urls.replace(";", "\n").split("\n", 1)[0].strip()
 
         url = url or _DEFAULT_ENGINE
         _do_search_engine(leaf.object, url)
@@ -206,7 +205,7 @@ def gettagname(tag):
 
 
 def _get_plugin_dirs() -> ty.Iterator[Path]:
-    """Get all posible plugins path (may not exists)"""
+    """Get all possible plugins path (may not exists)"""
     # accept in kupfer data dirs
     yield from map(Path, config.get_data_dirs("searchplugins"))
 
@@ -223,7 +222,7 @@ def _get_plugin_dirs() -> ty.Iterator[Path]:
 
     suffixes = ["en-US"]
     if cur_lang := locale.getlocale(locale.LC_MESSAGES)[0]:
-        suffixes = [cur_lang.replace("_", "-"), cur_lang[:2]] + suffixes
+        suffixes = [cur_lang.replace("_", "-"), cur_lang[:2], *suffixes]
 
     addon_dir = Path("/usr/lib/firefox-addons/searchplugins")
     for suffix in suffixes:
@@ -323,9 +322,10 @@ class OpenSearchSource(Source):
 
                 visited_files.add(fname)
                 fpath = pdir.joinpath(fname)
-                if not fpath.is_dir():
-                    if search := self._parse_opensearch(str(fpath)):
-                        yield SearchEngine(search, search["ShortName"])
+                if not fpath.is_dir() and (
+                    search := self._parse_opensearch(str(fpath))
+                ):
+                    yield SearchEngine(search, search["ShortName"])
 
         # add user search engines
         if custom_ses := __kupfer_settings__["extra_engines"]:

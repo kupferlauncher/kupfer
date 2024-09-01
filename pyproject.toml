@@ -104,7 +104,7 @@ jobs=4
 extension-pkg-allow-list="lxml"
 extension-pkg-whitelist="lxml"
 py-version = [3, 9]
-disable = ["missing-docstring", "format", "unused-argument", "fixme"]
+disable = ["missing-docstring", "format", "unused-argument", "fixme", "useless-return"]
 
 [tool.pylint.basic]
 good-names=["i", "j", "k", "ex", "Run", "_", "db", "err", "ok", "x", "y", "id", "ts"]
@@ -126,8 +126,66 @@ additional-builtins = ["_", "ngettext", "ic"]
 
 
 [tool.ruff]
+lint.select = ["E", "F", "I", "W"]
+output-format = "full"
+line-length = 79
 builtins = ["_", "ic", "ic_stack", "ngettext"]
 exclude = ["waflib", "waf", "oldplugins"]
+#lint.fixable = ["I"]
+lint.extend-select = [
+#  "C",
+  "N",
+  "FBT",
+  "B",
+  "A",
+  "COM",
+  "C4",
+  "EM",
+  "ISC",
+  "ICN",
+  "LOG",
+  "G",
+  "PIE",
+  "PYI",
+  "Q",
+  "RSE",
+  "RET",
+  "SLF",
+  "SLOT",
+  "SIM",
+  "TID",
+  "TCH",
+  "ARG",
+#  "PTH",
+#  "TD",
+#  "FIX",
+  "PL",
+  "R",
+  "TRY",
+  "PERF",
+  "RUF",
+]
+lint.ignore = [
+  "FBT001",
+  "FBT002",
+  "EM101",
+  "TRY003",
+  "FBT003",
+  "COM812",
+  "ARG001",
+  "ARG002",
+  "TCH004",
+  "RUF001",
+  "E501",
+  "EM102",
+  "B008",
+  "TRY300",
+  "ISC001",
+  "PLR0913",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"**/*_test.py" = ["ANN", "PTH", "DTZ", 'SLF001', "ARG", "PLR"]
 
 [tool.pytest]
 addopts = "--doctest-modules"

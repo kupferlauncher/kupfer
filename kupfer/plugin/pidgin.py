@@ -37,7 +37,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 plugin_support.check_dbus_connection()
 
-# Contact data contstants
+# Contact data constants
 _PIDGIN_ACCOUNT = "_PIDGIN_ACCOUNT"
 _PIDGIN_JID = "_PIDGIN_JID"
 
@@ -156,13 +156,13 @@ class SendMessage(ContactAction):
 
     def valid_object(self, iobj, for_item=None):
         # ugly, but we don't want derived text
-        return type(iobj) == TextLeaf  # pylint: disable=unidiomatic-typecheck
+        return type(iobj) == TextLeaf  # pylint: disable=unidiomatic-typecheck # noqa: E721
 
 
 class PidginContact(ContactLeaf):
     """Leaf represent single contact from Pidgin"""
 
-    grouping_slots = ContactLeaf.grouping_slots + (EMAIL_KEY,)
+    grouping_slots = (*ContactLeaf.grouping_slots, EMAIL_KEY)
 
     def __init__(
         self, jid, name, account, icon, protocol, available, status_message

@@ -10,15 +10,14 @@ __author__ = "Ulrik, KB"
 
 import os
 import re
-import typing as ty
-from pathlib import Path
 import shutil
+import typing as ty
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
+from pathlib import Path
 
 from kupfer import launch, plugin_support, runtimehelper
-from kupfer.core import commandexec
 from kupfer.obj import Action, FileLeaf, Leaf, OperationError
 from kupfer.obj.special import CommandNotAvailableLeaf
 from kupfer.support import fileutils
@@ -26,6 +25,7 @@ from kupfer.support import fileutils
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
+    from kupfer.core import commandexec
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {

@@ -17,12 +17,12 @@ __author__ = ""
 
 import os
 import time
-import xml.sax.saxutils
 import typing as ty
+import xml.sax.saxutils
 
 import dbus
-import xdg.BaseDirectory as base
 from gi.repository import GLib
+from xdg import BaseDirectory
 
 from kupfer import icons, plugin_support
 from kupfer.obj import (
@@ -47,10 +47,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "label": _("Work with application"),
         "type": str,
         "value": "",
-        "alternatives": [
-            "",
-        ]
-        + PROGRAM_IDS,
+        "alternatives": ["", *PROGRAM_IDS],
     },
 )
 
@@ -58,7 +55,7 @@ plugin_support.check_dbus_connection()
 
 
 ## Tuples of  service name, object name, interface name
-PROGRAM_SERIVCES = {
+_PROGRAM_SERVICES = {
     "gnote": (
         "org.gnome.Gnote",
         "/org/gnome/Gnote/RemoteControl",
@@ -88,12 +85,11 @@ def _get_notes_interface(activate=False):
     programs = (set_prog,) if set_prog else PROGRAM_IDS
 
     for program in programs:
-        service_name, obj_name, iface_name = PROGRAM_SERIVCES[program]
+        service_name, obj_name, iface_name = _PROGRAM_SERVICES[program]
         if activate:
             bus.start_service_by_name(service_name)
-        else:
-            if not bus.name_has_owner(service_name):
-                continue
+        elif not bus.name_has_owner(service_name):
+            continue
 
         try:
             searchobj = bus.get_object(service_name, obj_name)
@@ -437,7 +433,7 @@ class Note(Leaf):
 class ClassProperty(property):
     """Subclass property to make classmethod properties possible"""
 
-    def __get__(self, cls, owner):
+    def __get__(self, cls: ty.Any, owner: ty.Optional[type] = None, /) -> ty.Any:
         # pylint: disable=no-member
         return self.fget.__get__(None, owner)()  # type: ignore
 
@@ -457,7 +453,7 @@ class NotesSource(ApplicationSource):
         for program in PROGRAM_IDS:
             dirs.extend(
                 (
-                    os.path.join(base.xdg_data_home, program),
+                    os.path.join(BaseDirectory.xdg_data_home, program),
                     os.path.expanduser(f"~/.{program}"),
                 )
             )
@@ -465,8 +461,8 @@ class NotesSource(ApplicationSource):
         self.monitor_token = self.monitor_directories(*dirs)
 
         set_prog = __kupfer_settings__["notes_application"]
-        if set_prog in PROGRAM_SERIVCES:
-            bus_name = PROGRAM_SERIVCES[set_prog][0]
+        if set_prog in _PROGRAM_SERVICES:
+            bus_name = _PROGRAM_SERVICES[set_prog][0]
             bus = dbus.SessionBus()
             weaklib.dbus_signal_connect_weakly(
                 bus,

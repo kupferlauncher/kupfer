@@ -4,7 +4,6 @@ __description__ = _("Look up word in dictionary")
 __version__ = "2023-04-14"
 __author__ = "Ulrik, KB"
 
-import collections
 import shutil
 import typing as ty
 
@@ -16,7 +15,9 @@ if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
 
-Dict = collections.namedtuple("Dict", ["title", "args"])
+class Dict(ty.NamedTuple):
+    title: str
+    args: list[str]
 
 
 dictionaries = {

@@ -11,20 +11,20 @@ __version__ = "2023-04-02"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import os
+import shutil
 import typing as ty
 from pathlib import Path
-import shutil
 
-from gi.repository import Gio
-
-from kupfer import plugin_support, launch, icons
-from kupfer.obj import FileLeaf, Source, SourceLeaf, Action
+from kupfer import icons, launch, plugin_support
+from kupfer.obj import Action, FileLeaf, Source, SourceLeaf
 from kupfer.obj.apps import AppLeafContentMixin
-from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
+from kupfer.obj.helplib import FileMonitorToken, FilesystemWatchMixin
 from kupfer.support.datatools import simple_cache
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from gi.repository import Gio
 
 
 plugin_support.check_any_command_available("vim", "gvim")

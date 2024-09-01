@@ -186,7 +186,7 @@ class LibvirtDomainsSource(AppLeafContentMixin, Source):
 
     def initialize(self):
         # prevent logging errors from libvirt
-        libvirt.registerErrorHandler(lambda userdata, err: None, ctx=None)
+        libvirt.registerErrorHandler(lambda _userdata, _err: None, ctx=None)
         self.cmgr = _ConnManager.instance()
         if conn := self.cmgr.get_conn():
             conn.domainEventRegister(self._callback, None)

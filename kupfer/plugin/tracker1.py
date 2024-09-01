@@ -302,7 +302,7 @@ class TrackerFulltext(TextSource):
                 rank = "recent"
 
             query = text.lstrip("? ~")
-            if len(query) > 2 and not has_parsing_error(query):
+            if len(query) > 2 and not has_parsing_error(query):  # noqa: PLR2004
                 yield from TrackerQuerySource(
                     query, order_by=rank, max_items=50
                 ).get_items()
@@ -321,7 +321,4 @@ def has_parsing_error(query):
     if words and words[-1] in ("OR", "AND"):
         return True
 
-    if query.count('"') % 2 != 0:
-        return True
-
-    return False
+    return query.count('"') % 2 != 0

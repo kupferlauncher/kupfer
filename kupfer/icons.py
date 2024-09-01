@@ -91,7 +91,7 @@ def parse_load_icon_list(
             continue
 
         fields = tuple(map(str.strip, line.split("\t", 2)))
-        if len(fields) < 2:
+        if len(fields) <= 1:
             pretty.print_error(
                 __name__,
                 "Malformed icon-list line {line!r} from {plugin_name!r}",
@@ -282,7 +282,7 @@ class ComposedIcon:
 
 
 # pylint: disable=invalid-name
-def ComposedIconSmall(
+def ComposedIconSmall(  # noqa:N802
     baseicon: GIcon | str, emblem: GIcon | str, **kwargs: ty.Any
 ) -> ComposedIcon:
     """Create composed icon for leaves with emblem visible on browser list"""
@@ -326,8 +326,7 @@ def get_pixbuf_from_file(
     if not thumb_path:
         return None
     try:
-        icon = GdkPixbuf.Pixbuf.new_from_file_at_size(thumb_path, width, height)
-        return icon
+        return GdkPixbuf.Pixbuf.new_from_file_at_size(thumb_path, width, height)
     except GError as exc:
         # this error is not important, the program continues on fine,
         # so we put it in debug output.
@@ -456,10 +455,9 @@ class IconRenderer:
         cls, file_path: str, icon_size: int
     ) -> GdkPixbuf.Pixbuf | None:
         with suppress(GError):
-            icon = GdkPixbuf.Pixbuf.new_from_file_at_size(
+            return GdkPixbuf.Pixbuf.new_from_file_at_size(
                 file_path, icon_size, icon_size
             )
-            return icon
 
         return None
 
@@ -477,7 +475,7 @@ def _setup_icon_renderer(_sched: ty.Any) -> None:
 
 
 def _on_icon_render_change(setctl, *_arguments):
-    global _ICON_RENDERER  # pylint: disable=global-statement
+    global _ICON_RENDERER  # pylint: disable=global-statement # noqa: PLW0603
     renderer_dict = setctl.get_preferred_alternative("icon_renderer")
     assert renderer_dict
 
@@ -508,11 +506,12 @@ def get_icon_for_name(
             if icon := _ICON_RENDERER.pixbuf_for_name(load_name, icon_size):
                 break
 
-            if fallback_name := _KUPFER_ICON_FALLBACKS.get(icon_name):
-                if icon := _ICON_RENDERER.pixbuf_for_name(
+            if (fallback_name := _KUPFER_ICON_FALLBACKS.get(icon_name)) and (
+                icon := _ICON_RENDERER.pixbuf_for_name(
                     fallback_name, icon_size
-                ):
-                    break
+                )
+            ):
+                break
 
         except Exception:
             pretty.print_exc(__name__)
@@ -607,7 +606,7 @@ def get_pixbuf_from_data(
     """Create pixbuf object from data with optional scaling
 
     @data: picture as raw data
-    @width, @heigh: optional destination size
+    @width, @height: optional destination size
     """
 
     ploader = GdkPixbuf.PixbufLoader.new()
@@ -619,8 +618,9 @@ def get_pixbuf_from_data(
         ) -> None:
             assert width and height
             scale = min(width / float(img_width), height / float(img_height))
-            new_width, new_height = int(img_width * scale), int(
-                img_height * scale
+            new_width, new_height = (
+                int(img_width * scale),
+                int(img_height * scale),
             )
             img.set_size(new_width, new_height)
 

@@ -60,7 +60,7 @@ def _create_dbus_connection_device(obj, /, sbus=None):
     return _create_dbus_connection(_DEVICE_IFACE, obj, _NM_SERVICE, sbus=sbus)
 
 
-_NM_DEVICE_STATE = {
+_NM_DEVICE_STATE: ty.Final[dict[int, str]] = {
     # TRANS: network device status
     0: _("unknown"),
     # TRANS: network device status
@@ -89,7 +89,9 @@ _NM_DEVICE_STATE = {
     120: _("failed"),
 }
 
-_NM_DEVICE_TYPES = {
+_DEVICE_ACTIVATED: ty.Final[int] = 100
+
+_NM_DEVICE_TYPES: ty.Final[dict[int, str]] = {
     0: "unknown",
     1: "ethernet",
     2: "wifi",
@@ -124,6 +126,9 @@ _NM_DEVICE_TYPES = {
     31: "vrf",
 }
 
+_DEV_TYPE_WIRELESS: ty.Final[int] = 2
+_DEV_TYPE_VPN: ty.Final[int] = 29
+
 
 class Device(Leaf):
     def __init__(
@@ -141,10 +146,10 @@ class Device(Leaf):
         }
 
     def get_icon_name(self):
-        if self.devtype == 2:
+        if self.devtype == _DEV_TYPE_WIRELESS:
             return "network-wireless"
 
-        if self.devtype == 29:
+        if self.devtype == _DEV_TYPE_VPN:
             return "network-vpn"
 
         return "network-wired"
@@ -184,7 +189,7 @@ class Disconnect(Action):
         return _("Disconnect connection")
 
     def valid_for_item(self, leaf):
-        return leaf.status() == 100
+        return leaf.status() == _DEVICE_ACTIVATED
 
     def has_result(self):
         return True
@@ -225,7 +230,7 @@ class Connect(Action):
         return ConnectionsSource(for_item.object, for_item.name)
 
     def valid_for_item(self, leaf):
-        return leaf.status() != 100
+        return leaf.status() != _DEVICE_ACTIVATED
 
     def has_result(self):
         return True
@@ -249,7 +254,7 @@ def _get_info_recursive(item, level=0):
 
 class ShowInfo(Action):
     def __init__(self):
-        Action.__init__(self, _("Show informations"))
+        Action.__init__(self, _("Show information"))
 
     def wants_context(self):
         return True
@@ -281,7 +286,7 @@ class ShowInfo(Action):
         uiutils.show_text_result(msg, title=_("Connection details"), ctx=ctx)
 
     def get_description(self):
-        return _("Show informations about device")
+        return _("Show information about device")
 
 
 class Connection(Leaf):

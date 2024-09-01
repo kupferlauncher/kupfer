@@ -112,7 +112,7 @@ class DebugInfo(Action):
         uiutils.show_text_result(output.getvalue())
 
     def get_description(self):
-        return "Print debug output (for interal kupfer use)"
+        return "Print debug output (for internal kupfer use)"
 
     def get_icon_name(self):
         return "emblem-system"

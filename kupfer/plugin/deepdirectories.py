@@ -66,10 +66,10 @@ class DeepDirSource(FileSource):
     def _get_dirs():
         dirs = __kupfer_settings__["dirs"]
         for path in dirs or ():
-            if path := path.strip():
-                path = os.path.expanduser(path)
-                if os.path.isdir(path):
-                    yield path
+            if (path := os.path.expanduser(path.strip())) and os.path.isdir(
+                path
+            ):
+                yield path
 
     def _on_setting_changed(self, settings, key, value):
         if key in ("dirs", "depth"):

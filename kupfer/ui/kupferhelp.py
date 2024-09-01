@@ -5,8 +5,12 @@ Show application help.
 """
 from __future__ import annotations
 
+import typing as ty
+
 from kupfer import launch, version
-from kupfer.ui.uievents import GUIEnvironmentContext
+
+if ty.TYPE_CHECKING:
+    from kupfer.ui.uievents import GUIEnvironmentContext
 
 
 def show_help(ctxenv: GUIEnvironmentContext | None = None) -> None:

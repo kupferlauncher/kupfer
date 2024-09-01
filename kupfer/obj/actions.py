@@ -11,14 +11,14 @@ import typing as ty
 
 from kupfer import launch, support
 from kupfer.desktop_launch import SpawnError
-
 from kupfer.obj.base import Action, Leaf
 from kupfer.obj.exceptions import OperationError
 from kupfer.obj.objects import RunnableLeaf
-from kupfer.core import commandexec
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.core import commandexec
 
 __all__ = ("OpenUrl", "OpenTerminal", "Execute", "Perform")
 

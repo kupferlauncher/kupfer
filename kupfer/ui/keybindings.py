@@ -182,7 +182,4 @@ def _is_sane_keybinding(keystr: str | None) -> bool:
     if len(keystr) == 1 and keystr.isalnum():
         return False
 
-    if keystr in ("Return", "space", "BackSpace", "Escape"):
-        return False
-
-    return True
+    return keystr not in ("Return", "space", "BackSpace", "Escape")

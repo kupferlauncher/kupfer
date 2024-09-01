@@ -106,9 +106,9 @@ def _str_to_unix_ts(inp: str) -> str:
     """Convert int or float from `inp` do date."""
     ts = float(inp)
     # check is ns/ms precision
-    if ts > 9999999999999.0:
+    if ts > 9999999999999.0:  # noqa: PLR2004
         ts /= 1000000.0
-    elif ts > 9999999999.0:
+    elif ts > 9999999999.0:  # noqa: PLR2004
         ts /= 1000.0
 
     return str(datetime.datetime.fromtimestamp(ts))
@@ -146,9 +146,8 @@ def _trim_to_len_sep(
     keep `min_len` characters."""
     if len(instr) > max_len:
         instr = instr[:max_len]
-        if sep:
-            if (idx := instr.rfind(sep)) > min_len:
-                instr = instr[:idx]
+        if sep and (idx := instr.rfind(sep)) > min_len:
+            instr = instr[:idx]
 
     return instr
 
@@ -174,7 +173,7 @@ def _to_filename(instr: str) -> str:
     while "--" in res:
         res = res.replace("__", "_")
 
-    if len(res) > 255:
+    if len(res) > 255:  # noqa: PLR2004
         base, _sep, ext = res.rpartition(".")
         if ext and len(ext) < len(base):
             base = _trim_to_len_sep(base, 250 - len(ext), "_")
@@ -302,7 +301,7 @@ class Format(_ConvertAction):
         )
 
 
-class _GeneraterLeaf(RunnableLeaf):
+class _GeneratorLeaf(RunnableLeaf):
     def __init__(
         self,
         name: str,
@@ -348,32 +347,33 @@ class Generators(Source):
 
     def get_items(self):
         for size in (16, 32, 64):
-            yield _GeneraterLeaf(
+            yield _GeneratorLeaf(
                 _("Random %(size)d-bytes hex token") % {"size": size},
                 partial(secrets.token_hex, size),
             )
 
         for size in (16, 32, 64):
-            yield _GeneraterLeaf(
-                _("Random %(size)d-bytes alpha-numeric token") % {"size": size},
+            yield _GeneratorLeaf(
+                _("Random %(size)d-bytes alpha-numeric token")
+                % {"size": size},
                 partial(_generate_alfanum_token, size),
             )
 
-        yield _GeneraterLeaf(
+        yield _GeneratorLeaf(
             _("UUID based on host and time"),
             lambda: str(uuid.uuid1()),
         )
-        yield _GeneraterLeaf(_("Random UUID"), lambda: str(uuid.uuid4()))
+        yield _GeneratorLeaf(_("Random UUID"), lambda: str(uuid.uuid4()))
 
-        yield _GeneraterLeaf(
+        yield _GeneratorLeaf(
             _("Current time in ISO8601 format"),
             datetime.datetime.now().isoformat,
         )
-        yield _GeneraterLeaf(
+        yield _GeneratorLeaf(
             _("Current time as Unix timestamp"),
             lambda: str(int(datetime.datetime.now().timestamp())),
         )
-        yield _GeneraterLeaf(
+        yield _GeneratorLeaf(
             _("Current time as timestamp"),
             lambda: str(int(datetime.datetime.now().timestamp() * 1000)),
         )

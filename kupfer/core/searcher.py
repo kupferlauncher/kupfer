@@ -3,18 +3,20 @@ from __future__ import annotations
 import operator
 import typing as ty
 
-from kupfer.obj.base import Leaf, Source, TextSource, Action
-from kupfer.support import pretty
-from kupfer.support.itertools import peekfirst, unique_iterator
 from kupfer.core import search
 from kupfer.core.search import Rankable
+from kupfer.support import pretty
+from kupfer.support.itertools import peekfirst, unique_iterator
+
+if ty.TYPE_CHECKING:
+    from kupfer.obj.base import Action, Leaf, Source, TextSource
 
 __all__ = ("Searcher",)
 
 T = ty.TypeVar("T")
 # function that validate leaves before search
 ItemCheckFunc = ty.Callable[[ty.Iterable[T]], ty.Iterable[T]]
-# function that decorate leaves before acccess
+# function that decorate leaves before access
 DecoratorFunc = ty.Callable[[ty.Iterable[Rankable]], ty.Iterable[Rankable]]
 
 

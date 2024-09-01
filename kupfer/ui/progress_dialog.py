@@ -76,7 +76,7 @@ class ProgressDialogController:
         self._window.hide()
 
     @idle_call
-    def update(self, value: int | float, label: str, text: str) -> bool:
+    def update(self, value: float, label: str, text: str) -> bool:
         """Update dialog information.
 
         @value: value to set for progress bar

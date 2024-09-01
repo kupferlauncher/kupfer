@@ -88,10 +88,9 @@ class AccelConfig(pretty.OutputMixin):
 
         for obj, key in accels.items():
             # make sure object and key are strings
-            obj = str(obj)
-            key = str(key)
+            key = str(key)  # noqa:PLW2901
             if validate_func(key):
-                self._accels[obj] = key
+                self._accels[str(obj)] = key
             else:
                 self.output_error("Ignoring invalid accel", key, "for", obj)
 

@@ -1,5 +1,5 @@
 """
-Common exceptions defintion.
+Common exceptions definition.
 
 This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),

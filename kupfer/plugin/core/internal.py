@@ -60,7 +60,7 @@ def _make_first_result_object(leaf):
             super().__init__(leaf)
             vars(self).update(vars(leaf))
             self.name = _("Last Result")
-            self.__orignal_leaf = leaf
+            self.__original_leaf = leaf
             self.__class__.__bases__ = (leaf.__class__, Leaf)
 
         def get_gicon(self):
@@ -73,7 +73,7 @@ def _make_first_result_object(leaf):
             return None
 
         def get_description(self):
-            return str(self.__orignal_leaf)
+            return str(self.__original_leaf)
 
     return _LastResultObject(leaf)
 

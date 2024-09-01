@@ -37,10 +37,7 @@ def _good_destination(dpath, spath):
         return False
 
     cpfx = os_path.commonprefix((spath, dpath))
-    if os_path.samefile(dpath, spath) or cpfx == spath:
-        return False
-
-    return True
+    return not (os_path.samefile(dpath, spath) or cpfx == spath)
 
 
 class MoveTo(Action, pretty.OutputMixin):

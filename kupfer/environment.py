@@ -18,12 +18,11 @@ def is_kwin() -> bool:
     """Try to figure out if KWin is the current window manager.
     If Wnck unavailable try guess from environment variables.
     """
-    if Wnck:
-        if (screen := Wnck.Screen.get_default()) is not None:
-            winmgr: str | None = screen.get_window_manager_name()
-            pretty.print_debug(__name__, "window manager is", winmgr)
-            if winmgr:
-                return winmgr.lower() == "kwin"
+    if Wnck and (screen := Wnck.Screen.get_default()) is not None:
+        winmgr: str | None = screen.get_window_manager_name()
+        pretty.print_debug(__name__, "window manager is", winmgr)
+        if winmgr:
+            return winmgr.lower() == "kwin"
 
     return _desktop_environment_guess().lower() == "kde"
 

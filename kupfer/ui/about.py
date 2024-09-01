@@ -10,7 +10,9 @@ import typing as ty
 from gi.repository import Gtk
 
 from kupfer import version
-from kupfer.ui.uievents import GUIEnvironmentContext
+
+if ty.TYPE_CHECKING:
+    from kupfer.ui.uievents import GUIEnvironmentContext
 
 
 # pylint: disable=too-few-public-methods
@@ -45,7 +47,7 @@ class _AboutDialog:
         if version.ARTISTS:
             abdlg.set_artists(version.ARTISTS)
 
-        abdlg.connect("response", self._on_reponse)
+        abdlg.connect("response", self._on_response)
 
     def show(self, ctxenv: GUIEnvironmentContext | None = None) -> None:
         if ctxenv:
@@ -53,7 +55,7 @@ class _AboutDialog:
         else:
             self._dlg.present()
 
-    def _on_reponse(self, dialog: Gtk.Dialog, response_id: ty.Any) -> bool:
+    def _on_response(self, dialog: Gtk.Dialog, response_id: ty.Any) -> bool:
         dialog.destroy()
         _AboutDialog._instance = None
         return True

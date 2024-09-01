@@ -14,11 +14,13 @@ from collections import defaultdict
 from pathlib import Path
 
 from kupfer import config
+from kupfer.core import pluginload, plugins
 from kupfer.obj import Action, AnySource, Leaf, Source, TextSource
-from kupfer.obj.base import ActionGenerator
 from kupfer.obj.sources import MultiSource, SourcesSource
 from kupfer.support import conspickle, pretty, scheduler
-from kupfer.core import pluginload, plugins
+
+if ty.TYPE_CHECKING:
+    from kupfer.obj.base import ActionGenerator
 
 __all__ = (
     "InternalError",
@@ -178,7 +180,9 @@ class SourcePickler(pretty.OutputMixin):
 
         if obsolete_files:
             self.output_info(
-                "Removing obsolete cache files:", sep="\n", *obsolete_files
+                "Removing obsolete cache files:",
+                *obsolete_files,
+                sep="\n",
             )
             for fpath in obsolete_files:
                 # be overly careful
@@ -417,9 +421,7 @@ class SourceController(pretty.OutputMixin):
         pretty.print_debug(__name__, "Remove", src)
 
     def get_plugin_id_for_object(self, obj: ty.Any) -> str | None:
-        id_ = self._plugin_object_map.get(obj)
-        # self.output_debug("Object", obj, "has id", id_, id(obj))
-        return id_
+        return self._plugin_object_map.get(obj)
 
     def remove_objects_for_plugin_id(self, plugin_id: str) -> bool:
         """Remove all objects for @plugin_id
@@ -720,7 +722,7 @@ class SourceController(pretty.OutputMixin):
             if configsaver.source_has_config(source):
                 configsaver.load_source(source)
             else:
-                source = sourcepickler.unpickle_source(source)
+                source = sourcepickler.unpickle_source(source)  # noqa:PLW2901
 
             if source:
                 yield source

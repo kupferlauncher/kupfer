@@ -14,14 +14,15 @@ from collections import defaultdict
 from gi.repository import Gio, GLib
 
 from kupfer import launch
-from kupfer.support import pretty
 from kupfer.obj import files
 from kupfer.obj.base import Action, Leaf
 from kupfer.obj.exceptions import NoDefaultApplicationError
-from kupfer.core import commandexec
+from kupfer.support import pretty
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.core import commandexec
 
 __all__ = (
     "Open",

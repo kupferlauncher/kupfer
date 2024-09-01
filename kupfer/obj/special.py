@@ -9,12 +9,13 @@ from __future__ import annotations
 
 import typing as ty
 
-from kupfer.ui import preferences
 from kupfer.obj.objects import RunnableLeaf
-from kupfer.core import commandexec
+from kupfer.ui import preferences
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.core import commandexec
 
 __version__ = "2023-09-09"
 __all__ = (

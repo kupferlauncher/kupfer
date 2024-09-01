@@ -15,7 +15,7 @@ _escape_table = {
 
 
 def escape_markup_str(mstr: str) -> str:
-    """Use a simeple homegrown replace table to replace &, <, > with
+    """Use a simple homegrown replace table to replace &, <, > with
     entities in @mstr
     """
     return mstr.translate(_escape_table)

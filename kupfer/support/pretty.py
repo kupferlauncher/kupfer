@@ -5,7 +5,8 @@ import traceback
 import typing as ty
 from time import time as timestamp
 
-from kupfer.support.types import ExecInfo
+if ty.TYPE_CHECKING:
+    from kupfer.support.types import ExecInfo
 
 __all__ = (
     "OutputMixin",

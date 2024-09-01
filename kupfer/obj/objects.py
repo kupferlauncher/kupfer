@@ -14,10 +14,12 @@ from kupfer import icons
 from kupfer.obj import actions
 from kupfer.obj.base import Action, Leaf, Source
 from kupfer.obj.representation import TextRepresentation
-from kupfer.core import commandexec
 
 if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+    from gettext import gettext as _
+    from gettext import ngettext
+
+    from kupfer.core import commandexec
 
 
 __all__ = (

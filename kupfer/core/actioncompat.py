@@ -2,10 +2,11 @@ from __future__ import annotations
 
 import typing as ty
 
-from kupfer.obj import Action, KupferObject, Leaf, AnySource
-
 from kupfer.core._support import get_leaf_members
-from kupfer.core.sources import SourceController
+from kupfer.obj import Action, AnySource, KupferObject, Leaf
+
+if ty.TYPE_CHECKING:
+    from kupfer.core.sources import SourceController
 
 
 __all__ = (

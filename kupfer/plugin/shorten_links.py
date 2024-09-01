@@ -38,7 +38,7 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
         try:
             pretty.print_debug(__name__, "Request", self.path + query_string)
             with urllib.request.urlopen(self.path + query_string) as resp:
-                if resp.status != 200:
+                if resp.status != 200:  # noqa:PLR2004
                     raise ValueError(
                         f"Invalid response {resp.status}, {resp.reason}"
                     )
@@ -46,7 +46,7 @@ class _GETService(_ShortLinksService, pretty.OutputMixin):
                 result: bytes = resp.read()
                 return result.strip().decode("utf-8")
 
-        except (OSError, ValueError) as exc:
+        except OSError as exc:
             raise ValueError(exc) from exc
 
         return _("Error")

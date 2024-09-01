@@ -147,8 +147,7 @@ class SessionClient(GObject.GObject, pretty.OutputMixin):  # type:ignore
             pretty.print_error(__name__, exc)
             return None
 
-        smanager = dbus.Interface(obj, iface_name)
-        return smanager
+        return dbus.Interface(obj, iface_name)
 
     def _on_query_end_session(self, flags: str) -> None:
         self.output_debug("Query end", flags)
@@ -171,7 +170,7 @@ class SessionClient(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self.output_debug(
             "XFCE Session change", time.asctime(), old_value, new_value
         )
-        if new_value == 4:
+        if new_value == 4:  # noqa:PLR2004
             self.emit("save-yourself")
 
     def _on_stop_signal(self) -> None:

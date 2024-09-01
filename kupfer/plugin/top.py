@@ -155,7 +155,7 @@ def parse_top_output(out):
     fields_count = 0
     header_read = False
     for line in out.split(b"\n"):
-        line = line.decode("utf-8", "replace").strip()
+        line = line.decode("utf-8", "replace").strip()  # noqa: PLW2901
         if line == "":
             header_read = True
             continue

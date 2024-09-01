@@ -74,7 +74,7 @@ class Download(Action):
         data = jsonreq.encode("ascii")
 
         with urllib.request.urlopen(aria2url, data) as response:
-            if response.status == 200:
+            if response.status == 200:  # noqa:PLR2004
                 uiutils.show_notification("Kupfer", _("Download started"))
                 return
 

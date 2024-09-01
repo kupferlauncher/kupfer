@@ -14,115 +14,97 @@ def initialize_alternatives(name):
         name,
         "icon_renderer",
         "gtk",
-        **{
-            "name": _("GTK+"),
-            "renderer": icons.IconRenderer,
-        },
+        name=_("GTK+"),
+        renderer=icons.IconRenderer,
     )
 
     plugin_support.register_alternative(
         name,
         "terminal",
         "gnome-terminal",
-        **{
-            "name": _("GNOME Terminal"),
-            "argv": ["gnome-terminal"],
-            "exearg": "-x",
-            "desktopid": "gnome-terminal.desktop",
-            "startup_notify": True,
-        },
+        name=_("GNOME Terminal"),
+        argv=["gnome-terminal"],
+        exearg="-x",
+        desktopid="gnome-terminal.desktop",
+        startup_notify=True,
     )
 
     plugin_support.register_alternative(
         name,
         "terminal",
         "xfce4-terminal",
-        **{
-            "name": _("XFCE Terminal"),
-            "argv": ["xfce4-terminal"],
-            "exearg": "-x",
-            "desktopid": "xfce4-terminal.desktop",
-            "startup_notify": True,
-        },
+        name=_("XFCE Terminal"),
+        argv=["xfce4-terminal"],
+        exearg="-x",
+        desktopid="xfce4-terminal.desktop",
+        startup_notify=True,
     )
 
     plugin_support.register_alternative(
         name,
         "terminal",
         "exo-open",
-        **{
-            "name": "exo-open",
-            "argv": ["exo-open", "--launch", "TerminalEmulator"],
-            "exearg": "",
-            "desktopid": "",
-            "startup_notify": False,
-        },
+        name="exo-open",
+        argv=["exo-open", "--launch", "TerminalEmulator"],
+        exearg="",
+        desktopid="",
+        startup_notify=False,
     )
 
     plugin_support.register_alternative(
         name,
         "terminal",
         "lxterminal",
-        **{
-            "name": _("LXTerminal"),
-            "argv": ["lxterminal"],
-            "exearg": "-e",
-            "desktopid": "lxterminal.desktop",
-            "startup_notify": False,
-        },
+        name=_("LXTerminal"),
+        argv=["lxterminal"],
+        exearg="-e",
+        desktopid="lxterminal.desktop",
+        startup_notify=False,
     )
 
     plugin_support.register_alternative(
         name,
         "terminal",
         "xterm",
-        **{
-            "name": _("X Terminal"),
-            "argv": ["xterm"],
-            "exearg": "-e",
-            "desktopid": "xterm.desktop",
-            "startup_notify": False,
-        },
+        name=_("X Terminal"),
+        argv=["xterm"],
+        exearg="-e",
+        desktopid="xterm.desktop",
+        startup_notify=False,
     )
 
     plugin_support.register_alternative(
         name,
         "terminal",
         "x-terminal-emulator",
-        **{
-            "name": "x-terminal-emulator",
-            "argv": ["x-terminal-emulator"],
-            "exearg": "-e",
-            "desktopid": "",
-            "startup_notify": False,
-        },
+        name="x-terminal-emulator",
+        argv=["x-terminal-emulator"],
+        exearg="-e",
+        desktopid="",
+        startup_notify=False,
     )
 
     plugin_support.register_alternative(
         name,
         "terminal",
         "urxvt",
-        **{
-            "name": _("Urxvt"),
-            "argv": ["urxvt"],
-            "exearg": "-e",
-            "desktopid": "urxvt.desktop",
-            "startup_notify": False,
-        },
+        name=_("Urxvt"),
+        argv=["urxvt"],
+        exearg="-e",
+        desktopid="urxvt.desktop",
+        startup_notify=False,
     )
 
     plugin_support.register_alternative(
         name,
         "terminal",
         "konsole",
-        **{
-            "name": _("Konsole"),
-            "argv": ["konsole"],
-            "exearg": "-e",
-            "desktopid": "konsole.desktop",
-            # Not sure here, so setting to false
-            "startup_notify": False,
-        },
+        name=_("Konsole"),
+        argv=["konsole"],
+        exearg="-e",
+        desktopid="konsole.desktop",
+        # Not sure here, so setting to false
+        startup_notify=False,
     )
 
     _register_terminal_emulators(name)
@@ -134,11 +116,9 @@ def _register_text_editors(name):
         name,
         "editor",
         "sys-editor",
-        **{
-            "name": _("System `editor`"),
-            "argv": ["editor"],
-            "terminal": True,
-        },
+        name=_("System `editor`"),
+        argv=["editor"],
+        terminal=True,
     )
 
     # find all applications that support text/plain and register it
@@ -153,11 +133,9 @@ def _register_text_editors(name):
             name,
             "editor",
             app_id.removesuffix(".desktop"),
-            **{
-                "name": app.get_display_name(),
-                "argv": args,
-                "terminal": app.get_boolean("Terminal"),
-            },
+            name=app.get_display_name(),
+            argv=args,
+            terminal=app.get_boolean("Terminal"),
         )
 
 
@@ -184,11 +162,9 @@ def _register_terminal_emulators(name):
             name,
             "terminal",
             app_id.removesuffix(".desktop"),
-            **{
-                "name": app.get_display_name(),
-                "argv": args,
-                "exearg": "",
-                "desktopid": app_id,
-                "startup_notify": False,
-            },
+            name=app.get_display_name(),
+            argv=args,
+            exearg="",
+            desktopid=app_id,
+            startup_notify=False,
         )

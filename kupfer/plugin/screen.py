@@ -29,7 +29,7 @@ def screen_sessions_infos():
 
     for line in output.splitlines():
         fields = line.split("\t")
-        if len(fields) == 4:
+        if len(fields) == 4:  # noqa:PLR2004
             _empty, pidname, time, status = fields
             pid, name = pidname.split(".", 1)
             time = time.strip("()")
@@ -59,20 +59,20 @@ class ScreenSession(Leaf):
     def get_description(self):
         for pid, _name, time, status in screen_sessions_infos():
             if self.object == pid:
-                break
-        else:
-            return f"{self.name} ({self.object})"
-        # Handle localization of status
-        status_dict = {
-            "Attached": _("Attached"),
-            "Detached": _("Detached"),
-        }
-        status = status_dict.get(status, status)
-        return _("%(status)s session (%(pid)s) created %(time)s") % {
-            "status": status,
-            "pid": pid,
-            "time": time,
-        }
+                # Handle localization of status
+                status_human = status
+                if status == "Attached":
+                    status_human = _("Attached")
+                elif status == "Detached":
+                    status_human = _("Detached")
+
+                return _("%(status)s session (%(pid)s) created %(time)s") % {
+                    "status": status_human,
+                    "pid": pid,
+                    "time": time,
+                }
+
+        return f"{self.name} ({self.object})"
 
     def get_icon_name(self):
         return "gnome-window-manager"

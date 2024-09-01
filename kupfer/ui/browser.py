@@ -16,11 +16,17 @@ except ImportError:
 import kupfer.config
 import kupfer.environment
 from kupfer import version
-from kupfer.core import settings, commandexec
+from kupfer.core import commandexec, settings
 from kupfer.core.datactrl import DataController
 from kupfer.support import pretty, scheduler
-from kupfer.ui import about, keybindings, kupferhelp, listen, uievents
-from kupfer.ui import preferences
+from kupfer.ui import (
+    about,
+    keybindings,
+    kupferhelp,
+    listen,
+    preferences,
+    uievents,
+)
 from kupfer.ui._support import text_direction_is_ltr
 from kupfer.ui.interface import Interface
 
@@ -752,7 +758,7 @@ class WindowController(pretty.OutputMixin):
 
         self.output_debug("finished lazy_setup")
 
-    def main(self, quiet: bool = False) -> None:
+    def main(self, quiet: bool = False) -> None:  # noqa:PLR0915
         """Start WindowController, present its window (if not @quiet)"""
         signal.signal(signal.SIGINT, self._on_early_interrupt)
 
@@ -760,7 +766,7 @@ class WindowController(pretty.OutputMixin):
         kserv2 = None
 
         try:
-            # NOTE: For a *very short* time we will use both APIs  TOOD: off one
+            # NOTE: For a *very short* time we will use both APIs  TODO: off one
             kserv1 = listen.Service()
             kserv2 = listen.ServiceNew()
         except listen.AlreadyRunningError:
@@ -773,7 +779,7 @@ class WindowController(pretty.OutputMixin):
             keyobj = keybindings.get_keybound_object()
             keyobj.connect(
                 "bound-key-changed",
-                lambda x, y, z: kserv1.BoundKeyChanged(y, z),
+                lambda _x, y, z: kserv1.BoundKeyChanged(y, z),
             )
             kserv1.connect("relay-keys", keyobj.relayed_keys)
 

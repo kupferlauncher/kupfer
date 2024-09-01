@@ -22,7 +22,7 @@ def _split_first_words(text: str, maxlen: int) -> tuple[str, str]:
     text = text.lstrip()
     first_text = _unicode_truncate(text, maxlen)
     words = first_text.split()
-    if len(words) > 3:
+    if len(words) > 3:  # noqa: PLR2004
         first_words = " ".join(words[:-2])
         if text.startswith(first_words):
             first_text = first_words

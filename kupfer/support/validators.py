@@ -1,9 +1,9 @@
 from __future__ import annotations
 
 import re
+import typing as ty
 import urllib.parse
 from contextlib import suppress
-
 
 __all__ = ("is_url", "is_valid_email", "is_valid_file_path", "validate_netloc")
 
@@ -13,15 +13,15 @@ def _validate_port(port: str) -> bool:
         return False
 
     with suppress(ValueError):
-        return 0 <= int(port) <= 65535
+        return 0 <= int(port) <= 65535  # noqa: PLR2004
 
     return False
 
 
 def _is_ipv4(string: str) -> bool:
-    if len(octets := string.split(".")) == 4:
+    if len(octets := string.split(".")) == 4:  # noqa: PLR2004
         with suppress(ValueError):
-            return all(0 <= int(o) <= 255 for o in octets)
+            return all(0 <= int(o) <= 255 for o in octets)  # noqa: PLR2004
 
     return False
 
@@ -32,11 +32,11 @@ def _is_ipv6(netloc: str) -> bool:
         return False
 
     netloc = netloc[1:-1]
-    if not (2 <= len(netloc) <= 39):
+    if not (2 <= len(netloc) <= 39):  # noqa: PLR2004
         return False
 
     parts = netloc.split(":")
-    if not (3 <= len(parts) <= 8):
+    if not (3 <= len(parts) <= 8):  # noqa: PLR2004
         return False
 
     return all(re.match(r"[0-9a-fA-F]{1,4}", part) for part in parts if part)
@@ -122,7 +122,7 @@ def _guess_schema(netloc: str) -> str:
     return "https"
 
 
-def _is_http_domain(netloc: str) -> bool:
+def _is_http_domain(netloc: str) -> bool:  # noqa: PLR0911
     """Guess is `netloc` is some kind of real domain. It's not accurate"""
 
     if netloc == "localhost":
@@ -136,14 +136,14 @@ def _is_http_domain(netloc: str) -> bool:
     if len_parts == 1:
         return False
 
-    if len_parts > 2:
+    if len_parts > 2:  # noqa: PLR2004
         return True
 
     if "localhost" in parts:
         return True
 
     lpart = parts[-1]
-    if len(lpart) == 2:  # natonal code (mostly)
+    if len(lpart) == 2:  # natonal code (mostly) # noqa: PLR2004
         return True
 
     return lpart in ("com", "org", "net", "gov", "local")
@@ -182,7 +182,7 @@ _schema_wo_netloc = {
 }
 
 
-def is_url(text: str) -> str | None:
+def is_url(text: str) -> str | None:  # noqa: PLR0911
     """If `text` is an URL, return a cleaned-up URL, else return `None`
 
     Ref:
@@ -236,11 +236,14 @@ def is_url(text: str) -> str | None:
         elif path:
             netloc, _d, path = path.partition("/")
 
-    if netloc and validate_netloc(netloc):
-        # valid netloc
-        if path or url.query or _is_http_domain(netloc):
-            schema = _guess_schema(netloc)
-            return f"{schema}://{text}"
+    # valid netloc
+    if (
+        netloc
+        and validate_netloc(netloc)
+        and (path or url.query or _is_http_domain(netloc))
+    ):
+        schema = _guess_schema(netloc)
+        return f"{schema}://{text}"
 
     return None
 
@@ -258,11 +261,12 @@ def is_valid_email(text: str) -> bool:
     return bool(re.match(re_local_part, local_part))
 
 
-_UNPRINTABLE = (
+_UNPRINTABLE: ty.Final[str] = (
     "\x00\x01\x02\x03\x04\x05\x06\x07\x08\x0e\x0f"
     "\x10\x11\x12\x13\x14\x15\x16\x17\x18\x19\x1a"
     "\x1b\x1c\x1d\x1e\x1f\x7f"
 )
+_MAX_PATH_LEN: ty.Final[int] = 256
 
 
 def is_valid_file_path(path: str | None) -> bool:
@@ -270,7 +274,7 @@ def is_valid_file_path(path: str | None) -> bool:
     if not path:
         return False
 
-    if len(path) > 256:
+    if len(path) > _MAX_PATH_LEN:
         return False
 
     if re.match(r"^[a-z]+://", path) or path.startswith("//"):

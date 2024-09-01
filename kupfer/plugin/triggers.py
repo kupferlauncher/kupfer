@@ -74,7 +74,7 @@ class Triggers(Source):
         self.output_debug("Loaded triggers, count:", len(self.trigger_table))
 
     def finalize(self):
-        for target in self.trigger_table.keys():
+        for target in self.trigger_table:
             keybindings.bind_key(None, target)
 
     def _on_keybinding_callback(self, keyobj, target, display, event_time):
@@ -119,13 +119,13 @@ class Triggers(Source):
     def add_trigger(cls, leaf, keystr):
         assert cls.instance
         # pylint: disable=protected-access
-        cls.instance._add_trigger(leaf, keystr)
+        cls.instance._add_trigger(leaf, keystr)  # noqa:SLF001
 
     @classmethod
     def remove_trigger(cls, target):
         assert cls.instance
         # pylint: disable=protected-access
-        cls.instance._remove_trigger(target)
+        cls.instance._remove_trigger(target)  # noqa:SLF001
 
     def _add_trigger(self, leaf, keystr):
         for target in range(*keybindings.KEYRANGE_TRIGGERS):

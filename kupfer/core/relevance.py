@@ -217,7 +217,7 @@ def _find_best_match(string: str, query: str) -> tuple[int, int]:
     @string: a string to search
     @query: a string query to search for
 
-    Returns: a two-item tuple containing the start and end indicies of
+    Returns: a two-item tuple containing the start and end indices of
              the match.  No match returns (-1,-1).
 
     >>> _find_best_match('terminal', 'trml')

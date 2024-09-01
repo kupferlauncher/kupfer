@@ -66,14 +66,16 @@ def _find_default_profile(firefox_dir: Path) -> Path | None:
         if (
             config.has_option(section, "Default")
             and config.get(section, "Default") == "1"
-        ):
-            if path := make_absolute_and_check(
-                firefox_dir, config.get(section, "Path")
-            ):
-                pretty.print_debug(
-                    __name__, "Found profile with default=1", section, path
+            and (
+                path := make_absolute_and_check(
+                    firefox_dir, config.get(section, "Path")
                 )
-                return path
+            )
+        ):
+            pretty.print_debug(
+                __name__, "Found profile with default=1", section, path
+            )
+            return path
 
         # if section has path - remember it and use if default is not found
         if not path and config.has_option(section, "Path"):
@@ -173,7 +175,7 @@ def query_database(
                 yield from cur
                 return
 
-        except sqlite3.Error as err:
+        except sqlite3.Error as err:  # noqa: PERF203
             # Something is wrong with the database
             # wait short time and try again
             pretty.print_error(__name__, "Query Firefox db error:", str(err))

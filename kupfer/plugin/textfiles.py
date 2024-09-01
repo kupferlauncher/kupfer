@@ -83,7 +83,8 @@ class WriteTo(Action):
                 iobj.object, _("Empty File")
             )
         else:
-            raise ValueError()
+            # TODO: raise TypeError
+            raise ValueError  # noqa:TRY004:
 
         if not outfile or not outpath:
             return None
@@ -193,7 +194,7 @@ class CopyContent(Action):
                         encoding=kupferstring.get_encoding()
                     )
                 )
-            except Exception as err:
+            except Exception as err:  # noqa: PERF203
                 content.append(f"Read file {obj.object} error: {err}")
 
         clip.set_text("\n".join(content), -1)  # -1 for computed string length

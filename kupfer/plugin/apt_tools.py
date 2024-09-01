@@ -190,7 +190,7 @@ class PackageSearchSource(Source):
             check=True,
         )
         for line in kupferstring.fromlocale(proc.stdout).splitlines():
-            line = line.strip()
+            line = line.strip()  # noqa: PLW2901
             if not line:
                 continue
 
@@ -255,7 +255,7 @@ class SearchForFile(Action):
 
     def valid_for_item(self, leaf):
         text = leaf.object
-        return len(text) > 2
+        return len(text) > 2  # noqa: PLR2004
 
     def get_gicon(self):
         return icons.ComposedIcon("edit-find", "package-x-generic")

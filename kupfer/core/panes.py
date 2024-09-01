@@ -4,6 +4,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import itertools
@@ -11,13 +12,15 @@ import typing as ty
 
 from gi.repository import GObject
 
+from kupfer.core import actioncompat
+from kupfer.core.searcher import Searcher
+from kupfer.core.sources import get_source_controller
 from kupfer.obj import objects
 from kupfer.obj.base import Action, AnySource, KupferObject, Leaf, Source
 from kupfer.support import pretty
-from kupfer.core import actioncompat
-from kupfer.core.search import Rankable
-from kupfer.core.searcher import Searcher
-from kupfer.core.sources import get_source_controller
+
+if ty.TYPE_CHECKING:
+    from kupfer.core.search import Rankable
 
 __all__ = (
     "LeafPane",
@@ -178,7 +181,7 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
             sel = self._selection
             # select again only leaves that have some content (as we go from
             # source we can back only to source)
-            if sel and hasattr(sel, 'has_content') and sel.has_content():
+            if sel and hasattr(sel, "has_content") and sel.has_content():
                 self.refresh_data(select=sel)
             else:
                 self.refresh_data()
@@ -189,10 +192,13 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
         """Browse into @leaf if it's possible and save away the previous sources
         in the stack. If @alternate, use the Source's alternate method."""
         leaf: Leaf | None = self.get_selection()
-        if leaf and leaf.has_content():
-            if csrc := leaf.content_source(alternate=alternate):
-                self.push_source(csrc)
-                return True
+        if (
+            leaf
+            and leaf.has_content()
+            and (csrc := leaf.content_source(alternate=alternate))
+        ):
+            self.push_source(csrc)
+            return True
 
         return False
 
@@ -221,9 +227,8 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
 
         self._latest_key = key
         sources_: ty.Iterable[AnySource] = ()
-        if not text_mode:
-            if srcs := self.get_source():
-                sources_ = (srcs,)
+        if not text_mode and (srcs := self.get_source()):
+            sources_ = (srcs,)
 
         if key and self.is_at_source_root():
             # Only use text sources when we are at root catalog
@@ -387,9 +392,10 @@ class SecondaryObjectPane(LeafPane):
             return
 
         sources_: ty.Iterable[AnySource] = []
-        if not text_mode or hasattr(self.get_source(), "get_text_items"):
-            if srcs := self.get_source():
-                sources_ = itertools.chain(sources_, (srcs,))
+        if (
+            not text_mode or hasattr(self.get_source(), "get_text_items")
+        ) and (srcs := self.get_source()):
+            sources_ = itertools.chain(sources_, (srcs,))
 
         if key and self.is_at_source_root():
             # Only use text sources when we are at root catalog

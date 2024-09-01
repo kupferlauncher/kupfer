@@ -126,12 +126,16 @@ class FrontmostWindow(WindowLeaf):
             return None
 
         active = scr.get_active_window() or scr.get_previously_active_window()
-        if active and active.get_application().get_name() not in (
-            "kupfer.py",
-            system.get_application_filename(),
+        if (
+            active
+            and active.get_application().get_name()
+            not in (
+                "kupfer.py",
+                system.get_application_filename(),
+            )
+            and not active.is_skip_tasklist()
         ):
-            if not active.is_skip_tasklist():
-                return active
+            return active
 
         wspc = scr.get_active_workspace()
         for win in reversed(scr.get_windows_stacked()):

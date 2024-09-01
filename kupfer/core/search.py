@@ -109,7 +109,7 @@ def score_objects(
     for rankable in rankables:
         # Rank object
         rank = int(_score(rankable.value, key) * 100)
-        if rank < 90:
+        if rank < 90:  # noqa:PLR2004
             # consider aliases and change rb.value if alias is better
             # aliases rank lower so that value is chosen when close
             arank_value = max(
@@ -125,7 +125,7 @@ def score_objects(
 
         rankable.rank = rank
 
-        if rankable.rank > 10:
+        if rankable.rank > 10:  # noqa:PLR2004
             yield rankable
 
 

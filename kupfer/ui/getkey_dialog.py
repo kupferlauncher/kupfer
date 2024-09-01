@@ -171,5 +171,4 @@ def ask_for_key(
         parent=parent,
         show_clear=show_clear,
     )
-    result = dlg.run()
-    return result
+    return dlg.run()

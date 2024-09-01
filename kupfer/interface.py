@@ -2,14 +2,17 @@ from __future__ import annotations
 
 import typing as ty
 
-from gi.repository import Gtk
-
-from kupfer.obj.base import KupferObject
-
 # NOTE: TextRepresentation moved into obj.representation
 # pylint: disable=unused-import
-from kupfer.obj.representation import TextRepresentation  # noqa: F401
-from kupfer.obj.representation import UriListRepresentation  # noqa: F401
+from kupfer.obj.representation import (
+    TextRepresentation,
+    UriListRepresentation,
+)
+
+if ty.TYPE_CHECKING:
+    from gi.repository import Gtk
+
+    from kupfer.obj.base import KupferObject
 
 __all__ = (
     "TextRepresentation",
@@ -30,7 +33,7 @@ def get_text_representation(obj: ty.Any) -> str | None:
 def copy_to_clipboard(obj: KupferObject, clipboard: Gtk.Clipboard) -> bool:
     """Copy @obj to @clipboard, a Gtk.Clipboard.
 
-    Support only text represention.
+    Support only text representation.
     TODO: support images (maybe)
 
     Return True if successful

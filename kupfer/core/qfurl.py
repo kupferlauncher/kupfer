@@ -6,8 +6,10 @@ from contextlib import suppress
 from urllib.parse import urlparse as _urlparse
 from urllib.parse import urlunparse as _urlunparse
 
-from kupfer.obj.base import Leaf, Source
 from kupfer.support import pretty
+
+if ty.TYPE_CHECKING:
+    from kupfer.obj.base import Leaf, Source
 
 __all__ = ("QFURL_SCHEME", "QfurlError", "Qfurl")
 
@@ -74,8 +76,8 @@ class Qfurl:
     def __hash__(self) -> int:
         return hash(self.url)
 
-    def __eq__(self, other: ty.Any) -> bool:
-        return self.reduce_url(self.url) == self.reduce_url(other.url)
+    def __eq__(self, other: object) -> bool:
+        return self.reduce_url(self.url) == self.reduce_url(other.url)  # type: ignore
 
     @classmethod
     def reduce_url(cls, url: str) -> str:
@@ -106,15 +108,17 @@ class Qfurl:
         _mother, _qfid, typname = self._parts_mother_id_typename(self.url)
         _module, name = typname.rsplit(".", 1) if typname else (None, None)
         for src in catalog:
-            if name:
-                if name not in (
-                    pt.__name__ for pt in src.provides()
-                ) and name not in (
+            if (
+                name
+                and name not in (pt.__name__ for pt in src.provides())
+                and name
+                not in (
                     t.__name__
                     for pt in src.provides()
                     for t in pt.__subclasses__()
-                ):
-                    continue
+                )
+            ):
+                continue
 
             for obj in src.get_leaves() or []:
                 if not hasattr(obj, "qf_id"):

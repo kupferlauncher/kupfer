@@ -259,9 +259,10 @@ class OpenWithByMime(Action):
         return True
 
     def object_source(self, for_item=None):
-        if isinstance(for_item, FileLeaf):
-            if mime := for_item.get_content_type():
-                return AppsForMime(mime)
+        if isinstance(for_item, FileLeaf) and (
+            mime := for_item.get_content_type()
+        ):
+            return AppsForMime(mime)
 
         return None
 

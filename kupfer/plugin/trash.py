@@ -136,17 +136,13 @@ class TrashFile(Leaf):
             yield RestoreTrashedFile()
 
     def get_gfile(self):
-        cur_gfile = Gio.File.new_for_uri(self._trash_uri).get_child(
+        return Gio.File.new_for_uri(self._trash_uri).get_child(
             self.object.get_name()
         )
-        return cur_gfile
 
     def get_orig_path(self):
         with suppress(AttributeError):
-            orig_path = self.object.get_attribute_byte_string(
-                "trash::orig-path"
-            )
-            return orig_path
+            return self.object.get_attribute_byte_string("trash::orig-path")
 
         return None
 

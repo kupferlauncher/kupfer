@@ -128,7 +128,7 @@ class VirtualMachine(Leaf):
 
         if state in (vbox_const.VM_STATE_POWERON, vbox_const.VM_STATE_PAUSED):
             yield VMAction(
-                _("Save State"), "system-supsend", vbox_const.VM_SAVE
+                _("Save State"), "system-suspend", vbox_const.VM_SAVE
             )
             yield VMAction(
                 _("Power Off"), "system-shutdown", vbox_const.VM_POWEROFF, -10

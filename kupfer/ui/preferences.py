@@ -7,20 +7,21 @@ from pathlib import Path
 
 import gi
 from gi.repository import Gdk, Gio, GLib, GObject, Gtk, Pango
-from xdg import BaseDirectory as base
-from xdg import DesktopEntry as desktop
-from xdg import Exceptions as xdg_e
+from xdg import BaseDirectory as xdgBase
+from xdg import DesktopEntry
+from xdg import Exceptions as xdgExc
 
 from kupfer import config, icons, launch, plugin_support, version
 from kupfer.core import plugins, relevance, settings, sources
 from kupfer.support import kupferstring, pretty, scheduler
+from kupfer.ui import _widgets as widgets
 from kupfer.ui import accelerators, getkey_dialog, keybindings, kupferhelp
 from kupfer.ui.credentials_dialog import ask_user_credentials
-from kupfer.ui.uievents import GUIEnvironmentContext
-from kupfer.ui import _widgets as widgets
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.ui.uievents import GUIEnvironmentContext
 
 
 # index in GtkNotebook
@@ -206,7 +207,7 @@ def _make_plugin_sett_widget_combo(
     for idx, text in enumerate(alternatives):
         id_ = text
         if isinstance(text, (tuple, list)):
-            id_, text = text
+            id_, text = text  # noqa: PLW2901
 
         wid.append(id=id_, text=text)
         if id_ == val:
@@ -590,7 +591,9 @@ class PreferencesWindowController(pretty.OutputMixin):
     ) -> None:
         """Add directory to list indexed folders. When `store` update list in
         SettingController."""
-        have = [os.path.normpath(row[0]) for row in self._indexed_folders_store]
+        have = [
+            os.path.normpath(row[0]) for row in self._indexed_folders_store
+        ]
         if directory in have:
             self.output_debug("Ignoring duplicate directory: ", directory)
             return
@@ -639,14 +642,14 @@ class PreferencesWindowController(pretty.OutputMixin):
 
     def _is_autostart_enabled(self) -> bool:
         """Get state of autostart settings."""
-        autostart_dir = base.save_config_path("autostart")
+        autostart_dir = xdgBase.save_config_path("autostart")
         autostart_file = Path(autostart_dir, _KUPFER_DESKTOP)
         if not autostart_file.exists():
             return False
 
         try:
-            dfile = desktop.DesktopEntry(str(autostart_file))
-        except xdg_e.ParsingError as exception:
+            dfile = DesktopEntry.DesktopEntry(str(autostart_file))
+        except xdgExc.ParsingError as exception:
             pretty.print_error(__name__, exception)
             return False
 
@@ -660,11 +663,11 @@ class PreferencesWindowController(pretty.OutputMixin):
 
     def on_checkautostart_toggled(self, widget: Gtk.Widget) -> None:
         """Change autostart settings on toggle autostart checkbox."""
-        autostart_dir = base.save_config_path("autostart")
+        autostart_dir = xdgBase.save_config_path("autostart")
         autostart_file = Path(autostart_dir, _KUPFER_DESKTOP)
         if not autostart_file.exists():
             desktop_files = list(
-                base.load_data_paths("applications", _KUPFER_DESKTOP)
+                xdgBase.load_data_paths("applications", _KUPFER_DESKTOP)
             )
             if not desktop_files:
                 self.output_error("Installed kupfer desktop file not found!")
@@ -673,8 +676,8 @@ class PreferencesWindowController(pretty.OutputMixin):
             desktop_file_path = desktop_files[0]
             # Read installed file and modify it
             try:
-                dfile = desktop.DesktopEntry(desktop_file_path)
-            except xdg_e.ParsingError as exception:
+                dfile = DesktopEntry.DesktopEntry(desktop_file_path)
+            except xdgExc.ParsingError as exception:
                 pretty.print_error(__name__, exception)
                 return
 
@@ -686,8 +689,8 @@ class PreferencesWindowController(pretty.OutputMixin):
             dfile.set("Exec", executable)
         else:
             try:
-                dfile = desktop.DesktopEntry(str(autostart_file))
-            except xdg_e.ParsingError as exception:
+                dfile = DesktopEntry.DesktopEntry(str(autostart_file))
+            except xdgExc.ParsingError as exception:
                 pretty.print_error(__name__, exception)
                 return
 
@@ -729,7 +732,7 @@ class PreferencesWindowController(pretty.OutputMixin):
                 folded_name = kupferstring.tofolded(name)
                 fold_name_score = relevance.score(folded_name, us_filter)
                 desc_score = relevance.score(info["description"], us_filter)
-                if not name_score and not fold_name_score and desc_score < 0.9:
+                if not name_score and not fold_name_score and desc_score < 0.9:  # noqa:PLR2004
                     continue
 
             enabled = setctl.get_plugin_enabled(plugin_id)
@@ -867,7 +870,9 @@ class PreferencesWindowController(pretty.OutputMixin):
         return vbox
 
     # pylint: disable=too-many-locals
-    def _make_plugin_settings_widget(self, plugin_id: str) -> Gtk.Widget | None:
+    def _make_plugin_settings_widget(
+        self, plugin_id: str
+    ) -> Gtk.Widget | None:
         plugin_settings: plugin_support.PluginSettings | None
         plugin_settings = plugins.get_plugin_attribute(
             plugin_id, plugins.PluginAttr.SETTINGS

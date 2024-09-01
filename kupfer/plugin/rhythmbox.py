@@ -7,9 +7,10 @@ Changes:
         + catch errors when no mpris is available via dbus
         + simplify dbus string conversion
 
-NOTE: this require Rhythmbox with mpris supprt (i.e. rhythmbox-plugins package
+NOTE: this require Rhythmbox with mpris support (i.e. rhythmbox-plugins package
 installed)
 """
+
 from __future__ import annotations
 
 __kupfer_name__ = _("Rhythmbox")
@@ -94,9 +95,10 @@ def _create_dbus_connection_mpris(obj_name, obj_path, activate=False):
             "org.freedesktop.DBus", "/org/freedesktop/DBus"
         )
         dbus_iface = dbus.Interface(proxy_obj, "org.freedesktop.DBus")
-        if activate or dbus_iface.NameHasOwner(_BUS_NAME):
-            if obj := sbus.get_object(_BUS_NAME, obj_path):
-                interface = dbus.Interface(obj, obj_name)
+        if (activate or dbus_iface.NameHasOwner(_BUS_NAME)) and (
+            obj := sbus.get_object(_BUS_NAME, obj_path)
+        ):
+            interface = dbus.Interface(obj, obj_name)
 
     except dbus.exceptions.DBusException as err:
         pretty.print_debug(err)
@@ -511,8 +513,7 @@ def _locale_sort_artist_album_songs(artists):
             albums[album].extend(songs)
 
         for album in kupferstring.locale_sort(albums):
-            for song in albums[album]:
-                yield song
+            yield from albums[album]
 
 
 class RhythmboxSongsSource(Source):

@@ -262,9 +262,10 @@ class ClipboardSource(Source):
             is_selection and __kupfer_settings__["sync_selection"]
         )
 
-        if not is_selection or __kupfer_settings__["use_selection"]:
-            if is_valid:
-                self._add_to_history(text, is_selection)
+        if (
+            not is_selection or __kupfer_settings__["use_selection"]
+        ) and is_valid:
+            self._add_to_history(text, is_selection)
 
         if is_sync_selection and is_valid:
             Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD).set_text(text, -1)
@@ -285,7 +286,7 @@ class ClipboardSource(Source):
     def _add_to_history(self, cliptext, is_selection):
         if cliptext in self.clipboards:
             self.clipboards.remove(cliptext)
-        # if the previous text is a prefix of the new selection, supercede it
+        # if the previous text is a prefix of the new selection, supersede it
         if (
             is_selection
             and self.clipboards

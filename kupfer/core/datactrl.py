@@ -12,20 +12,6 @@ from pathlib import Path
 
 from gi.repository import GLib, GObject
 
-from kupfer.obj import compose, objects as kobjects
-from kupfer.obj.base import (
-    Action,
-    ActionGenerator,
-    AnySource,
-    KupferObject,
-    Leaf,
-    Source,
-    TextSource,
-)
-from kupfer.obj.filesrc import DirectorySource, FileSource
-from kupfer.support import pretty, scheduler
-from kupfer.support.types import ExecInfo
-from kupfer.ui.uievents import GUIEnvironmentContext
 from kupfer.core import (
     commandexec,
     execfile,
@@ -42,8 +28,25 @@ from kupfer.core.panes import (
     SearchContext,
     SecondaryObjectPane,
 )
-from kupfer.core.search import Rankable
 from kupfer.core.sources import get_source_controller
+from kupfer.obj import compose
+from kupfer.obj import objects as kobjects
+from kupfer.obj.base import (
+    Action,
+    ActionGenerator,
+    AnySource,
+    KupferObject,
+    Leaf,
+    Source,
+    TextSource,
+)
+from kupfer.obj.filesrc import DirectorySource, FileSource
+from kupfer.support import pretty, scheduler
+
+if ty.TYPE_CHECKING:
+    from kupfer.core.search import Rankable
+    from kupfer.support.types import ExecInfo
+    from kupfer.ui.uievents import GUIEnvironmentContext
 
 __all__ = ("PaneSel", "PaneMode", "DataController")
 
@@ -372,6 +375,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
             pane = PaneSel.SOURCE
         elif ctr is self._object_pane:
             pane = PaneSel.OBJECT
+        else:
+            raise AttributeError
 
         root = ctr.is_at_source_root()
         self.emit("source-changed", pane, src, root, select)
@@ -602,7 +607,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         ctx = self._execution_context
         try:
             cmd_objs = execfile.parse_kfcom_file(filepath)
-            assert len(cmd_objs) <= 3
+            assert len(cmd_objs) <= 3  # noqa:PLR2004
             ctx.run(*cmd_objs, ui_ctx=ui_ctx)  # type: ignore
             return True
         except commandexec.ActionExecutionError:
@@ -671,7 +676,7 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         sctrl = get_source_controller()
         qfu = qfurl.Qfurl(url=url)
         found = qfu.resolve_in_catalog(sctrl.get_sources())
-        if found and not found == self._source_pane.get_selection():
+        if found and found != self._source_pane.get_selection():
             self._insert_object(PaneSel.SOURCE, found)
 
     def mark_as_default(self, pane: PaneSel) -> None:

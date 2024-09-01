@@ -92,6 +92,9 @@ try:
 
         install_import_hook("kupfer")
         print("WARN! typeguard hook installed")
+
+        import typing
+        typing.TYPE_CHECKING = True
 except ImportError as err:
     print(err)
     pass

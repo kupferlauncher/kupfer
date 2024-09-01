@@ -14,9 +14,9 @@ from kupfer.plugin.virtualbox import constants as vbox_const
 
 # check api
 try:
-    vboxapi.VirtualBoxReflectionInfo(None).SessionState_Locked
+    _x = vboxapi.VirtualBoxReflectionInfo(None).SessionState_Locked
 except AttributeError as exc:
-    raise ImportError() from exc
+    raise ImportError from exc
 
 
 MONITORED_DIRS = None

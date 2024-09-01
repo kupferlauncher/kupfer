@@ -9,8 +9,10 @@ from collections import defaultdict
 from pathlib import Path
 
 from kupfer import config
-from kupfer.obj.base import KupferObject, Leaf, Action
 from kupfer.support import conspickle, pretty
+
+if ty.TYPE_CHECKING:
+    from kupfer.obj.base import Action, KupferObject, Leaf
 
 __all__ = (
     "add_favorite",
@@ -144,7 +146,7 @@ def _get_register_mnemonics() -> ty.Iterator[tuple[str, Mnemonics]]:
 def record_search_hit(obj: ty.Any, key: str | None = None) -> None:
     """Record that KupferObject @obj was used, with the optional
     search term @key recording.
-    When key is None - skip registeration (this is only valid when action is
+    When key is None - skip registration (this is only valid when action is
     performed by accelerator)."""
     if key is None:
         return
@@ -192,14 +194,12 @@ def get_correlation_bonus(obj: Action, for_leaf: Leaf | None) -> int:
     raval = ty.cast(dict[str, tuple[str, int]], _REGISTER[_ACTIVATIONS_KEY])
 
     # bonus for last used action for object
-    if val := raval.get(repr_leaf):
-        if val[0] == repr_obj:
-            return 20
+    if (val := raval.get(repr_leaf)) and val[0] == repr_obj:
+        return 20
 
     # bonus for last used action for object type
-    if val := raval.get(repr(type(for_leaf))):
-        if val[0] == repr_obj:
-            return 7
+    if (val := raval.get(repr(type(for_leaf)))) and val[0] == repr_obj:
+        return 7
 
     return 0
 
@@ -227,8 +227,7 @@ def get_object_has_affinity(obj: Leaf) -> bool:
     """Return if @obj has any positive score in the register."""
     robj = repr(obj)
     return bool(
-        _REGISTER.get(robj)
-        or _REGISTER[_CORRELATION_KEY].get(robj)  # type: ignore
+        _REGISTER.get(robj) or _REGISTER[_CORRELATION_KEY].get(robj)  # type: ignore
     )
 
 
@@ -246,7 +245,7 @@ def _prune_register(goalitems: int = 500) -> None:
 
     Then, remove items with chance (len/25000)
 
-    Assuming homogenous records (all with score one) we keep:
+    Assuming homogeneous records (all with score one) we keep:
     x_n+1 := x_n * (1 - chance)
 
     To this we have to add the expected number of added mnemonics per
@@ -318,9 +317,10 @@ def load() -> None:
     """Load learning database."""
     _REGISTER.clear()
 
-    if filepath := config.get_config_file(_MNEMONICS_FILENAME):
-        if reg := Learning.unpickle_register(filepath):
-            _REGISTER.update(reg)
+    if (filepath := config.get_config_file(_MNEMONICS_FILENAME)) and (
+        reg := Learning.unpickle_register(filepath)
+    ):
+        _REGISTER.update(reg)
 
     if _CORRELATION_KEY not in _REGISTER:
         _REGISTER[_CORRELATION_KEY] = _DEFAULT_ACTIONS
@@ -329,15 +329,18 @@ def load() -> None:
         _REGISTER[_ACTIVATIONS_KEY] = ty.cast(dict[str, tuple[str, int]], {})
 
 
+_MAX_REGISTER_SIZE: ty.Final[int] = 500
+
+
 def save() -> None:
     """Save the learning record."""
     if not _REGISTER:
         pretty.print_debug(__name__, "Not writing empty register")
         return
 
-    _purge_action_reg(500)
-    if len(_REGISTER) > 500:
-        _prune_register(500)
+    _purge_action_reg(_MAX_REGISTER_SIZE)
+    if len(_REGISTER) > _MAX_REGISTER_SIZE:
+        _prune_register(_MAX_REGISTER_SIZE)
 
     filepath = config.save_config_file(_MNEMONICS_FILENAME)
     assert filepath

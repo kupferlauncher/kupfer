@@ -11,9 +11,8 @@ import xdg.Exceptions
 from gi.repository import Gdk, Gio, GLib, Gtk
 
 from kupfer.core import settings
-from kupfer.support import desktop_parse
+from kupfer.support import desktop_parse, pretty
 from kupfer.support import itertools as kitertools
-from kupfer.support import pretty
 
 __all__ = ["launch_app_info", "spawn_app", "spawn_app_id"]
 
@@ -47,7 +46,7 @@ def _find_desktop_file(desk_id: str) -> str:
         raise ResourceLookupError("Empty id")
 
     try:
-        return next(xdg.BaseDirectory.load_data_paths("applications", desk_id))
+        return next(xdg.BaseDirectory.load_data_paths("applications", desk_id))  # type: ignore
     except StopIteration:
         ## it was not found as an immediate child of the data paths,
         ## so we split by the hyphens and search deeper
@@ -67,7 +66,7 @@ def _find_desktop_file(desk_id: str) -> str:
             ## try the first parts of the id to see if it matches a directory
             for x in range(1, 4):
                 dirname, rest_id = get_dir_id_depth(file_id, x)
-                if rest_id and lookup(directories + [dirname]):
+                if rest_id and lookup([*directories, dirname]):
                     file_id = rest_id
                     directories.append(dirname)
                     break
@@ -75,7 +74,7 @@ def _find_desktop_file(desk_id: str) -> str:
                 ## we did not reach break
                 break
 
-            if desktop_file_path := lookup(directories + [file_id]):
+            if desktop_file_path := lookup([*directories, file_id]):
                 return desktop_file_path
 
     raise ResourceLookupError(f"Cannot locate '{desk_id}'")
@@ -175,7 +174,7 @@ def _replace_format_specs(
         return ""
 
     # pylint: disable=too-many-return-statements
-    def replace_single_code(key: str) -> str | None:
+    def replace_single_code(key: str) -> str | None:  # noqa: PLR0911
         "Handle all embedded format codes, including those to be removed"
         if key in ("%d", "%D", "%n", "%N", "%v", "%m"):  # deprecated keys
             return ""
@@ -235,10 +234,9 @@ def _replace_format_specs(
         succ, newargs = replace_array_format(x)
         if succ:
             new_argv.extend(newargs)
-        else:
+        elif arg := kitertools.two_part_mapper(x, replace_single_code):
             # Handle embedded format codes
-            if arg := kitertools.two_part_mapper(x, replace_single_code):
-                new_argv.append(arg)
+            new_argv.append(arg)
 
     if len(gfilelist) > 1 and not flags.did_see_large_f:
         supports_single_file = True
@@ -287,7 +285,7 @@ class LaunchCallback(ty.Protocol):
 
 
 # pylint: disable=too-many-locals
-def launch_app_info(
+def launch_app_info(  # noqa:PLR0912
     app_info: Gio.AppInfo,
     gfiles: ty.Iterable[Gio.File] | None = None,
     in_terminal: bool | None = None,
@@ -360,7 +358,7 @@ def launch_app_info(
             if exearg := term["exearg"]:
                 targv.append(exearg)
 
-            argv = targv + argv
+            argv = targv + argv  # noqa: PLW2901
 
         if not spawn_app(
             app_info,

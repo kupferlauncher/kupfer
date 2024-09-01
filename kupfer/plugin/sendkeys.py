@@ -100,7 +100,7 @@ class SendKeys(Action):
 
         mods_down = ["keydown " + n for n in mod_names]
         mods_up = ["keyup " + n for n in reversed(mod_names)]
-        return mods_down + [f"key {Gdk.keyval_name(keys)}"] + mods_up
+        return [*mods_down, f"key {Gdk.keyval_name(keys)}", *mods_up]
 
     def item_types(self):
         yield TextLeaf

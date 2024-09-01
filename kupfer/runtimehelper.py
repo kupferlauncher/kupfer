@@ -4,9 +4,11 @@ import typing as ty
 
 from gi.repository import Gio
 
-from kupfer.core.commandexec import ExecutionToken
 from kupfer.obj import FileLeaf
 from kupfer.support import scheduler
+
+if ty.TYPE_CHECKING:
+    from kupfer.core.commandexec import ExecutionToken
 
 __all__ = ("AsyncFileResult", "register_async_file_result")
 

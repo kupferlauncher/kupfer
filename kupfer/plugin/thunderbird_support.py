@@ -120,13 +120,13 @@ def _read_mork_filecontent(filename: str) -> ty.Iterable[str]:
 
         for line in mfile:
             # remove blank lines and comments
-            line = line.strip()
+            line = line.strip()  # noqa: PLW2901
             if not line:
                 continue
+
             # remove comments
-            comments = line.find("// ")
-            if comments > -1:
-                line = line[:comments].strip()
+            if (comments := line.find("// ")) > -1:
+                line = line[:comments].strip()  # noqa: PLW2901
 
             if line:
                 yield line.replace("\\)", "$29")
@@ -134,7 +134,7 @@ def _read_mork_filecontent(filename: str) -> ty.Iterable[str]:
 
 # pylint: disable=too-many-locals,too-many-nested-blocks,too-many-branches
 # pylint: disable=too-many-statements
-def _read_mork(filename: str) -> dict[str, _Table]:
+def _read_mork(filename: str) -> dict[str, _Table]:  # noqa:PLR0915,PLR0912
     """Read mork file, return tables from file"""
 
     data = "".join(_read_mork_filecontent(filename))
@@ -223,23 +223,22 @@ def _read_mork(filename: str) -> dict[str, _Table]:
                 if table:
                     table.del_row(rowid)
 
-            if tran != "-":
-                if rowdata := row[2:]:
-                    if not table:
-                        table = tables["1:80"] = _Table("1:80")
+            if tran != "-" and (rowdata := row[2:]):
+                if not table:
+                    table = tables["1:80"] = _Table("1:80")
 
-                    for rowcell in filter(None, rowdata):
-                        for cell in _RE_CELL.findall(rowcell):
-                            atom, col = None, None
-                            if cmatch := _RE_CELL_TEXT.match(cell):
-                                col = cells.get(cmatch.group(1))
-                                atom = cmatch.group(2)
-                            elif cmatch := _RE_CELL_OID.match(cell):
-                                col = cells.get(cmatch.group(1))
-                                atom = atoms.get(cmatch.group(2))
+                for rowcell in filter(None, rowdata):
+                    for cell in _RE_CELL.findall(rowcell):
+                        atom, col = None, None
+                        if cmatch := _RE_CELL_TEXT.match(cell):
+                            col = cells.get(cmatch.group(1))
+                            atom = cmatch.group(2)
+                        elif cmatch := _RE_CELL_OID.match(cell):
+                            col = cells.get(cmatch.group(1))
+                            atom = atoms.get(cmatch.group(2))
 
-                            if col and atom:
-                                table.add_cell(rowid, col, atom)
+                        if col and atom:
+                            table.add_cell(rowid, col, atom)
 
             pos = match.span()[1]
             continue
@@ -326,7 +325,9 @@ def _load_abook_sqlite(filename: str) -> ty.Iterator[tuple[str, str]]:
     for _ in range(2):
         try:
             pretty.print_debug(__name__, "_load_abook_sqlite load:", dbfpath)
-            with closing(sqlite3.connect(dbfpath, uri=True, timeout=1)) as conn:
+            with closing(
+                sqlite3.connect(dbfpath, uri=True, timeout=1)
+            ) as conn:
                 cur = conn.cursor()
 
                 # check db version
@@ -347,7 +348,7 @@ def _load_abook_sqlite(filename: str) -> ty.Iterator[tuple[str, str]]:
                     primary_email,
                     second_email,
                 ) in cur:
-                    display_name = display_name or " ".join(
+                    display_name = display_name or " ".join(  # noqa: PLW2901
                         filter(None, (first_name, last_name))
                     )
                     for email in (primary_email, second_email):
@@ -357,7 +358,7 @@ def _load_abook_sqlite(filename: str) -> ty.Iterator[tuple[str, str]]:
                                 email,
                             )
             return
-        except sqlite3.Error as err:
+        except sqlite3.Error as err:  # noqa: PERF203
             # Something is wrong with the database
             # wait short time and try again
             pretty.print_debug(__name__, "_load_abook_sqlite error:", str(err))

@@ -35,8 +35,7 @@ def _get_fm1():
     except dbus.DBusException as exc:
         raise OperationError(exc) from exc
 
-    iface_obj = dbus.Interface(proxy_obj, _FM_IFACE)
-    return iface_obj
+    return dbus.Interface(proxy_obj, _FM_IFACE)
 
 
 def _get_nemo():
@@ -46,8 +45,7 @@ def _get_nemo():
     except dbus.DBusException as exc:
         raise OperationError(exc) from exc
 
-    iface_obj = dbus.Interface(proxy_obj, _FO_IFACE)
-    return iface_obj
+    return dbus.Interface(proxy_obj, _FO_IFACE)
 
 
 def _dummy(*args):
@@ -127,10 +125,7 @@ def _good_destination(dpath, spath):
     spath = os.path.normpath(spath)
     dpath = os.path.normpath(dpath)
     cpfx = os.path.commonprefix((spath, dpath))
-    if os.path.samefile(dpath, spath) or cpfx == spath:
-        return False
-
-    return True
+    return not (os.path.samefile(dpath, spath) or cpfx == spath)
 
 
 def leaf_uri(leaf):

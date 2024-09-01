@@ -88,14 +88,14 @@ def get_playlist_songs() -> ty.Iterator[SongLeaf]:
     ) as proc:
         stdout, _stderr = proc.communicate()
         for line in stdout.splitlines():
-            if not line.count(b"|") >= 2:
+            if not line.count(b"|") >= 2:  # noqa:PLR2004
                 continue
 
             position, rest = line.split(b"|", 1)
             songname, rest = rest.rsplit(b"|", 1)
             pos = int(position.strip())
-            nam = kupferstring.fromlocale(songname.strip())
-            yield SongLeaf(pos, nam)
+            name = kupferstring.fromlocale(songname.strip())
+            yield SongLeaf(pos, name)
 
 
 def get_current_song() -> str | None:
@@ -103,7 +103,7 @@ def get_current_song() -> str | None:
         conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
         pos = conn.Position()
         total = conn.Length()
-        info = "\n".join(
+        return "\n".join(
             filter(
                 None,
                 (
@@ -115,7 +115,6 @@ def get_current_song() -> str | None:
                 ),
             )
         )
-        return info
     except Exception:
         pretty.print_exc(__name__)
 

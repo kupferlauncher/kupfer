@@ -43,7 +43,7 @@ class SerializedObject:
     def __hash__(self) -> int:
         return hash(self.data)
 
-    def __eq__(self, other: ty.Any) -> bool:
+    def __eq__(self, other: object) -> bool:
         return (
             isinstance(other, type(self))
             and self.data == other.data

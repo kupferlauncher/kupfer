@@ -151,7 +151,7 @@ def _get_dirs(
         if rownum > max_items:
             return
 
-        line = line.strip()
+        line = line.strip()  # noqa: PLW2901
         score, _dummy, dirpath = line.partition(b" ")
         if not dirpath:
             continue

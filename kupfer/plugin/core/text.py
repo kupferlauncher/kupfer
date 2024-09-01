@@ -91,14 +91,14 @@ class OpenTextUrl(OpenUrl):
         return bool(self._get_leaf_valid_url(leaf))
 
     def _get_leaf_valid_url(self, leaf: Leaf) -> str | None:
-        if isinstance(leaf, TextLeaf):
-            if url := is_url(leaf.object):
-                return url
+        if isinstance(leaf, TextLeaf) and (url := is_url(leaf.object)):
+            return url
 
         with suppress(AttributeError):
-            if trepr := leaf.get_text_representation():  # type: ignore
-                if url := is_url(trepr):
-                    return url
+            if (trepr := leaf.get_text_representation()) and (  # type: ignore
+                url := is_url(trepr)
+            ):
+                return url
 
         with suppress(AttributeError, NotImplementedError):
             for url in leaf.get_urilist_representation() or []:  # type: ignore

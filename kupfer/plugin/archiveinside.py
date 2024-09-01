@@ -57,8 +57,8 @@ class _Extractor(ty.Protocol):
 
 
 class ArchiveContent(Source):
-    extractors: list[_Extractor] = []
-    unarchived_files: list[str] = []
+    extractors: ty.ClassVar[list[_Extractor]] = []
+    unarchived_files: ty.ClassVar[list[str]] = []
     end_timer = scheduler.Timer(True)
 
     def __init__(self, fileleaf: FileLeaf, unarchive_func: _Extractor) -> None:

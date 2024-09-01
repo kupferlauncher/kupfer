@@ -87,11 +87,13 @@ def _load_whisher_favs() -> ty.Iterator[Leaf]:
     for fav in _get_whisker_conf_favs():
         name, *_rest = fav.rpartition(".")
         id_ = f"<kupfer.obj.apps.AppLeaf {name}>"
-        if itm := puid.resolve_unique_id(id_):
-            # ignore invalid objects
-            if not hasattr(itm, "is_valid") or itm.is_valid():
-                if isinstance(itm, Leaf):
-                    yield itm
+        # ignore invalid objects
+        if (
+            (itm := puid.resolve_unique_id(id_))
+            and (not hasattr(itm, "is_valid") or itm.is_valid())
+            and isinstance(itm, Leaf)
+        ):
+            yield itm
 
 
 class XfceWhskerFavoritesSource(Source):

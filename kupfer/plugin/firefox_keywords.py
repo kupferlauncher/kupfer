@@ -48,8 +48,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
 
 def _url_domain(text: str) -> str:
     components = list(urlparse(text))
-    domain = "".join(components[1:2])
-    return domain
+    return "".join(components[1:2])
 
 
 class Keyword(Leaf):
@@ -197,7 +196,7 @@ class SearchFor(Action):
 
     def valid_object(self, obj, for_item):
         # NOTE: Using exact class to skip subclasses
-        return type(obj) == TextLeaf  # pylint: disable=unidiomatic-typecheck
+        return type(obj) == TextLeaf  # pylint: disable=unidiomatic-typecheck # noqa: E721
 
     def get_description(self):
         return _("Search the web with Firefox keywords")
@@ -290,5 +289,4 @@ def _do_search_engine(
 
 def _query_url(terms: str, search_url: str) -> str:
     """Show an url searching for @search_url with @terms"""
-    query_url = search_url.replace("%s", quote(terms))
-    return query_url
+    return search_url.replace("%s", quote(terms))

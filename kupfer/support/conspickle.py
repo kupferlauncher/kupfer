@@ -37,7 +37,7 @@ class ConservativeUnpickler(pickle.Unpickler):
     UnpicklingError: Refusing to load module kupfer.obj.base
     """
 
-    safe_modules: dict[str, ty.Any] = {
+    safe_modules: ty.ClassVar[dict[str, ty.Any]] = {
         "builtins": {"set", "sum", "object"},
         "copy_reg": {"_reconstructor"},
         "kupfer.*": UniversalSet(),
@@ -78,7 +78,7 @@ class BasicUnpickler(ConservativeUnpickler):
     UnpicklingError: Refusing unsafe kupfer.obj.objects.FileLeaf
     """
 
-    safe_modules: dict[str, set[str]] = {
+    safe_modules: ty.ClassVar[dict[str, set[str]]] = {
         "__builtin__": {"object"},
         "copy_reg": {"_reconstructor"},
         "kupfer.puid": {"SerializedObject"},

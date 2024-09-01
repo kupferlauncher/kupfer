@@ -35,10 +35,9 @@ def get_bookmarks(bookmarks_file: str) -> ty.Iterable[dict[str, ty.Any]]:
     # make a dictionary of unique bookmarks
     bmap = set()
     for item in folders:
-        if _is_good_bookmark(item):
-            if (iid := item["id"]) not in bmap:
-                bmap.add(iid)
-                yield item
+        if _is_good_bookmark(item) and (iid := item["id"]) not in bmap:
+            bmap.add(iid)
+            yield item
 
         if _is_container(item):
             folders.extend(item["children"])

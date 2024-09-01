@@ -14,13 +14,13 @@ import typing as ty
 import urllib.error
 import urllib.parse
 import urllib.request
-import http.client
 
 from kupfer import launch
 from kupfer.obj import Action, FileLeaf, UrlLeaf
 from kupfer.support import fileutils, task
 
 if ty.TYPE_CHECKING:
+    import http.client
     from gettext import gettext as _
 
 
@@ -75,7 +75,7 @@ class DownloadTask(task.ThreadTask):
 
     def thread_do(self):
         with urllib.request.urlopen(self.uri) as response:
-            if response.status >= 300 or response.status < 200:
+            if response.status >= 300 or response.status < 200:  # noqa: PLR2004
                 raise RuntimeError(
                     f"Could not download file; status: {response.status}"
                 )

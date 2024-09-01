@@ -6,6 +6,7 @@ purpose), but care should be taken to only call UI functions from the main
 (default) thread.
 
 """
+
 from __future__ import annotations
 
 import math
@@ -15,13 +16,13 @@ import typing as ty
 from gi.repository import Gdk, Gtk, Pango
 
 from kupfer import config, version
-from kupfer.core import commandexec
 from kupfer.support import pretty
-
 from kupfer.ui import uievents
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.core import commandexec
 
 
 def _window_close_on_escape(widget: Gtk.Widget, event: Gdk.EventKey) -> bool:
@@ -107,7 +108,7 @@ def _calculate_window_size(
     tw_sr = textview.size_request()
     wid, hei = tw_sr.width, tw_sr.height
 
-    # Set max window size to 100 colums x 60 lines
+    # Set max window size to 100 columns x 60 lines
     max_hsize = ink_r.height * 60
     max_vsize = ink_r.width * 100
 
@@ -165,6 +166,9 @@ def _set_font_size(label: Gtk.Label, fontsize: float = 48.0) -> None:
     label.modify_font(Pango.FontDescription.from_string(str(fontsize)))
 
 
+_MAX_LINE_WIDTH: ty.Final[int] = 100
+
+
 def show_large_type(
     text: str, ctx: commandexec.ExecutionToken | None = None
 ) -> None:
@@ -194,7 +198,7 @@ def show_large_type(
     # If the text contains long lines, we try to
     # hard-wrap the text
     if (wid > maxwid or hei > maxhei) and any(
-        len(L) > 100 for L in text.splitlines()
+        len(L) > _MAX_LINE_WIDTH for L in text.splitlines()
     ):
         label.set_text(_wrap_paragraphs(text))
 

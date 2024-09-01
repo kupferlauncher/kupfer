@@ -43,6 +43,7 @@ from functools import partial
 
 from gi.repository import GObject
 
+from kupfer.core._support import get_leaf_members, is_multiple_leaf
 from kupfer.obj import (
     Action,
     KupferObject,
@@ -54,13 +55,13 @@ from kupfer.obj import (
 from kupfer.obj.compose import MultipleLeaf
 from kupfer.obj.sources import MultiSource
 from kupfer.support import pretty, task
-from kupfer.support.types import ExecInfo
 from kupfer.ui import uiutils
-from kupfer.ui.uievents import GUIEnvironmentContext
-from kupfer.core._support import get_leaf_members, is_multiple_leaf
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
+
+    from kupfer.support.types import ExecInfo
+    from kupfer.ui.uievents import GUIEnvironmentContext
 
 __all__ = (
     "ExecResult",
@@ -158,7 +159,7 @@ class ExecutionToken:
     @property
     def environment(self) -> GUIEnvironmentContext:
         """This is a property for the current environment,
-        acess env variables like this::
+        access env variables like this::
 
             ctx.environment.get_timestamp()
 
@@ -311,7 +312,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         if res_desc := result.get_description():
             description = f"{res_name} ({res_desc})"
 
-        # If only registration was requsted, remove the command id info
+        # If only registration was requested, remove the command id info
         if not show:
             command_id = -1
 
@@ -367,9 +368,8 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
 
         # The execution token object for the current invocation
         execution_token = self.make_execution_token(ui_ctx)
-        with self._error_conversion((obj, action, iobj)):
-            with self._nesting():
-                ret = activate_action(execution_token, obj, action, iobj)
+        with self._error_conversion((obj, action, iobj)), self._nesting():
+            ret = activate_action(execution_token, obj, action, iobj)
 
         # remember last command, but not delegated commands.
         if not delegate:
@@ -554,12 +554,10 @@ default_action_execution_context = ActionExecutionContext.instance
 class ActionActivateFunc(ty.Protocol):
     def __call__(
         self,
-        obj: Leaf,
+        leaf: Leaf,
         iobj: Leaf | None = None,
         ctx: ExecutionToken | None = None,
-        /,
-    ) -> ActionResult:
-        ...
+    ) -> ActionResult: ...
 
 
 # pylint: disable=too-few-public-methods
@@ -567,12 +565,10 @@ class ActionActivateFunc(ty.Protocol):
 class ActionActivateMultipleFunc(ty.Protocol):
     def __call__(
         self,
-        obj: ty.Iterable[Leaf],
+        leaf: ty.Iterable[Leaf],
         iobj: ty.Iterable[Leaf | None] | None = None,
         ctx: ExecutionToken | None = None,
-        /,
-    ) -> ActionResult:
-        ...
+    ) -> ActionResult: ...
 
 
 def activate_action(
@@ -633,7 +629,7 @@ def _activate_action_multiple_multiplied(
     ctx: ExecutionToken | None,
 ) -> tuple[ExecResult, ActionResult] | ActionResult | None:
     """
-    Multiple dispatch by "mulitplied" invocation of the simple activation
+    Multiple dispatch by "multiplied" invocation of the simple activation
 
     When action is delegated return (ExecResult, ActionResult), otherwise
     return ActionResult
@@ -646,8 +642,7 @@ def _activate_action_multiple_multiplied(
     ]
 
     actx = default_action_execution_context()
-    ret = actx.combine_action_result_multiple(action, rets)
-    return ret
+    return actx.combine_action_result_multiple(action, rets)
 
 
 def parse_action_result(action: Action, ret: ActionResult) -> ExecResult:
