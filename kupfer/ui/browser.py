@@ -36,6 +36,8 @@ if ty.TYPE_CHECKING:
 
 _KUPFER_CSS: ty.Final = b"""
 #kupfer {
+    border: 2px solid alpha(black, 0.3);
+    border-radius: 10px;
 }
 
 .matchview {
