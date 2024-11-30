@@ -375,7 +375,9 @@ class WindowController(pretty.OutputMixin):
         if not hint_name:
             return type_hint
 
-        if hint_enum := getattr(Gdk.WindowTypeHint, hint_name, None):
+        if (
+            hint_enum := getattr(Gdk.WindowTypeHint, hint_name, None)
+        ) is not None:
             return hint_enum
 
         self.output_error("No such Window Type Hint", hint_name)
