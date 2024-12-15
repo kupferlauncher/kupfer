@@ -580,20 +580,30 @@ def spawn_async_notify_as(app_id: str, argv: list[str]) -> bool:
     return desktop_launch.spawn_app_id(app_id, argv, None, True)
 
 
-def spawn_async(argv: ty.Collection[str], in_dir: str = ".") -> bool:
+def spawn_async(
+    argv: ty.Collection[str],
+    in_dir: str = ".",
+    *,
+    finish_callback: ty.Callable[[int], None] | None = None,
+) -> bool:
     """
     Silently spawn @argv in the background
 
     Returns False on failure
     """
     try:
-        return spawn_async_raise(argv, in_dir)
+        return spawn_async_raise(argv, in_dir, finish_callback=finish_callback)
     except SpawnError as exc:
         pretty.print_debug(__name__, "spawn_async", argv, exc)
         return False
 
 
-def spawn_async_raise(argv: ty.Collection[str], workdir: str = ".") -> bool:
+def spawn_async_raise(
+    argv: ty.Collection[str],
+    workdir: str = ".",
+    *,
+    finish_callback: ty.Callable[[int], None] | None = None,
+) -> bool:
     """
     A version of spawn_async that raises on error.
 
@@ -604,6 +614,13 @@ def spawn_async_raise(argv: ty.Collection[str], workdir: str = ".") -> bool:
         res = GLib.spawn_async(
             argv, working_directory=workdir, flags=GLib.SPAWN_SEARCH_PATH
         )
+        if finish_callback and res:
+
+            def _callback(pid: int, condition: int) -> None:
+                finish_callback(os.WEXITSTATUS(condition))
+
+            GLib.child_watch_add(res[0], _callback)
+
         return bool(res)
     except GLib.GError as exc:
         raise SpawnError(exc.message) from exc  # pylint: disable=no-member
