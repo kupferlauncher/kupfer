@@ -9,6 +9,7 @@ __author__ = "Horia V. Corcalciuc <h.v.corcalciuc@gmail.com>, US, KB"
 # TODO: support many playlists (?); for now we load only active playlist
 
 import subprocess
+import time
 import typing as ty
 
 import dbus
@@ -55,8 +56,9 @@ def _create_dbus_connection(
     iface: str, obj: str, service: str
 ) -> dbus.Interface:
     """Create dbus connection to NetworkManager"""
+
+    sbus = dbus.SessionBus()
     try:
-        sbus = dbus.SessionBus()
         if dobj := sbus.get_object(service, obj):
             return dbus.Interface(dobj, iface)
 
@@ -128,6 +130,19 @@ def get_current_song() -> str | None:
         return None
 
 
+def _audtool_command(args: tuple[str, ...], activate: bool = True) -> None:
+    def _cb(res: int) -> None:
+        if res == 0:
+            return
+
+        # audacious not running
+        launch.spawn_async(("audacious",))
+        time.sleep(1)
+        launch.spawn_async(args)
+
+    launch.spawn_async(args, finish_callback=_cb)
+
+
 class Enqueue(Action):
     action_accelerator = "e"
 
@@ -188,7 +203,8 @@ class JumpToSong(Action):
             conn.Jump(pos)
             conn.Play()
         except Exception:
-            launch.spawn_async((_AUDTOOL, "playlist-jump", str(pos)))
+            _audtool_command((_AUDTOOL, "playlist-jump", str(pos)))
+            time.sleep(1)
             launch.spawn_async((_AUDTOOL, "playback-play"))
 
     def get_description(self):
@@ -207,7 +223,7 @@ class Play(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.Play()
         except Exception:
-            launch.spawn_async((_AUDTOOL, "playback-play"))
+            _audtool_command((_AUDTOOL, "playback-play"))
 
     def get_description(self):
         return _("Resume playback in Audacious")
@@ -261,7 +277,7 @@ class Next(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.Advance()
         except Exception:
-            launch.spawn_async((_AUDTOOL, "playlist-advance"))
+            _audtool_command((_AUDTOOL, "playlist-advance"))
 
     def get_description(self):
         return _("Jump to next track in Audacious")
@@ -279,7 +295,7 @@ class Previous(RunnableLeaf):
             conn = _create_dbus_connection(_IFACE_NAME, _OBJ_NAME, _BUS_NAME)
             conn.Reverse()
         except Exception:
-            launch.spawn_async((_AUDTOOL, "playlist-reverse"))
+            _audtool_command((_AUDTOOL, "playlist-reverse"))
 
     def get_description(self):
         return _("Jump to previous track in Audacious")
