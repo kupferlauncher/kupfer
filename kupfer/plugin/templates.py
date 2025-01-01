@@ -165,8 +165,9 @@ class TemplatesSource(Source, FilesystemWatchMixin):
         yield EmptyFile()
         yield NewFolder()
         try:
-            for fname in os.listdir(tmpl_dir):
-                yield Template(os.path.join(tmpl_dir, fname))
+            with os.scandir(tmpl_dir) as entries:
+                for entry in entries:
+                    yield Template(entry.path)
 
         except OSError as exc:
             self.output_error(exc)

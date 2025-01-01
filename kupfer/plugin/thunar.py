@@ -13,9 +13,8 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
-from contextlib import suppress
-from pathlib import Path
 import typing as ty
+from contextlib import suppress
 
 import dbus
 
@@ -469,16 +468,17 @@ class _SendToAppsSource(Source):
 
     def get_items(self):
         for data_dir in config.get_data_dirs("sendto", package="Thunar"):
-            for filename in os.listdir(data_dir):
-                if not filename.endswith(".desktop"):
-                    continue
+            with os.scandir(data_dir) as sd:
+                for dir_entry in sd:
+                    if not dir_entry.is_file() or not dir_entry.name.endswith(
+                        ".desktop"
+                    ):
+                        continue
 
-                file_path = Path(data_dir, filename)
-                if not file_path.is_file():
-                    continue
-
-                with suppress(InvalidDataError):
-                    yield AppLeaf(init_path=str(file_path), require_x=False)
+                    with suppress(InvalidDataError):
+                        yield AppLeaf(
+                            init_path=dir_entry.path, require_x=False
+                        )
 
     def get_icon_name(self):
         return "Thunar"

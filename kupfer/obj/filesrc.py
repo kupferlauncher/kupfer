@@ -16,19 +16,19 @@ from os import path
 from gi.repository import Gio, GLib
 
 from kupfer import icons
-from kupfer.support import fileutils
 from kupfer.obj import apps, files
 from kupfer.obj.base import Leaf, Source
 from kupfer.obj.exceptions import InvalidDataError
 from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer.support import fileutils
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
 __all__ = (
-    "construct_file_leaf",
     "DirectorySource",
     "FileSource",
+    "construct_file_leaf",
 )
 
 
@@ -81,18 +81,23 @@ class DirectorySource(Source, FilesystemWatchMixin):
         return self._show_hidden or not gfile.get_basename().startswith(".")
 
     def get_items(self) -> ty.Iterator[Leaf]:
+        dirfiles: ty.Iterable[os.DirEntry[str]]
         try:
-            dirfiles: ty.Iterable[str] = os.listdir(self._directory)
+            with os.scandir(self._directory) as dirfiles:
+                if self._show_hidden:
+                    yield from (
+                        construct_file_leaf(entry.path) for entry in dirfiles
+                    )
+
+                else:
+                    yield from (
+                        construct_file_leaf(entry.path)
+                        for entry in dirfiles
+                        if entry.name[0] != "."
+                    )
+
         except OSError as exc:
             self.output_error(exc)
-        else:
-            if not self._show_hidden:
-                dirfiles = (f for f in dirfiles if f[0] != ".")
-
-            yield from (
-                construct_file_leaf(path.join(self._directory, fname))
-                for fname in dirfiles
-            )
 
     def should_sort_lexically(self) -> bool:
         return True

@@ -15,14 +15,14 @@ def _extend_path():
     # Add .zip files in plugins directories
     for directory in __path__.copy():
         try:
-            filenames = os.listdir(directory)
+            with os.scandir(directory) as entries:
+                if zipnames := [f for f in entries if f.name.endswith(".zip")]:
+                    pretty.print_debug(__name__, "Adding", directory, zipnames)
+                    __path__.extend(z.path for z in zipnames)
+
         except OSError as error:
             pretty.print_error(__name__, error)
             continue
-
-        if zipnames := [f for f in filenames if f.endswith(".zip")]:
-            pretty.print_debug(__name__, "Adding", directory, zipnames)
-            __path__.extend(os.path.join(directory, z) for z in zipnames)
 
 
 _extend_path()

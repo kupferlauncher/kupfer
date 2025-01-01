@@ -1,8 +1,8 @@
 """
 This is a Zeal search plugin.
 """
-from __future__ import annotations
 
+from __future__ import annotations
 
 __kupfer_name__ = _("Zeal Search")
 __kupfer_sources__ = ("ZealDocsetsSource",)
@@ -15,8 +15,8 @@ __author__ = "Karol Będkowski"
 
 import json
 import os
-from pathlib import Path
 import typing as ty
+from pathlib import Path
 
 from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, Leaf, Source, TextLeaf
@@ -71,37 +71,38 @@ class ZealDocsetsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
         if not docsets_home.is_dir():
             return
 
-        for docdirname in os.listdir(docsets_home):
-            if not docdirname.endswith(".docset"):
-                continue
+        with os.scandir(docsets_home) as docdirs:
+            for docdir in docdirs:
+                if not docdir.is_dir() or not docdir.name.endswith(".docset"):
+                    continue
 
-            docset_dir = docsets_home.joinpath(docdirname)
-            meta_file = docsets_home.joinpath(docdirname, "meta.json")
-            if not meta_file.is_file():
-                continue
+                meta_file = Path(docdir.path, "meta.json")
+                if not meta_file.is_file():
+                    continue
 
-            try:
-                with meta_file.open("r", encoding="UTF-8") as meta:
-                    content = json.load(meta)
-            except OSError:
-                continue
+                try:
+                    with meta_file.open("r", encoding="UTF-8") as meta:
+                        content = json.load(meta)
+                except OSError:
+                    continue
 
-            name = content.get("name") or docset_dir.stem
-            title = content.get("title") or name.replace("_", " ")
-            # zeal require prefix without any _/' '. this may cause
-            # finding in wrong docsets if prefix is the same (ie java_se17,
-            # java_se19) but we can't do anything with this
-            name = name.partition("_")[0]  # take part before "_"
-            keywords = None
-            extra = content.get("extra")
-            if extra:
-                keywords = extra.get("keywords")
+                docset_dir = Path(docdir.path)
+                name = content.get("name") or docset_dir.stem
+                title = content.get("title") or name.replace("_", " ")
+                # zeal require prefix without any _/' '. this may cause
+                # finding in wrong docsets if prefix is the same (ie java_se17,
+                # java_se19) but we can't do anything with this
+                name = name.partition("_")[0]  # take part before "_"
+                keywords = None
+                extra = content.get("extra")
+                if extra:
+                    keywords = extra.get("keywords")
 
-            icon_filename = None
-            if (icon := docset_dir.joinpath("icon@2x.png")).is_file():
-                icon_filename = str(icon)
+                icon_filename = None
+                if (icon := docset_dir.joinpath("icon@2x.png")).is_file():
+                    icon_filename = str(icon)
 
-            yield ZealDocset(name, title, keywords, icon_filename)
+                yield ZealDocset(name, title, keywords, icon_filename)
 
     def get_icon_name(self):
         return "zeal"

@@ -238,12 +238,13 @@ def _get_plugin_dirs() -> ty.Iterator[Path]:
 
     # try to find all versions of firefox
     for prefix in ("/usr/lib", "/usr/share"):
-        for dirname in os.listdir(prefix):
-            if dirname.startswith(("firefox", "iceweasel")):
-                yield Path(prefix, dirname, "searchplugins")
-                yield Path(
-                    prefix, dirname, "distribution", "searchplugins", "common"
-                )
+        with os.scandir(prefix) as entries:
+            for entry in entries:
+                if entry.name.startswith(("firefox", "iceweasel")):
+                    yield Path(entry.path, "searchplugins")
+                    yield Path(
+                        entry.path, "distribution", "searchplugins", "common"
+                    )
 
 
 _OS_VITAL_KEYS = {"Url", "ShortName"}
@@ -316,16 +317,16 @@ class OpenSearchSource(Source):
 
             self.output_debug("Processing searchplugins dir", pdir)
 
-            for fname in os.listdir(pdir):
-                if fname in visited_files:
-                    continue
+            with os.scandir(pdir) as entries:
+                for entry in entries:
+                    if entry.path in visited_files:
+                        continue
 
-                visited_files.add(fname)
-                fpath = pdir.joinpath(fname)
-                if not fpath.is_dir() and (
-                    search := self._parse_opensearch(str(fpath))
-                ):
-                    yield SearchEngine(search, search["ShortName"])
+                    visited_files.add(entry.path)
+                    if not entry.is_dir() and (
+                        search := self._parse_opensearch(entry.path)
+                    ):
+                        yield SearchEngine(search, search["ShortName"])
 
         # add user search engines
         if custom_ses := __kupfer_settings__["extra_engines"]:

@@ -385,17 +385,20 @@ def get_addressbook_files() -> ty.Iterator[str]:
     """Get full path to all Thunderbird address book files."""
     for path in get_addressbook_dirs():
         pretty.print_debug(__name__, "get_addressbook_files dir:", path)
-        files = os.listdir(path)
-        for filename in files:
-            root, ext = os.path.splitext(filename)
-            if (
-                ext == ".mab"
-                or (ext == ".sqlite" and root.startswith("abook"))
-                or filename == "history.sqlite"
-            ):
-                fullpath = os.path.join(path, filename)
-                if os.path.isfile(fullpath):
-                    yield fullpath
+        with os.scandir(path) as entries:
+            for entry in entries:
+                if not entry.is_file():
+                    continue
+
+                if (
+                    entry.name.endswith(".mab")
+                    or (
+                        entry.name.endswith(".sqlite")
+                        and entry.name.startswith("abook")
+                    )
+                    or entry.name == "history.sqlite"
+                ):
+                    yield entry.path
 
 
 def get_contacts() -> ty.Iterator[tuple[str, str]]:
