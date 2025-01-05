@@ -30,7 +30,7 @@ dependencies = [
   "gi.repository.Gtk",
   "gi.repository.GLib",
   "gi.repository.Gio",
-  "xdg",
+  "pyxdg",
   "dbus"
 ]
 
