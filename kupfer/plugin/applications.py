@@ -8,6 +8,7 @@ __kupfer_actions__ = (
     "SetDefaultApplication",
     "ResetAssociations",
     "LaunchHere",
+    "AppAdditionalAction",
 )
 __description__ = _("All applications and preferences")
 __version__ = "2023.1"
@@ -19,7 +20,7 @@ from pathlib import Path
 from gi.repository import Gio
 
 from kupfer import config, plugin_support
-from kupfer.obj import Action, AppLeaf, FileLeaf, Source, UrlLeaf, Leaf
+from kupfer.obj import Action, AppLeaf, FileLeaf, Leaf, Source, UrlLeaf
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.support import weaklib
 
@@ -145,7 +146,13 @@ class AppSource(Source, FilesystemWatchMixin):
                 _should_show(item, desktop_type, use_filter)
                 and id_ not in BLACKLIST_IDS
             ):
-                yield AppLeaf(item)
+                # load extra app action defined in desktop file
+                app_actions = [
+                    (action, item.get_action_name(action))
+                    for action in item.list_actions()
+                ]
+
+                yield AppLeaf(item, app_actions=app_actions)
 
     def should_sort_lexically(self):
         return True
@@ -425,3 +432,62 @@ class LaunchHere(Action):
 
     def object_source_and_catalog(self, for_item):
         return True
+
+
+class _AppAction(Leaf):
+    def __init__(self, action: str, name: str) -> None:
+        super().__init__(action, name)
+
+    def get_icon_name(self) -> str:
+        return "kupfer-launch"
+
+
+class _AppActionsSource(Source):
+    source_use_cache = False
+
+    def __init__(self, appleaf: AppLeaf) -> None:
+        super().__init__("application actions")
+        self.appleaf = appleaf
+
+    def get_items(self):
+        if self.appleaf.app_actions:
+            for action, name in self.appleaf.app_actions:
+                yield _AppAction(action, name)
+
+    def provides(self):
+        yield _AppAction
+
+
+class AppAdditionalAction(Action):
+    def __init__(self, name=_("Application actions...")):
+        super().__init__(name)
+
+    def activate(self, leaf, iobj=None, ctx=None):
+        assert iobj
+        assert isinstance(leaf, AppLeaf)
+        assert leaf.app_actions
+        appinfo = leaf.object
+        appinfo.launch_action(iobj.object)
+
+    def item_types(self):
+        yield AppLeaf
+
+    def requires_object(self):
+        return True
+
+    def object_types(self):
+        yield _AppAction
+
+    def object_source(self, for_item=None):
+        return _AppActionsSource(for_item)
+
+    def valid_for_item(self, leaf: Leaf) -> bool:
+        # application must have any actions
+        assert isinstance(leaf, AppLeaf)
+        return bool(leaf.app_actions)
+
+    def get_description(self):
+        return _("Extra actions for application")
+
+    def get_icon_name(self) -> str:
+        return "gtk-execute"

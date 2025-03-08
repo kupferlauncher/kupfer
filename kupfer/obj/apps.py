@@ -103,11 +103,14 @@ class AppLeaf(Leaf):
         init_path: str | None = None,
         app_id: str | None = None,
         require_x: bool = True,
+        app_actions: list[tuple[str, str]] | None = None,
     ) -> None:
         """Try constructing an Application for GAppInfo @item,
         for file @path or for package name @app_id.
 
         @require_x: require executable file
+        @app_actions: additional application actions defined in
+           desktop file as list of (action name, action display name)
 
         Represented object is Gio.DesktopAppInfo.
         """
@@ -115,6 +118,7 @@ class AppLeaf(Leaf):
         self._init_item_id = app_id and app_id + ".desktop"
         # finish will raise InvalidDataError on invalid item
         self._finish(require_x, item)
+        self.app_actions = app_actions
         super().__init__(self.object, self.object.get_name())
         self._add_aliases()
 
