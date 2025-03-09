@@ -84,8 +84,8 @@ known to work.
 Opportunistic dependencies
 
 * If available, 'setproctitle' is used to set the process name
-* If available, you can use AppIndicator3. On debian the package name
-  needed for the dependency is ``gir1.2-appindicator3-0.1`` (g-i bindings).
+* If available, you can use AyatanaAppIndicator3. On debian the package name
+  needed for the dependency is ``gir1.2-ayatanaappindicator3-0.1`` (g-i bindings).
 
 Recommended dependencies
 
