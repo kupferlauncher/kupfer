@@ -526,7 +526,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         return self.set_config("Kupfer", "showstatusicon", enabled)
 
     def get_show_status_icon_ai(self) -> bool:
-        """Convenience: Show icon in notification area as bool (AppIndicator3)"""
+        """Convenience: Show icon in notification area as bool (AyatanaAppIndicator3)"""
         return _strbool(self.get_config("Kupfer", "showstatusicon_ai"))
 
     def set_show_status_icon_ai(self, enabled: bool) -> bool:

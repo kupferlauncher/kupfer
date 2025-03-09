@@ -8,4 +8,4 @@ with suppress(ValueError):
     gi.require_version("Wnck", "3.0")
 
 with suppress(ValueError):
-    gi.require_version("AppIndicator3", "0.1")
+    gi.require_version("AyatanaAppIndicator3", "0.1")

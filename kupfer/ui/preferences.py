@@ -1329,7 +1329,7 @@ class _SourceListController:
 
 def _supports_app_indicator() -> bool:
     try:
-        gi.require_version("AppIndicator3", "0.1")
+        gi.require_version("AyatanaAppIndicator3", "0.1")
     except ValueError:
         return False
 

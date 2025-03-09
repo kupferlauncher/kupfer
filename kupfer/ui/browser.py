@@ -9,7 +9,7 @@ import cairo
 from gi.repository import Gdk, GLib, Gtk
 
 try:
-    from gi.repository import AppIndicator3
+    from gi.repository import AyatanaAppIndicator3 as AppIndicator3
 except ImportError:
     AppIndicator3 = None
 
@@ -206,7 +206,7 @@ class WindowController(pretty.OutputMixin):
                 self._statusicon = None
 
     def _show_statusicon_ai(self) -> None:
-        """Show (create if not exists) status icon using AppIndicator3."""
+        """Show (create if not exists) status icon using AyatanaAppIndicator3."""
         if AppIndicator3 is None:
             return
 
