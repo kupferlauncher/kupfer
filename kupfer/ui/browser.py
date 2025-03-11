@@ -216,12 +216,8 @@ class WindowController(pretty.OutputMixin):
                 version.ICON_NAME,
                 AppIndicator3.IndicatorCategory.APPLICATION_STATUS,
             )
-            indicator.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
             indicator.set_menu(self._setup_menu())
             self._statusicon_ai = indicator
-
-        if self._statusicon_ai or AppIndicator3 is None:
-            return
 
         self._statusicon_ai.set_status(AppIndicator3.IndicatorStatus.ACTIVE)
 
