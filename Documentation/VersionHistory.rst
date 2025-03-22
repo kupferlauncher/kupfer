@@ -1,6 +1,46 @@
 NEWS for kupfer
 ===============
 
+kupfer v328 (2025-04-xx)
+------------------------
+
+
++ Other changes:
+
+  + Use modern Ayatana Indicators; require gir1.2-ayatanaappindicator3-0.1;
+    by @N0rbert
+
+  + Gui: add dark border around main window; this improve visibility Kufper
+    window on bright background
+
++ Plugins:
+
+  + Updated:
+
+    - *Audacious*: start app on action when not running
+    - *Textutils*: ask user for option in "join lines" actions.
+    - *Trash*: ask user for confirmaton when moving files to trash
+
++ Fix
+
+  + Fix toggle appindicator icon (not show after hide)
+  + Fix invalid handle KUPFER_WINDOW_TYPE_HINT setting
+  + Fix recognize urls with % characters
+  + Fix misleading message when starting Kupfer without install.
+  + Do no store content of Directory and Files sources in disc cache;
+    refres on startup.
+  + Prevent confirm dialog to show behind main Kupfer window.
+
++ Dev:
+
+  + Fix pyxdg dependency in pyproject
+  + Prefer os.scandir over listdir
+  + Add finish_callback to launch.spawn_async/spawn_async_raise
+  + Plugin can get some input from user by configurable dialog
+  + Disable typequard protocols checking; add warn about using kupfer.py
+  + Fix some errors reported by linters; format code
+
+
 kupfer v327 (2024-04-28)
 ------------------------
 
