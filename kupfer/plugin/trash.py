@@ -21,6 +21,7 @@ from kupfer.obj import (
 )
 from kupfer.obj.fileactions import Open
 from kupfer.support import pretty
+from kupfer.ui import uiutils
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _, ngettext
@@ -37,12 +38,39 @@ class MoveToTrash(Action):
         Action.__init__(self, _("Move to Trash"))
 
     def activate(self, leaf, iobj=None, ctx=None):
+        if not uiutils.confirm_dialog(
+            _("Move file %s to trash?") % leaf.object, _("Move")
+        ):
+            return
+
         gfile = leaf.get_gfile()
         try:
             gfile.trash()
         except GLib.Error as exc:
             # pylint: disable=no-member
             raise OperationError(exc.message) from exc
+
+    def activate_multiple(self, objs, iobjects=None, ctx=None):
+        objs = list(objs)
+        objs_count = len(objs)
+        if not uiutils.confirm_dialog(
+            ngettext(
+            "Move one file to trash?",
+            "Move %(num)s files to trash?",
+            objs_count,
+        ) % {"num": objs_count}, _("Move")
+        ):
+            return
+
+        try:
+            for leaf in objs:
+                gfile = leaf.get_gfile()
+                gfile.trash()
+
+        except GLib.Error as exc:
+            # pylint: disable=no-member
+            raise OperationError(exc.message) from exc
+
 
     def valid_for_item(self, leaf):
         gfile = leaf.get_gfile()
