@@ -119,7 +119,9 @@ def _create_plugin_credentials_cb(
         )
         # pylint: disable=no-member
         user_password = ask_user_credentials(
-            upass.username, upass.password, information  # type:ignore
+            upass.username,
+            upass.password,
+            information,  # type:ignore
         )
         if user_password:
             # pylint: disable=no-member
@@ -424,7 +426,9 @@ class PreferencesWindowController(pretty.OutputMixin):
 
         self._icons_combobox = builder.get_object("icons_combobox")
         _make_combobox_model(self._icons_combobox)
-        self._update_alternative_combobox("icon_renderer", self._icons_combobox)
+        self._update_alternative_combobox(
+            "icon_renderer", self._icons_combobox
+        )
 
         _set_combobox_id(
             setctl.get_config_int("Appearance", "ellipsize_mode"),

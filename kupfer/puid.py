@@ -24,10 +24,10 @@ from kupfer.support import conspickle, pretty
 
 __all__ = (
     "SerializedObject",
-    "resolve_unique_id",
-    "resolve_action_id",
     "get_unique_id",
     "is_reference",
+    "resolve_action_id",
+    "resolve_unique_id",
 )
 
 

@@ -2,7 +2,11 @@ from __future__ import annotations
 
 __kupfer_name__ = "Free-text Queries"
 __kupfer_sources__ = ()
-__kupfer_text_sources__ = ("BasicTextSource", "PathTextSource", "URLTextSource")
+__kupfer_text_sources__ = (
+    "BasicTextSource",
+    "PathTextSource",
+    "URLTextSource",
+)
 __kupfer_actions__ = ("OpenTextUrl",)
 __description__ = "Basic support for free-text queries"
 __version__ = "2021.1"

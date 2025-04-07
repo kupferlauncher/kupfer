@@ -100,7 +100,10 @@ def update_icon(kobj: KupferObject, filepath: str) -> None:
     gfile = Gio.File.new_for_path(filepath)
     finfo = gfile.query_info(icon_key, Gio.FileQueryInfoFlags.NONE, None)
     custom_icon_uri = finfo.get_attribute_string(icon_key)
-    if custom_icon_uri and Gio.File.new_for_uri(custom_icon_uri).query_exists():
+    if (
+        custom_icon_uri
+        and Gio.File.new_for_uri(custom_icon_uri).query_exists()
+    ):
         return
 
     namespace = gfile.query_writable_namespaces()  # FileAttributeInfoList

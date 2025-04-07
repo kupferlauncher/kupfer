@@ -50,7 +50,7 @@ _PLUG_FAVS: ty.Final[dict[str, list[str]]] = {}
 class Mnemonics:
     """Class to describe a collection of mnemonics as well as the total count."""
 
-    __slots__ = ("mnemonics", "count", "last_ts_used")
+    __slots__ = ("count", "last_ts_used", "mnemonics")
 
     def __init__(self) -> None:
         self.mnemonics: defaultdict[str, int] = defaultdict(int)
@@ -185,13 +185,13 @@ def get_correlation_bonus(obj: Action, for_leaf: Leaf | None) -> int:
     """Get the bonus rank for @obj when used with @for_leaf."""
 
     # favorites
-    rval = ty.cast(dict[str, str], _REGISTER[_CORRELATION_KEY])
+    rval = ty.cast("dict[str, str]", _REGISTER[_CORRELATION_KEY])
     repr_obj = repr(obj)
     repr_leaf = repr(for_leaf)
     if rval.get(repr_leaf) == repr_obj:
         return 50
 
-    raval = ty.cast(dict[str, tuple[str, int]], _REGISTER[_ACTIVATIONS_KEY])
+    raval = ty.cast("dict[str, tuple[str, int]]", _REGISTER[_ACTIVATIONS_KEY])
 
     # bonus for last used action for object
     if (val := raval.get(repr_leaf)) and val[0] == repr_obj:
@@ -206,7 +206,7 @@ def get_correlation_bonus(obj: Action, for_leaf: Leaf | None) -> int:
 
 def set_correlation(obj: Action, for_leaf: Leaf) -> None:
     """Register @obj to get a bonus when used with @for_leaf."""
-    rval = ty.cast(dict[str, str], _REGISTER[_CORRELATION_KEY])
+    rval = ty.cast("dict[str, str]", _REGISTER[_CORRELATION_KEY])
     rval[repr(for_leaf)] = repr(obj)
 
 
@@ -215,7 +215,7 @@ def record_action_activations(obj: Action, for_leaf: Leaf) -> None:
     Also registered is object class so using this action for similar object
     also get some (smaller) bonus."""
 
-    rval = ty.cast(dict[str, tuple[str, int]], _REGISTER[_ACTIVATIONS_KEY])
+    rval = ty.cast("dict[str, tuple[str, int]]", _REGISTER[_ACTIVATIONS_KEY])
 
     repr_obj = repr(obj)
     now = int(time.time())
@@ -254,7 +254,8 @@ def _prune_register(goalitems: int = 500) -> None:
 
     # get all items sorted by last used time
     items: list[tuple[int, str, Mnemonics]] = sorted(
-        (mne.last_ts_used, leaf, mne) for leaf, mne in _get_register_mnemonics()
+        (mne.last_ts_used, leaf, mne)
+        for leaf, mne in _get_register_mnemonics()
     )
     to_del = []
     to_del_cnt = len(items) - goalitems
@@ -303,7 +304,7 @@ def _prune_register(goalitems: int = 500) -> None:
 
 def _purge_action_reg(goalitems: int) -> None:
     """Purge action usage - remove oldest items up to `goalitems` count"""
-    raval = ty.cast(dict[str, tuple[str, int]], _REGISTER[_ACTIVATIONS_KEY])
+    raval = ty.cast("dict[str, tuple[str, int]]", _REGISTER[_ACTIVATIONS_KEY])
     if len(raval) <= goalitems:
         return
 
@@ -326,7 +327,7 @@ def load() -> None:
         _REGISTER[_CORRELATION_KEY] = _DEFAULT_ACTIONS
 
     if _ACTIVATIONS_KEY not in _REGISTER:
-        _REGISTER[_ACTIVATIONS_KEY] = ty.cast(dict[str, tuple[str, int]], {})
+        _REGISTER[_ACTIVATIONS_KEY] = ty.cast("dict[str, tuple[str, int]]", {})
 
 
 _MAX_REGISTER_SIZE: ty.Final[int] = 500

@@ -2,6 +2,7 @@
 Tracker plugins are versioned by the D-Bus API version
 This is version works with Tracker1.
 """
+
 __kupfer_name__ = _("Tracker")
 __kupfer_sources__ = ()
 __kupfer_text_sources__ = ("TrackerFulltext",)
@@ -12,9 +13,9 @@ __version__ = "2017.2"
 __author__ = "US"
 
 import os
+import typing as ty
 from contextlib import suppress
 from xml.etree.ElementTree import ElementTree
-import typing as ty
 
 import dbus
 from gi.repository import Gio

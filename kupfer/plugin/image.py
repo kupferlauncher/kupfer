@@ -9,13 +9,13 @@ __version__ = "2017.1"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import subprocess
-from contextlib import suppress
 import typing as ty
+from contextlib import suppress
 
 # since "path" is a very generic name, you often forget..
 from os import path as os_path
 
-from kupfer import launch, runtimehelper, plugin_support
+from kupfer import launch, plugin_support, runtimehelper
 from kupfer.obj import Action, FileLeaf, OperationError, TextLeaf
 from kupfer.support import fileutils, pretty
 

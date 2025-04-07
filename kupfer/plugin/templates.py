@@ -8,8 +8,8 @@ __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
-from pathlib import Path
 import typing as ty
+from pathlib import Path
 
 from gi.repository import Gio, GLib
 
@@ -139,7 +139,9 @@ class CreateDocumentIn(
 
 
 def _get_tmpl_dir():
-    tmpl_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_TEMPLATES)
+    tmpl_dir = GLib.get_user_special_dir(
+        GLib.UserDirectory.DIRECTORY_TEMPLATES
+    )
     if tmpl_dir == os.path.expanduser("~"):
         tmpl_dir = None
 

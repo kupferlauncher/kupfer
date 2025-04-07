@@ -4,6 +4,7 @@ Changes:
         + support Gnome3; closes lp#788713;
           author: Joseph Lansdowne
 """
+
 __kupfer_name__ = _("GNOME Session Management")
 __kupfer_sources__ = ("GnomeItemsSource",)
 __description__ = _("Special items and actions for GNOME environment")

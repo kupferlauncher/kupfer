@@ -1,5 +1,6 @@
 """Inspiration from the deskbar pidgin plugin and from the gajim kupfer
 plugin"""
+
 __kupfer_name__ = _("Pidgin")
 __kupfer_sources__ = ("ContactsSource",)
 __kupfer_actions__ = ("OpenChat", "SendMessage")
@@ -15,7 +16,7 @@ import typing as ty
 import dbus
 
 from kupfer import icons, plugin_support
-from kupfer.obj import Action, TextLeaf, TextSource, Leaf
+from kupfer.obj import Action, Leaf, TextLeaf, TextSource
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.contacts import EMAIL_KEY, NAME_KEY, ContactLeaf
 from kupfer.obj.grouping import ToplevelGroupingSource
@@ -23,7 +24,8 @@ from kupfer.support import pretty, scheduler, weaklib
 from kupfer.support.validators import is_valid_email
 
 if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+    from gettext import gettext as _
+    from gettext import ngettext
 
 __kupfer_settings__ = plugin_support.PluginSettings(
     {
@@ -96,7 +98,7 @@ class ContactAction(Action):
         yield ContactLeaf
 
     def valid_for_item(self, leaf: Leaf) -> bool:
-        leaf = ty.cast(ContactLeaf, leaf)
+        leaf = ty.cast("ContactLeaf", leaf)
         return all(slot in leaf for slot in self.get_required_slots())
 
 

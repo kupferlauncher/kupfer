@@ -12,7 +12,7 @@ from kupfer.support import pretty, scheduler
 if ty.TYPE_CHECKING:
     from kupfer.support.types import ExecInfo
 
-__all__ = ("Task", "ThreadTask", "TaskRunner")
+__all__ = ("Task", "TaskRunner", "ThreadTask")
 
 TaskCallback = ty.Callable[[ty.Any], None]
 

@@ -30,6 +30,7 @@ based on the relevance.  It originates in Gnome-Do.
 
 Compatibility: Python 3
 """
+
 from __future__ import annotations
 
 import typing as ty

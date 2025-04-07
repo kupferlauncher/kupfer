@@ -8,8 +8,8 @@ import cmath
 import inspect
 import math
 import textwrap
-from contextlib import suppress
 import typing as ty
+from contextlib import suppress
 
 from kupfer import launch, version
 from kupfer.obj import Action, TextLeaf

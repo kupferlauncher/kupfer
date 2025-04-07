@@ -4,7 +4,9 @@
 UI support functions
 
 """
+
 from gi.repository import Gtk
+
 from kupfer.support import datatools
 
 _escape_table = {

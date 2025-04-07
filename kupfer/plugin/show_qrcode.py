@@ -10,11 +10,10 @@ __author__ = "Thomas Renard <cybaer42@web.de>, KB"
 
 import io
 import tempfile
-from contextlib import closing
 import typing as ty
+from contextlib import closing
 
 import qrcode
-
 from gi.repository import GdkPixbuf, Gtk
 
 from kupfer import plugin_support

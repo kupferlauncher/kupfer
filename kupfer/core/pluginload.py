@@ -13,7 +13,7 @@ from kupfer.support import pretty
 if ty.TYPE_CHECKING:
     from kupfer.obj.base import Action, ActionGenerator, Source, TextSource
 
-__all__ = ("load_plugin", "exception_guard", "remove_plugin")
+__all__ = ("exception_guard", "load_plugin", "remove_plugin")
 
 
 # pylint: disable=too-few-public-methods
@@ -42,7 +42,9 @@ def load_plugin(plugin_id: str) -> PluginDescription:
     if not plugins.is_plugin_loaded(plugin_id):
         return PluginDescription()
 
-    text_sources.extend(load_plugin_objects(plugin_id, PluginAttr.TEXT_SOURCES))
+    text_sources.extend(
+        load_plugin_objects(plugin_id, PluginAttr.TEXT_SOURCES)
+    )
     action_decorators.extend(
         load_plugin_objects(plugin_id, PluginAttr.ACTION_DECORATORS)
     )

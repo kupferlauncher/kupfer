@@ -9,10 +9,10 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import typing as ty
 from pathlib import Path
 
-from kupfer import puid, plugin_support
-from kupfer.plugin import session_support as support
-from kupfer.obj import Source, Leaf
+from kupfer import plugin_support, puid
 from kupfer.core import learn
+from kupfer.obj import Leaf, Source
+from kupfer.plugin import session_support as support
 from kupfer.support import pretty
 
 if ty.TYPE_CHECKING:

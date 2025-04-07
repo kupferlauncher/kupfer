@@ -7,6 +7,7 @@ Constructor classes such as EmailContact are used to conveniently construct
 contacts with common traits. To *use* contacts, always use ContactLeaf, asking
 for specific slots to be filled.
 """
+
 from __future__ import annotations
 
 import typing as ty
@@ -29,7 +30,6 @@ __author__ = (
 )
 
 __all__ = (
-    "email_from_leaf",
     "AIMContact",
     "AddressContact",
     "ContactLeaf",
@@ -43,6 +43,7 @@ __all__ = (
     "QQContact",
     "SkypeContact",
     "YahooContact",
+    "email_from_leaf",
 )
 
 EMAIL_KEY = "EMAIL"
@@ -77,7 +78,9 @@ class ContactLeaf(GroupingLeaf):
     def get_text_representation(self) -> str | None:
         return self.get_description()
 
-    def get_thumbnail(self, width: int, height: int) -> GdkPixbuf.Pixbuf | None:
+    def get_thumbnail(
+        self, width: int, height: int
+    ) -> GdkPixbuf.Pixbuf | None:
         if self.image:
             return icons.get_pixbuf_from_data(self.image, width, height)
 

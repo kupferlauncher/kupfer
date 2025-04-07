@@ -4,6 +4,7 @@ This module contains internal and / or experimental Kupfer features.
 These are not meant to be useful to "normal" users of Kupfer -- if they are,
 they can be tested here before they migrate to a fitting plugin.
 """
+
 import io
 
 from kupfer import puid

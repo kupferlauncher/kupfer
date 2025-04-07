@@ -1,6 +1,10 @@
 __kupfer_name__ = _("Shell Commands")
 __kupfer_sources__ = ()
-__kupfer_actions__ = ("PassToCommand", "FilterThroughCommand", "WriteToCommand")
+__kupfer_actions__ = (
+    "PassToCommand",
+    "FilterThroughCommand",
+    "WriteToCommand",
+)
 __kupfer_text_sources__ = ("CommandTextSource",)
 __description__ = (
     _(
@@ -168,7 +172,8 @@ class WriteToCommand(Action):
 
     def get_description(self):
         return (
-            _("Run program and supply text on the standard input") + " \N{GEAR}"
+            _("Run program and supply text on the standard input")
+            + " \N{GEAR}"
         )
 
 
@@ -182,7 +187,8 @@ class FilterThroughCommand(WriteToCommand):
 
     def get_description(self):
         return (
-            _("Run program and supply text on the standard input") + " \N{GEAR}"
+            _("Run program and supply text on the standard input")
+            + " \N{GEAR}"
         )
 
 

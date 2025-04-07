@@ -7,15 +7,15 @@ __description__ = _(
 __version__ = "0.4"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-from contextlib import suppress
 import typing as ty
+from contextlib import suppress
 
 from kupfer import plugin_support
 from kupfer.obj import Action, Leaf
 from kupfer.obj.apps import ApplicationSource
-from kupfer.support import pretty
 from kupfer.plugin.virtualbox import constants as vbox_const
 from kupfer.plugin.virtualbox import ose_support
+from kupfer.support import pretty
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _

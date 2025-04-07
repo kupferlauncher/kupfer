@@ -5,8 +5,8 @@ __description__ = _("Access trash contents")
 __version__ = "2017.2"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from contextlib import suppress
 import typing as ty
+from contextlib import suppress
 
 from gi.repository import Gio, GLib
 
@@ -24,7 +24,8 @@ from kupfer.support import pretty
 from kupfer.ui import uiutils
 
 if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+    from gettext import gettext as _
+    from gettext import ngettext
 
 
 _TRASH_URI = "trash://"
@@ -55,10 +56,12 @@ class MoveToTrash(Action):
         objs_count = len(objs)
         if not uiutils.confirm_dialog(
             ngettext(
-            "Move one file to trash?",
-            "Move %(num)s files to trash?",
-            objs_count,
-        ) % {"num": objs_count}, _("Move")
+                "Move one file to trash?",
+                "Move %(num)s files to trash?",
+                objs_count,
+            )
+            % {"num": objs_count},
+            _("Move"),
         ):
             return
 
@@ -70,7 +73,6 @@ class MoveToTrash(Action):
         except GLib.Error as exc:
             # pylint: disable=no-member
             raise OperationError(exc.message) from exc
-
 
     def valid_for_item(self, leaf):
         gfile = leaf.get_gfile()

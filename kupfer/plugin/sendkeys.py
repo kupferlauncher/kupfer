@@ -4,8 +4,8 @@ __description__ = _("Send synthetic keyboard events using xautomation")
 __version__ = ""
 __author__ = ""
 
-from contextlib import suppress
 import typing as ty
+from contextlib import suppress
 
 from gi.repository import Gdk, Gtk
 

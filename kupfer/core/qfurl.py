@@ -11,7 +11,7 @@ from kupfer.support import pretty
 if ty.TYPE_CHECKING:
     from kupfer.obj.base import Leaf, Source
 
-__all__ = ("QFURL_SCHEME", "QfurlError", "Qfurl")
+__all__ = ("QFURL_SCHEME", "Qfurl", "QfurlError")
 
 QFURL_SCHEME = "qpfer"
 
@@ -102,7 +102,9 @@ class Qfurl:
         qfid = qfid.lstrip("/")
         return mother, qfid, typname
 
-    def resolve_in_catalog(self, catalog: ty.Collection[Source]) -> Leaf | None:
+    def resolve_in_catalog(
+        self, catalog: ty.Collection[Source]
+    ) -> Leaf | None:
         """Resolve self in a catalog of sources.
         Return *immediately* on match found"""
         _mother, _qfid, typname = self._parts_mother_id_typename(self.url)

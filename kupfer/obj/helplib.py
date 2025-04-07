@@ -5,6 +5,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import typing as ty
@@ -19,8 +20,8 @@ if ty.TYPE_CHECKING:
     from kupfer.obj import base
 
 __all__ = (
-    "PicklingHelperMixin",
     "NonpersistentToken",
+    "PicklingHelperMixin",
     "reverse_action",
 )
 
@@ -146,7 +147,9 @@ class FilesystemWatchMixin:
         """
         return not (gfile and gfile.get_basename().startswith("."))
 
-    def stop_monitor_fs_changes(self, nptoken: FileMonitorToken | None) -> None:
+    def stop_monitor_fs_changes(
+        self, nptoken: FileMonitorToken | None
+    ) -> None:
         """Stop monitoring for files or directories changes"""
         if nptoken and nptoken.data:
             for token in nptoken.data:

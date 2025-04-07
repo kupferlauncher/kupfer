@@ -5,6 +5,7 @@ close, to be able to save state before being killed;
 
 the module API does not depend on the session API used
 """
+
 from __future__ import annotations
 
 import os

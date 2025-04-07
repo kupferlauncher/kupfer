@@ -7,10 +7,10 @@ __description__ = _("Recent clipboards and clipboard proxy objects")
 __version__ = "2023-03-22"
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from collections import deque
-from pathlib import Path
 import typing as ty
+from collections import deque
 from contextlib import suppress
+from pathlib import Path
 
 from gi.repository import Gdk, Gio, Gtk
 
@@ -18,17 +18,18 @@ from kupfer import plugin_support
 from kupfer.obj import (
     Action,
     FileLeaf,
+    Leaf,
     Source,
     SourceLeaf,
     TextLeaf,
     UrlLeaf,
-    Leaf,
 )
 from kupfer.obj.compose import MultipleLeaf
 from kupfer.support import validators
 
 if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+    from gettext import gettext as _
+    from gettext import ngettext
 
 
 __kupfer_settings__ = plugin_support.PluginSettings(
@@ -142,6 +143,7 @@ class CurrentClipboardUrl(ClipboardUrl):
 
 class CurrentClipboardFile(FileLeaf):
     "represents the *unique* current clipboard file"
+
     qf_id = "clipboardfile"
 
     def __init__(self, filepath):
@@ -154,6 +156,7 @@ class CurrentClipboardFile(FileLeaf):
 
 class CurrentClipboardFiles(MultipleLeaf):
     "represents the *unique* current clipboard if there are many files"
+
     qf_id = "clipboardfile"
 
     def __init__(self, paths):
@@ -227,9 +230,13 @@ class ClipboardSource(Source):
     # pylint: disable=attribute-defined-outside-init
     def initialize(self):
         clip = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
-        self._sig_id1 = clip.connect("owner-change", self._on_clipboard_changed)
+        self._sig_id1 = clip.connect(
+            "owner-change", self._on_clipboard_changed
+        )
         clip = Gtk.Clipboard.get(Gdk.SELECTION_PRIMARY)
-        self._sig_id2 = clip.connect("owner-change", self._on_clipboard_changed)
+        self._sig_id2 = clip.connect(
+            "owner-change", self._on_clipboard_changed
+        )
         self.clipboard_uris = []
         self.clipboard_text = None
         self.selected_text = None

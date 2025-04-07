@@ -5,6 +5,7 @@ Changes:
     2012-03-15: Karol Będkowski
         + activate_multiple for new mail action
 """
+
 __kupfer_name__ = _("Thunderbird")
 __kupfer_sources__ = ("ContactsSource",)
 __kupfer_actions__ = (

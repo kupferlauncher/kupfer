@@ -18,8 +18,8 @@ __author__ = (
 )
 
 import subprocess
-import urllib.parse
 import typing as ty
+import urllib.parse
 
 from kupfer import icons, launch, plugin_support, support
 from kupfer.obj import Action, Leaf, Source, TextLeaf
@@ -79,9 +79,9 @@ class InfoTask(task.Task):
             return
 
         assert self._finish_callback
-        text = kupferstring.fromlocale(self.aptitude) + kupferstring.fromlocale(
-            self.apt_cache
-        )
+        text = kupferstring.fromlocale(
+            self.aptitude
+        ) + kupferstring.fromlocale(self.apt_cache)
         uiutils.show_text_result(text, title=_("Show Package Information"))
         self._finish_callback(self)
 

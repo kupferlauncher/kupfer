@@ -6,11 +6,13 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import gio
 
-from kupfer.objects import Source, AppLeaf
 from kupfer import launch
+from kupfer.objects import AppLeaf, Source
 
-class RunningApplicationsSource (Source):
-    """List currently running applications """
+
+class RunningApplicationsSource(Source):
+    """List currently running applications"""
+
     def __init__(self):
         Source.__init__(self, _("Running Applications"))
         self.all_apps = []
@@ -33,4 +35,3 @@ class RunningApplicationsSource (Source):
 
     def get_icon_name(self):
         return "gnome-applications"
-

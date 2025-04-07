@@ -2,8 +2,7 @@ __kupfer_name__ = _("Firefox Bookmarks")
 __kupfer_sources__ = ("BookmarksSource",)
 __kupfer_actions__ = ()
 __description__ = _(
-    "Index of Firefox bookmarks. "
-    "Bookmark is always opened in default browser."
+    "Index of Firefox bookmarks. Bookmark is always opened in default browser."
 )
 __version__ = "2023.1"
 __author__ = "Ulrik, William Friesen, Karol Będkowski"
@@ -15,8 +14,8 @@ from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
 from kupfer.plugin._firefox_support import (
-    get_firefox_home_file,
     get_bookmarks,
+    get_firefox_home_file,
 )
 
 if ty.TYPE_CHECKING:

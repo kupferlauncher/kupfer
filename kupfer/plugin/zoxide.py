@@ -12,15 +12,14 @@ __description__ = _("Load top directories from zoxide database")
 __version__ = "2023-04-02"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
+import os.path
 import subprocess
 import typing as ty
-import os.path
 
-from kupfer import config, plugin_support, icons
-from kupfer.obj import FileLeaf, Source, Action, Leaf
-from kupfer.obj import fileactions
-from kupfer.obj.helplib import FilesystemWatchMixin
+from kupfer import config, icons, plugin_support
 from kupfer.core.datactrl import DataController
+from kupfer.obj import Action, FileLeaf, Leaf, Source, fileactions
+from kupfer.obj.helplib import FilesystemWatchMixin
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _

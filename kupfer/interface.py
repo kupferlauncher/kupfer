@@ -17,8 +17,8 @@ if ty.TYPE_CHECKING:
 __all__ = (
     "TextRepresentation",
     "UriListRepresentation",
-    "get_text_representation",
     "copy_to_clipboard",
+    "get_text_representation",
 )
 
 

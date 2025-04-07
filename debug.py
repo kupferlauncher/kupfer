@@ -3,11 +3,12 @@ ouuu
 Debugging routines, can only be used when Kupfer is run from the Source
 directory.
 """
+
 import atexit
 import gc
-import sys
 import inspect
 import logging
+import sys
 
 logger = logging.getLogger(__name__)
 
@@ -45,7 +46,7 @@ def get_size(obj, seen=None):
 
     if isinstance(obj, dict):
         size += sum((get_size(v, seen) for v in obj.values()))
-        size += sum((get_size(k, seen) for k in obj.keys()))
+        size += sum((get_size(k, seen) for k in obj))
 
     elif hasattr(obj, "__iter__") and not isinstance(
         obj, (str, bytes, bytearray)
@@ -53,7 +54,7 @@ def get_size(obj, seen=None):
         try:
             size += sum((get_size(i, seen) for i in obj))
         except TypeError:
-            logging.exception("Unable to get size of %r.", obj)
+            logger.exception("Unable to get size of %r.", obj)
 
     if hasattr(obj, "__slots__"):  # can have __slots__ with __dict__
         size += sum(
@@ -103,7 +104,7 @@ def mem_stats():
 
 def make_histogram(vect, nbins=7):
     """make a histogram out of @vect"""
-    mi, ma = 0, max(vect)
+    _mi, ma = 0, max(vect)
     bins = [0] * nbins
     bin_size = ma / nbins + 1
 
@@ -130,15 +131,15 @@ def icon_stats():
     from kupfer import icons
 
     print("DEBUG: ICON STATS")
-    print("size:", len(icons._ICON_CACHE))
-    for size, key in icons._ICON_CACHE.keys():
+    print("size:", len(icons._ICON_CACHE))  # noqa:SLF001
+    for size, key in icons._ICON_CACHE:  # noqa:SLF001,
         print("  ", size, key)
 
     print("---------------------\n")
 
 
 def learn_stats():
-    from kupfer.core.learn import _REGISTER, _CORRELATION_KEY, _ACTIVATIONS_KEY
+    from kupfer.core.learn import _ACTIVATIONS_KEY, _CORRELATION_KEY, _REGISTER
 
     print("Learn _REGISTER:")
     for k, v in _REGISTER.items():
@@ -161,8 +162,8 @@ def learn_stats():
 
 
 def cache_stats():
-    import gc
     import functools
+    import gc
 
     from kupfer.support.datatools import LruCache, simple_cache
 
@@ -173,7 +174,7 @@ def cache_stats():
 
     print("\nfunctools.*cache")
     for obj in gc.get_objects():
-        if isinstance(obj, functools._lru_cache_wrapper):
+        if isinstance(obj, functools._lru_cache_wrapper):  # noqa:SLF001
             print(
                 obj.__wrapped__.__module__,
                 obj.__wrapped__.__name__,

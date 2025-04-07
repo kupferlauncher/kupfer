@@ -21,6 +21,7 @@ Apache License 2-0 is GPLv3+ compatible --ulrik
 
 
 """
+
 __kupfer_name__ = _("Quicksilver Icons")
 __description__ = ""
 __version__ = ""

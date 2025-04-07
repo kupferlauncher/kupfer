@@ -5,6 +5,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import copy
@@ -54,7 +55,7 @@ class GroupingLeaf(Leaf):
         self.links = [self]
 
     def slots(self) -> Slots:
-        return ty.cast(Slots, self.object)
+        return ty.cast("Slots", self.object)
 
     def has_content(self) -> bool:
         return len(self.links) > 1

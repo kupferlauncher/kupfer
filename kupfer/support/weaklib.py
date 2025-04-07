@@ -2,6 +2,7 @@
 This module is a part of the program Kupfer, see the main program file for
 more information.
 """
+
 from __future__ import annotations
 
 import sys
@@ -12,9 +13,9 @@ if ty.TYPE_CHECKING:
     from gi.repository import GObject
 
 __all__ = (
-    "WeakCallback",
     "DbusWeakCallback",
     "GobjectWeakCallback",
+    "WeakCallback",
     "gobject_connect_weakly",
 )
 

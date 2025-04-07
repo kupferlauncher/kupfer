@@ -6,15 +6,15 @@ __description__ = _("Search in Recoll full text search system")
 __version__ = ""
 __author__ = "KB"
 
+import base64
+import shutil
 import subprocess
 import typing as ty
-import shutil
-import base64
 
 from gi.repository import Gio
 
-from kupfer import plugin_support, launch
-from kupfer.obj import Action, Source, TextLeaf, FileLeaf, OperationError
+from kupfer import launch, plugin_support
+from kupfer.obj import Action, FileLeaf, OperationError, Source, TextLeaf
 from kupfer.obj.special import CommandNotAvailableLeaf
 
 if ty.TYPE_CHECKING:
@@ -34,7 +34,7 @@ class RecollLeaf(FileLeaf):
     def get_description(self) -> str | None:
         return self._title
 
-    def get_content_type(self) -> str|None:
+    def get_content_type(self) -> str | None:
         return self._mtype or super().get_content_type()
 
 

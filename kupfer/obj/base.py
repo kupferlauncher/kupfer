@@ -22,13 +22,13 @@ if ty.TYPE_CHECKING:
     from kupfer.core import commandexec
 
 __all__ = [
+    "Action",
+    "ActionGenerator",
+    "AnySource",
     "KupferObject",
     "Leaf",
-    "Action",
     "Source",
     "TextSource",
-    "AnySource",
-    "ActionGenerator",
     "_NonpersistentToken",
 ]
 
@@ -74,7 +74,7 @@ class KupferObject:
 
     def __repr__(self) -> str:
         if cached := getattr(self, "_cached_repr", None):
-            return ty.cast(str, cached)
+            return ty.cast("str", cached)
 
         if key := self.repr_key():
             rep = f"<{self.__module__}.{self.__class__.__name__} {key}>"
@@ -94,7 +94,9 @@ class KupferObject:
         """Return a description of the specific item."""
         return None
 
-    def get_thumbnail(self, width: int, height: int) -> GdkPixbuf.Pixbuf | None:
+    def get_thumbnail(
+        self, width: int, height: int
+    ) -> GdkPixbuf.Pixbuf | None:
         """Return pixbuf of size @width x @height if available.
         Most objects will not implement this."""
         return None

@@ -9,15 +9,15 @@ __version__ = "2023.1"
 __author__ = "KB"
 
 import os
-import tempfile
-from pathlib import Path
-import typing as ty
 import shutil
+import tempfile
+import typing as ty
+from pathlib import Path
 
-from gi.repository import Gtk, Gdk
+from gi.repository import Gdk, Gtk
 
-from kupfer import runtimehelper, launch, icons, plugin_support
-from kupfer.obj import FileLeaf, Source, OperationError, RunnableLeaf
+from kupfer import icons, launch, plugin_support, runtimehelper
+from kupfer.obj import FileLeaf, OperationError, RunnableLeaf, Source
 from kupfer.obj.special import CommandNotAvailableLeaf
 
 if ty.TYPE_CHECKING:

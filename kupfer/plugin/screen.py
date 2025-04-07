@@ -6,8 +6,8 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
 import pwd
-from pathlib import Path
 import typing as ty
+from pathlib import Path
 
 from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source

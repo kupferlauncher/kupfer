@@ -5,6 +5,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import typing as ty
@@ -22,9 +23,9 @@ if ty.TYPE_CHECKING:
 
 
 __all__ = (
-    "TimedPerform",
     "ComposedLeaf",
     "MultipleLeaf",
+    "TimedPerform",
 )
 
 
@@ -80,7 +81,9 @@ class ComposedLeaf(objects.RunnableLeaf):
     ) -> None:
         object_ = (obj, action, iobj)
         # A slight hack: We remove trailing ellipsis and whitespace
-        name = " → ".join(str(o).strip(".… ") for o in object_ if o is not None)
+        name = " → ".join(
+            str(o).strip(".… ") for o in object_ if o is not None
+        )
         objects.RunnableLeaf.__init__(self, object_, name)
 
     def __getstate__(self) -> dict[str, ty.Any]:
@@ -143,7 +146,7 @@ class MultipleLeaf(Leaf):
         Leaf.__init__(self, robj, name)
 
     def get_multiple_leaf_representation(self) -> ty.Sequence[Leaf]:
-        return ty.cast(ty.Sequence[Leaf], self.object)
+        return ty.cast("ty.Sequence[Leaf]", self.object)
 
     def __getstate__(self) -> dict[str, ty.Any]:
         state = dict(vars(self))

@@ -2,6 +2,7 @@
 """
 Plugin generate recent opened files for vim/gvim.
 """
+
 from __future__ import annotations
 
 __kupfer_name__ = _("Vim")

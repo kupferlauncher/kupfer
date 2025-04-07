@@ -64,7 +64,7 @@ SEPARATE_APPS = {
 
 def _file_path(uri: str) -> str | None:
     try:
-        return ty.cast(str, Gio.File.new_for_uri(uri).get_path())
+        return ty.cast("str", Gio.File.new_for_uri(uri).get_path())
     except Exception:
         return None
 
@@ -188,7 +188,9 @@ class RecentsSource(Source):
     def initialize(self):
         """Set up change callback"""
         manager = Gtk.RecentManager.get_default()
-        weaklib.gobject_connect_weakly(manager, "changed", self._recent_changed)
+        weaklib.gobject_connect_weakly(
+            manager, "changed", self._recent_changed
+        )
 
     def _recent_changed(self, _rmgr: Gtk.RecentManager) -> None:
         # when using typeguard lru_cache is wrapped

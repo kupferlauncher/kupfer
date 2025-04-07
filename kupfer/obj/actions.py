@@ -5,6 +5,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import typing as ty
@@ -20,7 +21,7 @@ if ty.TYPE_CHECKING:
 
     from kupfer.core import commandexec
 
-__all__ = ("OpenUrl", "OpenTerminal", "Execute", "Perform")
+__all__ = ("Execute", "OpenTerminal", "OpenUrl", "Perform")
 
 
 class OpenTerminal(Action):
@@ -152,9 +153,9 @@ class Perform(Action):
     ) -> Leaf | None:
         assert isinstance(leaf, RunnableLeaf)
         if leaf.wants_context():
-            return ty.cast(ty.Optional[Leaf], leaf.run(ctx=ctx))
+            return ty.cast("ty.Optional[Leaf]", leaf.run(ctx=ctx))
 
-        return ty.cast(ty.Optional[Leaf], leaf.run())
+        return ty.cast("ty.Optional[Leaf]", leaf.run())
 
     def get_description(self) -> str:
         return _("Perform command")

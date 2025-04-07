@@ -3,14 +3,15 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
+import functools
 import inspect
 import typing as ty
 from collections import OrderedDict
-import functools
 
-__all__ = ("LruCache", "simple_cache", "evaluate_once")
+__all__ = ("LruCache", "evaluate_once", "simple_cache")
 
 K = ty.TypeVar("K")
 V = ty.TypeVar("V")

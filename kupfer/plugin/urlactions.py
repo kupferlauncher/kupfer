@@ -57,7 +57,9 @@ def get_dest_name(response: http.client.HTTPResponse) -> str:
 
 
 class DownloadTask(task.ThreadTask):
-    def __init__(self, uri, destdir=None, tempfile=False, finish_callback=None):
+    def __init__(
+        self, uri, destdir=None, tempfile=False, finish_callback=None
+    ):
         super().__init__()
         self.uri = uri
         self.download_finish_callback = finish_callback

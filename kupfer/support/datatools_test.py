@@ -3,6 +3,7 @@
 """
 Test for datatools module.
 """
+
 import unittest
 
 from kupfer.support import datatools as d

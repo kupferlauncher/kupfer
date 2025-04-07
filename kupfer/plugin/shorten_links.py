@@ -4,9 +4,9 @@ __description__ = _("Create short aliases of long URLs")
 __version__ = "2017.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>, US"
 
+import typing as ty
 import urllib.parse
 import urllib.request
-import typing as ty
 
 from kupfer.obj import Action, Leaf, OperationError, Source, UrlLeaf
 from kupfer.support import pretty

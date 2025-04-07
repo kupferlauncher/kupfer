@@ -8,18 +8,18 @@ __description__ = "Core actions and items"
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
-from contextlib import suppress
 import typing as ty
+from contextlib import suppress
 
 from gi.repository import Gdk, Gtk
 
 from kupfer import interface
-from kupfer.obj import Action, Leaf, SourceLeaf, Source
+from kupfer.core import commandexec
+from kupfer.obj import Action, Leaf, Source, SourceLeaf
 from kupfer.obj.apps import AppLeaf
 from kupfer.obj.exceptions import InvalidLeafError
 from kupfer.obj.sources import MultiSource
 from kupfer.plugin.core import commands, contents, internal, text
-from kupfer.core import commandexec
 from kupfer.support import pretty, task
 
 if ty.TYPE_CHECKING:

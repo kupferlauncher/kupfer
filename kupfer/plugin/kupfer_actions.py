@@ -13,7 +13,7 @@ __author__ = "KB"
 import typing as ty
 
 from kupfer import icons
-from kupfer.core import sources, settings
+from kupfer.core import settings, sources
 from kupfer.obj import Source
 from kupfer.obj.objects import ActionLeaf
 

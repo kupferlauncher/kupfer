@@ -1,6 +1,7 @@
 """
 Network Manager plugin.
 """
+
 from __future__ import annotations
 
 __kupfer_name__ = _("NetworkManager")

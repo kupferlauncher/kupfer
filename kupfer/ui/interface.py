@@ -3,6 +3,7 @@
 """
 UI Interface controller
 """
+
 from __future__ import annotations
 
 import functools
@@ -46,8 +47,7 @@ AccelFunc = ty.Callable[[], ty.Any]
 class KeyCallback(ty.Protocol):
     """Key press callback interface."""
 
-    def __call__(self, shift_mask: int, mod_mask: int, /) -> bool:
-        ...
+    def __call__(self, shift_mask: int, mod_mask: int, /) -> bool: ...
 
 
 _MAX_STRING_LEN: ty.Final[int] = 27
@@ -370,7 +370,9 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if key_cb := self._key_book_cbs.get(keyv):
             self._reset_to_toplevel = False
             # pylint: disable=no-member
-            return key_cb(shift_mask, event_state == Gdk.ModifierType.MOD1_MASK)
+            return key_cb(
+                shift_mask, event_state == Gdk.ModifierType.MOD1_MASK
+            )
 
         return False
 
@@ -1044,7 +1046,9 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         raise ValueError("invalid widget")
 
     def _on_object_stack_changed(
-        self, controller: DataController, pane: int  # real PaneSel
+        self,
+        controller: DataController,
+        pane: int,  # real PaneSel
     ) -> None:
         """Stack of objects (for comma trick) changed in @pane."""
         pane = PaneSel(pane)
@@ -1107,7 +1111,7 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
 
         if leaves := list(map(FileLeaf, filter(None, objs))):
             self._data_ctrl.insert_objects(
-                PaneSel.SOURCE, ty.cast(list[Leaf], leaves)
+                PaneSel.SOURCE, ty.cast("list[Leaf]", leaves)
             )
 
     def _reset_input_timer(self) -> None:

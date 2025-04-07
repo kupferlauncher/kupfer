@@ -3,19 +3,19 @@ from __future__ import annotations
 import operator
 import typing as ty
 
-from kupfer.obj.base import Leaf, Action
 from kupfer.core import learn, relevance
+from kupfer.obj.base import Action, Leaf
 
 __all__ = (
-    "make_rankables",
-    "wrap_rankable",
     "Rankable",
-    "bonus_objects",
-    "bonus_actions",
-    "find_best_sort",
     "add_rank_objects",
-    "score_objects",
+    "bonus_actions",
+    "bonus_objects",
+    "find_best_sort",
+    "make_rankables",
     "score_actions",
+    "score_objects",
+    "wrap_rankable",
 )
 
 # RankableObject is type of object that can be put in Rankable.
@@ -38,7 +38,7 @@ class Rankable:
     and an associated rank."""
 
     # To save memory with (really) many Rankables
-    __slots__ = ("rank", "value", "object", "aliases")
+    __slots__ = ("aliases", "object", "rank", "value")
 
     def __init__(self, value: str, obj: RankableObject, rank: int = 0) -> None:
         self.rank: int = rank
@@ -136,7 +136,7 @@ def score_actions(
     putting much more weight in rank_adjust."""
     get_record_score = learn.get_record_score
     for obj in rankables:
-        obj_object = ty.cast(Action, obj.object)
+        obj_object = ty.cast("Action", obj.object)
         rank_adj = obj_object.rank_adjust + learn.get_correlation_bonus(
             obj_object, for_leaf
         )

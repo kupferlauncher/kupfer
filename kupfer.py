@@ -26,12 +26,13 @@ if __name__ == "__main__":
     # if kupfer is installed in this same dir should be defaults.cfg
     if not Path(__file__).with_name("defaults.cfg").is_file():
         print("!!!!!!!!!!!!!! WARN !!!!!!!!!!!!!!")
-        print("Launching Kupfer by kupfer.py is dedicated only for development. "
+        print(
+            "Launching Kupfer by kupfer.py is dedicated only for development. "
             "This may totally broke some plugins, and some parts may not not "
-            "work as expected.")
+            "work as expected."
+        )
         print("Also Kupfer may run much slower.")
         print("Please install and run Kupfer as described in documentation.")
         print("!!!!!!!!!!!!!! WARN !!!!!!!!!!!!!!")
-
 
     main.main()

@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-from configparser import RawConfigParser
-from pathlib import Path
-from contextlib import closing
 import itertools
 import sqlite3
-import typing as ty
 import time
+import typing as ty
+from configparser import RawConfigParser
+from contextlib import closing
+from pathlib import Path
 
-from kupfer.support import pretty
 from kupfer.obj import UrlLeaf
+from kupfer.support import pretty
 
 MAX_ITEMS = 10000
 _BOOKMARKS_SQL = """

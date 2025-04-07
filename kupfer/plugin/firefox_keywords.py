@@ -8,8 +8,8 @@ __description__ = _("Search the web with Firefox keywords")
 __version__ = "2020.1"
 __author__ = ""
 
-from urllib.parse import quote, urlparse
 import typing as ty
+from urllib.parse import quote, urlparse
 
 from kupfer import launch, plugin_support
 from kupfer.obj import (
@@ -23,7 +23,10 @@ from kupfer.obj import (
 )
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer.plugin._firefox_support import get_firefox_home_file, query_database
+from kupfer.plugin._firefox_support import (
+    get_firefox_home_file,
+    query_database,
+)
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _

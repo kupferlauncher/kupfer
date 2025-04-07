@@ -5,6 +5,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import os
@@ -140,7 +141,9 @@ class FileLeaf(Leaf, TextRepresentation):
 
         return Leaf.content_source(self)
 
-    def get_thumbnail(self, width: int, height: int) -> GdkPixbuf.Pixbuf | None:
+    def get_thumbnail(
+        self, width: int, height: int
+    ) -> GdkPixbuf.Pixbuf | None:
         if self.is_dir():
             return None
 
@@ -167,7 +170,9 @@ class FileLeaf(Leaf, TextRepresentation):
         if not gfile.query_exists(None):
             return None
 
-        info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
+        info = gfile.query_info(
+            content_attr, Gio.FileQueryInfoFlags.NONE, None
+        )
         content_type: str = info.get_attribute_string(content_attr)
         return content_type
 
@@ -185,7 +190,9 @@ class FileLeaf(Leaf, TextRepresentation):
         if not gfile.query_exists(None):
             return False
 
-        info = gfile.query_info(content_attr, Gio.FileQueryInfoFlags.NONE, None)
+        info = gfile.query_info(
+            content_attr, Gio.FileQueryInfoFlags.NONE, None
+        )
         content_type = info.get_attribute_string(content_attr)
         return predicate(content_type, ctype)  # type: ignore
 

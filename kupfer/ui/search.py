@@ -293,7 +293,9 @@ class MatchViewOwner(pretty.OutputMixin):
         key: str | None,
         value: ty.Any,
     ) -> None:
-        self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
+        self._icon_size = setctl.get_config_int(
+            "Appearance", "icon_large_size"
+        )
 
     def _read_icon_size(self, *_args: ty.Any) -> None:
         setctl = settings.get_settings_controller()
@@ -589,7 +591,9 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         key: str | None,
         value: ty.Any,
     ) -> None:
-        self._icon_size = setctl.get_config_int("Appearance", "icon_large_size")
+        self._icon_size = setctl.get_config_int(
+            "Appearance", "icon_large_size"
+        )
         self._icon_size_small = setctl.get_config_int(
             "Appearance", "icon_small_size"
         )
@@ -682,7 +686,10 @@ class Search(GObject.GObject, pretty.OutputMixin):  # type:ignore
         win_pos = window.get_position()
 
         # do nothing if position and size not changed
-        if self._old_win_position == win_pos and self._old_win_size == win_size:
+        if (
+            self._old_win_position == win_pos
+            and self._old_win_size == win_size
+        ):
             return
 
         ssize = widget.translate_coordinates(window, 0, 0)
@@ -1098,7 +1105,9 @@ class ActionSearch(Search):
         else:
             title = ""
 
-        return title, icons.get_icon_for_name("kupfer-execute", self._icon_size)
+        return title, icons.get_icon_for_name(
+            "kupfer-execute", self._icon_size
+        )
 
     def _setup_empty(self) -> None:
         self._handle_no_matches()

@@ -1,6 +1,7 @@
 """
 Common objects for session_* plugins.
 """
+
 import typing as ty
 
 from kupfer import launch

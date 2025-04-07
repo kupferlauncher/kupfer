@@ -106,7 +106,9 @@ class WindowController(pretty.OutputMixin):
         #     self._window.set_visual(visual)  # pylint: disable=no-member
 
         self._window.connect("realize", self._on_window_realize)
-        self._window.connect("configure-event", self._on_window_configure_event)
+        self._window.connect(
+            "configure-event", self._on_window_configure_event
+        )
         self._window.add_events(  # pylint: disable=no-member
             Gdk.EventMask.BUTTON_PRESS_MASK
         )
@@ -154,7 +156,9 @@ class WindowController(pretty.OutputMixin):
         width_radius = width - radius
         height_radius = height - radius
         surface = cairo.ImageSurface(  # pylint: disable=no-member
-            cairo.FORMAT_ARGB32, width, height  # pylint: disable=no-member
+            cairo.FORMAT_ARGB32,
+            width,
+            height,  # pylint: disable=no-member
         )
         ctx = cairo.Context(surface)  # pylint: disable=no-member
         ctx.set_source_rgba(0.0, 0.0, 255.0, 128.0)
@@ -490,7 +494,9 @@ class WindowController(pretty.OutputMixin):
         else:
             self._on_present(sender, "", Gtk.get_current_event_time())
 
-    def _on_lost_focus(self, window: Gtk.Window, event: Gdk.EventFocus) -> None:
+    def _on_lost_focus(
+        self, window: Gtk.Window, event: Gdk.EventFocus
+    ) -> None:
         """Hide window on lost focus."""
         if not kupfer.config.has_capability("HIDE_ON_FOCUS_OUT"):
             return

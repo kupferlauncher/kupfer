@@ -45,7 +45,7 @@ class Searcher:
     is a prefix of the search key.
     """
 
-    __slots__ = ("_source_cache", "_old_key")
+    __slots__ = ("_old_key", "_source_cache")
 
     def __init__(self):
         self._source_cache = {}

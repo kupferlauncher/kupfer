@@ -9,8 +9,8 @@ __description__ = _("Search in Wikipedia")
 __version__ = "2017.1"
 __author__ = "US"
 
-import urllib.parse
 import typing as ty
+import urllib.parse
 
 from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source, TextLeaf

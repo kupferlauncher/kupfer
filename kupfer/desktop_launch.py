@@ -115,7 +115,7 @@ def _app_to_desktop_info(app_info: Gio.AppInfo) -> dict[str, str | bool]:
 
 def _get_file_path(gfile: Gio.File) -> str:
     if gfile:
-        return ty.cast(str, gfile.get_path() or gfile.get_uri())
+        return ty.cast("str", gfile.get_path() or gfile.get_uri())
 
     return ""
 
@@ -280,8 +280,7 @@ class LaunchCallback(ty.Protocol):
         filelist: list[str],
         timestamp: int | None,
         /,
-    ) -> None:
-        ...
+    ) -> None: ...
 
 
 # pylint: disable=too-many-locals
@@ -342,7 +341,7 @@ def launch_app_info(  # noqa:PLR0912
 
     notify = bool(desktop_info["StartupNotify"])
     if not work_dir:
-        work_dir = ty.cast(ty.Optional[str], desktop_info["Path"])
+        work_dir = ty.cast("ty.Optional[str]", desktop_info["Path"])
 
     if in_terminal is None:
         in_terminal = bool(desktop_info["Terminal"])

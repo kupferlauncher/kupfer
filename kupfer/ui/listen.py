@@ -4,6 +4,7 @@
 This module has a singleton Service for dbus callbacks,
 and ensures there is only one unique service in the Session
 """
+
 from __future__ import annotations
 
 import typing as ty
@@ -76,7 +77,9 @@ class Service(ExportedGObject):  # type:ignore
     def PresentWithStartup(self, notify_id):
         self.PresentOnDisplay("", notify_id)
 
-    @dbus.service.method(_INTERFACE_NAME, in_signature="ayay", byte_arrays=True)
+    @dbus.service.method(
+        _INTERFACE_NAME, in_signature="ayay", byte_arrays=True
+    )
     def PresentOnDisplay(self, display, notify_id):
         with uievents.using_startup_notify_id(notify_id) as time:
             self.emit("present", display, time)

@@ -26,8 +26,8 @@ __all__ = (
     "LeafPane",
     "Pane",
     "PrimaryActionPane",
-    "SecondaryObjectPane",
     "SearchContext",
+    "SecondaryObjectPane",
 )
 
 SearchContext = tuple[int, ty.Any]
@@ -114,9 +114,9 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
         self.object_stack: list[Leaf] = []
 
     def select(self, item: Leaf | None) -> None:
-        assert item is None or isinstance(
-            item, Leaf
-        ), "New selection for object pane is not a Leaf!"
+        assert item is None or isinstance(item, Leaf), (
+            "New selection for object pane is not a Leaf!"
+        )
         super().select(item)
 
     def _load_source(self, src: AnySource) -> AnySource:
@@ -261,9 +261,9 @@ class PrimaryActionPane(Pane[Action]):
         self.set_item(None)
 
     def select(self, item: Action | None) -> None:
-        assert not item or isinstance(
-            item, Action
-        ), "Selection in action pane is not an Action!"
+        assert not item or isinstance(item, Action), (
+            "Selection in action pane is not an Action!"
+        )
         super().select(item)
 
     def set_item(self, item: Leaf | None) -> None:
@@ -311,7 +311,9 @@ class PrimaryActionPane(Pane[Action]):
                     action_hash = hash(action)
                     valid = cache.get(action_hash)
                     if valid is None:
-                        valid = actioncompat.action_valid_for_item(action, leaf)
+                        valid = actioncompat.action_valid_for_item(
+                            action, leaf
+                        )
                         cache[action_hash] = valid
 
                     if valid:
@@ -349,7 +351,7 @@ class SecondaryObjectPane(LeafPane):
                 self.source_rebase(ownsrc)
             else:
                 extra_sources = (
-                    ty.cast(list[Source], [ownsrc]) if ownsrc else None
+                    ty.cast("list[Source]", [ownsrc]) if ownsrc else None
                 )
 
                 sctr = get_source_controller()

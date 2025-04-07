@@ -19,8 +19,8 @@ from kupfer.support import datatools, pretty, scheduler
 
 __all__ = (
     "ComposedIcon",
-    "IconRenderer",
     "ComposedIconSmall",
+    "IconRenderer",
     "get_gicon_for_file",
     "get_gicon_for_names",
     "get_gicon_from_file",
@@ -198,17 +198,17 @@ class ComposedIcon:
     Icon itself is rendered only once.
     """
 
-    _cache: datatools.LruCache[
-        tuple[ty.Any, ...], GdkPixbuf.Pixbuf | None
-    ] = datatools.LruCache(32, name="ComposedIcon cache")
+    _cache: datatools.LruCache[tuple[ty.Any, ...], GdkPixbuf.Pixbuf | None] = (
+        datatools.LruCache(32, name="ComposedIcon cache")
+    )
 
     __slots__ = (
-        "baseicon",
-        "emblemicon",
-        "emblem_is_fallback",
-        "minimum_icon_size",
         "_rendered",
         "_rendered_size",
+        "baseicon",
+        "emblem_is_fallback",
+        "emblemicon",
+        "minimum_icon_size",
     )
 
     def __init__(
@@ -286,7 +286,9 @@ def ComposedIconSmall(  # noqa:N802
     baseicon: GIcon | str, emblem: GIcon | str, **kwargs: ty.Any
 ) -> ComposedIcon:
     """Create composed icon for leaves with emblem visible on browser list"""
-    return ComposedIcon(baseicon, emblem, minimum_icon_size=_SMALL_SZ, **kwargs)
+    return ComposedIcon(
+        baseicon, emblem, minimum_icon_size=_SMALL_SZ, **kwargs
+    )
 
 
 GIcon = ty.Union[ComposedIcon, ThemedIcon, FileIcon]
@@ -326,7 +328,9 @@ def get_pixbuf_from_file(
     if not thumb_path:
         return None
     try:
-        return GdkPixbuf.Pixbuf.new_from_file_at_size(thumb_path, width, height)
+        return GdkPixbuf.Pixbuf.new_from_file_at_size(
+            thumb_path, width, height
+        )
     except GError as exc:
         # this error is not important, the program continues on fine,
         # so we put it in debug output.
@@ -385,7 +389,9 @@ def get_gicon_from_file(path: str) -> FileIcon | None:
     return icon
 
 
-def get_icon_for_gicon(gicon: GIcon, icon_size: int) -> GdkPixbuf.Pixbuf | None:
+def get_icon_for_gicon(
+    gicon: GIcon, icon_size: int
+) -> GdkPixbuf.Pixbuf | None:
     """
     Return a pixbuf of @icon_size for the @gicon
 
@@ -470,7 +476,9 @@ def _setup_icon_renderer(_sched: ty.Any) -> None:
     setctl.connect(
         "alternatives-changed::icon_renderer", _on_icon_render_change
     )
-    setctl.connect("value-changed::tools.icon_renderer", _on_icon_render_change)
+    setctl.connect(
+        "value-changed::tools.icon_renderer", _on_icon_render_change
+    )
     _on_icon_render_change(setctl)
 
 

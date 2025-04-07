@@ -1,11 +1,11 @@
 from __future__ import annotations
 
+import ast
 import configparser
 import copy
 import locale
 import os
 import typing as ty
-import ast
 
 from gi.repository import GLib, GObject, Pango
 
@@ -14,9 +14,9 @@ from kupfer.support import pretty, scheduler
 
 __all__ = (
     "SettingsController",
+    "get_configured_terminal",
     "get_settings_controller",
     "is_known_terminal_executable",
-    "get_configured_terminal",
 )
 
 AltValidator = ty.Callable[[dict[str, ty.Any]], bool]
@@ -39,7 +39,9 @@ class ExtendedSetting(ty.Protocol):
         plugin/key (string)"""
 
 
-PlugConfigValue = ty.Union[str, bool, int, float, list[ty.Any], ExtendedSetting]
+PlugConfigValue = ty.Union[
+    str, bool, int, float, list[ty.Any], ExtendedSetting
+]
 
 
 # pylint: disable=too-few-public-methods
@@ -49,8 +51,7 @@ class ValueConverter(ty.Protocol):
     in config file (as str) into required value (int, float, etc).
     """
 
-    def __call__(self, value: str, default: ty.Any) -> PlugConfigValue:
-        ...
+    def __call__(self, value: str, default: ty.Any) -> PlugConfigValue: ...
 
 
 # PlugConfigValueType = ty.Union[type[PlugConfigValue], ValueConverter]

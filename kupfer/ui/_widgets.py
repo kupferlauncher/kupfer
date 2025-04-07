@@ -49,7 +49,9 @@ class DirsSelectWidget(Gtk.Bin):  # type: ignore
         self.view = Gtk.TreeView.new_with_model(self.model)
 
         # pylint: disable=no-member
-        self.btn_add = Gtk.Button.new_from_icon_name("add", Gtk.IconSize.BUTTON)
+        self.btn_add = Gtk.Button.new_from_icon_name(
+            "add", Gtk.IconSize.BUTTON
+        )
         self.btn_add.always_show_image = True
         self.btn_add.set_label(_("Add"))
         # pylint: disable=no-member
@@ -200,12 +202,14 @@ class FileDirSelectWidget(Gtk.Bin):  # type: ignore
         self.entry = Gtk.Entry()
 
         self.btn_add = Gtk.Button.new_from_icon_name(
-            "fileopen", Gtk.IconSize.BUTTON  # pylint: disable=no-member
+            "fileopen",
+            Gtk.IconSize.BUTTON,  # pylint: disable=no-member
         )
         self.btn_add.always_show_image = True
         self.btn_add.set_label(_("Select"))
         self.btn_clear = Gtk.Button.new_from_icon_name(
-            "editclear", Gtk.IconSize.BUTTON  # pylint: disable=no-member
+            "editclear",
+            Gtk.IconSize.BUTTON,  # pylint: disable=no-member
         )
         self.btn_clear.always_show_image = True
         self.btn_clear.set_label(_("Clear"))
@@ -289,7 +293,9 @@ class ObjectsInfoWidget(Gtk.Bin):  # type: ignore
         super().__init__()
 
         setctl = settings.get_settings_controller()
-        small_icon_size = setctl.get_config_int("Appearance", "icon_small_size")
+        small_icon_size = setctl.get_config_int(
+            "Appearance", "icon_small_size"
+        )
 
         box = Gtk.Grid()
         box.set_row_spacing(6)
@@ -435,7 +441,9 @@ def _format_exc_info(exc_info: kty.ExecInfo) -> str:
     if re.match(import_error_pat, errmsg):
         # TRANS: Error message when Plugin needs a Python module to load
         import_error_localized = _("Python module '%s' is needed") % "\\1"
-        return re.sub(import_error_pat, import_error_localized, errmsg, count=1)
+        return re.sub(
+            import_error_pat, import_error_localized, errmsg, count=1
+        )
 
     if etype and issubclass(etype, ImportError):
         return errmsg

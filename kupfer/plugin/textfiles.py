@@ -7,6 +7,7 @@ to textfiles, we always work in the locale-defined encoding.
 
 FIXME: Be less strict (use UTF-8 if locale says Ascii)
 """
+
 __kupfer_name__ = _("Textfiles")
 __kupfer_actions__ = (
     "AppendTo",
@@ -19,8 +20,8 @@ __description__ = _("Action for text files")
 __version__ = "2017.1"
 __author__ = ""
 
-from pathlib import Path
 import typing as ty
+from pathlib import Path
 
 from gi.repository import Gdk, Gtk
 
@@ -84,7 +85,7 @@ class WriteTo(Action):
             )
         else:
             # TODO: raise TypeError
-            raise ValueError  # noqa:TRY004:
+            raise ValueError  # noqa:TRY004
 
         if not outfile or not outpath:
             return None
@@ -141,7 +142,9 @@ class GetTextContents(Action):
         return True
 
     def activate(self, leaf, iobj=None, ctx=None):
-        text = Path(leaf.object).read_text(encoding=kupferstring.get_encoding())
+        text = Path(leaf.object).read_text(
+            encoding=kupferstring.get_encoding()
+        )
         return TextLeaf(text)
 
     def item_types(self):

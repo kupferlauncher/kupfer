@@ -12,15 +12,17 @@ import itertools
 import typing as ty
 
 __all__ = (
-    "two_part_mapper",
-    "peekfirst",
-    "as_list",
     "SavedIterable",
+    "as_list",
+    "peekfirst",
+    "two_part_mapper",
     "unique_iterator",
 )
 
 
-def two_part_mapper(instr: str, repfunc: ty.Callable[[str], str | None]) -> str:
+def two_part_mapper(
+    instr: str, repfunc: ty.Callable[[str], str | None]
+) -> str:
     """Scan @instr two characters at a time and replace using @repfunc.
     If @repfunc return not None - use origin character.
     """

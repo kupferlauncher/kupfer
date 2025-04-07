@@ -13,7 +13,8 @@ from kupfer.obj import Action, Leaf, Source
 from kupfer.support import system, weaklib
 
 if ty.TYPE_CHECKING:
-    from gettext import gettext as _, ngettext
+    from gettext import gettext as _
+    from gettext import ngettext
 
 
 def _get_window(xid):

@@ -5,6 +5,7 @@
 """
 Plugin allow control domains (virtual machines) managed by libvirt.
 """
+
 from __future__ import annotations
 
 __kupfer_name__ = _("Libvirt")
@@ -18,7 +19,7 @@ import typing as ty
 
 import libvirt
 
-from kupfer import launch, plugin_support, icons
+from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, Leaf, Source
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.support import pretty
@@ -210,7 +211,9 @@ class LibvirtDomainsSource(AppLeafContentMixin, Source):
 
         for dom in conn.listAllDomains():
             name = dom.name()
-            title = _get_domain_metadata(dom, libvirt.VIR_DOMAIN_METADATA_TITLE)
+            title = _get_domain_metadata(
+                dom, libvirt.VIR_DOMAIN_METADATA_TITLE
+            )
             descr = _get_domain_metadata(
                 dom, libvirt.VIR_DOMAIN_METADATA_DESCRIPTION
             )

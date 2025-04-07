@@ -17,7 +17,7 @@ import typing as ty
 
 from kupfer import launch, plugin_support
 from kupfer.obj import Action, Leaf, Source
-from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
+from kupfer.obj.helplib import FileMonitorToken, FilesystemWatchMixin
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _

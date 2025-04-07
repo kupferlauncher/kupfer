@@ -4,12 +4,12 @@ __description__ = _("Search filesystem using locate")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import shutil
 import subprocess
 import typing as ty
-import shutil
 
 from kupfer import icons, plugin_support
-from kupfer.obj import Action, Source, TextLeaf, Leaf
+from kupfer.obj import Action, Leaf, Source, TextLeaf
 from kupfer.obj.filesrc import construct_file_leaf
 from kupfer.obj.special import CommandNotAvailableLeaf
 from kupfer.support import kupferstring

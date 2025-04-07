@@ -7,9 +7,9 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 import operator
 import os
 import signal
-from pathlib import Path
 import subprocess
 import typing as ty
+from pathlib import Path
 
 from kupfer import plugin_support
 from kupfer.obj import Action, Leaf, Source

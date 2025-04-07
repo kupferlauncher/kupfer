@@ -7,6 +7,7 @@ http://standards.freedesktop.org/desktop-entry-spec/desktop-entry-spec-1.1.html#
 The unescaping we are doing is only one way.. so we unescape according to the
 rules, but we accept everything, if validly quoted or not.
 """
+
 from __future__ import annotations
 
 import shlex

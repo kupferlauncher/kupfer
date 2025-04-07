@@ -9,9 +9,9 @@ import os.path
 import socket
 import sys
 
-from kupfer.support import pretty, datatools
+from kupfer.support import datatools, pretty
 
-__all__ = ("get_hostname", "get_homedir", "get_application_filename")
+__all__ = ("get_application_filename", "get_homedir", "get_hostname")
 
 
 @datatools.evaluate_once

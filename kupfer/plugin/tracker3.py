@@ -2,6 +2,7 @@
 """
 Tracker3 plugin using gir1.2-tracker-3.0
 """
+
 from __future__ import annotations
 
 __kupfer_name__ = _("Tracker3")

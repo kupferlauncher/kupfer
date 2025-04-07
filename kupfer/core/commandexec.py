@@ -64,10 +64,10 @@ if ty.TYPE_CHECKING:
     from kupfer.ui.uievents import GUIEnvironmentContext
 
 __all__ = (
-    "ExecResult",
-    "ActionExecutionError",
-    "ExecutionToken",
     "ActionExecutionContext",
+    "ActionExecutionError",
+    "ExecResult",
+    "ExecutionToken",
     "default_action_execution_context",
 )
 
@@ -379,7 +379,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
         # the result of the nested execution context
         if self._delegate:
             assert not ret or isinstance(ret, tuple)
-            res, ret = ty.cast(tuple[ExecResult, ty.Any], ret)
+            res, ret = ty.cast("tuple[ExecResult, ty.Any]", ret)
             return self._return_result(res, ret, ui_ctx)
 
         assert not ret or isinstance(ret, (Source, Leaf, task.Task))
@@ -433,12 +433,12 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
             return self._combine_action_result_multiple_delegate(
                 action,
                 ty.cast(
-                    list[tuple[ExecResult, ActionResult]], retvals_not_empty
+                    "list[tuple[ExecResult, ActionResult]]", retvals_not_empty
                 ),
             )
 
         return self._combine_action_result_multiple_non_delegate(
-            action, ty.cast(list[ActionResult], retvals_not_empty)
+            action, ty.cast("list[ActionResult]", retvals_not_empty)
         )
 
     def _combine_action_result_multiple_non_delegate(
@@ -505,7 +505,7 @@ class ActionExecutionContext(GObject.GObject, pretty.OutputMixin):  # type: igno
             return (
                 values[0]
                 if len(values) == 1
-                else MultiSource(ty.cast(ty.Collection[Source], values))
+                else MultiSource(ty.cast("ty.Collection[Source]", values))
             )
 
         if res == ExecResult.OBJECT:

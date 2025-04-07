@@ -433,7 +433,9 @@ class Note(Leaf):
 class ClassProperty(property):
     """Subclass property to make classmethod properties possible"""
 
-    def __get__(self, cls: ty.Any, owner: ty.Optional[type] = None, /) -> ty.Any:
+    def __get__(
+        self, cls: ty.Any, owner: ty.Optional[type] = None, /
+    ) -> ty.Any:
         # pylint: disable=no-member
         return self.fget.__get__(None, owner)()  # type: ignore
 

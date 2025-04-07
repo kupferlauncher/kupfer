@@ -5,6 +5,7 @@ This file is a part of the program kupfer, which is
 released under GNU General Public License v3 (or any later version),
 see the main program file, and COPYING for details.
 """
+
 from __future__ import annotations
 
 import os
@@ -26,12 +27,12 @@ if ty.TYPE_CHECKING:
     from kupfer.core import commandexec
 
 __all__ = (
+    "AppLeaf",
     "AppLeafContentMixin",
     "ApplicationSource",
-    "AppLeaf",
+    "CloseAll",
     "Launch",
     "LaunchAgain",
-    "CloseAll",
 )
 
 
@@ -166,7 +167,9 @@ class AppLeaf(Leaf):
         return hash(str(self))
 
     def __eq__(self, other: object) -> bool:
-        return isinstance(other, type(self)) and self.get_id() == other.get_id()
+        return (
+            isinstance(other, type(self)) and self.get_id() == other.get_id()
+        )
 
     def __getstate__(self) -> dict[str, ty.Any]:
         self._init_item_id = self.object and self.object.get_id()
@@ -192,7 +195,9 @@ class AppLeaf(Leaf):
                 ):
                     # serilizable if created from a "loose file"
                     self.serializable = 1
-                    item = Gio.DesktopAppInfo.new_from_filename(self._init_path)
+                    item = Gio.DesktopAppInfo.new_from_filename(
+                        self._init_path
+                    )
                 elif self._init_item_id:
                     item = Gio.DesktopAppInfo.new(self._init_item_id)
 

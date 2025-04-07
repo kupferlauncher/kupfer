@@ -9,10 +9,10 @@ import typing as ty
 from gi.repository import Gio, GLib
 
 from kupfer import launch
-from kupfer.obj import Action, FileLeaf, OpenTerminal, Source, Leaf
+from kupfer.core import commandexec
+from kupfer.obj import Action, FileLeaf, Leaf, OpenTerminal, Source
 from kupfer.obj.fileactions import Open
 from kupfer.ui import uiutils
-from kupfer.core import commandexec
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _

@@ -19,7 +19,7 @@ import os
 import typing as ty
 import urllib.parse
 from pathlib import Path
-from xml.etree import ElementTree
+from xml.etree import ElementTree as ET
 
 from kupfer import config, launch, plugin_support
 from kupfer.obj import Action, Leaf, Source, TextLeaf
@@ -41,8 +41,7 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "value": "https://www.qwant.com/?q=%s\n"
         "https://search.brave.com/search?q=%s",
         "tooltip": _(
-            "Define URLs for search engines; '%s' is replaced by "
-            "search term."
+            "Define URLs for search engines; '%s' is replaced by search term."
         ),
     },
     {
@@ -301,7 +300,7 @@ class OpenSearchSource(Source):
 
     def _parse_opensearch(self, path: str) -> dict[str, ty.Any] | None:
         try:
-            etree = ElementTree.parse(path)
+            etree = ET.parse(path)
             return _parse_etree(etree, name=path)  # type:ignore
         except Exception as exc:
             self.output_debug(f"{type(exc).__name__}: {exc}")

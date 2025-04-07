@@ -8,9 +8,9 @@ except ImportError:
     Wnck = None
 
 from kupfer import config
-from kupfer.support import pretty, datatools
+from kupfer.support import datatools, pretty
 
-__all__ = ("is_kwin", "is_wayland", "allows_keybinder")
+__all__ = ("allows_keybinder", "is_kwin", "is_wayland")
 
 
 @datatools.evaluate_once

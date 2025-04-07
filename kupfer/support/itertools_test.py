@@ -18,7 +18,8 @@ class TestTwoPartMapper(unittest.TestCase):
             kit.two_part_mapper("abbcdedeeffg123", repfunc), "abbcdedeeffg123"
         )
         self.assertEqual(
-            kit.two_part_mapper("abbbcdedeeffg123", repfunc), "abBBcdedEEFFg123"
+            kit.two_part_mapper("abbbcdedeeffg123", repfunc),
+            "abBBcdedEEFFg123",
         )
 
     def test2(self):
@@ -36,10 +37,12 @@ class TestTwoPartMapper(unittest.TestCase):
             "ab01bcde34cfag101",
         )
         self.assertEqual(
-            kit.two_part_mapper("abbbcdedeeffg123", repfunc), "a23bcdedeeffg123"
+            kit.two_part_mapper("abbbcdedeeffg123", repfunc),
+            "a23bcdedeeffg123",
         )
         self.assertEqual(
-            kit.two_part_mapper("aaaaaaaaaaaaaaaa", repfunc), "0101010101010101"
+            kit.two_part_mapper("aaaaaaaaaaaaaaaa", repfunc),
+            "0101010101010101",
         )
         self.assertEqual(
             kit.two_part_mapper("aabaabaabaab", repfunc), "01b01b01b01b"

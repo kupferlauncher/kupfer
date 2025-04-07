@@ -1,4 +1,5 @@
-""" DataController """
+"""DataController"""
+
 from __future__ import annotations
 
 import itertools
@@ -48,7 +49,7 @@ if ty.TYPE_CHECKING:
     from kupfer.support.types import ExecInfo
     from kupfer.ui.uievents import GUIEnvironmentContext
 
-__all__ = ("PaneSel", "PaneMode", "DataController")
+__all__ = ("DataController", "PaneMode", "PaneSel")
 
 DATA_SAVE_INTERVAL_S = 3660
 
@@ -108,7 +109,9 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         self._mode: PaneMode | None = None
         self._search_ids = itertools.count(1)
         self._latest_interaction = -1
-        self._execution_context = commandexec.default_action_execution_context()
+        self._execution_context = (
+            commandexec.default_action_execution_context()
+        )
         self._execution_context.connect(
             "command-result", self._on_command_execution_result
         )
@@ -580,7 +583,9 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         learn.record_search_hit(leaf, self._source_pane.get_latest_key())
         learn.record_search_hit(action, self._action_pane.get_latest_key())
         if sobject and self._mode == PaneMode.SOURCE_ACTION_OBJECT:
-            learn.record_search_hit(sobject, self._object_pane.get_latest_key())
+            learn.record_search_hit(
+                sobject, self._object_pane.get_latest_key()
+            )
 
         if not leaf or not action:
             return
@@ -685,8 +690,8 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         if pane in (PaneSel.SOURCE, PaneSel.OBJECT):
             raise RuntimeError("Setting default on pane 1 or 3 not supported")
 
-        obj = ty.cast(Leaf, self._source_pane.get_selection())
-        act = ty.cast(Action, self._action_pane.get_selection())
+        obj = ty.cast("Leaf", self._source_pane.get_selection())
+        act = ty.cast("Action", self._action_pane.get_selection())
         assert obj and act
         learn.set_correlation(act, obj)
 

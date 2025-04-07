@@ -115,7 +115,7 @@ def get_data_dirs(
 ) -> ty.Iterable[str]:
     """Iterate over all data dirs of @name that exist."""
     return ty.cast(
-        ty.Iterable[str],
+        "ty.Iterable[str]",
         BaseDirectory.load_data_paths(os.path.join(package, name)),
     )
 
@@ -124,7 +124,7 @@ def get_config_file(filename: str, package: str = PACKAGE_NAME) -> str | None:
     """Return path to @package/@filename if it exists anywhere in the config
     paths, else return None"""
     return ty.cast(
-        ty.Union[str, None], BaseDirectory.load_first_config(package, filename)
+        "ty.Union[str, None]", BaseDirectory.load_first_config(package, filename)
     )
 
 

@@ -6,8 +6,8 @@ __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
 import os
 import pkgutil
-from pathlib import Path
 import typing as ty
+from pathlib import Path
 
 # Since this is a core plugin we break some rules
 # These modules are normally out of bounds for plugins

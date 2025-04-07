@@ -11,8 +11,8 @@ import typing as ty
 from kupfer import config, plugin_support
 from kupfer.obj import Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
+from kupfer.obj.helplib import FileMonitorToken, FilesystemWatchMixin
 from kupfer.plugin import chromium_support
-from kupfer.obj.helplib import FilesystemWatchMixin, FileMonitorToken
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _

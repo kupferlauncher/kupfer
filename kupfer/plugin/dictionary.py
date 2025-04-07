@@ -37,7 +37,9 @@ __kupfer_settings__ = plugin_support.PluginSettings(
         "key": "dictionary",
         "label": _("Dictionary"),
         "type": str,
-        "alternatives": [(key, dic.title) for key, dic in dictionaries.items()],
+        "alternatives": [
+            (key, dic.title) for key, dic in dictionaries.items()
+        ],
         "value": "gnome-dictionary",
     }
 )

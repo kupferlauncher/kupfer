@@ -96,8 +96,7 @@ class PeriodicRescanner(pretty.OutputMixin):
                 return
 
             self.output_debug(
-                f"source {source} up to date, next scan in "
-                f"{int(next_scan)}s"
+                f"source {source} up to date, next scan in {int(next_scan)}s"
             )
 
         # No source to scan found
@@ -152,7 +151,8 @@ class SourcePickler(pretty.OutputMixin):
     name_template = "k%s-v%d.pickle.gz"
 
     def __init__(self) -> None:
-        self.open = lambda f, mode: gzip.open(f, mode, compresslevel=3)
+        # TODO: check
+        self.open = lambda f, mode: gzip.open(f, mode, compresslevel=3)  # noqa:SIM115
 
     @classmethod
     def should_use_cache(cls) -> bool:
@@ -360,14 +360,14 @@ class SourceController(pretty.OutputMixin):
         self._rescanner = PeriodicRescanner(period=1)
         self._toplevel_sources: set[Source] = set()
         self._text_sources: set[TextSource] = set()
-        self._content_decorators: dict[
-            ty.Type[Leaf], set[ty.Type[Source]]
-        ] = defaultdict(set)
+        self._content_decorators: dict[ty.Type[Leaf], set[ty.Type[Source]]] = (
+            defaultdict(set)
+        )
         self._action_generators: list[ActionGenerator] = []
         # map any object defined in plugin to plugin id
-        self._plugin_object_map: weakref.WeakKeyDictionary[
-            ty.Any, str
-        ] = weakref.WeakKeyDictionary()
+        self._plugin_object_map: weakref.WeakKeyDictionary[ty.Any, str] = (
+            weakref.WeakKeyDictionary()
+        )
         self._loaded_successfully = False
         self._did_finalize_sources = False
         # _pre_root cache root sources
@@ -397,7 +397,9 @@ class SourceController(pretty.OutputMixin):
             self._register_plugin_objects(plugin_id, *new_srcs)
 
     def set_toplevel(self, src: Source, toplevel: bool) -> None:
-        assert src in self._sources, "Source is not tracked in SourceController"
+        assert src in self._sources, (
+            "Source is not tracked in SourceController"
+        )
         self._invalidate_root()
         if toplevel:
             self._toplevel_sources.add(src)
@@ -649,7 +651,7 @@ class SourceController(pretty.OutputMixin):
                 obj.add_content(contents[0])
             else:
                 assert isinstance(contents[0], Source)
-                sources = ty.cast(ty.Collection[Source], contents)
+                sources = ty.cast("ty.Collection[Source]", contents)
                 obj.add_content(
                     SourcesSource(sources, name=str(obj), use_reprs=False)
                 )
@@ -736,7 +738,7 @@ class SourceController(pretty.OutputMixin):
             self._toplevel_sources.discard(source)
             source_type = type(source)
         else:
-            source_type = ty.cast(ty.Type[Source], source)
+            source_type = ty.cast("ty.Type[Source]", source)
 
         for cdv in self._content_decorators.values():
             cdv.discard(source_type)

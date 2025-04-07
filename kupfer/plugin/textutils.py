@@ -12,25 +12,25 @@ __version__ = "2023.1"
 __author__ = "Karol Będkowski"
 
 import base64
-import urllib.parse
-import secrets
-import string
-import uuid
-import typing as ty
 import datetime
 import json
-from contextlib import suppress
+import secrets
+import string
+import typing as ty
+import urllib.parse
+import uuid
 import xml.dom.minidom
+from contextlib import suppress
 from functools import partial
 
 from kupfer import icons
 from kupfer.obj import (
     Action,
-    TextLeaf,
-    RunnableLeaf,
-    Source,
     Leaf,
     OperationError,
+    RunnableLeaf,
+    Source,
+    TextLeaf,
 )
 from kupfer.ui import getdata_dialog
 

@@ -124,7 +124,9 @@ def get_plugin_info() -> ty.Iterator[dict[str, ty.Any]]:
 
             plugin = vars(plugin)
         except ImportError as exc:
-            pretty.print_error(__name__, f"import plugin '{plugin_name}':", exc)
+            pretty.print_error(
+                __name__, f"import plugin '{plugin_name}':", exc
+            )
             continue
         except Exception:
             pretty.print_error(__name__, f"Could not load '{plugin_name}'")

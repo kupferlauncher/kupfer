@@ -6,7 +6,7 @@ from gi.repository import GLib, GObject
 
 from kupfer.support import pretty, weaklib
 
-__all__ = ("get_scheduler", "Scheduler", "Timer", "get_scheduler")
+__all__ = ("Scheduler", "Timer", "get_scheduler")
 
 
 def get_scheduler() -> Scheduler:
@@ -117,7 +117,9 @@ class Timer:
         """
         self.invalidate()
         self._current_callback = lambda: callback(*arguments)
-        self._current_timer = GLib.timeout_add(timeout_milliseconds, self._call)
+        self._current_timer = GLib.timeout_add(
+            timeout_milliseconds, self._call
+        )
 
     def set_idle(self, callback: TimerCallback, *arguments: ty.Any) -> None:
         self.invalidate()

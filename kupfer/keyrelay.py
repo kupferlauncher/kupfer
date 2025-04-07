@@ -2,6 +2,7 @@
 This is a program of its own, that does not integrate with the
 Kupfer process.
 """
+
 import os
 import typing as ty
 

@@ -71,9 +71,9 @@ class FavoritesSource(Source):
         # persist_table map Serialized object to Leaves
         self.persist_table: dict[puid.SerializedObject, Leaf] = {}
         # reference table map reference-type id to leaf
-        self.reference_table: weakref.WeakValueDictionary[
-            str, Leaf
-        ] = weakref.WeakValueDictionary()
+        self.reference_table: weakref.WeakValueDictionary[str, Leaf] = (
+            weakref.WeakValueDictionary()
+        )
         self.mark_for_update()
 
     def finalize(self) -> None:
@@ -90,7 +90,9 @@ class FavoritesSource(Source):
                 favorites.insert(0, leaf)
                 continue
 
-            if isinstance(id_, str) and (leaf := self.reference_table.get(id_)):
+            if isinstance(id_, str) and (
+                leaf := self.reference_table.get(id_)
+            ):
                 # id_ is in reference_table, so is reference, so it's str
                 favorites.insert(0, leaf)
                 continue

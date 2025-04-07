@@ -1,6 +1,7 @@
 """
 Various, common types for typechecing
 """
+
 import types
 import typing as ty
 

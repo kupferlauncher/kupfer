@@ -3,6 +3,7 @@ virtualbox_const_support.py
 
 Constants for VirtualBox.
 """
+
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 __version__ = "0.4"
 

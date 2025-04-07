@@ -36,21 +36,21 @@ from kupfer.support import fileutils, pretty, scheduler, system
 from kupfer.ui import uievents
 
 __all__ = (
+    "AsyncCommand",
     "SpawnError",
-    "launch_application",
-    "get_applications_matcher_service",
     "application_close_all",
+    "application_id",
     "application_is_running",
+    "get_applications_matcher_service",
     "get_display_path_for_bytestring",
+    "launch_application",
     "show_help_url",
     "show_url",
-    "spawn_async_raise",
     "spawn_async",
     "spawn_async_notify_as",
+    "spawn_async_raise",
     "spawn_in_terminal",
     "spawn_terminal",
-    "AsyncCommand",
-    "application_id",
 )
 
 _DEFAULT_ASSOCIATIONS = {
@@ -477,7 +477,9 @@ class AsyncCommand(pretty.OutputMixin):
 
         if stdin:
             self.stdin = list(_split_string(stdin, self.max_input_buf))
-            in_io_flags = GLib.IO_OUT | GLib.IO_ERR | GLib.IO_HUP | GLib.IO_NVAL
+            in_io_flags = (
+                GLib.IO_OUT | GLib.IO_ERR | GLib.IO_HUP | GLib.IO_NVAL
+            )
             GLib.io_add_watch(
                 stdin_fd, in_io_flags, self._in_io_callback, self.stdin
             )
@@ -523,7 +525,9 @@ class AsyncCommand(pretty.OutputMixin):
         # @condition is the &status field of waitpid(2) (C library)
         self.exit_status = os.WEXITSTATUS(condition)
         self.finished = True
-        self.finish_callback(self, b"".join(self.stdout), b"".join(self.stderr))
+        self.finish_callback(
+            self, b"".join(self.stdout), b"".join(self.stderr)
+        )
 
     def _timeout_callback(self) -> None:
         "send term signal on timeout"
@@ -744,7 +748,7 @@ def show_url(url: str) -> bool:
     try:
         pretty.print_debug(__name__, "show_url", url)
         return ty.cast(
-            bool,
+            "bool",
             Gtk.show_uri(
                 Gdk.Screen.get_default(), url, Gtk.get_current_event_time()
             ),
@@ -793,7 +797,7 @@ def get_display_path_for_bytestring(filepath: ty.AnyStr) -> str:
     desc: str = GLib.filename_display_name(filepath)
     homedir = system.get_homedir()
     if desc.startswith(homedir) and homedir != desc:
-        desc = f"~{desc[len(homedir):]}"
+        desc = f"~{desc[len(homedir) :]}"
 
     return desc
 

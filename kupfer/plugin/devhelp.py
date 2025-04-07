@@ -5,7 +5,7 @@ __version__ = "2017.1"
 __author__ = ""
 import typing as ty
 
-from kupfer import launch, icons, plugin_support
+from kupfer import icons, launch, plugin_support
 from kupfer.obj import Action, OperationError, TextLeaf
 
 if ty.TYPE_CHECKING:

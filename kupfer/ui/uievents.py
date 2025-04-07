@@ -44,7 +44,9 @@ def try_close_unused_displays(screen: Gdk.Screen) -> None:
                 continue
 
             if not window.get_property("visible"):
-                pretty.print_debug(__name__, "Moving window", window.get_name())
+                pretty.print_debug(
+                    __name__, "Moving window", window.get_name()
+                )
                 pretty.print_debug(__name__, "Moving", window.get_title())
                 window.set_screen(screen)
             else:
@@ -90,7 +92,7 @@ class GUIEnvironmentContext:
 
     def get_display(self) -> str:
         """Return the display name to show new windows on."""
-        return ty.cast(str, self._screen.make_display_name())
+        return ty.cast("str", self._screen.make_display_name())
 
     def get_screen(self) -> Gdk.Screen:
         return self._screen

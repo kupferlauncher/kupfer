@@ -2,6 +2,7 @@
 A quick hack to search the icons of the `Icon Naming Specification`__, shown
 as available on the current system.
 """
+
 __kupfer_name__ = _("Icon Names")
 __kupfer_sources__ = (
     "StandardIconsSource",
@@ -12,14 +13,15 @@ __version__ = "2017.1"
 __author__ = "US"
 
 
-import urllib.request, urllib.parse, urllib.error
+import urllib.error
+import urllib.parse
+import urllib.request
 from xml.etree import cElementTree as ET
 
 from gi.repository import Gtk
 
-from kupfer.objects import Leaf, Action, Source, SourceLeaf
+from kupfer.objects import Action, Leaf, Source, SourceLeaf
 from kupfer.ui import uiutils
-
 
 ICON_SPEC_ADDRESS = "https://standards.freedesktop.org/icon-naming-spec/icon-naming-spec-0.8.90.xml"
 

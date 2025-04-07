@@ -11,7 +11,10 @@ from kupfer import plugin_support
 from kupfer.obj import Leaf, Source, UrlLeaf
 from kupfer.obj.apps import AppLeafContentMixin
 from kupfer.obj.helplib import FilesystemWatchMixin
-from kupfer.plugin._firefox_support import get_firefox_home_file, query_database
+from kupfer.plugin._firefox_support import (
+    get_firefox_home_file,
+    query_database,
+)
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
@@ -77,7 +80,9 @@ class TagsSource(AppLeafContentMixin, Source, FilesystemWatchMixin):
             return []
 
         return list(
-            itertools.starmap(FirefoxTag, query_database(str(fpath), _TAGS_SQL))
+            itertools.starmap(
+                FirefoxTag, query_database(str(fpath), _TAGS_SQL)
+            )
         )
 
     def get_description(self):
