@@ -281,7 +281,7 @@ def show_notification(
 
 
 def confirm_dialog(msg: str, positive_btn: str) -> bool:
-    """Request user confirmation of resetting keybinding."""
+    """Request user confirmation."""
     dlg = Gtk.MessageDialog(
         None, Gtk.DialogFlags.MODAL, Gtk.MessageType.QUESTION
     )
@@ -293,6 +293,7 @@ def confirm_dialog(msg: str, positive_btn: str) -> bool:
         positive_btn,
         Gtk.ResponseType.ACCEPT,
     )
+    dlg.set_keep_above(True)
     # pylint: disable=no-member
     result: bool = dlg.run() == Gtk.ResponseType.ACCEPT
     dlg.destroy()
