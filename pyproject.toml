@@ -130,7 +130,7 @@ lint.select = ["E", "F", "I", "W"]
 output-format = "full"
 line-length = 79
 builtins = ["_", "ic", "ic_stack", "ngettext"]
-exclude = ["waflib", "waf", "oldplugins"]
+exclude = ["waflib", "waf", "oldplugins", "contrib/**"]
 #lint.fixable = ["I"]
 lint.extend-select = [
 #  "C",
@@ -174,7 +174,7 @@ lint.ignore = [
   "COM812",
   "ARG001",
   "ARG002",
-  "TCH004",
+  "TC004",
   "RUF001",
   "E501",
   "EM102",
