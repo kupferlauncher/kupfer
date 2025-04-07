@@ -44,6 +44,8 @@ def construct_file_leaf(obj: str) -> Leaf:
 
 
 class DirectorySource(Source, FilesystemWatchMixin):
+    source_use_cache = False
+
     def __init__(
         self,
         directory: str,
@@ -137,6 +139,8 @@ class DirectorySource(Source, FilesystemWatchMixin):
 
 
 class FileSource(Source):
+    source_use_cache = False
+
     def __init__(self, dirlist: list[str], depth: int = 0) -> None:
         """
         @dirlist: Directories as byte strings
