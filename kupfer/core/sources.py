@@ -526,7 +526,7 @@ class SourceController(pretty.OutputMixin):
     def root(self) -> Source | None:
         """Get the root source of catalog"""
         if len(self._sources) == 1:
-            (root_catalog,) = self._sources
+            (root_catalog,) = self._sources  # pylint: disable=unbalanced-tuple-unpacking
         elif len(self._sources) > 1:
             root_catalog = MultiSource(self.firstlevel)
         else:

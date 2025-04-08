@@ -214,6 +214,7 @@ def _import_plugin_fake(
 
     @error: If applicable, a tuple of exception info
     """
+    # TODO: deprecated: importlib.util.find_spec()
     loader = pkgutil.get_loader(modpath)
     if not loader:
         return None
@@ -409,6 +410,7 @@ def is_plugin_loaded(plugin_name: str) -> bool:
 
 def _loader_hook(modpath: tuple[str, ...]) -> ty.Any:
     modname = ".".join(modpath)
+    # TODO: deprecated: use importlib.util.find_spec()
     loader = pkgutil.find_loader(modname)
     if not loader:
         raise ImportError(f"No loader found for {modname}")

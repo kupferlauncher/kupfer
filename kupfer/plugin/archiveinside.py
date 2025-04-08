@@ -135,6 +135,7 @@ class ArchiveContent(Source):
             pretty.print_debug(
                 __name__, "Removing", os.path.basename(filetree)
             )
+            # TODO: deprecated: onerror
             shutil.rmtree(filetree, onerror=clean_up_error_handler)  # type: ignore
 
         cls.unarchived_files = []

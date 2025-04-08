@@ -156,9 +156,9 @@ class WindowController(pretty.OutputMixin):
         width_radius = width - radius
         height_radius = height - radius
         surface = cairo.ImageSurface(  # pylint: disable=no-member
-            cairo.FORMAT_ARGB32,
+            cairo.FORMAT_ARGB32,  # pylint: disable=no-member
             width,
-            height,  # pylint: disable=no-member
+            height,
         )
         ctx = cairo.Context(surface)  # pylint: disable=no-member
         ctx.set_source_rgba(0.0, 0.0, 255.0, 128.0)

@@ -119,11 +119,11 @@ def make_histogram(vect, nbins=7):
     # headers
     print(
         " ".join(
-            "%10s" % ("[%2d, %2d)" % (min(brange(i)), max(brange(i))),)
+            "%10s" % f"[{min(brange(i)):2d}, {max(brange(i)):2d}]"
             for i in range(nbins)
         )
     )
-    print(" ".join("%10d" % bins[i] for i in range(nbins)))
+    print(" ".join(f"{bins[i]:10d}" for i in range(nbins)))
     print("---------------------\n")
 
 

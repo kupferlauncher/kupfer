@@ -6,6 +6,7 @@ __author__ = "Ulrik, KB"
 
 import shutil
 import typing as ty
+from dataclasses import dataclass
 
 from kupfer import launch, plugin_support
 from kupfer.desktop_launch import SpawnError
@@ -15,7 +16,8 @@ if ty.TYPE_CHECKING:
     from gettext import gettext as _
 
 
-class Dict(ty.NamedTuple):
+@dataclass
+class Dict:
     title: str
     args: list[str]
 

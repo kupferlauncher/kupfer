@@ -127,10 +127,12 @@ def show_text_result(
     Use @title to set a window title
     """
 
-    window, textview = builder_get_objects_from_file(
-        "result.ui",
-        ("text_result_window", "result_textview"),
-        autoconnect_to=_ResultWindowBehavior(),
+    window, textview = tuple(
+        builder_get_objects_from_file(
+            "result.ui",
+            ("text_result_window", "result_textview"),
+            autoconnect_to=_ResultWindowBehavior(),
+        )
     )
 
     # Set up text buffer

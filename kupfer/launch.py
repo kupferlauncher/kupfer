@@ -788,7 +788,7 @@ def show_help_url(url: str) -> bool:
     return show_url(url)
 
 
-def get_display_path_for_bytestring(filepath: ty.AnyStr) -> str:
+def get_display_path_for_bytestring(filepath: str | bytes) -> str:
     """Return a unicode path for display for string or bytestring @filepath
 
     Will use glib's filename decoding functions, and will

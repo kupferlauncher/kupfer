@@ -117,11 +117,12 @@ def _create_plugin_credentials_cb(
             setctl.get_plugin_config(plugin_id, key, val_type)
             or plugin_support.UserNamePassword()
         )
+
         # pylint: disable=no-member
         user_password = ask_user_credentials(
             upass.username,
             upass.password,
-            information,  # type:ignore
+            information,
         )
         if user_password:
             # pylint: disable=no-member
@@ -865,7 +866,7 @@ class PreferencesWindowController(pretty.OutputMixin):
             swid = widgets.ObjectsInfoWidget(plugin_id, srcs)
             vbox.pack_start(swid, True, True, 0)
 
-        if actions:
+        if actions:  # pylint: disable=using-constant-test
             # TRANS: Plugin contents header
             widgets.new_label_header(vbox, _("Actions"))
             awid = widgets.ObjectsInfoWidget(plugin_id, actions)

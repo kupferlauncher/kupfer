@@ -1,3 +1,4 @@
+# TODO: deprecated: move to argparse
 import getopt
 import gettext
 import locale

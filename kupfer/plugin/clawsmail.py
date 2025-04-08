@@ -7,6 +7,7 @@ __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import typing as ty
 import xml
+import xml.parsers
 from pathlib import Path
 from xml.dom import minidom
 

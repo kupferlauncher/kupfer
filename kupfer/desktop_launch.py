@@ -469,7 +469,7 @@ def child_setup(add_environ: dict[str, str]) -> None:
         os.putenv(key, val)
 
 
-def _locale_encode_argv(argv: list[ty.AnyStr]) -> ty.Iterator[str]:
+def _locale_encode_argv(argv: list[str] | list[bytes]) -> ty.Iterator[str]:
     for x in argv:
         if isinstance(x, str):
             yield x

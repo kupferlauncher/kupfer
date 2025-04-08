@@ -64,6 +64,7 @@ class ShowSource(Action):
         if not Path(filename).exists():
             # handle modules in zip or eggs
             pfull = "kupfer.plugin." + plugin_id
+            # TODO: deprecated: use importlib.util.find_spec()
             if loader := pkgutil.get_loader(pfull):
                 return TextLeaf(loader.get_source(pfull))  # type:ignore
 
