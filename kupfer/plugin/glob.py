@@ -26,7 +26,7 @@ class Glob(Action):
 
     def activate_multiple(self, objects, iobjects):
         ## Do case-insensitive matching
-        ## As a special case, understand '**/' prefix as recurive
+        ## As a special case, understand '**/' prefix as recursive
 
         def get_subcatalog_matches(subcatalog, pat, recursive, paths):
             if len(paths) > 1000:  # noqa:PLR2004

@@ -82,8 +82,8 @@ def iobjects_valid_for_action(
 
     if not hasattr(action, "valid_object"):
 
-        def type_check(itms):
-            return (i for i in itms if isinstance(i, types))
+        def type_check(items):
+            return (i for i in items if isinstance(i, types))
 
         return type_check
 
