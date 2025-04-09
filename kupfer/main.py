@@ -1,5 +1,4 @@
-# TODO: deprecated: move to argparse
-import getopt
+import argparse
 import gettext
 import locale
 import runpy
@@ -76,69 +75,56 @@ def _make_plugin_list() -> str:
     return "\n".join((plugin_header, plugin_list))
 
 
-def _get_options() -> list[str]:
+def _get_options() -> argparse.Namespace:
     """Return a list of other application flags with --* prefix included."""
 
-    program_options = [
-        ("no-splash", _("do not present main interface on launch")),
-        ("list-plugins", _("list available plugins")),
-        ("debug", _("enable debug info")),
-        # TRANS: --exec-helper=HELPER is an internal command
-        # TRANS: that executes a helper program that is part of kupfer
-        ("exec-helper=", _("run plugin helper")),
-        ("no-colors", _("do not use colored text in terminal")),
-    ]
-    misc_options = [
-        ("help", _("show usage help")),
-        ("version", _("show version information")),
-    ]
+    from kupfer import version  # pylint: disable=import-outside-toplevel
+
+    parser = argparse.ArgumentParser(
+        prog=version.PROGRAM_NAME,
+        description=version.SHORT_DESCRIPTION,
+    )
+    parser.add_argument(
+        "--no-splash",
+        action="store_true",
+        help=_("do not present main interface on launch"),
+    )
+    parser.add_argument(
+        "--list-plugins", action="store_true", help=_("list available plugins")
+    )
+    parser.add_argument(
+        "--debug", action="store_true", help=_("enable debug info")
+    )
+    # TRANS: --exec-helper=HELPER is an internal command
+    # TRANS: that executes a helper program that is part of kupfer
+    parser.add_argument("--exec-helper", nargs=1, help=_("run plugin helper"))
+    parser.add_argument(
+        "--no-colors",
+        action="store_true",
+        help=_("do not use colored text in terminal"),
+    )
+
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=f"{version.PACKAGE_NAME}  {version.VERSION}",
+    )
 
     # Fix sys.argv that can be None in exceptional cases
     if sys.argv[0] is None:
         sys.argv[0] = "kupfer"
 
-    try:
-        opts, _args = getopt.getopt(
-            sys.argv[1:],
-            "",
-            [o for o, _h in program_options] + [o for o, _h in misc_options],
-        )
-    except getopt.GetoptError as exc:
-        _print(str(exc))
-        _print(_make_help_text(program_options, misc_options))
-        raise SystemExit(1) from exc
+    args = parser.parse_args()
 
-    for key, val in opts:
-        if key == "--list-plugins":
-            _print(_gtkmain(_make_plugin_list))
-            raise SystemExit
+    if args.list_plugins:
+        _print(_gtkmain(_make_plugin_list))
+        raise SystemExit
 
-        if key == "--help":
-            _print(_make_help_text(program_options, misc_options))
-            raise SystemExit
+    if args.exec_helper:
+        _exec_helper(args.exec_helper[0])
+        raise SystemExit(1)
 
-        if key == "--version":
-            _print_version()
-            raise SystemExit
-
-        if key == "--relay":
-            _print("WARNING: --relay is deprecated!")
-            _exec_helper("kupfer.keyrelay")
-            raise SystemExit
-
-        if key == "--exec-helper":
-            _exec_helper(val)
-            raise SystemExit(1)
-
-    # return list first of tuple pair
-    return [tupl[0] for tupl in opts]
-
-
-def _print_version() -> None:
-    # require setup path and locales
-    from kupfer import version  # pylint: disable=import-outside-toplevel
-
-    _print(version.PACKAGE_NAME, version.VERSION)
+    return args
 
 
 def _print_banner() -> None:
@@ -210,7 +196,7 @@ def main() -> None:
     from kupfer import version
     from kupfer.support import pretty
 
-    if "--debug" in cli_opts:
+    if cli_opts.debug:
         pretty.DEBUG = True
         pretty.print_debug(
             __name__, "Version:", version.PACKAGE_NAME, version.VERSION
@@ -221,10 +207,10 @@ def main() -> None:
             debug.install()
 
     # enable colors only on terminal
-    pretty.COLORS = sys.stdout.isatty() and "--no-colors" not in cli_opts
+    pretty.COLORS = sys.stdout.isatty() and not cli_opts.no_colors
 
     sys.excepthook = sys.__excepthook__
     _set_process_title()
 
-    quiet = "--no-splash" in cli_opts
+    quiet = cli_opts.no_splash
     _gtkmain(_browser_start, quiet)
