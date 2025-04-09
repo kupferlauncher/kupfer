@@ -24,7 +24,7 @@ from pathlib import Path
 
 from kupfer.obj import FileLeaf, Leaf, Source
 from kupfer.obj.filesrc import DirectorySource
-from kupfer.support import pretty, scheduler
+from kupfer.support import pretty, scheduler, types
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
@@ -126,17 +126,20 @@ class ArchiveContent(Source):
         if not cls.unarchived_files:
             return
 
-        def clean_up_error_handler(cls, func, path, exc_info):
+        def clean_up_error_handler(
+            func: ty.Callable[..., object], path: str, exc_info: types.ExecInfo
+        ) -> object:
             pretty.print_error(__name__, f"Error in {func} deleting {path}:")
             pretty.print_error(__name__, exc_info)
+            return None
 
         pretty.print_info(__name__, "Removing extracted archives..")
         for filetree in set(cls.unarchived_files):
             pretty.print_debug(
                 __name__, "Removing", os.path.basename(filetree)
             )
-            # TODO: deprecated: onerror
-            shutil.rmtree(filetree, onerror=clean_up_error_handler)  # type: ignore
+            # TODO: deprecated: onerror since 3.12
+            shutil.rmtree(filetree, onerror=clean_up_error_handler)
 
         cls.unarchived_files = []
 
