@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import importlib.util
 import pkgutil
 import sys
 import textwrap
@@ -214,8 +215,12 @@ def _import_plugin_fake(
 
     @error: If applicable, a tuple of exception info
     """
-    # TODO: deprecated: importlib.util.find_spec()
-    loader = pkgutil.get_loader(modpath)
+    try:
+        spec = importlib.util.find_spec(modpath)
+    except (ImportError, AttributeError, TypeError, ValueError):
+        return None
+
+    loader = spec.loader if spec is not None else None
     if not loader:
         return None
 
@@ -410,8 +415,12 @@ def is_plugin_loaded(plugin_name: str) -> bool:
 
 def _loader_hook(modpath: tuple[str, ...]) -> ty.Any:
     modname = ".".join(modpath)
-    # TODO: deprecated: use importlib.util.find_spec()
-    loader = pkgutil.find_loader(modname)
+    try:
+        spec = importlib.util.find_spec(modname)
+    except (ImportError, AttributeError, TypeError, ValueError) as ex:
+        raise ImportError(f"No loader found for {modname}") from ex
+
+    loader = spec.loader if spec is not None else None
     if not loader:
         raise ImportError(f"No loader found for {modname}")
 

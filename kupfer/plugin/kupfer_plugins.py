@@ -4,8 +4,8 @@ __description__ = _("Access Kupfer's plugin list in Kupfer")
 __version__ = ""
 __author__ = "Ulrik Sverdrup <ulrik.sverdrup@gmail.com>"
 
+import importlib.util
 import os
-import pkgutil
 import typing as ty
 from pathlib import Path
 
@@ -64,9 +64,14 @@ class ShowSource(Action):
         if not Path(filename).exists():
             # handle modules in zip or eggs
             pfull = "kupfer.plugin." + plugin_id
-            # TODO: deprecated: use importlib.util.find_spec()
-            if loader := pkgutil.get_loader(pfull):
-                return TextLeaf(loader.get_source(pfull))  # type:ignore
+            try:
+                spec = importlib.util.find_spec(pfull)
+            except (ImportError, AttributeError, TypeError, ValueError):
+                pass
+            else:
+                loader = spec.loader if spec is not None else None
+                if loader:
+                    return TextLeaf(loader.get_source(pfull))  # type:ignore
 
         return FileLeaf(filename)
 
