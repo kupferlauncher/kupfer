@@ -217,9 +217,9 @@ class Convert(_ConvertAction):
             if float(for_leaf.object) > 0.0:
                 yield _Converter(_str_to_unix_ts, _("Unix timestamp to date"))
 
-        yield _Converter(lambda x: x.lower(), _("to lower case"))
-        yield _Converter(lambda x: x.upper(), _("to upper case"))
-        yield _Converter(lambda x: x.capitalize(), _("to sentence case"))
+        yield _Converter(str.lower, _("to lower case"))
+        yield _Converter(str.upper, _("to upper case"))
+        yield _Converter(str.capitalize, _("to sentence case"))
         yield _Converter(
             lambda x: " ".join(p.capitalize() for p in x.split(" ")),
             _("Capitalize words"),

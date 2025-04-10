@@ -99,7 +99,7 @@ def parse_time_interval(tstr: str) -> int:
     total = 0
     amount = 0
     # Split the string in runs of digits and runs of characters
-    for isdigit, group in itertools.groupby(tstr, lambda k: k.isdigit()):
+    for isdigit, group in itertools.groupby(tstr, str.isdigit):
         if not (part := "".join(group).strip()):
             continue
 

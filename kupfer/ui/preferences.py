@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import operator
 import os
 import typing as ty
 from contextlib import suppress
@@ -518,7 +519,8 @@ class PreferencesWindowController(pretty.OutputMixin):
 
         self.plugin_list_timer = scheduler.Timer()
         self.plugin_info = kupferstring.locale_sort(
-            plugins.get_plugin_info(), key=lambda rec: rec["localized_name"]
+            plugins.get_plugin_info(),
+            key=operator.itemgetter("localized_name"),
         )
 
         self._refresh_plugin_list()
@@ -580,7 +582,7 @@ class PreferencesWindowController(pretty.OutputMixin):
     def _show_gkeybindings(self, setctl: settings.SettingsController) -> None:
         names = accelerators.ACCELERATOR_NAMES
         self.gkeybind_store.clear()
-        for binding in sorted(names, key=lambda k: str(names[k])):
+        for binding in sorted(names, key=lambda k: names[k]):
             accel = setctl.get_accelerator(binding) or ""
             label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(accel))
             self.gkeybind_store.append((names[binding], label, binding))
@@ -1153,7 +1155,8 @@ class PreferencesWindowController(pretty.OutputMixin):
         term_id = setctl.get_preferred_tool(category_key)
         # fill in the available alternatives
         alternatives = kupferstring.locale_sort(
-            setctl.get_valid_alternative_ids(category_key), key=lambda t: t[1]
+            setctl.get_valid_alternative_ids(category_key),
+            key=operator.itemgetter(1),
         )
         term_iter = None
         for id_, name in alternatives:

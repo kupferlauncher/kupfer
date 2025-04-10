@@ -1,3 +1,4 @@
+import operator
 import typing as ty
 from collections import defaultdict
 
@@ -30,10 +31,7 @@ def _sort_album_order(songs: list[Song]) -> None:
     ['b', 'c', 'a']
     """
 
-    def get_album_order(rec):
-        return (rec["date"], rec["album"], rec["track-number"])
-
-    songs.sort(key=get_album_order)
+    songs.sort(key=operator.itemgetter("date", "album", "track-number"))
 
 
 def parse_rhythmbox_albums(songs: ty.Iterable[Song]) -> dict[str, list[Song]]:

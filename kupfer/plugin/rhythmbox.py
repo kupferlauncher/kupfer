@@ -21,6 +21,7 @@ __author__ = "US, Karol Będkowski"
 
 
 import itertools
+import operator
 import os
 import typing as ty
 from collections import defaultdict
@@ -508,7 +509,7 @@ def _locale_sort_artist_album_songs(artists):
         artist_songs = artists[artist]
         albums: dict[str, list[rhythmbox_support.Song]] = defaultdict(list)
         for album, songs in itertools.groupby(
-            artist_songs, lambda song: song["album"]
+            artist_songs, operator.itemgetter("album")
         ):
             albums[album].extend(songs)
 
