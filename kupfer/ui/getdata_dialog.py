@@ -26,9 +26,9 @@ class GetDataDialog:
         builder.connect_signals(self)  # pylint: disable=no-member
         self.window = builder.get_object("dialoggetdata")
         self._box_fields = builder.get_object("box_fields")
-        builder.get_object("label_title").set_text(title or "")
+        builder.get_object("label_title").set_text(title)
         if message:
-            builder.get_object("label_message").set_text(message or "")
+            builder.get_object("label_message").set_text(message)
         else:
             builder.get_object("label_message").hide()
 

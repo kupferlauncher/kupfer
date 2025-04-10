@@ -543,7 +543,7 @@ class SourceController(pretty.OutputMixin):
         if self._pre_root:
             return self._pre_root
 
-        sourceindex = set(self._sources)
+        sourceindex = self._sources.copy()
         kupfer_sources = SourcesSource(self._sources)
         sourceindex.add(kupfer_sources)
         # Make sure firstlevel is ordered

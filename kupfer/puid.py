@@ -156,7 +156,7 @@ def resolve_unique_id(
     if (obj := _find_obj_in_catalog(puid, sctl.firstlevel)) is not None:
         return obj
 
-    other_sources = set(sctl.get_sources()) - set(sctl.firstlevel)
+    other_sources = sctl.get_sources().copy() - set(sctl.firstlevel)
     return _find_obj_in_catalog(puid, other_sources)
 
 

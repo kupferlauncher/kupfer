@@ -10,6 +10,7 @@ import base64
 import shutil
 import subprocess
 import typing as ty
+from contextlib import suppress
 
 from gi.repository import Gio
 
@@ -123,12 +124,10 @@ class RecollQuerySource(Source):
                     base64.b64decode(v).decode() for v in line.split(b" ")
                 )
 
-                try:
+                with suppress(OSError):
                     gfile = Gio.File.new_for_uri(uri)
                     fpath = gfile.get_path()
                     yield RecollLeaf(fpath, title or filename, mtype)
-                except OSError:
-                    pass
 
     def has_parent(self) -> bool:
         return False

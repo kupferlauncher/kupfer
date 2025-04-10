@@ -575,7 +575,7 @@ class PreferencesWindowController(pretty.OutputMixin):
         )
         self._keybind_store.clear()
         for name, binding in sorted(names):
-            accel = setctl.get_global_keybinding(binding) or ""
+            accel = setctl.get_global_keybinding(binding)
             label = Gtk.accelerator_get_label(*Gtk.accelerator_parse(accel))
             self._keybind_store.append((name, label, binding))
 
