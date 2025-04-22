@@ -39,6 +39,8 @@ kupfer v328 (2025-04-xx)
   + Plugin can get some input from user by configurable dialog
   + Disable typequard protocols checking; add warn about using kupfer.py
   + Fix some errors reported by linters; format code
+  + Replace depricated pkgutil.find_loader that will gone in Python3.14.
+  + Use argparse for command line arguments.
 
 
 kupfer v327 (2024-04-28)
