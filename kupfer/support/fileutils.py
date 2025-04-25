@@ -166,7 +166,7 @@ def get_destfile(
             fileno = os.open(
                 destpath, os.O_CREAT | os.O_EXCL | os.O_WRONLY, 0o666
             )
-        except OSError as exc:  # noqa: PERF203
+        except OSError as exc:
             pretty.print_error(__name__, exc)
         else:
             return (os.fdopen(fileno, "wb"), str(destpath))

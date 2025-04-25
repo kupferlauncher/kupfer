@@ -175,7 +175,7 @@ def query_database(
                 yield from cur
                 return
 
-        except sqlite3.Error as err:  # noqa: PERF203
+        except sqlite3.Error as err:
             # Something is wrong with the database
             # wait short time and try again
             pretty.print_error(__name__, "Query Firefox db error:", str(err))

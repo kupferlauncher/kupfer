@@ -197,7 +197,7 @@ class CopyContent(Action):
                         encoding=kupferstring.get_encoding()
                     )
                 )
-            except Exception as err:  # noqa: PERF203
+            except Exception as err:
                 content.append(f"Read file {obj.object} error: {err}")
 
         clip.set_text("\n".join(content), -1)  # -1 for computed string length

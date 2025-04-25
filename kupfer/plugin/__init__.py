@@ -20,7 +20,7 @@ def _extend_path():
                     pretty.print_debug(__name__, "Adding", directory, zipnames)
                     __path__.extend(z.path for z in zipnames)
 
-        except OSError as error:  # noqa: PERF203
+        except OSError as error:
             pretty.print_error(__name__, error)
             continue
 

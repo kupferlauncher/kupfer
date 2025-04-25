@@ -358,7 +358,7 @@ def _load_abook_sqlite(filename: str) -> ty.Iterator[tuple[str, str]]:
                                 email,
                             )
             return
-        except sqlite3.Error as err:  # noqa: PERF203
+        except sqlite3.Error as err:
             # Something is wrong with the database
             # wait short time and try again
             pretty.print_debug(__name__, "_load_abook_sqlite error:", str(err))

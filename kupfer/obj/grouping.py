@@ -118,7 +118,7 @@ class GroupingSource(Source):
             for leaf in leaves or ():
                 try:
                     slots = leaf.slots()  # type: ignore
-                except AttributeError:  # noqa:PERF203
+                except AttributeError:
                     # Let through Non-grouping leaves
                     non_group_leaves.append(leaf)
                 else:

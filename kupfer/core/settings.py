@@ -311,7 +311,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
         for config_file in config_files:
             try:
                 parser.read(config_file, encoding=self.encoding)
-            except OSError as exc:  # noqa:PERF203
+            except OSError as exc:
                 self.output_error(
                     f"Error reading configuration file {config_file}: {exc}"
                 )
