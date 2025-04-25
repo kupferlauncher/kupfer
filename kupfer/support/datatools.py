@@ -49,6 +49,9 @@ class LruCache(ty.Generic[K, V]):
     def __len__(self) -> int:
         return len(self._data)
 
+    def __iter__(self) -> ty.Iterator[K]:
+        return self._data.__iter__()
+
     def __setitem__(self, key: K, value: V) -> None:
         self._inserts += 1
         # set add item on the end of dict
