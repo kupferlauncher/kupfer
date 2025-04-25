@@ -8,6 +8,7 @@ __author__ = "Fabian Carlström, Karol Będkowski"
 __kupfer_sources__ = ("SSHSource",)
 __kupfer_actions__ = ("SSHConnect", "ScpFile")
 
+import itertools
 import os
 import typing as ty
 from contextlib import suppress
@@ -164,7 +165,7 @@ def _parse_match_stmt(args: list[str]) -> tuple[str, str | None] | None:
     """
     user = None
     host = None
-    for key, val in zip(args, args[1:]):
+    for key, val in itertools.pairwise(args):
         if "*" in val or val[0] == "!":
             continue
 

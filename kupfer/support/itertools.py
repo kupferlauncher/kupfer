@@ -30,7 +30,7 @@ def two_part_mapper(
         return instr
 
     def _inner():
-        sit = zip(instr, instr[1:])
+        sit = itertools.pairwise(instr)
         for cur, nex in sit:
             key = cur + nex
             if (rep := repfunc(key)) is not None:
