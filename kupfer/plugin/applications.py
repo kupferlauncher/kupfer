@@ -88,13 +88,6 @@ WHITELIST_IDS: ty.Final = (
 BLACKLIST_IDS: ty.Final = ("nautilus-home.desktop",)
 
 
-def initialize_plugin(name: str) -> None:
-    def on_change_settings(*args: ty.Any) -> None:
-        AppLeaf.LOAD_EXTRA_ALIASES = __kupfer_settings__["load_extra_aliases"]
-
-    __kupfer_settings__.connect_settings_changed_cb(on_change_settings)
-
-
 def _should_show(
     app_info: Gio.AppInfo, desktop_type: str, use_filter: bool
 ) -> bool:
@@ -138,6 +131,7 @@ class AppSource(Source, FilesystemWatchMixin):
     def get_items(self):
         use_filter = __kupfer_settings__["desktop_filter"]
         desktop_type = __kupfer_settings__["desktop_type"]
+        load_extra_aliases = __kupfer_settings__["load_extra_aliases"]
 
         # Add this to the default
         for item in Gio.app_info_get_all():
@@ -152,7 +146,11 @@ class AppSource(Source, FilesystemWatchMixin):
                     for action in item.list_actions()
                 ]
 
-                yield AppLeaf(item, app_actions=app_actions)
+                yield AppLeaf(
+                    item,
+                    app_actions=app_actions,
+                    load_extra_aliases=load_extra_aliases,
+                )
 
     def should_sort_lexically(self):
         return True

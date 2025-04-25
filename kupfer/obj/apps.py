@@ -96,8 +96,6 @@ class ApplicationSource(
 
 
 class AppLeaf(Leaf):
-    LOAD_EXTRA_ALIASES: bool = False
-
     def __init__(
         self,
         item: ty.Any = None,
@@ -105,6 +103,8 @@ class AppLeaf(Leaf):
         app_id: str | None = None,
         require_x: bool = True,
         app_actions: list[tuple[str, str]] | None = None,
+        *,
+        load_extra_aliases: bool = False,
     ) -> None:
         """Try constructing an Application for GAppInfo @item,
         for file @path or for package name @app_id.
@@ -121,9 +121,9 @@ class AppLeaf(Leaf):
         self._finish(require_x, item)
         self.app_actions = app_actions
         super().__init__(self.object, self.object.get_name())
-        self._add_aliases()
+        self._add_aliases(load_extra_aliases)
 
-    def _add_aliases(self) -> None:
+    def _add_aliases(self, load_extra_aliases: bool) -> None:
         # find suitable alias
         # use package name: non-extension part of ID
         package_name = GLib.filename_display_basename(self.get_id())
@@ -135,7 +135,7 @@ class AppLeaf(Leaf):
             self.kupfer_add_alias(cmdl)
 
         # do not continue when application setting "load extra aliases" if off
-        if not AppLeaf.LOAD_EXTRA_ALIASES:
+        if not load_extra_aliases:
             return
 
         # add non-localized name
