@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import shutil
 import typing as ty
+from dataclasses import dataclass
 
 from gi.repository import GObject
 
@@ -196,8 +197,10 @@ def check_dbus_connection() -> None:
 
 
 # pylint: disable=too-few-public-methods
+@dataclass
 class UserNamePassword:
-    pass
+    username: str = ""
+    password: str = ""
 
 
 def check_keyring_support() -> None:

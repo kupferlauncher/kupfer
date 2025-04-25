@@ -119,6 +119,8 @@ def _create_plugin_credentials_cb(
             or plugin_support.UserNamePassword()
         )
 
+        assert isinstance(upass, plugin_support.UserNamePassword)
+
         # pylint: disable=no-member
         user_password = ask_user_credentials(
             upass.username,
@@ -127,7 +129,7 @@ def _create_plugin_credentials_cb(
         )
         if user_password:
             # pylint: disable=no-member
-            upass.username, upass.password = user_password  # type:ignore
+            upass.username, upass.password = user_password
             # TODO: fix
             setctl.set_plugin_config(
                 plugin_id,
