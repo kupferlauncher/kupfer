@@ -330,7 +330,7 @@ class AppsAll(Source):
         # Get all apps; this includes those only configured for
         # opening files with.
         for item in Gio.AppInfo.get_all():
-            if _should_show(item, desktop_type, use_filter):
+            if not _should_show(item, desktop_type, use_filter):
                 continue
 
             if not item.supports_uris() and not item.supports_files():
