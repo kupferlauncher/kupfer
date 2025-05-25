@@ -113,9 +113,9 @@ class Searcher:
 
             if score:
                 if fixedrank:
-                    rankables = search.add_rank_objects(rankables, fixedrank)
+                    rankables = search.add_rank_to_objects(rankables, fixedrank)
                 elif keyl:
-                    rankables = search.bonus_objects(
+                    rankables = search.add_bonus_to_objects(
                         search.score_objects(rankables, keyl),
                         keyl,
                         src.rank_adjust,
@@ -160,7 +160,7 @@ class Searcher:
         if key:
             key = key.lower()
             rankables = search.score_objects(rankables, key)
-            matches = search.bonus_actions(rankables, key)
+            matches = search.add_bouns_to_actions(rankables, key)
         else:
             matches = search.score_actions(rankables, leaf)
 

@@ -8,9 +8,9 @@ from kupfer.obj.base import Action, Leaf
 
 __all__ = (
     "Rankable",
-    "add_rank_objects",
-    "bonus_actions",
-    "bonus_objects",
+    "add_bonus_to_objects",
+    "add_bouns_to_actions",
+    "add_rank_to_objects",
     "find_best_sort",
     "make_rankables",
     "score_actions",
@@ -53,7 +53,7 @@ class Rankable:
         return f"<Rankable {self} repres {self.object!r} at {id(self):x}>"
 
 
-def bonus_objects(
+def add_bonus_to_objects(
     rankables: ty.Iterable[Rankable], key: str, extra_bonus: int = 0
 ) -> ty.Iterator[Rankable]:
     """
@@ -66,7 +66,7 @@ def bonus_objects(
         yield obj
 
 
-def bonus_actions(
+def add_bouns_to_actions(
     rankables: ty.Iterable[Rankable], key: str
 ) -> ty.Iterator[Rankable]:
     """
@@ -81,7 +81,7 @@ def bonus_actions(
         yield obj
 
 
-def add_rank_objects(
+def add_rank_to_objects(
     rankables: ty.Iterable[Rankable], rank: int
 ) -> ty.Iterator[Rankable]:
     """
