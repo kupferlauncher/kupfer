@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 import operator
 import typing as ty
 
@@ -155,18 +156,17 @@ _rank_key = operator.attrgetter("rank")
 
 
 def find_best_sort(
-    rankables: list[Rankable],
+    rankables: ty.Iterable[Rankable],
 ) -> ty.Iterable[Rankable]:
     """Yield rankables in best rank first order.
     A special kind of lazy sort: simply find the best ranked item and yield
     it first, then if needed continue by sorting the rest.
 
     Note: this will duplicate the best item."""
-    maxval = max(rankables, default=None, key=_rank_key)
+    r1, r2 = itertools.tee(rankables, 2)
+    maxval = max(r1, default=None, key=_rank_key)
     if maxval is None:
         return
 
     yield maxval
-
-    rankables.sort(key=_rank_key, reverse=True)
-    yield from rankables
+    yield from sorted(r2, key=_rank_key, reverse=True)

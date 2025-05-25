@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import itertools
 import operator
 import typing as ty
 
@@ -89,7 +90,7 @@ class Searcher:
         item_check = item_check or _identity
         decorator = decorator or _identity
         start_time = pretty.timing_start()
-        match_lists: list[Rankable] = []
+        match_lists: list[ty.Iterable[Rankable]] = []
         for src in sources_:
             fixedrank = 0
             can_cache = True
@@ -105,6 +106,7 @@ class Searcher:
                 else:
                     # Source
                     items = src.get_leaves()
+                    can_cache = isinstance(items, (tuple, list))
 
                 rankables = search.make_rankables(item_check(items))
 
@@ -113,7 +115,9 @@ class Searcher:
 
             if score:
                 if fixedrank:
-                    rankables = search.add_rank_to_objects(rankables, fixedrank)
+                    rankables = search.add_rank_to_objects(
+                        rankables, fixedrank
+                    )
                 elif keyl:
                     rankables = search.add_bonus_to_objects(
                         search.score_objects(rankables, keyl),
@@ -122,19 +126,22 @@ class Searcher:
                     )
 
                 if can_cache:
-                    rankables = tuple(rankables)
-                    self._source_cache[src_hash] = rankables
+                    self._source_cache[src_hash] = rankables = tuple(rankables)
 
-            match_lists.extend(rankables)
+            match_lists.append(rankables)
 
-        matches = search.find_best_sort(match_lists) if score else match_lists
+        matches = itertools.chain.from_iterable(match_lists)
+        if score:
+            matches = search.find_best_sort(matches)  # type:ignore
 
         # Check if the items are valid as the search
         # results are accessed through the iterators
         unique_matches = _as_set_iter(matches)
-        match, match_iter = peekfirst(decorator(_valid_check(unique_matches)))
+        first_match, match_iter = peekfirst(
+            decorator(_valid_check(unique_matches))
+        )
         pretty.timing_step(__name__, start_time, "ranked")
-        return match, match_iter
+        return first_match, match_iter
 
     def rank_actions(
         self,
