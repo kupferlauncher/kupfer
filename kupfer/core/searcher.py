@@ -46,15 +46,10 @@ class Searcher:
     is a prefix of the search key.
     """
 
-    __slots__ = ("_old_key", "_source_cache")
 
-    def __init__(self):
-        self._source_cache = {}
-        self._old_key: str | None = None
 
     def reset(self):
-        self._source_cache.clear()
-        self._old_key = None
+        pass
 
     # pylint: disable=too-many-locals,too-many-branches
     def search(
@@ -80,11 +75,6 @@ class Searcher:
         # use lowercase for search, but for text sources keep original case.
         keyl = key.lower()
 
-        if not self._old_key or not keyl.startswith(self._old_key):
-            self._source_cache.clear()
-
-        self._old_key = keyl
-
         # General strategy: Extract a `list` from each source,
         # and perform ranking as in place operations on lists
         item_check = item_check or _identity
@@ -93,22 +83,16 @@ class Searcher:
         match_lists: list[ty.Iterable[Rankable]] = []
         for src in sources_:
             fixedrank = 0
-            can_cache = True
-            src_hash = hash(src)
             # Look in source cache for stored rankables
-            rankables = self._source_cache.get(src_hash)
-            if not rankables:
-                if hasattr(src, "get_text_items"):
-                    # TextSources
-                    items = src.get_text_items(key)
-                    fixedrank = src.get_rank()  # type: ignore
-                    can_cache = False
-                else:
-                    # Source
-                    items = src.get_leaves()
-                    can_cache = isinstance(items, (tuple, list))
+            if hasattr(src, "get_text_items"):
+                # TextSources
+                items = src.get_text_items(key)
+                fixedrank = src.get_rank()  # type: ignore
+            else:
+                # Source
+                items = src.get_leaves()
 
-                rankables = search.make_rankables(item_check(items))
+            rankables = search.make_rankables(item_check(items))
 
             if not rankables:
                 continue
@@ -124,9 +108,6 @@ class Searcher:
                         keyl,
                         src.rank_adjust,
                     )
-
-                if can_cache:
-                    self._source_cache[src_hash] = rankables = tuple(rankables)
 
             match_lists.append(rankables)
 
