@@ -32,7 +32,7 @@ from kupfer.core import settings
 ## NOTE: SpawnError  *should* be imported from this module TODO: check
 # pylint: disable=unused-import
 from kupfer.desktop_launch import SpawnError
-from kupfer.support import fileutils, pretty, scheduler, system
+from kupfer.support import fileutils, scheduler, system
 from kupfer.ui import uievents
 
 __all__ = (
@@ -197,11 +197,9 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         reg = self._unpickle_register(self._get_filename())
         self.register = reg or _DEFAULT_ASSOCIATIONS
         # pretty-print register to debug
-        if self.register:
+        if reg and pretty.DEBUG:
             self.output_debug("Learned the following applications")
-            items = "\n".join(
-                f"  {k:<30} : {v}" for k, v in self.register.items()
-            )
+            items = "\n".join( f"  {k:<30} : {v}" for k, v in reg.items())
             self.output_debug(f"\n{{\n{items}\n}}")
 
     def _on_finish(self, _sched: ty.Any) -> None:
@@ -209,9 +207,9 @@ class ApplicationsMatcherService(pretty.OutputMixin):
 
     def _unpickle_register(self, pickle_file: str) -> dict[str, str] | None:
         try:
+            self.output_debug(f"Reading from {pickle_file}")
             source = pickle.loads(Path(pickle_file).read_bytes())
             assert isinstance(source, dict), "Stored object not a dict"
-            self.output_debug(f"Reading from {pickle_file}")
             return source
         except OSError:
             pass
@@ -228,7 +226,6 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         return True
 
     def _store(self, app_id: str, window: "Wnck.Window") -> None:
-        # FIXME: Store the 'res_class' name?
         application = window.get_application()
         res_class = window.get_class_group().get_res_class()
         store_name = application.get_name()
@@ -243,9 +240,6 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         )
 
     def _has_match(self, app_id: str | None) -> bool:
-        if not app_id:
-            return False
-
         return app_id in self.register
 
     def _is_match(self, app_id: str, window: "Wnck.Window") -> bool:
@@ -270,6 +264,10 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         return app_id in (application.get_name().lower(), res_class.lower())
 
     def launched_application(self, app_id: str, pid: int) -> None:
+        if not app_id:
+            self.output_debug("launched_application no app_id")
+            return
+
         if self._has_match(app_id):
             return
 
@@ -289,29 +287,23 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         # self.output_debug("Looking for window for application", app_id)
         for win in self._get_wnck_screen_windows_stacked():
             app = win.get_application()
-            app_pid = app.get_pid() or win.get_pid()
-            if app_pid == pid:
+            if app and pid == (app.get_pid() or win.get_pid()):
                 self._store(app_id, win)
                 return False
 
         return time() <= timeout
 
     def application_name(self, app_id: str | None) -> str | None:
-        if not app_id:
-            return None
-
-        return self.register.get(app_id)
+        return self.register.get(app_id) if app_id else None
 
     def application_is_running(self, app_id: str) -> bool:
-        for win in self._get_wnck_screen_windows_stacked():
-            if (
-                win
-                and win.get_application()
-                and self._is_match(app_id, win)
-                and win.get_window_type() == Wnck.WindowType.NORMAL
-            ):
-                self.output_debug("application is running", app_id)
-                return True
+        if not app_id:
+            self.output_debug("application_is_running empty app_id")
+            return False
+
+        for _win in self._get_application_windows(app_id):
+            self.output_debug("application is running", app_id)
+            return True
 
         self.output_debug("application is NOT running", app_id)
         return False
@@ -319,9 +311,6 @@ class ApplicationsMatcherService(pretty.OutputMixin):
     def _get_application_windows(
         self, app_id: str
     ) -> ty.Iterator["Wnck.Window"]:
-        if not Wnck:
-            return
-
         for win in self._get_wnck_screen_windows_stacked():
             if (
                 win
@@ -367,30 +356,12 @@ class ApplicationsMatcherService(pretty.OutputMixin):
             return
 
         # get all visible windows in stacking order on current workspace
-        vis_windows = [
-            win
-            for win in self._get_wnck_screen_windows_stacked()
-            if (
-                win
-                and win.get_window_type() == Wnck.WindowType.NORMAL
-                and win.is_visible_on_workspace(cur_workspace)
-            )
-        ]
-
+        vis_windows = self._visible_windows_workspace(cur_workspace)
         self.output_debug(
             "_to_front_application_style vis_windows", vis_windows
         )
 
-        # sort windows into "bins" by workspace
-        workspaces: dict[Wnck.Workspace, list[Wnck.Window]] = defaultdict(list)
-        for win in application_windows:
-            if (
-                win
-                and win.get_window_type() == Wnck.WindowType.NORMAL
-                and (wspc := win.get_workspace())
-            ):
-                workspaces[wspc].append(win)
-
+        workspaces = self._app_windows_on_workspaces(application_windows)
         cur_wspc_windows = workspaces[cur_workspace]
         focus_windows = []
 
@@ -422,6 +393,34 @@ class ApplicationsMatcherService(pretty.OutputMixin):
                 focus_windows = cur_wspc_windows[:1]
 
         self._focus_windows(focus_windows, evttime)
+
+    def _visible_windows_workspace(
+        self, workspace: "Wnck.Workspace"
+    ) -> list["Wnck.Window"]:
+        return [
+            win
+            for win in self._get_wnck_screen_windows_stacked()
+            if (
+                win
+                and win.get_window_type() == Wnck.WindowType.NORMAL
+                and win.is_visible_on_workspace(workspace)
+            )
+        ]
+
+    def _app_windows_on_workspaces(
+        self, application_windows: list["Wnck.Window"]
+    ) -> dict["Wnck.Workspace", list["Wnck.Window"]]:
+        # sort windows into "bins" by workspace
+        workspaces: dict[Wnck.Workspace, list[Wnck.Window]] = defaultdict(list)
+        for win in application_windows:
+            if (
+                win
+                and win.get_window_type() == Wnck.WindowType.NORMAL
+                and (wspc := win.get_workspace())
+            ):
+                workspaces[wspc].append(win)
+
+        return workspaces
 
     def _to_front_single(
         self, application_windows: list["Wnck.Window"], evttime: int
