@@ -240,9 +240,21 @@ class ApplicationsMatcherService(pretty.OutputMixin):
 
     def _is_match(self, app_id: str, window: "Wnck.Window") -> bool:
         application = window.get_application()
-        res_class = window.get_class_group().get_res_class()
-        reg_name = self.register.get(app_id)
-        if reg_name and reg_name in (application.get_name(), res_class):
+        if not application:
+            self.output_debug("no application for window", window)
+            return False
+
+        cgr = window.get_class_group()
+        if not cgr:
+            self.output_debug("no regclass for window", window)
+            return False
+
+        res_class = cgr.get_res_class()
+        if not res_class:
+            self.output_debug("no res_class for window", window)
+            return False
+
+        if self.register.get(app_id) in (application.get_name(), res_class):
             return True
 
         return app_id in (application.get_name().lower(), res_class.lower())
@@ -283,12 +295,15 @@ class ApplicationsMatcherService(pretty.OutputMixin):
     def application_is_running(self, app_id: str) -> bool:
         for win in self._get_wnck_screen_windows_stacked():
             if (
-                win.get_application()
+                win
+                and win.get_application()
                 and self._is_match(app_id, win)
                 and win.get_window_type() == Wnck.WindowType.NORMAL
             ):
+                self.output_debug("application is running", app_id)
                 return True
 
+        self.output_debug("application is NOT running", app_id)
         return False
 
     def _get_application_windows(
@@ -299,7 +314,8 @@ class ApplicationsMatcherService(pretty.OutputMixin):
 
         for win in self._get_wnck_screen_windows_stacked():
             if (
-                win.get_application()
+                win
+                and win.get_application()
                 and self._is_match(app_id, win)
                 and win.get_window_type() == Wnck.WindowType.NORMAL
             ):
@@ -307,6 +323,9 @@ class ApplicationsMatcherService(pretty.OutputMixin):
 
     def application_to_front(self, app_id: str) -> None:
         application_windows = list(self._get_application_windows(app_id))
+        self.output_debug(
+            "application_to_front", "windows", application_windows
+        )
         if not application_windows:
             return
 
@@ -323,48 +342,73 @@ class ApplicationsMatcherService(pretty.OutputMixin):
     def _to_front_application_style(
         self, application_windows: list["Wnck.Window"], evttime: int
     ) -> None:
-        workspaces: dict[Wnck.Workspace, list[Wnck.Window]] = defaultdict(list)
         cur_screen = application_windows[0].get_screen()
-        cur_workspace = cur_screen.get_active_workspace()
+        if not cur_screen:
+            self.output_debug(
+                "_to_front_application_style no cur_screen for application"
+            )
+            return
 
-        ## get all visible windows in stacking order
+        cur_workspace = cur_screen.get_active_workspace()
+        if not cur_workspace:
+            self.output_debug(
+                "_to_front_application_style no cur_workspace for application"
+            )
+            return
+
+        # get all visible windows in stacking order on current workspace
         vis_windows = [
             win
             for win in self._get_wnck_screen_windows_stacked()
             if (
-                win.get_window_type() == Wnck.WindowType.NORMAL
+                win
+                and win.get_window_type() == Wnck.WindowType.NORMAL
                 and win.is_visible_on_workspace(cur_workspace)
             )
         ]
 
-        ## sort windows into "bins" by workspace
+        self.output_debug(
+            "_to_front_application_style vis_windows", vis_windows
+        )
+
+        # sort windows into "bins" by workspace
+        workspaces: dict[Wnck.Workspace, list[Wnck.Window]] = defaultdict(list)
         for win in application_windows:
-            if win.get_window_type() == Wnck.WindowType.NORMAL:
-                wspc = win.get_workspace() or cur_workspace
+            if (
+                win
+                and win.get_window_type() == Wnck.WindowType.NORMAL
+                and (wspc := win.get_workspace())
+            ):
                 workspaces[wspc].append(win)
 
         cur_wspc_windows = workspaces[cur_workspace]
-        # make a rotated workspace list, with current workspace first
-        all_workspaces = cur_screen.get_workspaces()
-        all_workspaces.pop(cur_workspace.get_number())
-        # check if the application's window on current workspace
-        # are the topmost
         focus_windows = []
-        if cur_wspc_windows and set(
-            vis_windows[-len(cur_wspc_windows) :]
-        ) != set(cur_wspc_windows):
+
+        # check if the application's window on current workspace are the topmost
+        if (
+            cur_wspc_windows
+            and vis_windows
+            and set(vis_windows[-len(cur_wspc_windows) :])
+            != set(cur_wspc_windows)
+        ):
             focus_windows = cur_wspc_windows
-            ## if the topmost window is already active, take another
+            # if the topmost window is already active, take another
             if focus_windows[-1] == vis_windows[-1]:
                 focus_windows.pop()
+
         else:
             # all windows are focused, find on next workspace
-            for wspc in all_workspaces[1:]:
-                if focus_windows := workspaces[wspc]:
+            all_workspaces = cur_screen.get_workspaces()
+            all_workspaces.pop(cur_workspace.get_number())
+
+            for wspc in all_workspaces:
+                focus_windows = workspaces[wspc]
+                if focus_windows:
                     break
+
             else:
-                # no windows on other workspaces, so we rotate among
-                # the local ones
+                # no windows on other workspaces, so we rotate among the
+                # local ones
                 focus_windows = cur_wspc_windows[:1]
 
         self._focus_windows(focus_windows, evttime)
@@ -380,6 +424,7 @@ class ApplicationsMatcherService(pretty.OutputMixin):
     def _focus_windows(
         self, windows: list["Wnck.Window"], evttime: int
     ) -> None:
+        self.output_debug("_focus_windows", "windows", windows)
         for window in windows:
             # we special-case the desktop
             # only show desktop if it's the only window
@@ -391,9 +436,13 @@ class ApplicationsMatcherService(pretty.OutputMixin):
                     continue
 
             if wspc := window.get_workspace():
+                self.output_debug("_focus_windows", "activate", window, wspc)
                 wspc.activate(evttime)
 
+            self.output_debug("_focus_windows", "activate_transient", window)
             window.activate_transient(evttime)
+
+        self.output_debug("_focus_windows", "all focused")
 
     def application_close_all(self, app_id: str) -> None:
         application_windows = self._get_application_windows(app_id)
