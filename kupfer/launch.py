@@ -13,6 +13,8 @@ from time import time
 
 from gi.repository import Gdk, Gio, GLib, Gtk
 
+from kupfer.support import pretty
+
 try:
     from gi.repository import Wnck
 
@@ -21,8 +23,6 @@ try:
         Wnck.Screen.get_default = lambda *_x: None
 
 except ImportError as e:
-    from kupfer.support import pretty
-
     pretty.print_info(__name__, "Disabling window tracking:", e)
     Wnck = None
 
@@ -68,6 +68,16 @@ def application_id(
 ) -> str:
     """Return an application id (string) for GAppInfo @app_info"""
     app_id = app_info.get_id() or desktop_file or ""
+    if not app_id:
+        pretty.print_debug(
+            __name__,
+            "failed to get app_id",
+            "app_info",
+            app_info,
+            "desktop_file",
+            desktop_file,
+        )
+
     return app_id.removesuffix(".desktop")
 
 
@@ -104,7 +114,7 @@ def launch_application(
     svc = get_applications_matcher_service()
     app_id = application_id(app_info, desktop_file)
 
-    if activate and svc.application_is_running(app_id):
+    if activate and app_id and svc.application_is_running(app_id):
         svc.application_to_front(app_id)
         return True
 
