@@ -10,7 +10,7 @@ from kupfer.obj.base import Action, Leaf
 __all__ = (
     "Rankable",
     "add_bonus_to_objects",
-    "add_bouns_to_actions",
+    "add_bonus_to_action",
     "add_rank_to_objects",
     "find_best_sort",
     "make_rankables",
@@ -67,7 +67,7 @@ def add_bonus_to_objects(
         yield obj
 
 
-def add_bouns_to_actions(
+def add_bonus_to_action(
     rankables: ty.Iterable[Rankable], key: str
 ) -> ty.Iterator[Rankable]:
     """

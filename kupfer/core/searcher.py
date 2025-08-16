@@ -148,7 +148,7 @@ class Searcher:
         if key:
             key = key.lower()
             rankables = search.score_objects(rankables, key)
-            matches = search.add_bouns_to_actions(rankables, key)
+            matches = search.add_bonus_to_action(rankables, key)
         else:
             matches = search.score_actions(rankables, leaf)
 
