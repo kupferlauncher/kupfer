@@ -88,7 +88,7 @@ class LocateQuerySource(Source):
                 self.query,
             ]
             with subprocess.Popen(command, stdout=subprocess.PIPE) as proc:
-                out, ignored_err = proc.communicate()
+                out, _ignored_err = proc.communicate()
                 for f in out.split(b"\x00")[offset:-1]:
                     yield construct_file_leaf(kupferstring.fromlocale(f))
 

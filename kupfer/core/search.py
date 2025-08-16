@@ -9,8 +9,8 @@ from kupfer.obj.base import Action, Leaf
 
 __all__ = (
     "Rankable",
-    "add_bonus_to_objects",
     "add_bonus_to_action",
+    "add_bonus_to_objects",
     "add_rank_to_objects",
     "find_best_sort",
     "make_rankables",

@@ -119,8 +119,9 @@ def _get_machine_info(vm_uuid, config_file):
         description = None
         for machine_registry_child in machine_registry.childNodes:
             if machine_registry_child.nodeName == "Description":
-                if machine_registry_child.hasChildNodes():
-                    description = machine_registry_child.firstChild.nodeValue
+                if machine_registry_child.hasChildNodes() and (
+                    fc := machine_registry_child.firstChild):
+                        description = fc.nodeValue
 
                 break
 

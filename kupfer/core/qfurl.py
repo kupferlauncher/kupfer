@@ -57,6 +57,8 @@ class Qfurl:
     <__main__.Object object at 0x...>
     """
 
+    url: str
+
     def __init__(self, obj=None, url=None):
         """Create a new Qfurl for object @obj"""
         if obj:
@@ -68,6 +70,7 @@ class Qfurl:
 
             self.url = _urlunparse((QFURL_SCHEME, "", qfid, "", "", typname))
         else:
+            assert url
             self.url = url
 
     def __str__(self) -> str:

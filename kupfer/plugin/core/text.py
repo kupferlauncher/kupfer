@@ -105,8 +105,8 @@ class OpenTextUrl(OpenUrl):
                 return url
 
         with suppress(AttributeError, NotImplementedError):
-            for url in leaf.get_urilist_representation() or []:  # type: ignore
-                if url and (url := is_url(url)):
+            for urepr in leaf.get_urilist_representation() or []:  # type: ignore
+                if urepr and (url := is_url(urepr)):
                     return url
 
         return None
