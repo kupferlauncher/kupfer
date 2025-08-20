@@ -420,7 +420,7 @@ def spawn_app(
     """
     notify_id = None
     if startup_notify:
-        display = Gdk.Display.get_default()
+        display = screen.get_display() if screen else Gdk.Display.get_default()
         ctx = display.get_app_launch_context()
         ctx.set_timestamp(timestamp or Gtk.get_current_event_time())
         if screen:
