@@ -284,13 +284,15 @@ class ApplicationsMatcherService(pretty.OutputMixin):
         if self._has_match(app_id):
             return False
 
-        # self.output_debug("Looking for window for application", app_id)
+        self.output_debug("Looking for window for application", app_id)
         for win in self._get_wnck_screen_windows_stacked():
             app = win.get_application()
             if app and pid == (app.get_pid() or win.get_pid()):
+                self.output_debug("Found window for application", app_id, win)
                 self._store(app_id, win)
                 return False
 
+        self.output_debug("Not found window for application", app_id)
         return time() <= timeout
 
     def application_name(self, app_id: str | None) -> str | None:
@@ -377,6 +379,10 @@ class ApplicationsMatcherService(pretty.OutputMixin):
             if focus_windows[-1] == vis_windows[-1]:
                 focus_windows.pop()
 
+            self.output_debug(
+                "_to_front_application_style current workspace", focus_windows
+            )
+
         else:
             # all windows are focused, find on next workspace
             all_workspaces = cur_screen.get_workspaces()
@@ -391,6 +397,10 @@ class ApplicationsMatcherService(pretty.OutputMixin):
                 # no windows on other workspaces, so we rotate among the
                 # local ones
                 focus_windows = cur_wspc_windows[:1]
+
+            self.output_debug(
+                "_to_front_application_style other workspace", focus_windows
+            )
 
         self._focus_windows(focus_windows, evttime)
 
