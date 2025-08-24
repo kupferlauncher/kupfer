@@ -604,7 +604,7 @@ class WindowController(pretty.OutputMixin):
             self.put_away()
         else:
             self._on_present(sender, display, timestamp)
-            # refresh current match (if has qf_id)
+            # refresh current match
             self._interface.re_search_kpfer()
 
     def _on_statusicon_activate(self, sender: Gtk.StatusIcon) -> None:

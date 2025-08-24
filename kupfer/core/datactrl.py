@@ -465,8 +465,16 @@ class DataController(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """Select @item in @pane to self-update relevant places"""
         # If already selected, do nothing
         panectl = self._get_panectl(pane)
-        if item == panectl.get_selection():
-            return
+        if item != panectl.get_selection():
+            self._select(pane, item)
+
+    def reselect(self, pane: PaneSel) -> None:
+        panectl = self._get_panectl(pane)
+        if item := panectl.get_selection():
+            self._select(pane, item)
+
+    def _select(self, pane: PaneSel, item: Leaf | Action | None) -> None:
+        panectl = self._get_panectl(pane)
 
         self.cancel_search()
         if pane == PaneSel.SOURCE:
