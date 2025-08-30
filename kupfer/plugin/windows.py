@@ -9,12 +9,16 @@ import typing as ty
 # pylint: disable=no-name-in-module
 from gi.repository import Wnck
 
+from kupfer import environment
 from kupfer.obj import Action, Leaf, Source
-from kupfer.support import system, weaklib
+from kupfer.support import pretty, system, weaklib
 
 if ty.TYPE_CHECKING:
     from gettext import gettext as _
     from gettext import ngettext
+
+if environment.is_wayland():
+    raise ImportError(_("Plugin is not supported on Wayland"))
 
 
 def _get_window(xid):
@@ -441,8 +445,13 @@ class WorkspacesSource(Source):
         super().__init__(_("Workspaces"))
 
     def initialize(self):
+        if environment.is_wayland():
+            return
+
         if (screen := Wnck.Screen.get_default()) is not None:
-            screen.get_workspaces()
+            w = screen.get_workspaces()
+            pretty.print_debug(__name__, "workspaces", w)
+
             weaklib.gobject_connect_weakly(
                 screen, "workspace-created", self._changed
             )
