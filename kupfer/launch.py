@@ -19,8 +19,7 @@ try:
     from gi.repository import Wnck
 
     Wnck.set_client_type(Wnck.ClientType.PAGER)
-    if "WAYLAND_DISPLAY" in os.environ:
-        Wnck.Screen.get_default = lambda *_x: None
+    _WAYLAND = "WAYLAND_DISPLAY" in os.environ
 
 except ImportError as e:
     pretty.print_info(__name__, "Disabling window tracking:", e)
@@ -179,7 +178,10 @@ class ApplicationsMatcherService(pretty.OutputMixin):
 
     @classmethod
     def _get_wnck_screen_windows_stacked(cls) -> ty.Iterable["Wnck.Window"]:
-        if Wnck and (screen := Wnck.Screen.get_default()):
+        if _WAYLAND:
+            return ()
+
+        if Wnck and (screen := Wnck.Screen.get_default()) is not None:
             return screen.get_windows_stacked()  # type: ignore
 
         return ()
@@ -449,7 +451,10 @@ class ApplicationsMatcherService(pretty.OutputMixin):
             # only show desktop if it's the only window
             if window.get_name() == "x-nautilus-desktop":
                 if len(windows) == 1:
-                    if screen := Wnck.Screen.get_default():
+                    if (
+                        not _WAYLAND
+                        and (screen := Wnck.Screen.get_default()) is not None
+                    ):
                         screen.toggle_showing_desktop(True)
                 else:
                     continue
