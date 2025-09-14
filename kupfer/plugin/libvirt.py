@@ -14,7 +14,6 @@ __description__ = _("Control libvirt guest domains.")
 __version__ = "0.1"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
-import threading
 import typing as ty
 
 import libvirt
@@ -137,21 +136,18 @@ class _ConnManager(pretty.OutputMixin):
 
     def __init__(self):
         self.conn: libvirt.virConnect | None = None
-        self._start_event_loop()
-        __kupfer_settings__.connect(
-            "plugin-setting-changed", self._on_setting_changed
-        )
-
-    def _event_loop(self) -> None:
-        while True:
-            libvirt.virEventRunDefaultImpl()
-
-    def _start_event_loop(self) -> None:
         libvirt.virEventRegisterDefaultImpl()
-        thr = threading.Thread(
-            target=self._event_loop, name="libvirtEventLoop", daemon=True
-        )
-        thr.start()
+
+    def close(self):
+        if self.conn:
+            self.conn.close()
+            self.conn = None
+
+    def get_conn(self) -> libvirt.virConnect | None:
+        if self.conn is None:
+            self._open()
+
+        return self.conn
 
     def _open(self) -> None:
         connstr = __kupfer_settings__["connection"] or None
@@ -160,21 +156,6 @@ class _ConnManager(pretty.OutputMixin):
         if self.conn:
             self.conn.setKeepAlive(5, 3)
 
-    def close(self):
-        if self.conn:
-            self.conn.close()
-            self.conn = None
-
-    def _on_setting_changed(self, settings, key, value):
-        if self.conn:
-            self.conn.close()
-            self._open()
-
-    def get_conn(self) -> libvirt.virConnect | None:
-        if self.conn is None:
-            self._open()
-
-        return self.conn
 
 
 class LibvirtDomainsSource(AppLeafContentMixin, Source):
@@ -188,9 +169,12 @@ class LibvirtDomainsSource(AppLeafContentMixin, Source):
     def initialize(self):
         # prevent logging errors from libvirt
         libvirt.registerErrorHandler(lambda _userdata, _err: None, ctx=None)
+        __kupfer_settings__.connect(
+            "plugin-setting-changed", self._on_setting_changed
+        )
         self.cmgr = _ConnManager.instance()
-        if conn := self.cmgr.get_conn():
-            conn.domainEventRegister(self._callback, None)
+        self._on_setting_changed("", "", "")
+
 
     def finalize(self):
         if self.cmgr:
@@ -227,6 +211,15 @@ class LibvirtDomainsSource(AppLeafContentMixin, Source):
 
     def should_sort_lexically(self):
         return True
+
+    def _on_setting_changed(self, settings, key, value):
+        assert self.cmgr
+
+        self.cmgr.close()
+        if conn := self.cmgr.get_conn():
+            conn.domainEventRegister(self._callback, None)
+
+        self.mark_for_update()
 
 
 class OpenConsoleAction(Action):
