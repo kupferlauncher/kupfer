@@ -40,6 +40,7 @@ class ConservativeUnpickler(pickle.Unpickler):
     safe_modules: ty.ClassVar[dict[str, ty.Any]] = {
         "builtins": {"set", "sum", "object"},
         "copy_reg": {"_reconstructor"},
+        "collections": {"defaultdict"},
         "kupfer.*": UniversalSet(),
     }
 
