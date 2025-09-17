@@ -110,6 +110,9 @@ class DebugInfo(Action):
             print_func("Content-Alt ========")
             print_fields(get_source_fields(leafinfo["content-alt"]))
 
+        print_func("Mnemonics ===========")
+        print_func(learn._REGISTER.mnemonics.get(repr(leaf)))  # noqa: SLF001
+
         uiutils.show_text_result(output.getvalue())
 
     def get_description(self):

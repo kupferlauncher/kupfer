@@ -137,24 +137,21 @@ def icon_stats():
 
 
 def learn_stats():
-    from kupfer.core.learn import _ACTIVATIONS_KEY, _CORRELATION_KEY, _REGISTER
+    from kupfer.core.learn import _REGISTER
 
     print("Learn _REGISTER:")
-    for k, v in _REGISTER.items():
-        if k not in (_CORRELATION_KEY, _ACTIVATIONS_KEY):
-            print(f"  {k}: {v}")
+    for k, v in _REGISTER.mnemonics.items():
+        print(f"  {k}: {v}")
 
-    if _CORRELATION_KEY in _REGISTER:
-        print("------")
-        print("Correlations:")
-        for k, v in _REGISTER[_CORRELATION_KEY].items():  # type: ignore
-            print(f"  {k}: {v}")
+    print("------")
+    print("Correlations:")
+    for k, c in _REGISTER.correlations.items():
+        print(f"  {k}: {c}")
 
-    if _ACTIVATIONS_KEY in _REGISTER:
-        print("------")
-        print("Activations:")
-        for k, v in _REGISTER[_ACTIVATIONS_KEY].items():  # type: ignore
-            print(f"  {k}: {v}")
+    print("------")
+    print("Activations:")
+    for k, a in _REGISTER.activations.items():
+        print(f"  {k}: {a}")
 
     print("---------------------\n")
 
