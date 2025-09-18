@@ -771,11 +771,18 @@ def show_help_url(url: str) -> bool:
     if not default:
         return False
 
-    help_viewer_id = "yelp.desktop"
+    help_viewer_id = None
 
-    try:
-        yelp = Gio.DesktopAppInfo.new(help_viewer_id)
-    except (TypeError, RuntimeError):
+    for hv in ("yelp.desktop", "org.gnome.Yelp.desktop"):
+        try:
+            yelp = Gio.DesktopAppInfo.new(hv)
+        except (TypeError, RuntimeError):
+            pass
+        else:
+            help_viewer_id = hv
+            break
+
+    if not help_viewer_id:
         return show_url(url)
 
     cmd_path = fileutils.lookup_exec_path(default.get_executable())
