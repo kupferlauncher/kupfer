@@ -771,7 +771,7 @@ def show_help_url(url: str) -> bool:
     if not default:
         return False
 
-    help_viewer_id = "yelp.desktop"
+    help_viewer_id = "org.gnome.Yelp.desktop"
 
     try:
         yelp = Gio.DesktopAppInfo.new(help_viewer_id)
