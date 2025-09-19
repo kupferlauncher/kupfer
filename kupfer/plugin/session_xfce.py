@@ -3,11 +3,14 @@ from __future__ import annotations
 __kupfer_name__ = _("XFCE Session Management")
 __kupfer_sources__ = ("XfceItemsSource", "XfceWhskerFavoritesSource")
 __description__ = _("Special items and actions for XFCE environment")
-__version__ = "2023-05-17"
+__version__ = "2025-09-19"
 __author__ = "Karol Będkowski <karol.bedkowski@gmail.com>"
 
 import typing as ty
+import xml.parsers
+from itertools import chain
 from pathlib import Path
+from xml.dom import minidom
 
 from kupfer import plugin_support, puid
 from kupfer.core import learn
@@ -82,9 +85,36 @@ def _get_whisker_conf_favs() -> list[str]:
     return []
 
 
+def _load_whisher_favs_new() -> ty.Iterable[str]:
+    panel_conf = Path(
+        "~/.config/xfce4/xfconf/xfce-perchannel-xml/xfce4-panel.xml"
+    ).expanduser()
+
+    try:
+        dtree = minidom.parse(str(panel_conf))
+        for prop in dtree.getElementsByTagName("property"):
+            if prop.getAttribute("value") != "whiskermenu":
+                continue
+
+            for cc in prop.childNodes:
+                if (
+                    isinstance(cc, minidom.Element)
+                    and cc.tagName == "property"
+                    and cc.getAttribute("name") == "favorites"
+                ):
+                    return (
+                        v.getAttribute("value")
+                        for v in cc.getElementsByTagName("value")
+                    )
+    except (Exception, xml.parsers.expat.ExpatError) as err:
+        pretty.print_error(__name__, "parse", panel_conf, "error", err)
+
+    return ()
+
+
 def _load_whisher_favs() -> ty.Iterator[Leaf]:
     # simplified version
-    for fav in _get_whisker_conf_favs():
+    for fav in chain(_get_whisker_conf_favs(), _load_whisher_favs_new()):
         name, *_rest = fav.rpartition(".")
         id_ = f"<kupfer.obj.apps.AppLeaf {name}>"
         # ignore invalid objects
