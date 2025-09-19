@@ -214,7 +214,7 @@ class OpenWith(Action):
 
 
 class OpenWithByMime(Action):
-    rank_adjust = 5
+    rank_adjust = 2
     action_accelerator = "w"
 
     def __init__(self):
@@ -279,6 +279,8 @@ class OpenWithByMime(Action):
 
 
 class SetDefaultApplication(Action):
+    rank_adjust = -1
+
     def __init__(self):
         super().__init__(_("Set Default Application..."))
 
