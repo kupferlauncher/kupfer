@@ -40,6 +40,13 @@ _DEFAULT_ACTIONS: ty.Final = {
     "<kupfer.obj.apps.AppLeaf xfce4-terminal>": "<kupfer.obj.apps.LaunchAgain>",
 }
 
+# skip this actions when recording correlations
+_IGNORED_ACTIONS: ty.Final = {
+    "<kupfer.plugin.core.Rescan>",
+    "<kupfer.plugin.applications.SetDefaultApplication>",
+    "<kupfer.plugin.core.debug.DebugInfo>",
+}
+
 ## Favorites is set of favorites (repr(obj))
 _FAVORITES: ty.Final[set[str]] = set()
 ## _PLUG_FAVS are favorites by plugin; to use must be merged to _FAVORITES
@@ -315,23 +322,26 @@ def get_record_score(obj: ty.Any, key: str = "") -> int:
     return fav
 
 
-def get_correlation_bonus(obj: Action, for_leaf: Leaf | None) -> int:
+def get_correlation_bonus(action: Action, for_leaf: Leaf | None) -> int:
     """Get the bonus rank for @obj when used with @for_leaf."""
     # favorites
-    repr_obj = repr(obj)
+    repr_action = repr(action)
     repr_leaf = repr(for_leaf)
-    if (v := _REGISTER.correlations.get(repr_leaf)) and v[0] == repr_obj:
+    if (v := _REGISTER.correlations.get(repr_leaf)) and v[0] == repr_action:
         return 50
+
+    if repr_action in _IGNORED_ACTIONS:
+        return 0
 
     raval = _REGISTER.activations
 
     # bonus for last used action for object
-    if (val := raval.get(repr_leaf)) and val[0] == repr_obj:
-        return 20
+    if (val := raval.get(repr_leaf)) and val[0] == repr_action:
+        return 10
 
     # bonus for last used action for object type
-    if (val := raval.get(repr(type(for_leaf)))) and val[0] == repr_obj:
-        return 7
+    if (val := raval.get(repr(type(for_leaf)))) and val[0] == repr_action:
+        return 4
 
     return 0
 
@@ -341,22 +351,24 @@ def set_correlation(obj: Action, for_leaf: Leaf) -> None:
     _REGISTER.correlations[repr(for_leaf)] = (repr(obj), int(time.time()))
 
 
-def record_action_activations(obj: Action, for_leaf: Leaf) -> None:
+def record_action_activations(action: Action, for_leaf: Leaf) -> None:
     """Record action activation for leaf that boost this action in next search.
     Also registered is object class so using this action for similar object
     also get some (smaller) bonus."""
 
     repr_for_leaf = repr(for_leaf)
-    repr_obj = repr(obj)
+    repr_action = repr(action)
 
     _REGISTER.activations[repr_for_leaf] = _REGISTER.activations[
         repr(type(for_leaf))
-    ] = (repr_obj, int(time.time()))
+    ] = (repr_action, int(time.time()))
 
     # update correlation bonus timestamp (if exists), so we keep track
     # when last given correlation was used.
-    if (v := _REGISTER.correlations.get(repr_for_leaf)) and v[0] == repr_obj:
-        _REGISTER.correlations[repr_for_leaf] = (repr_obj, int(time.time()))
+    if (v := _REGISTER.correlations.get(repr_for_leaf)) and v[
+        0
+    ] == repr_action:
+        _REGISTER.correlations[repr_for_leaf] = (repr_action, int(time.time()))
 
 
 def get_object_has_affinity(obj: Leaf) -> bool:
