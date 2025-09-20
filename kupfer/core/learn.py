@@ -5,6 +5,7 @@ import pickle
 import time
 import typing as ty
 from collections import defaultdict
+from contextlib import suppress
 from pathlib import Path
 
 from kupfer import config
@@ -31,8 +32,17 @@ __all__ = (
 )
 
 _MNEMONICS_FILENAME = "mnemonics.pickle"
+_MNEMONICS_KEY: ty.Final = "kupfer.bonus.mnemonics"
 _CORRELATION_KEY: ty.Final = "kupfer.bonus.correlation"
+_CORRELATION2_KEY: ty.Final = "kupfer.bonus.correlation2"
 _ACTIVATIONS_KEY: ty.Final = "kupfer.bonus.activations"
+
+
+# limit number of stored items in Registry
+_MAX_MNEMONICS_COUNT: ty.Final[int] = 500
+_MAX_CORRELATIONS_COUNT: ty.Final[int] = 100
+_MAX_CORRELATION_ACTIONS: ty.Final[int] = 10
+
 
 ## this is a harmless default
 _DEFAULT_ACTIONS: ty.Final = {
@@ -59,8 +69,11 @@ class Mnemonics:
     __slots__ = ("count", "last_ts_used", "mnemonics")
 
     def __init__(self) -> None:
+        # map word -> number of uses
         self.mnemonics: defaultdict[str, int] = defaultdict(int)
+        # total number of uses
         self.count: int = 0
+        # last update timestamp
         self.last_ts_used: int = 0
 
     def __repr__(self) -> str:
@@ -89,7 +102,7 @@ class Mnemonics:
 
         self.count = max(self.count - 1, 0)
 
-    def stats_for_key(self, key: str) -> int:
+    def score_for_key(self, key: str) -> int:
         if not key:
             # if no key, score depend on number of mnemonic usage (count)
             return 50 - 50 // (self.count + 1)
@@ -117,6 +130,62 @@ class Mnemonics:
         self.last_ts_used = state.get("last_ts_used", 0)
         self.mnemonics = defaultdict(int)
         self.mnemonics.update(state.get("mnemonics", {}))
+
+
+class Correlation:
+    """Correlation map leaf into actions. There should be no more than couple
+    of actions."""
+
+    __slots__ = ("actions", "last_ts_used", "permanent_action")
+
+    def __init__(self, /, *actions: str) -> None:
+        # list of actions sorted by usage (first item in list is last used
+        # action)
+        self.actions: list[str] = list(actions)
+        # if user set this correlation this is permanent action and have extra
+        # bonus
+        self.permanent_action: str | None = None
+        # last used timestamp
+        self.last_ts_used: int = 0
+
+    def __repr__(self) -> str:
+        last_used = (time.time() - self.last_ts_used) // 86400
+        return (
+            f"<{self.__class__.__name__} actions={self.actions} "
+            f"permanent_action={self.permanent_action} "
+            f"ts={self.last_ts_used} ({last_used}d ago)>"
+        )
+
+    def score_for_action(self, action: str) -> int:
+        """Score correlation for action; permanent_action give const bonus,
+        for other actions - score depend on last use of given action."""
+        if action == self.permanent_action:
+            return 50
+
+        for idx, a in enumerate(self.actions):
+            if a == action:
+                return max(1, 20 - idx)
+
+        return 0
+
+    def update(self, key: str) -> None:
+        self.last_ts_used = int(time.time())
+
+        if key == self.permanent_action:
+            # do no update actions when action is set as permanent
+            return
+
+        with suppress(ValueError):
+            self.actions.remove(key)
+
+        self.actions.insert(0, key)
+
+        if len(self.actions) > _MAX_CORRELATION_ACTIONS:
+            self.actions.pop(-1)
+
+    def update_permanent_action(self, key: str) -> None:
+        self.permanent_action = key
+        self.last_ts_used = int(time.time())
 
 
 class Learning:
@@ -147,30 +216,57 @@ class Learning:
         return True
 
 
-_MAX_MNEMONICS_COUNT: ty.Final[int] = 500
-_MAX_CORRELATIONS_COUNT: ty.Final[int] = 100
-_MAX_ACTIONS_COUNT: ty.Final[int] = 100
-
-
 class _Register:
     def __init__(self) -> None:
-        self.correlations: dict[str, tuple[str, int]] = {}
-        self.activations: dict[str, tuple[str, int]] = {}
+        # correlations map leaf  to action
+        self.correlations: defaultdict[str, Correlation] = defaultdict(
+            Correlation
+        )
+        # mnemonics map object into Mnemonics; each mnemonic has map list of
+        # words used to activate object with number of activations.
         self.mnemonics: defaultdict[str, Mnemonics] = defaultdict(Mnemonics)
 
     def __bool__(self) -> bool:
-        return (
-            bool(self.correlations)
-            or bool(self.activations)
-            or bool(self.mnemonics)
-        )
+        return bool(self.correlations) or bool(self.mnemonics)
 
     def prune(self) -> None:
-        self._purge_action_reg(_MAX_ACTIONS_COUNT)
-        self._purge_correlations_reg(_MAX_CORRELATIONS_COUNT)
-        self._prune_register(_MAX_MNEMONICS_COUNT)
+        self._prune_mnemonics(_MAX_MNEMONICS_COUNT)
+        self._prune_correlations(_MAX_CORRELATIONS_COUNT)
+        pretty.print_debug(
+            __name__,
+            f"Register after prune: correlations: {len(self.correlations)}, "
+            f"mnemonics: {len(self.mnemonics)}.",
+        )
 
-    def _prune_register_unused(self) -> None:
+    def _prune_correlations(self, goalitems: int) -> None:
+        """Prune  old correlations up to @goalitems. This clean register
+        from items for not existing any more leaves. Keep correlation
+        with user-defined actions."""
+
+        if len(self.correlations) < goalitems:
+            pretty.print_debug(
+                __name__,
+                "Pruned correlations register not required "
+                f"({len(self.correlations)} / {goalitems})",
+            )
+            return
+
+        items: list[tuple[int, str]] = sorted(
+            (c.last_ts_used, leaf)
+            for leaf, c in self.correlations.items()
+            if not c.permanent_action
+        )
+
+        to_del = items[: len(items) - goalitems]
+        for _ts, leaf in to_del:
+            del self.correlations[leaf]
+
+        pretty.print_debug(
+            __name__,
+            "Pruned correlation from register; deleted: {len(to_del)})",
+        )
+
+    def _prune_mnemonics_unused(self) -> None:
         """Prune unused mnemonics: remove mnemonics keys with 0 value, remove
         whole mnemonic with count == 0. This clean mnemonics create by bug
         in code...
@@ -184,10 +280,10 @@ class _Register:
 
         pretty.print_debug(
             __name__,
-            f"Pruned register ({len(self.mnemonics)} mnemonics, {len(to_del)} unused)",
+            f"Pruned unused mnemonics from register; deleted: {len(to_del)}",
         )
 
-    def _prune_register_decrement(self, goalitems: int) -> None:
+    def _prune_mnemonics_decrement(self, goalitems: int) -> None:
         """Decrement mnemonics sorted by last use time; if mnemonic count == 0
         remove it."""
 
@@ -212,34 +308,36 @@ class _Register:
 
         pretty.print_debug(
             __name__,
-            f"Pruned register ({len(self.mnemonics)} mnemonics, "
-            f"{len(to_del)} oldest deleted)",
+            f"Pruned mnemonics from register; deleted: {len(to_del)}",
         )
 
-    def _prune_register_least_used(self, goalitems: int) -> None:
+    def _prune_mnemonics_least_used(self, goalitems: int) -> None:
         # get all items sorted by last used time
-        to_del: list[tuple[int, str]] = sorted(
+        items: list[tuple[int, str]] = sorted(
             (mne.count, leaf) for leaf, mne in self.mnemonics.items()
         )
 
-        for _cnt, leaf in to_del[: len(self.mnemonics) - goalitems]:
+        to_del = items[: len(self.mnemonics) - goalitems]
+        for _cnt, leaf in to_del:
             del self.mnemonics[leaf]
 
         pretty.print_debug(
             __name__,
-            f"Pruned register ({len(self.mnemonics)} mnemonics, "
-            f"{len(to_del)} least used)",
+            f"Pruned least used mnemonics from register; deleted: {len(to_del)}",
         )
 
-    def _prune_register(self, goalitems: int = 50) -> None:
+    def _prune_mnemonics(self, goalitems: int = 50) -> None:
         """Try to reduce number of mnemonic to `goalitems`.
 
+        Always delete unused/broken mnemonics (count=0)
+
         To reach `goalitems`:
-        1. delete unused/broken mnemonics (count=0)
-        2. from oldest mnemonics - decrement count & mnemonics usage; delete
+        1. from oldest mnemonics - decrement count & mnemonics usage; delete
            mnemonics with count == 0
-        3. delete least used
+        2. delete least used
         """
+        self._prune_mnemonics_unused()
+
         if len(self.mnemonics) < goalitems:
             pretty.print_debug(
                 __name__,
@@ -248,54 +346,11 @@ class _Register:
             )
             return
 
-        self._prune_register_unused()
+        if len(self.mnemonics) > goalitems:
+            self._prune_mnemonics_decrement(goalitems)
 
-        if len(self.mnemonics) <= goalitems:
-            return
-
-        self._prune_register_decrement(goalitems)
-
-        if len(self.mnemonics) <= goalitems:
-            return
-
-        self._prune_register_least_used(goalitems)
-
-        pretty.print_debug(
-            __name__,
-            f"Pruned register ({len(self.mnemonics)} mnemonics.",
-        )
-
-    def _purge_action_reg(self, goalitems: int) -> None:
-        """Purge action usage - remove oldest items up to `goalitems` count"""
-        raval = self.activations
-        if len(raval) <= goalitems:
-            return
-
-        to_delkv = sorted((ts, key) for key, (_obj, ts) in raval.items())
-        # delete oldest entries up to goalitems
-        for _ts, key in to_delkv[: len(raval) - goalitems]:
-            del raval[key]
-
-        pretty.print_debug(
-            __name__,
-            f"Pruned register ({len(raval)} activiations, {len(to_delkv)})",
-        )
-
-    def _purge_correlations_reg(self, goalitems: int) -> None:
-        """Purge correlations - remove oldest items up to `goalitems` count"""
-        raval = self.correlations
-        if len(raval) <= goalitems:
-            return
-
-        to_delkv = sorted((ts, key) for key, (_obj, ts) in raval.items())
-        # delete oldest entries up to goalitems
-        for _ts, key in to_delkv[: len(raval) - goalitems]:
-            del raval[key]
-
-        pretty.print_debug(
-            __name__,
-            f"Pruned register ({len(raval)} correlations, {len(to_delkv)})",
-        )
+        if len(self.mnemonics) > goalitems:
+            self._prune_mnemonics_least_used(goalitems)
 
 
 _REGISTER = _Register()
@@ -317,7 +372,7 @@ def get_record_score(obj: ty.Any, key: str = "") -> int:
     fav = 7 if name in _FAVORITES else 0
 
     if mns := _REGISTER.mnemonics.get(name):
-        return fav + mns.stats_for_key(key)
+        return fav + mns.score_for_key(key)
 
     return fav
 
@@ -327,28 +382,28 @@ def get_correlation_bonus(action: Action, for_leaf: Leaf | None) -> int:
     # favorites
     repr_action = repr(action)
     repr_leaf = repr(for_leaf)
-    if (v := _REGISTER.correlations.get(repr_leaf)) and v[0] == repr_action:
-        return 50
 
-    if repr_action in _IGNORED_ACTIONS:
-        return 0
+    # get bonus for exact match leaf -> action or user defined
+    # correlation for leaf and action
+    if (c := _REGISTER.correlations.get(repr_leaf)) and (
+        s := c.score_for_action(repr_action)
+    ):
+        return s
 
-    raval = _REGISTER.activations
-
-    # bonus for last used action for object
-    if (val := raval.get(repr_leaf)) and val[0] == repr_action:
-        return 10
-
-    # bonus for last used action for object type
-    if (val := raval.get(repr(type(for_leaf)))) and val[0] == repr_action:
-        return 4
+    # get bonus for match type of leaf -> action
+    if (c := _REGISTER.correlations.get(repr(type(for_leaf)))) and (
+        s := c.score_for_action(repr_action)
+    ):
+        return s // 2
 
     return 0
 
 
-def set_correlation(obj: Action, for_leaf: Leaf) -> None:
+def set_correlation(action: Action, for_leaf: Leaf) -> None:
     """Register @obj to get a bonus when used with @for_leaf."""
-    _REGISTER.correlations[repr(for_leaf)] = (repr(obj), int(time.time()))
+    repr_for_leaf = repr(for_leaf)
+    repr_action = repr(action)
+    _REGISTER.correlations[repr_for_leaf].update_permanent_action(repr_action)
 
 
 def record_action_activations(action: Action, for_leaf: Leaf) -> None:
@@ -356,29 +411,19 @@ def record_action_activations(action: Action, for_leaf: Leaf) -> None:
     Also registered is object class so using this action for similar object
     also get some (smaller) bonus."""
 
-    repr_for_leaf = repr(for_leaf)
     repr_action = repr(action)
 
-    _REGISTER.activations[repr_for_leaf] = _REGISTER.activations[
-        repr(type(for_leaf))
-    ] = (repr_action, int(time.time()))
+    if repr_action in _IGNORED_ACTIONS:
+        return
 
-    # update correlation bonus timestamp (if exists), so we keep track
-    # when last given correlation was used.
-    if (v := _REGISTER.correlations.get(repr_for_leaf)) and v[
-        0
-    ] == repr_action:
-        _REGISTER.correlations[repr_for_leaf] = (repr_action, int(time.time()))
+    _REGISTER.correlations[repr(for_leaf)].update(repr_action)
+    _REGISTER.correlations[repr(type(for_leaf))].update(repr_action)
 
 
 def get_object_has_affinity(obj: Leaf) -> bool:
     """Return if @obj has any positive score in the register."""
     robj = repr(obj)
-    return bool(
-        _REGISTER.mnemonics.get(robj)
-        or _REGISTER.correlations.get(robj)
-        or _REGISTER.activations.get(robj)
-    )
+    return bool(robj in _REGISTER.mnemonics or robj in _REGISTER.correlations)
 
 
 def erase_object_affinity(obj: Leaf) -> None:
@@ -388,26 +433,59 @@ def erase_object_affinity(obj: Leaf) -> None:
     _REGISTER.correlations.pop(robj, None)
 
 
+def _upgrade_and_fill_register(reg: dict[str, ty.Any]) -> None:
+    """Update correlation stored in old format."""
+    _REGISTER.correlations.clear()
+    _REGISTER.mnemonics.clear()
+
+    # old format - activations
+    if acts := reg.pop(_ACTIVATIONS_KEY, None):
+        _REGISTER.correlations.update(
+            {
+                lr: Correlation(act)
+                for lr, act in acts.items()
+                if isinstance(act, str)
+            }
+        )
+
+    # old format - correlations
+    corrs = reg.pop(_CORRELATION_KEY, None) or _DEFAULT_ACTIONS
+    # check if this is old file format (values are strings); ignore other
+    # types
+    if isinstance(next(iter(corrs.values())), str):
+        for lr, act in corrs.items():
+            _REGISTER.correlations[lr].update_permanent_action(act)
+
+    # rest in `reg` are mnemonics
+    _REGISTER.mnemonics.update(reg)
+
+
 def load() -> None:
     """Load learning database."""
     if (filepath := config.get_config_file(_MNEMONICS_FILENAME)) and (
         reg := Learning.unpickle_register(filepath)
     ):
-        _REGISTER.activations = reg.pop(_ACTIVATIONS_KEY) or {}
+        mns = reg.get(_MNEMONICS_KEY)
+        if mns:
+            # mnemonics are default dict
+            _REGISTER.mnemonics.update(mns)
 
-        corrs = reg.pop(_CORRELATION_KEY) or _DEFAULT_ACTIONS
-        # check if this is old file format (values are strings)
-        if isinstance(next(iter(corrs.values())), str):
-            # update data
-            now = int(time.time())
-            _REGISTER.correlations = {k: (v, now) for k, v in corrs.items()}
-        else:
-            _REGISTER.correlations = ty.cast(
-                "dict[str, tuple[str, int]]", corrs
-            )
+        corrs = reg.get(_CORRELATION2_KEY)
+        if corrs:
+            _REGISTER.correlations = corrs
 
-        _REGISTER.mnemonics.clear()
-        _REGISTER.mnemonics.update(reg)
+        if mns or corrs or not reg:
+            # we get mnemonics and correlations in new format so we finish
+            return
+
+        # old file format - upgrade
+        pretty.print_info(__name__, "upgrading learning registry")
+        _upgrade_and_fill_register(reg)
+
+    else:
+        # load defaults
+        for leaf, act in _DEFAULT_ACTIONS.items():
+            _REGISTER.correlations[leaf].update_permanent_action(act)
 
 
 def save() -> None:
@@ -420,18 +498,12 @@ def save() -> None:
     _REGISTER.prune()
 
     filepath = config.save_config_file(_MNEMONICS_FILENAME)
-
-    # legacy file format:
-    # under _CORRELATION_KEY is {str:str}:
-    #   map repr(action) -> repr(object)
-    # under _ACTIVATIONS_KEY is {str:(str, int)}:
-    #   map repr(action) -> (repr(leaf),last usage timestamp)
-    # other keys keeps Mnemonics
-
     assert filepath
-    reg: dict[str, ty.Any] = _REGISTER.mnemonics.copy()
-    reg[_ACTIVATIONS_KEY] = _REGISTER.activations
-    reg[_CORRELATION_KEY] = _REGISTER.correlations
+
+    reg: dict[str, ty.Any] = {
+        _MNEMONICS_KEY: _REGISTER.mnemonics,
+        _CORRELATION2_KEY: _REGISTER.correlations,
+    }
     Learning.pickle_register(reg, filepath)
 
 

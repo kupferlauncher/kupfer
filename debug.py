@@ -148,11 +148,6 @@ def learn_stats():
     for k, c in _REGISTER.correlations.items():
         print(f"  {k}: {c}")
 
-    print("------")
-    print("Activations:")
-    for k, a in _REGISTER.activations.items():
-        print(f"  {k}: {a}")
-
     print("---------------------\n")
 
 

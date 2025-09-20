@@ -113,6 +113,11 @@ class DebugInfo(Action):
         print_func("Mnemonics ===========")
         print_func(learn._REGISTER.mnemonics.get(repr(leaf)))  # noqa: SLF001
 
+        print_func("Actions correlation ===========")
+        print_func(learn._REGISTER.correlations.get(repr(leaf)))  # noqa: SLF001
+        print_func(f"Actions correlation for type {type(leaf)!r} ===========")
+        print_func(learn._REGISTER.correlations.get(repr(type(leaf))))  # noqa: SLF001
+
         uiutils.show_text_result(output.getvalue())
 
     def get_description(self):
