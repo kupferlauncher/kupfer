@@ -121,15 +121,14 @@ class Mnemonics:
     def __getstate__(self) -> dict[str, ty.Any]:
         return {
             "count": self.count,
-            "mnemonics": dict(self.mnemonics),
+            "mnemonics": self.mnemonics,
             "last_ts_used": self.last_ts_used,
         }
 
     def __setstate__(self, state: dict[str, ty.Any]) -> None:
         self.count = state.get("count", 0)
         self.last_ts_used = state.get("last_ts_used", 0)
-        self.mnemonics = defaultdict(int)
-        self.mnemonics.update(state.get("mnemonics", {}))
+        self.mnemonics = defaultdict(int, state.get("mnemonics", {}))
 
 
 class Correlation:
@@ -468,10 +467,12 @@ def load() -> None:
         mns = reg.get(_MNEMONICS_KEY)
         if mns:
             # mnemonics are default dict
-            _REGISTER.mnemonics.update(mns)
+            assert isinstance(mns, defaultdict)
+            _REGISTER.mnemonics = mns
 
         corrs = reg.get(_CORRELATION2_KEY)
         if corrs:
+            assert isinstance(corrs, defaultdict)
             _REGISTER.correlations = corrs
 
         if mns or corrs or not reg:
