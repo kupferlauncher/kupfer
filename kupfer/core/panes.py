@@ -12,7 +12,7 @@ import typing as ty
 
 from gi.repository import GObject
 
-from kupfer.core import actioncompat
+from kupfer.core import actioncompat, settings
 from kupfer.core.searcher import Searcher
 from kupfer.core.sources import get_source_controller
 from kupfer.obj import objects
@@ -112,6 +112,7 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
         self._source: AnySource | None = None
         # object_stack is used by "comma trick"
         self.object_stack: list[Leaf] = []
+        self._settings = settings.get_settings_controller()
 
     def select(self, item: Leaf | None) -> None:
         assert item is None or isinstance(item, Leaf), (
@@ -236,11 +237,15 @@ class LeafPane(Pane[Leaf], pretty.OutputMixin):
             textsrcs = sctr.get_text_sources()
             sources_ = itertools.chain(sources_, textsrcs)
 
+        score = bool(key) or self._settings.get_config(
+            "Kupfer", "score_without_key"
+        )
+
         def _decorator(seq):
             return _dress_leaves(seq, action=None)
 
         match, match_iter = self._searcher.search(
-            sources_, key, score=bool(key), decorator=_decorator
+            sources_, key, score=score, decorator=_decorator
         )
         self.emit_search_result(match, match_iter, context)
 

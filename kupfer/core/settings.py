@@ -237,6 +237,7 @@ class SettingsController(GObject.GObject, pretty.OutputMixin):  # type: ignore
             "showstatusicon": True,
             "showstatusicon_ai": False,
             "usecommandkeys": True,
+            "score_without_key": True,
         },
         "Appearance": {
             "icon_large_size": 128,

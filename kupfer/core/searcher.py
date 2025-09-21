@@ -108,6 +108,10 @@ class Searcher:
                         keyl,
                         src.rank_adjust,
                     )
+                else:
+                    rankables = search.add_bonus_to_objects(
+                        rankables, keyl, src.rank_adjust
+                    )
 
             match_lists.append(rankables)
 
