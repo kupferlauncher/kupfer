@@ -23,7 +23,7 @@ class LookUp(Action):
     def activate(self, leaf, iobj=None, ctx=None):
         text = leaf.object
         try:
-            launch.spawn_async_raise(["devhelp", f"--search={text}"])
+            launch.spawn_async_raise(["devhelp", "--search", text])
         except launch.SpawnError as exc:
             raise OperationError(exc) from exc
 
