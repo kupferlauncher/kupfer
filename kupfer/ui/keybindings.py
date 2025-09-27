@@ -18,7 +18,7 @@ if environment.allows_keybinder():
 
         Keybinder.init()
     except (ValueError, ImportError):
-        pretty.print_debug(__name__, "Keybinder 3.0 not available in gi")
+        pretty.print_error(__name__, "Keybinder 3.0 not available in gi")
         Keybinder = None
 
 else:
