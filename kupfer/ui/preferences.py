@@ -416,6 +416,9 @@ class PreferencesWindowController(pretty.OutputMixin):
         builder.get_object("radio_actionaccelctrl").set_active(
             setctl.get_action_accelerator_modifer() == "ctrl"
         )
+        builder.get_object("checkalwaysscore").set_active(
+            setctl.get_config("Kupfer", "score_without_key")
+        )
 
         self._init_checkstatus(setctl, builder)
 
@@ -1144,6 +1147,11 @@ class PreferencesWindowController(pretty.OutputMixin):
         if itr := widget.get_active_iter():
             mode = widget.get_model().get_value(itr, 1)
             setctl.set_config("Appearance", "ellipsize_mode", mode)
+
+    def on_checkalwaysscore_toggled(self, widget: Gtk.Widget) -> None:
+        """Change 'Always score and sort list' setting - callback."""
+        setctl = settings.get_settings_controller()
+        setctl.set_config("Kupfer", "score_without_key", widget.get_active())
 
     def _update_alternative_combobox(
         self, category_key: str, combobox: Gtk.ComboBox
