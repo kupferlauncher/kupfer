@@ -101,6 +101,9 @@ class WindowController(pretty.OutputMixin):
             decorated=False,
             name="kupfer",
         )
+
+        self._window.set_role("KupferMain")
+
         # screen = self._window.get_screen()  # pylint: disable=no-member
         # if (visual := screen.get_rgba_visual()) and screen.is_composited():
         #     self._window.set_visual(visual)  # pylint: disable=no-member

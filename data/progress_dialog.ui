@@ -10,6 +10,7 @@
   <object class="GtkWindow" id="window_progress">
     <property name="can-focus">False</property>
     <property name="border-width">6</property>
+    <property name="role">KupferProgressDialog</property>
     <property name="window-position">center</property>
     <property name="default-width">439</property>
     <property name="startup-id">Kupfer Progress Dialog</property>
