@@ -311,7 +311,7 @@ class Action(KupferObject):
 
     def object_types(self) -> ty.Iterable[ty.Type[Leaf]]:
         """Yield types this action may use as indirect objects, if the action
-        requrires it."""
+        requires it."""
         return ()
 
 

@@ -1,4 +1,4 @@
-"""Persistent Globally Unique Indentifiers for KupferObjects.
+"""Persistent Globally Unique Identifiers for KupferObjects.
 
 Some objects are assigned identifiers by reference, some are assigned
 identifiers containing the whole object data (SerializedObject).
