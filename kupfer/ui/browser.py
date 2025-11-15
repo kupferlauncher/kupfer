@@ -375,7 +375,7 @@ class WindowController(pretty.OutputMixin):
 
     def _create_window_type_hint(self) -> Gdk.WindowTypeHint:
         """Create window type hints according to WINDOW_TYPE_HINT env setting."""
-        type_hint = Gdk.WindowTypeHint.UTILITY
+        type_hint = Gdk.WindowTypeHint.NORMAL
         hint_name = kupfer.config.get_kupfer_env("WINDOW_TYPE_HINT").upper()
         if not hint_name:
             return type_hint
