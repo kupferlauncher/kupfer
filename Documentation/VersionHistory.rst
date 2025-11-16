@@ -1,9 +1,9 @@
 NEWS for kupfer
 ===============
 
-kupfer v328 (2025-04-xx)
-------------------------
 
+kupfer v328 (2025-xx-xx)
+------------------------
 
 + Other changes:
 
@@ -13,13 +13,25 @@ kupfer v328 (2025-04-xx)
   + Gui: add dark border around main window; this improve visibility Kufper
     window on bright background
 
+  + Fix and improve learning algorithm - adjust bonus values.
+
+  + Leaves in browser can be always scored and sorted without - after open
+    window last/most used items are one the top of list. This behaviour can
+    be disabled in preferences.
+
 + Plugins:
 
   + Updated:
 
     - *Audacious*: start app on action when not running
     - *Textutils*: ask user for option in "join lines" actions.
-    - *Trash*: ask user for confirmaton when moving files to trash
+    - *Trash*: ask user for confirmation when moving files to trash.
+    - *Deepdirectories*: fix disappearing from top sources.
+    - *Windows*: plugin is disabled on Wayland.
+    - *libvirt*: handle updates without background thread.
+    - *xfce_session*: fix loading favorites from Whisker menu.
+    - *devhelp*: fix arguments when calling devhelp command - correct
+      handle spaces.
 
 + Fix
 
@@ -28,8 +40,21 @@ kupfer v328 (2025-04-xx)
   + Fix recognize urls with % characters
   + Fix misleading message when starting Kupfer without install.
   + Do no store content of Directory and Files sources in disc cache;
-    refres on startup.
+    refresh on startup.
   + Prevent confirm dialog to show behind main Kupfer window.
+  + Fix filtering applications whe desktop filter is enabled.
+  + Support new Yelp desktop file name.
+  + Fix handling multiple screens  - potential problems when switching
+    to window on other workspace, correct handle screen used to spawn
+    application
+  + Skip activating application without app_id.
+  + Refresh panels on show browser - prevent old/unavailable items to show.
+  + Fix potential problems when Kupfer is run on Wayland - handle missing
+    wnck support.
+  + Fix learn register - do not create empty mmenomics, simplify prune.
+  + Add missing WM_WINDOW_ROLE for windows and dialogs.
+  + Change default type hint for browser window from utility to normal.
+
 
 + Dev:
 
@@ -41,6 +66,7 @@ kupfer v328 (2025-04-xx)
   + Fix some errors reported by linters; format code
   + Replace depricated pkgutil.find_loader that will gone in Python3.14.
   + Use argparse for command line arguments.
+  + defaultdict is safe to pickle.
 
 
 kupfer v327 (2024-04-28)
