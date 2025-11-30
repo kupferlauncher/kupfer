@@ -175,9 +175,13 @@ def _gtkmain(
 
 
 def _browser_start(quiet: bool) -> None:
-    from gi.repository import Gdk  # pylint: disable=import-outside-toplevel
+    # pylint: disable=import-outside-toplevel
+    from gi.repository import Gdk, GLib
 
-    if not Gdk.Screen.get_default():
+    # program name; propagated to WM_NAME, WM_CLASS
+    GLib.set_prgname("Kupfer")
+
+    if not Gdk.Screen.get_default():  #pylint: disable=no-value-for-parameter
         print("No Screen Found, Exiting...", file=sys.stderr)
         sys.exit(1)
 
