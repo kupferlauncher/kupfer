@@ -2,30 +2,21 @@ NEWS for kupfer
 ===============
 
 
-kupfer v328 (2025-xx-xx)
+kupfer v329 (2025-12-01)
 ------------------------
 
-+ Other changes:
-
-  + Use modern Ayatana Indicators; require gir1.2-ayatanaappindicator3-0.1;
-    by @N0rbert
-
-  + Gui: add dark border around main window; this improve visibility Kufper
-    window on bright background
++ Features:
 
   + Fix and improve learning algorithm - adjust bonus values.
 
-  + Leaves in browser can be always scored and sorted without - after open
-    window last/most used items are one the top of list. This behaviour can
-    be disabled in preferences.
+  + Leaves in browser are always scored and sorted without search - after
+    open window last/most used items are one the top of list. This behaviour
+    can be disabled in preferences.
 
 + Plugins:
 
   + Updated:
 
-    - *Audacious*: start app on action when not running
-    - *Textutils*: ask user for option in "join lines" actions.
-    - *Trash*: ask user for confirmation when moving files to trash.
     - *Deepdirectories*: fix disappearing from top sources.
     - *Windows*: plugin is disabled on Wayland.
     - *libvirt*: handle updates without background thread.
@@ -35,14 +26,7 @@ kupfer v328 (2025-xx-xx)
 
 + Fix
 
-  + Fix toggle appindicator icon (not show after hide)
-  + Fix invalid handle KUPFER_WINDOW_TYPE_HINT setting
-  + Fix recognize urls with % characters
-  + Fix misleading message when starting Kupfer without install.
-  + Do no store content of Directory and Files sources in disc cache;
-    refresh on startup.
-  + Prevent confirm dialog to show behind main Kupfer window.
-  + Fix filtering applications whe desktop filter is enabled.
+  + Fix filtering applications when desktop filter is enabled.
   + Support new Yelp desktop file name.
   + Fix handling multiple screens  - potential problems when switching
     to window on other workspace, correct handle screen used to spawn
@@ -52,9 +36,45 @@ kupfer v328 (2025-xx-xx)
   + Fix potential problems when Kupfer is run on Wayland - handle missing
     wnck support.
   + Fix learn register - do not create empty mmenomics, simplify prune.
-  + Add missing WM_WINDOW_ROLE for windows and dialogs.
-  + Change default type hint for browser window from utility to normal.
+  + Add missing WM_WINDOW_ROLE for windows and dialog, set program name.
+    Change default type hint for browser window from utility to normal.
+    Close: #190.
 
+
++ Dev:
+
+  + defaultdict is safe to pickle.
+
+
+kupfer v328 (2025-04-22)
+------------------------
+
+
++ Other changes:
+
+  + Use modern Ayatana Indicators; require gir1.2-ayatanaappindicator3-0.1;
+    by @N0rbert
+
+  + Gui: add dark border around main window; this improve visibility Kufper
+    window on bright background
+
++ Plugins:
+
+  + Updated:
+
+    - *Audacious*: start app on action when not running
+    - *Textutils*: ask user for option in "join lines" actions.
+    - *Trash*: ask user for confirmaton when moving files to trash
+
++ Fix
+
+  + Fix toggle appindicator icon (not show after hide)
+  + Fix invalid handle KUPFER_WINDOW_TYPE_HINT setting
+  + Fix recognize urls with % characters
+  + Fix misleading message when starting Kupfer without install.
+  + Do no store content of Directory and Files sources in disc cache;
+    refres on startup.
+  + Prevent confirm dialog to show behind main Kupfer window.
 
 + Dev:
 
@@ -66,7 +86,6 @@ kupfer v328 (2025-xx-xx)
   + Fix some errors reported by linters; format code
   + Replace depricated pkgutil.find_loader that will gone in Python3.14.
   + Use argparse for command line arguments.
-  + defaultdict is safe to pickle.
 
 
 kupfer v327 (2024-04-28)
