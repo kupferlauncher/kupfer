@@ -985,6 +985,34 @@ class Interface(GObject.GObject, pretty.OutputMixin):  # type:ignore
         """
         self._on_activate(None, None)
 
+    def alternate_left(self) -> None:
+        """Provide additional keybind for left/back direction.
+
+        NOTE: accelerator
+        """
+        self._on_back_key_press(None, None)
+
+    def alternate_right(self) -> None:
+        """Provide additional keybind for right/forward direction.
+
+        NOTE: accelerator
+        """
+        self._on_right_key_press(None, None)
+
+    def alternate_up(self) -> None:
+        """Provide additional keybind for up direction.
+
+        NOTE: accelerator
+        """
+        self._on_up_key_press(None, None)
+
+    def alternate_down(self) -> None:
+        """Provide additional keybind for down direction.
+
+        NOTE: accelerator
+        """
+        self._on_down_key_press(None, None)
+    
     def execute_file(
         self,
         filepath: str,

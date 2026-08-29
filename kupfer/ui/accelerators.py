@@ -7,6 +7,10 @@ if ty.TYPE_CHECKING:
 ACCELERATOR_NAMES: ty.Final = {
     # TRANS: Names of accelerators in the interface
     "activate": _("Alternate Activate"),
+    "alternate_left": _("Alternate ←"),
+    "alternate_right": _("Alternate →"),
+    "alternate_up": _("Alternate ↑"),
+    "alternate_down": _("Alternate ↓"),
     # TRANS: The "Comma Trick"/"Put Selection on Stack" allows the
     # TRANS: user to select many objects to be used for one action
     "comma_trick": _("Comma Trick"),
