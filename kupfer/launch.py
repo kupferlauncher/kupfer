@@ -19,7 +19,6 @@ try:
     from gi.repository import Wnck
 
     Wnck.set_client_type(Wnck.ClientType.PAGER)
-    _WAYLAND = "WAYLAND_DISPLAY" in os.environ
 
 except ImportError as e:
     pretty.print_info(__name__, "Disabling window tracking:", e)
@@ -51,6 +50,8 @@ __all__ = (
     "spawn_in_terminal",
     "spawn_terminal",
 )
+
+_WAYLAND = "WAYLAND_DISPLAY" in os.environ
 
 _DEFAULT_ASSOCIATIONS = {
     "evince": "Document Viewer",
